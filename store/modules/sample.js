@@ -1,6 +1,10 @@
 export default {
   namespaced: true,
-  state: {},
+
+  state: {
+    name: "Taro",
+  },
+
   mutations: {},
   actions: {},
 };
