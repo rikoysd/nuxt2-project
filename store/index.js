@@ -1,17 +1,11 @@
-import axios from "@nuxtjs/axios";
+import Vue from "vue";
+import Vuex from "vuex";
+import {} from "./modules";
 
-export const state = () => ({
+Vue.use(Vuex);
 
+export default new Vuex.Store({
+  modules: {
+    
+  },
 });
-
-export const mutations = {
-
-};
-
-export const actions = {
-
-};
-
-export const getters = {
-  
-};
