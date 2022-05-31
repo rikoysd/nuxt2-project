@@ -23,7 +23,7 @@ export const actions = {
    */
   async getHotelList(context, keyword) {
     const response = await this.$axios.$get(
-      `https://app.rakuten.co.jp/services/api/Travel/KeywordHotelSearch/20170426?applicationId=1098541415969458249&format=json&keyword=${keyword}`
+      `https://app.rakuten.co.jp/services/api/Travel/KeywordHotelSearch/20170426?applicationId=1098541415969458249&format=json&responseType=large&keyword=${keyword}`
     );
     // console.dir(JSON.stringify(response));
     context.commit("showHotelList", response);
