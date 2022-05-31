@@ -4,6 +4,7 @@
       <v-chip link @click="searchKeyword(keyword)">#{{ keyword }}</v-chip>
     </div>
     <div>
+      <!-- 検索結果カンマ区切り -->
       <div>検索結果：{{ pageInfo.recordCount }}件</div>
       <!-- カード -->
       <div v-for="(hotel, index) of hotelList" v-bind:key="index">
