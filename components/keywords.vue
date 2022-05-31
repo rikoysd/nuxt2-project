@@ -24,7 +24,16 @@
             >
           </v-img>
           <v-card-text class="text--primary">
-            <div>★評価{{ hotel.hotel[0].hotelBasicInfo.reviewAverage }}</div>
+            <div>
+              <v-rating
+                readonly
+                background-color="orange lighten-3"
+                color="orange"
+                medium
+                value="3"
+              ></v-rating>
+              {{ hotel.hotel[0].hotelBasicInfo.reviewAverage }}
+            </div>
             <div>{{ hotel.hotel[0].hotelBasicInfo.hotelSpecial }}</div>
             <div>
               最安値{{ hotel.hotel[0].hotelBasicInfo.hotelMinCharge }} 円(税込)
