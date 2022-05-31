@@ -1,3 +1,4 @@
-import sample from "./sample";
+// import sample from "./sample";
+// import ranking from "./ranking";
 
-export { sample };
+// export { sample, ranking };
