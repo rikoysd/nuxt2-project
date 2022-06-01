@@ -31,8 +31,16 @@
           </v-img>
           <v-card-text class="text--primary">
             <div>
-              総合評価
-              {{ hotel.hotel[0].hotelBasicInfo.reviewAverage }}
+              <star-rating
+                v-bind:increment="0.01"
+                v-bind:max-rating="5"
+                v-bind:rating="hotel.hotel[0].hotelBasicInfo.reviewAverage"
+                inactive-color="#000"
+                active-color="#ffd700"
+                v-bind:star-size="15"
+                read-only="true"
+              >
+              </star-rating>
             </div>
             <div>{{ hotel.hotel[0].hotelBasicInfo.hotelSpecial }}</div>
             <div>
@@ -84,6 +92,7 @@ export default {
       showResult: false,
       // ページ
       page: 1,
+      rating: 0,
     };
   },
   methods: {
