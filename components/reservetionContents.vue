@@ -57,8 +57,8 @@ export default {
       peopleAndRooms: "大人2名 1室",
       room: "プレステージルーム ツイン 【禁煙】",
       plan: "ホテルのリンクを貼る（？）",
-      subPrice: 65340,
-      totalPrice: 65340,
+      subPrice: 0,
+      totalPrice: 0,
     };
   }, //end data
 

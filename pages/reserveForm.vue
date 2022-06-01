@@ -6,32 +6,38 @@
         氏名<v-text-field
           class="name-field"
           label="楽々太郎"
+          v-model="fullName1"
           outlined
         ></v-text-field>
         かな<v-text-field
           class="name2-field"
           label="ラクラクタロウ"
+          v-model="fullName2"
           outlined
         ></v-text-field>
         郵便番号（ハイフンなし）<v-text-field
           class="zipcode"
           label="0000000"
+          v-model="zipcode"
           outlined
         ></v-text-field>
         住所<selectPrefectures></selectPrefectures><br />
         <v-text-field
           class="address"
           label="港区赤坂0-0-0（海外住所の場合は「海外」と入力）"
+          v-model="address"
           outlined
         ></v-text-field>
         電話番号（ハイフンなし）<v-text-field
           class="telephone"
           label="09012345678"
+          v-model="telephone"
           outlined
         ></v-text-field>
         メールアドレス<v-text-field
           class="mailaddress"
           label="rakuraku@example.jp"
+          v-model="mailAddress"
           outlined
         ></v-text-field>
         <hr />
@@ -74,7 +80,7 @@
 
       <div class="contact">
         <h4>施設への連絡事項</h4>
-        <v-textarea solo style="width: 500px"></v-textarea>
+        <v-textarea solo style="width: 500px" v-model="other"></v-textarea>
         <div class="attentions">
           <span>※ご希望に添えない場合もございます。予めご了承ください。</span
           ><br />
@@ -125,8 +131,17 @@ export default {
   },
   data() {
     return {
+      fullName1: "",
+      fullName2: "",
+      zipcode: "",
+      prefecture: "",
+      address: "",
+      telephone: "",
+      mailAddress: "",
+      checkInTime: "",
       items: ["0名", "1名", "2名"],
       radioGroup: "online",
+      other: "",
     };
   }, //end data
 

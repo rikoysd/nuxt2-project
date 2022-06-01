@@ -1,6 +1,12 @@
 <template>
   <div>
-    <v-select class="select" label="選択する" :items="items" outlined>
+    <v-select
+      v-model="checkInTime"
+      class="select"
+      label="選択する"
+      :items="items"
+      outlined
+    >
     </v-select>
   </div>
 </template>

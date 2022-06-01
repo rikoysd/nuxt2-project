@@ -1,6 +1,12 @@
 <template>
   <div>
-    <v-select class="select" label="都道府県" :items="items" outlined>
+    <v-select
+      v-model="prefecture"
+      class="select"
+      label="都道府県"
+      :items="items"
+      outlined
+    >
     </v-select>
   </div>
 </template>
