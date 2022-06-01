@@ -62,10 +62,12 @@
       <div class="payment">
         <h4>お支払い方法</h4>
         <v-radio-group v-model="radioGroup">
-          <div class="radio" value="online">
-            オンライン決済<v-radio></v-radio>
-          </div>
-          <div class="radio" value="cash">現地決済<v-radio></v-radio></div>
+          <label for="online" class="radio"
+            >オンライン決済<v-radio id="online" value="online"></v-radio
+          ></label>
+          <label for="cash" class="radio"
+            >現地決済<v-radio id="cash" value="cash"></v-radio
+          ></label>
         </v-radio-group>
         <hr />
       </div>
@@ -124,6 +126,7 @@ export default {
   data() {
     return {
       items: ["0名", "1名", "2名"],
+      radioGroup: "online",
     };
   }, //end data
 
