@@ -1,102 +1,110 @@
 <template>
-  <div>
-    <div class="reserve-info">
-      <h4>予約者情報</h4>
-      氏名<v-text-field
-        class="name-field"
-        label="楽々太郎"
-        outlined
-      ></v-text-field>
-      かな<v-text-field
-        class="name2-field"
-        label="ラクラクタロウ"
-        outlined
-      ></v-text-field>
-      郵便番号（ハイフンなし）<v-text-field
-        class="zipcode"
-        label="0000000"
-        outlined
-      ></v-text-field>
-      住所<selectPrefectures></selectPrefectures><br />
-      <v-text-field
-        class="address"
-        label="港区赤坂0-0-0（海外住所の場合は「海外」と入力）"
-        outlined
-      ></v-text-field>
-      電話番号（ハイフンなし）<v-text-field
-        class="telephone"
-        label="09012345678"
-        outlined
-      ></v-text-field>
-      メールアドレス<v-text-field
-        class="mailaddress"
-        label="rakuraku@example.jp"
-        outlined
-      ></v-text-field>
-      <hr />
-    </div>
-
-    <div class="lodging-info">
-      <h4>宿泊情報</h4>
-      チェックイン予定時刻<selectChecin></selectChecin>
-      <div class="select-gender">
-        宿泊人数&nbsp;&nbsp;&nbsp;男性&nbsp;<v-select
-          class="select-g"
-          label="選択する"
-          :items="items"
+  <div class="container">
+    <div class="main">
+      <div class="reserve-info">
+        <h4>予約者情報</h4>
+        氏名<v-text-field
+          class="name-field"
+          label="楽々太郎"
           outlined
-        >
-        </v-select
-        >&nbsp;&nbsp;女性&nbsp;<v-select
-          class="select-g"
-          label="選択する"
-          :items="items"
+        ></v-text-field>
+        かな<v-text-field
+          class="name2-field"
+          label="ラクラクタロウ"
           outlined
-        >
-        </v-select>
+        ></v-text-field>
+        郵便番号（ハイフンなし）<v-text-field
+          class="zipcode"
+          label="0000000"
+          outlined
+        ></v-text-field>
+        住所<selectPrefectures></selectPrefectures><br />
+        <v-text-field
+          class="address"
+          label="港区赤坂0-0-0（海外住所の場合は「海外」と入力）"
+          outlined
+        ></v-text-field>
+        電話番号（ハイフンなし）<v-text-field
+          class="telephone"
+          label="09012345678"
+          outlined
+        ></v-text-field>
+        メールアドレス<v-text-field
+          class="mailaddress"
+          label="rakuraku@example.jp"
+          outlined
+        ></v-text-field>
+        <hr />
       </div>
-      <hr />
-    </div>
 
-    <div class="payment">
-      <h4>お支払い方法</h4>
-      <v-radio-group v-model="radioGroup">
-        <div class="radio" value="online">
-          オンライン決済<v-radio></v-radio>
+      <div class="lodging-info">
+        <h4>宿泊情報</h4>
+        チェックイン予定時刻<selectChecin></selectChecin>
+        <div class="select-gender">
+          宿泊人数&nbsp;&nbsp;&nbsp;男性&nbsp;<v-select
+            class="select-g"
+            label="選択する"
+            :items="items"
+            outlined
+          >
+          </v-select
+          >&nbsp;&nbsp;女性&nbsp;<v-select
+            class="select-g"
+            label="選択する"
+            :items="items"
+            outlined
+          >
+          </v-select>
         </div>
-        <div class="radio" value="cash">現地決済<v-radio></v-radio></div>
-      </v-radio-group>
-      <hr />
-    </div>
-
-    <div class="contact">
-      <h4>施設への連絡事項</h4>
-      <v-textarea solo style="width: 500px"></v-textarea>
-      <div class="attentions">
-        <span>※ご希望に添えない場合もございます。予めご了承ください。</span
-        ><br />
-        <span>※機種依存文字の入力はできません。</span><br />
-        <span>※当サイトに関する質問は お問合せフォームをご利用ください。</span>
+        <hr />
       </div>
-      <hr />
+
+      <div class="payment">
+        <h4>お支払い方法</h4>
+        <v-radio-group v-model="radioGroup">
+          <div class="radio" value="online">
+            オンライン決済<v-radio></v-radio>
+          </div>
+          <div class="radio" value="cash">現地決済<v-radio></v-radio></div>
+        </v-radio-group>
+        <hr />
+      </div>
+
+      <div class="contact">
+        <h4>施設への連絡事項</h4>
+        <v-textarea solo style="width: 500px"></v-textarea>
+        <div class="attentions">
+          <span>※ご希望に添えない場合もございます。予めご了承ください。</span
+          ><br />
+          <span>※機種依存文字の入力はできません。</span><br />
+          <span
+            >※当サイトに関する質問は お問合せフォームをご利用ください。</span
+          >
+        </div>
+        <hr />
+      </div>
+
+      <div class="cancellation-policy">
+        <h4>キャンセルポリシー</h4>
+        <span
+          >当予約のキャンセル・変更の場合、以下のキャンセル料を申し受けます。</span
+        >
+        <table border="1px">
+          <td>
+            前日 15:00から <br />
+            100%
+          </td>
+          <td>
+            不泊 <br />
+            100%
+          </td>
+        </table>
+        <span class="attention">※ 8日前まではキャンセル料はかかりません。</span>
+      </div>
     </div>
 
-    <div class="cancellation-policy">
-      <h4>キャンセルポリシー</h4>
-      <span
-        >当予約のキャンセル・変更の場合、以下のキャンセル料を申し受けます。</span
-      >
-      <table border="1px">
-        <td>
-          前日 15:00から <br />
-          100%
-        </td>
-        <td>
-          不泊 <br />
-          100%
-        </td>
-      </table>
-      <span class="attention">※ 8日前まではキャンセル料はかかりません。</span>
+    <div class="reservetion-contents">
+      <reservetionContents></reservetionContents>
     </div>
   </div>
 </template>
@@ -104,12 +112,14 @@
 <script>
 import selectPrefectures from "../components/selectPrefectures.vue";
 import selectChecin from "../components/selectCheckin.vue";
+import reservetionContents from "../components/reservetionContents.vue";
 
 export default {
   name: "reserveForm",
   components: {
     selectPrefectures,
     selectChecin,
+    reservetionContents,
   },
   data() {
     return {
@@ -133,7 +143,8 @@ export default {
   width: 500px;
 }
 .select-gender,
-.radio {
+.radio,
+.container {
   display: flex;
 }
 .select-g {
