@@ -42,6 +42,14 @@
           </v-card-actions>
         </v-card>
       </div>
+      <!-- ページネーション -->
+      <div class="text-center">
+        <v-pagination
+          v-model="page"
+          :length="15"
+          :total-visible="7"
+        ></v-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -71,6 +79,8 @@ export default {
       hotelList: [],
       // 検索結果の表示・非表示
       showResult: false,
+      // ページ
+      page: 1,
     };
   },
   methods: {
