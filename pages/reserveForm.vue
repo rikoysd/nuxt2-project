@@ -67,13 +67,44 @@
 
       <div class="payment">
         <h4>お支払い方法</h4>
-        <v-radio-group v-model="radioGroup">
+        <v-radio-group v-model="radioGroup" @change="payment">
           <label for="online" class="radio"
             >オンライン決済<v-radio id="online" value="online"></v-radio
           ></label>
+
+          <v-card
+            v-if="!flag"
+            class="online-info"
+            style="background-color: #f5f5f5"
+          >
+            <v-btn
+              Large
+              color="primary"
+              class="card-info"
+              @click="inputCardInfo"
+              >カード情報を入力する</v-btn
+            ><br />
+            <span>予約日の翌日に決済となります</span><br />
+            <span style="font-size: 13px"
+              >※デビット・プリペイドカードはこの限りではありません</span
+            >
+          </v-card>
+
           <label for="cash" class="radio"
             >現地決済<v-radio id="cash" value="cash"></v-radio
           ></label>
+
+          <v-card
+            v-if="flag"
+            class="cash-info"
+            style="background-color: #f5f5f5"
+          >
+            <span>宿泊当日の正午までにオンラインカード決済に変更可能です。</span
+            ><br />
+            <span style="font-size: 13px"
+              >※チェックイン予定時間以降の変更はできません</span
+            >
+          </v-card>
         </v-radio-group>
         <hr />
       </div>
@@ -131,6 +162,7 @@ export default {
   },
   data() {
     return {
+      flag: false,
       fullName1: "",
       fullName2: "",
       zipcode: "",
@@ -147,7 +179,22 @@ export default {
 
   computed: {}, // end computed
 
-  methods: {}, // end methods
+  methods: {
+    /**
+     * お支払い方法の表示切り替え.
+     */
+    payment() {
+      if (this.flag === true) {
+        this.flag = false;
+      } else {
+        this.flag = true;
+      }
+    },
+    /**
+     * カード情報を入力する.
+     */
+    inputCardInfo() {},
+  }, // end methods
 };
 </script>
 
@@ -189,5 +236,14 @@ table {
 td {
   width: 300px;
   padding: 10px;
+}
+.online-info,
+.cash-info {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding: 30px;
+}
+.card-info {
+  margin-bottom: 10px;
 }
 </style>

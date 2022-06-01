@@ -38,7 +38,7 @@
 
       <v-btn
         x-large
-        class="button"
+        class="confirm-button"
         style="background-color: #e9bc00"
         @click="reserveConfirm"
         >入力内容を確認する</v-btn
@@ -99,7 +99,7 @@ export default {
 .total-price {
   font-size: 25px;
 }
-.button {
+.confirm-button {
   margin-top: 20px;
   margin-left: 85px;
   margin-right: 85px;
