@@ -26,6 +26,7 @@ export default {
   methods: {
     /**
      * キーワードやエリアを検索する.
+     * @param {*} keyword - キーワード
      */
     searchWord(keyword) {
       if (keyword === "") {
@@ -33,7 +34,9 @@ export default {
         return;
       }
       this.errorMessage = "";
-      this.$store.dispatch("getHotelList", keyword);
+
+      // 親に渡す
+      this.$emit("search", keyword);
     },
   },
   computed: {},

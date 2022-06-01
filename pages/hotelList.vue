@@ -5,7 +5,7 @@
         <v-icon>mdi-chevron-right</v-icon>
       </template>
     </v-breadcrumbs>
-    <search-box></search-box>
+    <search-box @search="searchKeyword"></search-box>
     <keywords @search="searchKeyword"></keywords>
     <div v-show="showResult">
       <!-- 検索結果カンマ区切り -->
@@ -84,7 +84,7 @@ export default {
 
       this.pageInfo = this.$store.getters.getPageInfo;
       this.hotelList = this.$store.getters.getHotelList;
-      console.log(this.hotelList);
+      // console.log(this.hotelList);
 
       // 検索結果表示
       this.showResult = true;
