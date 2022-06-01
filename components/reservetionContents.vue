@@ -36,7 +36,11 @@
         <span>※宿泊税など別途諸税がかかる場合があります。</span>
       </div>
 
-      <v-btn x-large class="button" style="background-color: #e9bc00"
+      <v-btn
+        x-large
+        class="button"
+        style="background-color: #e9bc00"
+        @click="reserveConfirm"
         >入力内容を確認する</v-btn
       >
     </v-card>
@@ -60,7 +64,11 @@ export default {
 
   computed: {}, // end computed
 
-  methods: {}, // end methods
+  methods: {
+    reserveConfirm() {
+      this.$router.push("/reserveConfirm");
+    },
+  }, // end methods
 };
 </script>
 
