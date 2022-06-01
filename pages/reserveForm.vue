@@ -61,8 +61,10 @@
     <div class="payment">
       <h4>お支払い方法</h4>
       <v-radio-group v-model="radioGroup">
-        <div class="radio">オンライン決済<v-radio></v-radio></div>
-        <div class="radio">現地決済<v-radio></v-radio></div>
+        <div class="radio" value="online">
+          オンライン決済<v-radio></v-radio>
+        </div>
+        <div class="radio" value="cash">現地決済<v-radio></v-radio></div>
       </v-radio-group>
       <hr />
     </div>
@@ -70,7 +72,31 @@
     <div class="contact">
       <h4>施設への連絡事項</h4>
       <v-textarea solo style="width: 500px"></v-textarea>
+      <div class="attentions">
+        <span>※ご希望に添えない場合もございます。予めご了承ください。</span
+        ><br />
+        <span>※機種依存文字の入力はできません。</span><br />
+        <span>※当サイトに関する質問は お問合せフォームをご利用ください。</span>
+      </div>
       <hr />
+    </div>
+
+    <div class="cancellation-policy">
+      <h4>キャンセルポリシー</h4>
+      <span
+        >当予約のキャンセル・変更の場合、以下のキャンセル料を申し受けます。</span
+      >
+      <table border="1px">
+        <td>
+          前日 15:00から <br />
+          100%
+        </td>
+        <td>
+          不泊 <br />
+          100%
+        </td>
+      </table>
+      <span class="attention">※ 8日前まではキャンセル料はかかりません。</span>
     </div>
   </div>
 </template>
@@ -111,15 +137,28 @@ export default {
   display: flex;
 }
 .select-g {
-  width: 100px;
+  width: 30px;
 }
 .reserve-info,
 .lodging-info,
 .payment,
-.contact {
+.contact,
+.cancellation-policy {
   margin-top: 20px;
 }
 h4 {
   margin-bottom: 10px;
+}
+.attentions {
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+table {
+  text-align: center;
+  margin: 20px;
+}
+td {
+  width: 300px;
+  padding: 10px;
 }
 </style>
