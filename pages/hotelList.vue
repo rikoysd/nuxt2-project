@@ -1,5 +1,7 @@
 <template>
   <div>
+    <drawerMenu></drawerMenu>
+    <!-- パンくずリスト -->
     <v-breadcrumbs :items="items">
       <template v-slot:divider>
         <v-icon>mdi-chevron-right</v-icon>
@@ -9,7 +11,7 @@
     <keywords @search="searchKeyword"></keywords>
     <div v-show="showResult">
       <!-- 検索結果カンマ区切り -->
-      <div>検索結果：{{ pageInfo.recordCount }}件</div>
+      <div>対象施設：{{ pageInfo.recordCount }}件</div>
       <!-- カード -->
       <div v-for="(hotel, index) of hotelList" v-bind:key="index">
         <v-card class="mx-auto" max-width="500">
@@ -56,9 +58,10 @@
 
 <script>
 import keywords from "../components/keywords.vue";
+import Menu from "../components/drawerMenu.vue";
 import SearchBox from "../components/searchBox.vue";
 export default {
-  components: { keywords, SearchBox },
+  components: { keywords, SearchBox, Menu },
   data() {
     return {
       // パンくずリスト
