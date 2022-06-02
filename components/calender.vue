@@ -4,7 +4,7 @@
       <v-text-field
         @focus="dateFocus"
         v-model="dateRangeText"
-        label="Date range"
+        label="日付指定"
         prepend-icon="mdi-calendar"
         readonly
       ></v-text-field>
