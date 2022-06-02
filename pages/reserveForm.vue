@@ -83,6 +83,13 @@
             class="online-info"
             style="background-color: #f5f5f5"
           >
+            <div class="card-img">
+              <img src="@/assets/img/jcb.png" />
+              <img src="@/assets/img/amex.png" />
+              <img src="@/assets/img/visa.png" />
+              <img src="@/assets/img/master.png" />
+              <img src="@/assets/img/diners.png" />
+            </div>
             <v-btn
               Large
               color="primary"
@@ -354,6 +361,14 @@ td {
 }
 .card-info {
   margin-bottom: 10px;
+}
+.card-img {
+  width: 300px;
+}
+img {
+  object-fit: cover;
+  width: 40px;
+  height: 30px;
 }
 /* モーダルウィンドウ部分のCSS */
 #overlay {
