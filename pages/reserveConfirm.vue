@@ -20,24 +20,12 @@
 
       <div class="lodging-info">
         <h4>宿泊情報</h4>
-        チェックイン予定時刻<selectChecin></selectChecin>
+        チェックイン予定時刻&nbsp;&nbsp;&nbsp;<span>{{ checkInTime }}</span>
         <div class="select-gender">
           宿泊人数&nbsp;&nbsp;&nbsp;1室目 (大人{{
             people
-          }}名)&nbsp;&nbsp;男性&nbsp;<v-select
-            class="select-g"
-            label="選択する"
-            :items="items"
-            outlined
-          >
-          </v-select
-          >&nbsp;&nbsp;女性&nbsp;<v-select
-            class="select-g"
-            label="選択する"
-            :items="items"
-            outlined
-          >
-          </v-select>
+          }}名)&nbsp;&nbsp;男性&nbsp;<span>{{ man }}名</span>
+          &nbsp;女性&nbsp;<span>{{ woman }}名</span>
         </div>
         <hr />
       </div>
@@ -50,7 +38,7 @@
 
       <div class="contact">
         <h4>施設への連絡事項</h4>
-        {{ other }}
+        <v-col>{{ other }}</v-col>
         <div class="attentions">
           <span>※ご希望に添えない場合もございます。予めご了承ください。</span
           ><br />
@@ -116,11 +104,13 @@ export default {
       // メールアドレス
       mailAddress: "aaa@co.jp",
       // チェックイン時間
-      checkInTime: "",
+      checkInTime: "15:00",
       // 宿泊人数
-      people: 0,
-      // 男女の人数
-      items: ["0名", "1名", "2名"],
+      people: 2,
+      // 男性
+      man: 1,
+      // 女性
+      woman: 1,
       // 決済方法
       payment: "オンライン決済",
       // 施設への連絡事項

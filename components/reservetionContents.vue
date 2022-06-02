@@ -4,20 +4,20 @@
       <span class="hotel-name">{{ hotelName }}</span>
 
       <div class="plans" style="background-color: white">
-        <span style="font-weight: bold">日付・食事</span>&nbsp;&nbsp;<span>{{
+        <span style="font-weight: bold">日付・食事</span>&nbsp;&nbsp;<v-col>{{
           dateAndMeal
-        }}</span
+        }}</v-col
         ><br />
-        <span style="font-weight: bold">人数室数</span>&nbsp;&nbsp;<span>{{
+        <span style="font-weight: bold">人数室数</span>&nbsp;&nbsp;<v-col>{{
           peopleAndRooms
-        }}</span
+        }}</v-col
         ><br />
-        <span style="font-weight: bold">部屋</span>&nbsp;&nbsp;<span>{{
+        <span style="font-weight: bold">部屋</span>&nbsp;&nbsp;<v-col>{{
           room
-        }}</span
+        }}</v-col
         ><br />
         <span style="font-weight: bold">プラン</span
-        >&nbsp;&nbsp;&nbsp;&nbsp;<span>{{ plan }}</span>
+        >&nbsp;&nbsp;&nbsp;&nbsp;<v-col>{{ plan }}</v-col>
       </div>
 
       <div class="price" style="background-color: white">

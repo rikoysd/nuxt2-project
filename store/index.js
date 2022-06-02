@@ -22,8 +22,6 @@ export const state = () => ({
 });
 
 export const actions = {
-<<<<<<< HEAD
-=======
   /**
    * 総合ランキング情報の取得.
    * @param {*} context
@@ -57,7 +55,6 @@ export const actions = {
     // console.log("call");
     this.dispatch("searchInstitution/searchInstitution", { root: true });
   },
->>>>>>> 8272e65a53ad6e64af0c04b77048933ae725759a
   /**
    * キーワード検索結果のホテルを取得する.
    * @param {*} context - コンテキスト
