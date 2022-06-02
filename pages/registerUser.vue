@@ -44,11 +44,12 @@
       v-model="mailAddress"
       outlined
     ></v-text-field>
-    パスワード<span>&emsp;{{ mailaddressError }}</span
+    パスワード<span>&emsp;{{ passwordError }}</span
     ><v-text-field
-      class="mailaddress"
-      label="rakuraku@example.jp"
-      v-model="mailAddress"
+      class="password"
+      label="rakus12345（8桁以上を設定してください）"
+      v-model="password"
+      type="password"
       outlined
     ></v-text-field>
     <v-btn color="primary" elevation="2" @click="register">登録</v-btn>
@@ -161,6 +162,19 @@ export default {
         this.errorCheck = true;
       } else if (this.mailAddress.indexOf("@") === -1) {
         this.mailaddressError = "正しい形式で入力してください";
+        this.errorCheck = true;
+      } else {
+        this.mailaddressError = "";
+        this.errorCheck = false;
+      }
+      this.errors.push(this.errorCheck);
+
+      // パスワードのエラー
+      if (this.password === "") {
+        this.passwordError = "パスワードを入力してください";
+        this.errorCheck = true;
+      } else if (this.password.length < 8) {
+        this.passwordError = "パスワードは8桁以上で設定してください";
         this.errorCheck = true;
       } else {
         this.mailaddressError = "";
