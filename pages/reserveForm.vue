@@ -1,48 +1,323 @@
 <template>
-  <div>
-    <h4>予約者情報</h4>
+  <div class="container">
+    <div class="main">
+      <div class="reserve-info">
+        <h4>予約者情報</h4>
+        氏名<v-text-field
+          class="name-field"
+          label="楽々太郎"
+          v-model="fullName1"
+          outlined
+        ></v-text-field>
+        かな<v-text-field
+          class="name2-field"
+          label="ラクラクタロウ"
+          v-model="fullName2"
+          outlined
+        ></v-text-field>
+        郵便番号（ハイフンなし）<v-text-field
+          class="zipcode"
+          label="0000000"
+          v-model="zipcode"
+          outlined
+        ></v-text-field>
+        住所<selectPrefectures></selectPrefectures><br />
+        <v-text-field
+          class="address"
+          label="港区赤坂0-0-0（海外住所の場合は「海外」と入力）"
+          v-model="address"
+          outlined
+        ></v-text-field>
+        電話番号（ハイフンなし）<v-text-field
+          class="telephone"
+          label="09012345678"
+          v-model="telephone"
+          outlined
+        ></v-text-field>
+        メールアドレス<v-text-field
+          class="mailaddress"
+          label="rakuraku@example.jp"
+          v-model="mailAddress"
+          outlined
+        ></v-text-field>
+        <hr />
+      </div>
 
-    氏名<v-text-field
-      class="name-field"
-      label="楽々太郎"
-      outlined
-    ></v-text-field>
-    かな<v-text-field
-      class="name2-field"
-      label="ラクラクタロウ"
-      outlined
-    ></v-text-field>
-    郵便番号<v-text-field
-      class="zipcode"
-      label="0000000"
-      outlined
-    ></v-text-field>
-    住所<selectPrefectures></selectPrefectures>
+      <div class="lodging-info">
+        <h4>宿泊情報</h4>
+        チェックイン予定時刻<selectChecin></selectChecin>
+        <div class="select-gender">
+          宿泊人数&nbsp;&nbsp;&nbsp;1室目 (大人{{
+            people
+          }}名)&nbsp;&nbsp;男性&nbsp;<v-select
+            class="select-g"
+            label="選択する"
+            :items="items"
+            outlined
+          >
+          </v-select
+          >&nbsp;&nbsp;女性&nbsp;<v-select
+            class="select-g"
+            label="選択する"
+            :items="items"
+            outlined
+          >
+          </v-select>
+        </div>
+        <hr />
+      </div>
+
+      <div class="payment">
+        <h4>お支払い方法</h4>
+        <v-radio-group v-model="radioGroup" @change="payment">
+          <label for="online" class="radio"
+            >オンライン決済<v-radio id="online" value="online"></v-radio
+          ></label>
+
+          <v-card
+            v-if="!flag"
+            class="online-info"
+            style="background-color: #f5f5f5"
+          >
+            <v-btn
+              Large
+              color="primary"
+              class="card-info"
+              @click="inputCardInfo"
+              >カード情報を入力する</v-btn
+            ><br />
+
+            <div id="overlay" v-if="cardFlag">
+              <div id="content" v-if="cardFlag">
+                <v-card class="creditcard" style="background-color: #f5f5f5">
+                  <p style="font-weight: bold">カード情報入力</p>
+                  <span>カード情報</span>
+                  <v-text-field label="0000000000000" outlined></v-text-field>
+                  <span>セキュリティコード</span
+                  ><v-text-field label="000" outlined></v-text-field>
+                  <span>有効期限</span
+                  ><v-text-field label="00/00" outlined></v-text-field>
+                  <span>カード名義人</span
+                  ><v-text-field label="TARO RAKURAKU" outlined></v-text-field>
+                </v-card>
+                <v-btn class="close-button" @click="close">キャンセル</v-btn>
+              </div>
+            </div>
+            <span>予約日の翌日に決済となります</span><br />
+            <span style="font-size: 13px"
+              >※デビット・プリペイドカードはこの限りではありません</span
+            >
+          </v-card>
+
+          <label for="cash" class="radio"
+            >現地決済<v-radio id="cash" value="cash"></v-radio
+          ></label>
+
+          <v-card
+            v-if="flag"
+            class="cash-info"
+            style="background-color: #f5f5f5"
+          >
+            <span>宿泊当日の正午までにオンラインカード決済に変更可能です。</span
+            ><br />
+            <span style="font-size: 13px"
+              >※チェックイン予定時間以降の変更はできません</span
+            >
+          </v-card>
+        </v-radio-group>
+        <hr />
+      </div>
+
+      <div class="contact">
+        <h4>施設への連絡事項</h4>
+        <v-textarea solo style="width: 500px" v-model="other"></v-textarea>
+        <div class="attentions">
+          <span>※ご希望に添えない場合もございます。予めご了承ください。</span
+          ><br />
+          <span>※機種依存文字の入力はできません。</span><br />
+          <span
+            >※当サイトに関する質問は お問合せフォームをご利用ください。</span
+          >
+        </div>
+        <hr />
+      </div>
+
+      <div class="cancellation-policy">
+        <h4>キャンセルポリシー</h4>
+        <span
+          >当予約のキャンセル・変更の場合、以下のキャンセル料を申し受けます。</span
+        >
+        <table border="1px">
+          <td>
+            前日 15:00から <br />
+            100%
+          </td>
+          <td>
+            不泊 <br />
+            100%
+          </td>
+        </table>
+        <span class="attention">※ 8日前まではキャンセル料はかかりません。</span>
+      </div>
+    </div>
+
+    <div class="reservetion-contents">
+      <reservetionContents></reservetionContents>
+    </div>
   </div>
 </template>
 
 <script>
 import selectPrefectures from "../components/selectPrefectures.vue";
+import selectChecin from "../components/selectCheckin.vue";
+import reservetionContents from "../components/reservetionContents.vue";
 
 export default {
   name: "reserveForm",
   components: {
     selectPrefectures,
+    selectChecin,
+    reservetionContents,
   },
   data() {
-    return {};
+    return {
+      // フラッグ
+      flag: false,
+      // カードフラッグ
+      cardFlag: false,
+      // フルネーム（氏名）
+      fullName1: "",
+      // フルネーム（かな）
+      fullName2: "",
+      // 郵便番号
+      zipcode: "",
+      // 都道府県
+      prefecture: "",
+      // 住所
+      address: "",
+      // 電話番号
+      telephone: "",
+      // メールアドレス
+      mailAddress: "",
+      // チェックイン時間
+      checkInTime: "",
+      // 宿泊人数
+      people: 0,
+      // 男女の人数
+      items: ["0名", "1名", "2名"],
+      // 決済方法
+      radioGroup: "online",
+      // 施設への連絡事項
+      other: "",
+    };
   }, //end data
 
   computed: {}, // end computed
 
-  methods: {}, // end methods
+  methods: {
+    /**
+     * お支払い方法の表示切り替え.
+     */
+    payment() {
+      if (this.flag === true) {
+        this.flag = false;
+      } else {
+        this.flag = true;
+      }
+    },
+    /**
+     * カード情報を入力する.
+     */
+    inputCardInfo() {
+      if (this.cardFlag === false) {
+        this.cardFlag = true;
+      }
+    },
+    /**
+     * モーダルウィンドウを閉じる.
+     */
+    close() {
+      this.cardFlag = false;
+    },
+  }, // end methods
 };
 </script>
 
 <style scoped>
 .name-field,
 .name2-field,
-.zipcode {
+.zipcode,
+.address,
+.mailaddress,
+.telephone {
+  width: 500px;
+}
+.select-gender,
+.radio,
+.container {
+  display: flex;
+}
+.select-g {
+  width: 30px;
+}
+.reserve-info,
+.lodging-info,
+.payment,
+.contact,
+.cancellation-policy {
+  margin-top: 20px;
+}
+h4 {
+  margin-bottom: 10px;
+}
+.attentions {
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+table {
+  text-align: center;
+  margin: 20px;
+}
+td {
   width: 300px;
+  padding: 10px;
+}
+.online-info,
+.cash-info {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding: 30px;
+}
+.card-info {
+  margin-bottom: 10px;
+}
+#overlay {
+  /*　要素を重ねた時の順番　*/
+  z-index: 1;
+  /*　画面全体を覆う設定　*/
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  /*　画面の中央に要素を表示させる設定　*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#content {
+  z-index: 2;
+  width: 50%;
+  padding: 1em;
+  background: #fff;
+}
+.creditcard {
+  margin: 10px;
+  padding: 20px;
+}
+.close-button {
+  margin-top: 15px;
+  margin-left: 10px;
 }
 </style>
