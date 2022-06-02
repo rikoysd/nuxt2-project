@@ -32,7 +32,6 @@ export const mutations = {
     for (const hotel of payload) {
       state.rankings.push(hotel);
     }
-    console.log(state.rankings);
   },
 };
 export const getters = {
