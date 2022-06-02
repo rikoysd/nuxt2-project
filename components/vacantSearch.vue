@@ -1,36 +1,29 @@
 <template>
-  <v-row>
-    <v-col cols="12" sm="6">
-      <v-date-picker v-model="dates" range></v-date-picker>
-    </v-col>
-    <v-col cols="12" sm="6">
-      <v-text-field
-        v-model="dateRangeText"
-        label="Date range"
-        prepend-icon="mdi-calendar"
-        readonly
-      ></v-text-field>
-      model: {{ dates }}
-    </v-col>
-    <input type="date" />
-  </v-row>
+  <div>
+    <!-- <input type="text" /> -->
+    <!-- <button type="button" v-on:click="getVacantlist">検索結果取得</button> -->
+    <button type="button" v-on:click="getList">地区コード取得</button>
+    <!-- {{ responseData }} -->
+    {{ areaList }}
+  </div>
 </template>
 
 <script>
 export default {
-  data: () => ({
-    // date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-    //   .toISOString()
-    //   .substr(0, 10),
-    // menu: false,
-    // modal: false,
-    // menu2: false,
-    dates: ["2022-06-01", "2022-06-03"],
-  }),
-  computed: {
-    dateRangeText() {
-      return this.dates.join(" ~ ");
-    },
+  data() {
+    return { responseData: [], areaList: [], searchWord: "" };
   },
+
+  methods: {
+    // async getVacantlist() {
+    //   await this.$store.dispatch("searchVacantList");
+    //   this.responseData = this.$store.getters.getVacantList;
+    // },
+    async getList() {
+      await this.$store.dispatch("getAreaCode");
+      this.areaList = this.$store.getters.getAreaList;
+      console.log(this.areaList);
+    },
+  }, //methods
 };
 </script>

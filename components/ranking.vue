@@ -67,13 +67,10 @@ export default {
    * 総合ランキング情報を取得、表示する.
    */
   async mounted() {
-    console.log("call");
     await this.$store.dispatch("getRankingList");
     this.responsedata = this.$store.getters.getHotels;
     console.log(this.responsedata);
-    console.log();
-    console.log();
-  }, //created
+  }, //mounted
 
   methods: {
     reserve() {

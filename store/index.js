@@ -20,6 +20,8 @@ export const state = () => ({
   //          .hotel[3]:部屋情報(プラン１)
   //          .hotel[4]:部屋情報(プラン２)
   vacantList: [],
+  //地区情報
+  areaList: [],
 });
 
 export const actions = {
@@ -44,10 +46,12 @@ export const actions = {
   async searchVacantList() {
     console.log("call");
     const vacantResponce = await axios1.get(
+      // `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&largeClassCode=japan&middleClassCode=${prefecture}&smallClassCode=${smallClassCode}&checkinDate=${checkinDate}&checkoutDate=${checkoutDate}&adultNum=${adultNum}&roomNum=${roomNum}&responseType=large`
       `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&largeClassCode=japan&middleClassCode=akita&smallClassCode=tazawa&checkinDate=2022-12-01&checkoutDate=2022-12-02&adultNum=2&responseType=large`
     );
     console.dir("response" + JSON.stringify(vacantResponce.data.hotels));
     this.commit("setVacantList", vacantResponce.data.hotels);
+    // context.commit("setVacantList", vacantResponce.data.hotels);
   },
   /**
    * 施設検索(モジュール:searchInstitution).
@@ -68,7 +72,19 @@ export const actions = {
     // console.dir(JSON.stringify(response));
     context.commit("showHotelList", response);
   },
-}; // end actions
+  /**
+   * 地区コードの取得.
+   */
+  async getAreaCode(context) {
+    const response = await axios1.get(
+      "https://app.rakuten.co.jp/services/api/Travel/GetAreaClass/20131024?applicationId=1098541415969458249&format=json"
+    );
+    console.dir("response:" + JSON.stringify(response));
+    const payload = response.data.areaClasses.largeClasses[0].largeClass[1];
+    console.log(payload);
+    context.commit("showAreaList", payload);
+  },
+}; // end of actions
 
 export const mutations = {
   /**
@@ -95,7 +111,13 @@ export const mutations = {
     state.vacantList = { hotels: payload };
     // console.log(state.vacantList);
   },
-};
+  /**
+   *地区コード情報をstateに格納.
+   */
+  showAreaList(state, payload) {
+    state.areaList = payload;
+  },
+}; //end of mutations
 
 export const getters = {
   /**
@@ -147,6 +169,13 @@ export const getters = {
   showHotelList(state, payload) {
     state.pageInfo = payload.pagingInfo;
     state.hotelList = payload.hotels;
+  },
+  /**
+   * @param {*} state - ステート
+   * @returns - 地区コード情報
+   */
+  getAreaList(state) {
+    return state.areaList;
   },
 };
 
