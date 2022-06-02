@@ -21,7 +21,6 @@ export const state = () => ({
   vacantList: [],
 });
 
-
 export const actions = {
   /**
    * 総合ランキング情報の取得.
@@ -79,7 +78,15 @@ export const mutations = {
       state.rankings.push(hotel);
     }
   },
-
+  /**
+   * キーワード検索結果のホテルをstateに格納.
+   * @param {*} state
+   * @param {*} payload
+   */
+  showHotelList(state, payload) {
+    state.pageInfo = payload.pagingInfo;
+    state.hotelList = payload.hotels;
+  },
   /**
    * 空室検索の結果をstateにセット.
    */
@@ -122,7 +129,7 @@ export const getters = {
   },
   getHotels(state) {
     return state.rankings;
-
+  },
   /**
    * vacantListの取得.
    */
