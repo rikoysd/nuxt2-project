@@ -7,6 +7,7 @@ import axios from "@nuxtjs/axios";
 
 Vue.use(Vuex);
 export const state = () => ({
+  //総合ランキング情報
   rankings: [],
   // キーワード検索・ページ情報
   pageInfo: {},
@@ -71,7 +72,7 @@ export const actions = {
 
 export const mutations = {
   /**
-   * 総合ランキング情報をstateに格納する.
+   * 総合ランキング情報をstateに格納.
    */
   getHotelList(state, payload) {
     for (const hotel of payload) {
@@ -127,6 +128,11 @@ export const getters = {
   getInstitutitonInfo(state) {
     return state.searchInstitution;
   },
+  /**
+   *
+   * @param {*} state - ステート
+   * @returns - 総合ランキング情報
+   */
   getHotels(state) {
     return state.rankings;
   },
