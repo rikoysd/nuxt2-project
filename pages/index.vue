@@ -1,7 +1,5 @@
 <template>
-  <div><v-btn>ボタン</v-btn></div>
+  <div></div>
 </template>
 
-<script>
-export default {};
-</script>
+<script></script>
