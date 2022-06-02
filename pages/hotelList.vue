@@ -15,7 +15,7 @@
       <div>対象施設：{{ pageInfo.recordCount }}件</div>
       <!-- カード -->
       <div class="cards" v-for="(hotel, index) of hotelList" v-bind:key="index">
-        <v-card class="mx-auto" max-width="500">
+        <v-card max-width="500">
           <v-img
             class="white--text align-end"
             height="160px"
