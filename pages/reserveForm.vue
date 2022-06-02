@@ -181,19 +181,33 @@ export default {
   },
   data() {
     return {
+      // フラッグ
       flag: false,
+      // カードフラッグ
       cardFlag: false,
+      // フルネーム（氏名）
       fullName1: "",
+      // フルネーム（かな）
       fullName2: "",
+      // 郵便番号
       zipcode: "",
+      // 都道府県
       prefecture: "",
+      // 住所
       address: "",
+      // 電話番号
       telephone: "",
+      // メールアドレス
       mailAddress: "",
+      // チェックイン時間
       checkInTime: "",
+      // 宿泊人数
       people: 0,
+      // 男女の人数
       items: ["0名", "1名", "2名"],
+      // 決済方法
       radioGroup: "online",
+      // 施設への連絡事項
       other: "",
     };
   }, //end data
