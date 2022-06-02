@@ -72,6 +72,7 @@
     </div>
 
     <div class="reservetion-contents">
+      <img class="reserve-img" src="@/assets/img/2.png" />
       <reservetionContents2></reservetionContents2>
     </div>
   </div>
@@ -205,5 +206,12 @@ td {
 }
 .reservetion-contents {
   margin-left: 100px;
+}
+.reserve-img {
+  object-fit: cover;
+  width: 250px;
+  height: 80px;
+  float: right;
+  margin-right: 150px;
 }
 </style>
