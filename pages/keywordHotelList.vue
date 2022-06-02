@@ -14,7 +14,7 @@
       <!-- 検索結果カンマ区切り -->
       <div>対象施設：{{ pageInfo.recordCount }}件</div>
       <!-- カード -->
-      <div class="cards" v-for="(hotel, index) of hotelList" v-bind:key="index">
+      <div v-for="(hotel, index) of hotelList" v-bind:key="index">
         <v-card max-width="500">
           <v-img
             class="white--text align-end"
@@ -39,7 +39,7 @@
                 inactive-color="#000"
                 active-color="#ffd700"
                 v-bind:star-size="15"
-                read-only="true"
+                v-bind:read-only="true"
               >
               </star-rating>
             </div>
@@ -118,8 +118,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.cards {
-  display: flex;
-}
-</style>
+<style scoped></style>
