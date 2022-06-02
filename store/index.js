@@ -2,7 +2,7 @@ import Vuex from "vuex";
 import Vue from "vue";
 import sample from "./modules/sample";
 import searchInstitution from "./modules/searchInstitution";
-import axios from "axios";
+import axios1 from "axios";
 import axios from "@nuxtjs/axios";
 
 Vue.use(Vuex);
@@ -31,7 +31,7 @@ export const actions = {
    */
   async getRankingList(context) {
     console.log("getRankingList");
-    const response = await axios.get(
+    const response = await axios1.get(
       "https://app.rakuten.co.jp/services/api/Travel/HotelRanking/20170426?applicationId=1098541415969458249&format=json&carrier=0&genre=all"
     );
     console.dir("response:" + JSON.stringify(response));
@@ -44,7 +44,7 @@ export const actions = {
    */
   async searchVacantList() {
     console.log("call");
-    const vacantResponce = await axios.get(
+    const vacantResponce = await axios1.get(
       `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&largeClassCode=japan&middleClassCode=akita&smallClassCode=tazawa&checkinDate=2022-12-01&checkoutDate=2022-12-02&adultNum=2&responseType=large`
     );
     console.dir("response" + JSON.stringify(vacantResponce.data.hotels));
