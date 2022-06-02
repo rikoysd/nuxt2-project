@@ -1,6 +1,7 @@
 <template>
   <div>
     <drawerMenu></drawerMenu>
+    <calender></calender>
     <!-- パンくずリスト -->
     <v-breadcrumbs :items="items">
       <template v-slot:divider>
@@ -13,7 +14,7 @@
       <!-- 検索結果カンマ区切り -->
       <div>対象施設：{{ pageInfo.recordCount }}件</div>
       <!-- カード -->
-      <div v-for="(hotel, index) of hotelList" v-bind:key="index">
+      <div class="cards" v-for="(hotel, index) of hotelList" v-bind:key="index">
         <v-card class="mx-auto" max-width="500">
           <v-img
             class="white--text align-end"
@@ -92,6 +93,7 @@ export default {
       showResult: false,
       // ページ
       page: 1,
+      // 総合評価
       rating: 0,
     };
   },
@@ -116,4 +118,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.cards {
+  display: flex;
+}
+</style>
