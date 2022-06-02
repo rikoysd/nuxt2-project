@@ -30,6 +30,9 @@ export default {
   computed: {}, // end computed
 
   methods: {
+    /**
+     * TOPへ戻る.
+     */
     moveToTop() {
       this.$router.push("/");
     },

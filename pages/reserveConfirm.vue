@@ -20,13 +20,15 @@
 
       <div class="lodging-info">
         <h4>宿泊情報</h4>
-        チェックイン予定時刻&nbsp;&nbsp;&nbsp;<span>{{ checkInTime }}</span>
-        <div class="select-gender">
+        <v-col>
+          チェックイン予定時刻&nbsp;&nbsp;&nbsp;<span>{{ checkInTime }}</span>
+        </v-col>
+        <v-col class="select-gender">
           宿泊人数&nbsp;&nbsp;&nbsp;1室目 (大人{{
             people
           }}名)&nbsp;&nbsp;男性&nbsp;<span>{{ man }}名</span>
           &nbsp;女性&nbsp;<span>{{ woman }}名</span>
-        </div>
+        </v-col>
         <hr />
       </div>
 
@@ -120,32 +122,7 @@ export default {
 
   computed: {}, // end computed
 
-  methods: {
-    /**
-     * お支払い方法の表示切り替え.
-     */
-    payment() {
-      if (this.flag === true) {
-        this.flag = false;
-      } else {
-        this.flag = true;
-      }
-    },
-    /**
-     * カード情報を入力する.
-     */
-    inputCardInfo() {
-      if (this.cardFlag === false) {
-        this.cardFlag = true;
-      }
-    },
-    /**
-     * モーダルウィンドウを閉じる.
-     */
-    close() {
-      this.cardFlag = false;
-    },
-  }, // end methods
+  methods: {}, // end methods
 };
 </script>
 
