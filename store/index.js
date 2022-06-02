@@ -12,10 +12,6 @@ export const state = () => ({
 });
 
 export const actions = {
-  test2() {
-    console.log("call2");
-    this.dispatch("sample/getData", { root: true });
-  },
   /**
    * キーワード検索結果のホテルを取得する.
    * @param {*} context - コンテキスト
