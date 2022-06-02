@@ -7,6 +7,7 @@ import axios from "@nuxtjs/axios";
 
 Vue.use(Vuex);
 export const state = () => ({
+  rankings: [],
   // キーワード検索・ページ情報
   pageInfo: {},
   // キーワード検索・ホテル一覧
@@ -20,10 +21,22 @@ export const state = () => ({
   vacantList: [],
 });
 
+
 export const actions = {
-  test2() {
-    console.log("call2");
-    this.dispatch("sample/getData", { root: true });
+  /**
+   * 総合ランキング情報の取得.
+   * @param {*} context
+   * @returns
+   */
+  async getRankingList(context) {
+    console.log("getRankingList");
+    const response = await axios.get(
+      "https://app.rakuten.co.jp/services/api/Travel/HotelRanking/20170426?applicationId=1098541415969458249&format=json&carrier=0&genre=all"
+    );
+    console.dir("response:" + JSON.stringify(response));
+    const payload = response.data.Rankings[0].Ranking.hotels;
+    context.commit("getHotelList", payload);
+    return payload;
   },
   /**
    * 空室検索.
@@ -59,7 +72,15 @@ export const actions = {
 
 export const mutations = {
   /**
+   * 総合ランキング情報をstateに格納する.
+   */
+  getHotelList(state, payload) {
+    for (const hotel of payload) {
+      state.rankings.push(hotel);
+    }
+  },
 
+  /**
    * 空室検索の結果をstateにセット.
    */
   setVacantList(state, payload) {
@@ -99,6 +120,8 @@ export const getters = {
   getInstitutitonInfo(state) {
     return state.searchInstitution;
   },
+  getHotels(state) {
+    return state.rankings;
 
   /**
    * vacantListの取得.
