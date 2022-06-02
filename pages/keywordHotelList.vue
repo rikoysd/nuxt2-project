@@ -2,6 +2,7 @@
   <div>
     <drawerMenu></drawerMenu>
     <calender></calender>
+    <requirement></requirement>
     <!-- パンくずリスト -->
     <v-breadcrumbs :items="items">
       <template v-slot:divider>
