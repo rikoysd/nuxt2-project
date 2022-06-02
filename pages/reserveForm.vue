@@ -325,6 +325,7 @@ export default {
 .radio,
 .container {
   display: flex;
+  justify-content: center;
 }
 .reserve-info,
 .lodging-info,

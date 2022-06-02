@@ -140,6 +140,7 @@ export default {
 .radio,
 .container {
   display: flex;
+  justify-content: center;
 }
 .select-g {
   width: 30px;
@@ -212,6 +213,6 @@ td {
   width: 250px;
   height: 80px;
   float: right;
-  margin-right: 150px;
+  margin-right: 100px;
 }
 </style>
