@@ -47,7 +47,9 @@
         <h4>宿泊情報</h4>
         チェックイン予定時刻<selectChecin></selectChecin>
         <div class="select-gender">
-          宿泊人数&nbsp;&nbsp;&nbsp;男性&nbsp;<v-select
+          宿泊人数&nbsp;&nbsp;&nbsp;1室目 (大人{{
+            people
+          }}名)&nbsp;&nbsp;男性&nbsp;<v-select
             class="select-g"
             label="選択する"
             :items="items"
@@ -87,8 +89,18 @@
 
             <div id="overlay" v-if="cardFlag">
               <div id="content" v-if="cardFlag">
-                <p>これがモーダルウィンドウです。</p>
-                <p><v-btn @click="close">close</v-btn></p>
+                <v-card class="creditcard" style="background-color: #f5f5f5">
+                  <p style="font-weight: bold">カード情報入力</p>
+                  <span>カード情報</span>
+                  <v-text-field label="0000000000000" outlined></v-text-field>
+                  <span>セキュリティコード</span
+                  ><v-text-field label="000" outlined></v-text-field>
+                  <span>有効期限</span
+                  ><v-text-field label="00/00" outlined></v-text-field>
+                  <span>カード名義人</span
+                  ><v-text-field label="TARO RAKURAKU" outlined></v-text-field>
+                </v-card>
+                <v-btn class="close-button" @click="close">キャンセル</v-btn>
               </div>
             </div>
             <span>予約日の翌日に決済となります</span><br />
@@ -179,6 +191,7 @@ export default {
       telephone: "",
       mailAddress: "",
       checkInTime: "",
+      people: 0,
       items: ["0名", "1名", "2名"],
       radioGroup: "online",
       other: "",
@@ -284,5 +297,13 @@ td {
   width: 50%;
   padding: 1em;
   background: #fff;
+}
+.creditcard {
+  margin: 10px;
+  padding: 20px;
+}
+.close-button {
+  margin-top: 15px;
+  margin-left: 10px;
 }
 </style>
