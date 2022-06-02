@@ -4,6 +4,7 @@ import sample from "./modules/sample";
 import searchInstitution from "./modules/searchInstitution";
 import axios1 from "axios";
 import axios from "@nuxtjs/axios";
+import register from "./modules/register";
 
 Vue.use(Vuex);
 export const state = () => ({
@@ -94,6 +95,11 @@ export const mutations = {
     state.vacantList = { hotels: payload };
     // console.log(state.vacantList);
   },
+
+  register() {
+    console.log("call");
+    this.commit("register/registerUser", true);
+  },
 };
 
 export const getters = {
@@ -147,4 +153,5 @@ export const getters = {
 export const modules = {
   sample,
   searchInstitution,
+  register,
 };

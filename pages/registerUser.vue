@@ -68,7 +68,7 @@ export default {
       // 郵便番号
       zipcode: "",
       // 都道府県
-      prefecture: "",
+      // prefecture: "",
       // 住所
       address: "",
       // 電話番号
@@ -173,14 +173,41 @@ export default {
       if (this.password === "") {
         this.passwordError = "パスワードを入力してください";
         this.errorCheck = true;
-      } else if (this.password.length < 8) {
+      } else if (this.password.length < 9) {
         this.passwordError = "パスワードは8桁以上で設定してください";
         this.errorCheck = true;
       } else {
-        this.mailaddressError = "";
+        this.passwordError = "";
         this.errorCheck = false;
       }
       this.errors.push(this.errorCheck);
+
+      // エラーの数を数える
+      let array = [];
+      for (let error of this.errors) {
+        if (error === true) {
+          array.push(error);
+        }
+      }
+
+      // エラーが一つでもあったら処理を止める
+      if (array.length > 0) {
+        return;
+      }
+
+      let object = {
+        fullName1: "",
+        fullName2: "",
+        zipcode: "",
+        address: "",
+        telephone: "",
+        mailAddress: "",
+        password: "",
+      };
+      console.log(object);
+
+      // 登録情報を送信する
+      this.$store.commit("register");
     },
   },
   computed: {},

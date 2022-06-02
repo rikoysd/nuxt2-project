@@ -16,6 +16,7 @@ export default {
   name: "selectPrefectures",
   data() {
     return {
+      prefecture: "",
       items: [
         "北海道",
         "青森県",
