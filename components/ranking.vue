@@ -14,10 +14,7 @@
                 ></v-progress-linear>
               </template>
 
-              <v-img
-                height="150"
-                src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-              ></v-img>
+              <v-img height="150" :src="hotel.hotel.hotelImageUrl"></v-img>
 
               <v-card-title>{{ hotel.hotel.hotelName }}</v-card-title>
 

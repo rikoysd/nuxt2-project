@@ -2,7 +2,7 @@
   <div>
     <v-app>
       <Header />
-      <Top />
+      <!-- <Top /> -->
       <Vacant-search />
       <Ranking />
       <Footer />
