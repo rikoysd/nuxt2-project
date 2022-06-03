@@ -73,9 +73,6 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  margin-top: 20px;
-}
 .main-card,
 .plans,
 .price {

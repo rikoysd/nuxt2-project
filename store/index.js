@@ -1,6 +1,5 @@
 import Vuex from "vuex";
 import Vue from "vue";
-import sample from "./modules/sample";
 import searchInstitution from "./modules/searchInstitution";
 import axios1 from "axios";
 import axios from "@nuxtjs/axios";
@@ -154,7 +153,6 @@ export const getters = {
 };
 
 export const modules = {
-  sample,
   searchInstitution,
   register,
 };

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <img class="reserve-img" src="@/assets/img/3.png" />
     <v-col class="msg">
       <img
         class="bg-img"
@@ -52,5 +53,13 @@ h2 {
 }
 .button {
   margin-bottom: 25px;
+}
+.reserve-img {
+  object-fit: cover;
+  width: 250px;
+  height: 80px;
+  float: right;
+  margin-right: 70px;
+  margin-bottom: 10px;
 }
 </style>
