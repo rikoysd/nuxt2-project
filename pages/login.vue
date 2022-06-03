@@ -1,22 +1,24 @@
 <template>
-  <div>
-    <div>{{ submitError }}</div>
-    メールアドレス<span>&emsp;{{ mailAddressError }}</span
-    ><v-text-field
-      class="mailAddress"
-      label="rakuraku@example.jp"
-      v-model="mailAddress"
-      outlined
-    ></v-text-field>
-    パスワード<span>&emsp;{{ passwordError }}</span
-    ><v-text-field
-      class="password"
-      label="rakus12345（8文字以上で設定してください）"
-      v-model="password"
-      outlined
-      type="password"
-    ></v-text-field>
-    <v-btn class="login-info" color="primary" @click="login">ログイン</v-btn>
+  <div class="whole">
+    <v-container fluid class="login-area">
+      <div>{{ submitError }}</div>
+      メールアドレス<span>&emsp;{{ mailAddressError }}</span
+      ><v-text-field
+        class="mailAddress"
+        label="rakuraku@example.jp"
+        v-model="mailAddress"
+        outlined
+      ></v-text-field>
+      パスワード<span>&emsp;{{ passwordError }}</span
+      ><v-text-field
+        class="password"
+        label="rakus12345（8文字以上で設定してください）"
+        v-model="password"
+        outlined
+        type="password"
+      ></v-text-field>
+      <v-btn class="login-info" color="primary" @click="login">ログイン</v-btn>
+    </v-container>
   </div>
 </template>
 
@@ -98,5 +100,19 @@ export default {
 <style scoped>
 span {
   color: red;
+}
+
+.login-area {
+  background-color: white;
+  border-radius: 5px;
+  padding: 45px 40px;
+  width: 600px;
+}
+
+.whole {
+  width: 100%;
+  height: 100vh;
+  background-image: url(../assets/img/background-img.jpg);
+  background-size: 100% 100%;
 }
 </style>
