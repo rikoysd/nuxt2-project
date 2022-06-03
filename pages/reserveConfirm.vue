@@ -245,6 +245,6 @@ td {
   width: 250px;
   height: 80px;
   float: right;
-  margin-right: 100px;
+  margin-right: 50px;
 }
 </style>

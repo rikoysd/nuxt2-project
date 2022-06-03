@@ -75,7 +75,9 @@ export default {
     /**
      *予約内容を変更する.
      */
-    changeReservation() {},
+    changeReservation() {
+      // 添字、idなど一意のものを引数で渡す必要がある
+    },
     /**
      * 予約を確定する.
      */
