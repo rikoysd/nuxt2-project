@@ -76,6 +76,19 @@ export default {
       }
       this.errors.push(this.errorCheck);
 
+      // エラーの数を数える
+      let array = [];
+      for (let error of this.errors) {
+        if (error === true) {
+          array.push(error);
+        }
+      }
+
+      // エラーが一つでもあったら処理を止める
+      if (array.length > 0) {
+        return;
+      }
+
       let object = {};
 
       // register.jsのユーザー情報を取得
