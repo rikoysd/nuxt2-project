@@ -3,7 +3,7 @@
     <v-btn color="primary" elevation="2" @click="addItems"
       >こだわりを追加する</v-btn
     >
-    <v-card class="mx-auto menu" max-width="400" tile v-show="showMenu">
+    <v-card class="menu" max-width="400" tile v-show="showMenu">
       <v-list-item>
         <v-list-item-content>
           <v-list-item>

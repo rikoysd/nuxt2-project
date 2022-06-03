@@ -2,6 +2,7 @@
   <div>
     <v-select
       v-model="prefecture"
+      @input="selectPrefecture(prefecture)"
       class="select"
       label="都道府県"
       :items="items"
@@ -16,6 +17,7 @@ export default {
   name: "selectPrefectures",
   data() {
     return {
+      prefecture: "",
       items: [
         "北海道",
         "青森県",
@@ -70,7 +72,15 @@ export default {
 
   computed: {}, // end computed
 
-  methods: {}, // end methods
+  methods: {
+    /**
+     * 都道府県を選択する.
+     */
+    selectPrefecture(prefecture) {
+      // 親に選択した都道府県を引数として渡す
+      this.$emit("prefecture", prefecture);
+    },
+  }, // end methods
 };
 </script>
 

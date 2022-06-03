@@ -51,16 +51,14 @@
         <h4>宿泊情報</h4>
         チェックイン予定時刻<selectChecin></selectChecin>
         <div class="select-gender">
-          宿泊人数&nbsp;&nbsp;&nbsp;1室目 (大人{{
-            people
-          }}名)&nbsp;&nbsp;男性&nbsp;<v-select
+          宿泊人数&emsp;1室目 (大人{{ people }}名)&emsp;男性&nbsp;<v-select
             class="select-g"
             label="選択する"
             :items="items"
             outlined
           >
           </v-select
-          >&nbsp;&nbsp;女性&nbsp;<v-select
+          >&nbsp;女性&nbsp;<v-select
             class="select-g"
             label="選択する"
             :items="items"
@@ -322,10 +320,12 @@ export default {
   width: 500px;
 }
 .select-gender,
-.radio,
 .container {
   display: flex;
   justify-content: center;
+}
+.radio {
+  display: flex;
 }
 .reserve-info,
 .lodging-info,
@@ -422,6 +422,6 @@ p {
   width: 250px;
   height: 80px;
   float: right;
-  margin-right: 100px;
+  margin-right: 80px;
 }
 </style>
