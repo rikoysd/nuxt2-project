@@ -50,6 +50,21 @@
 <script>
 export default {
   name: "reservetionContents",
+  props: {
+    fullName1: String,
+    fullName2: String,
+    zipcode: String,
+    prefecture: String,
+    address: String,
+    telephone: String,
+    mailAddress: String,
+    checkInTime: String,
+    man: String,
+    woman: String,
+    online: String,
+    cash: String,
+    other: String,
+  },
   data() {
     return {
       hotelName: "The Okura Tokyo",
@@ -69,6 +84,36 @@ export default {
      * 予約確認画面に遷移する.
      */
     reserveConfirm() {
+      let object = {
+        fullName1: "",
+        fullName2: "",
+        zipcode: "",
+        prefecture: "",
+        address: "",
+        telephone: "",
+        mailAddress: "",
+        checkInTime: "",
+        man: "",
+        woman: "",
+        online: "",
+        cash: "",
+        other: "",
+      };
+      object.fullName1 = this.fullName1;
+      object.fullName2 = this.fullName2;
+      object.zipcode = this.zipcode;
+      object.prefecture = this.prefecture;
+      object.address = this.address;
+      object.telephone = this.telephone;
+      object.mailAddress = this.mailAddress;
+      object.checkInTime = this.checkInTime;
+      object.man = this.man;
+      object.woman = this.woman;
+      object.online = this.online;
+      object.cash = this.cash;
+      object.other = this.other;
+
+      this.$store.commit("reserve", object);
       this.$router.push("/reserveConfirm");
     },
   }, // end methods

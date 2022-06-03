@@ -60,6 +60,7 @@
             class="select-g"
             label="選択する"
             :items="items"
+            v-model="man"
             outlined
           >
           </v-select
@@ -67,6 +68,7 @@
             class="select-g"
             label="選択する"
             :items="items"
+            v-model="woman"
             outlined
           >
           </v-select>
@@ -78,7 +80,11 @@
         <h4>お支払い方法</h4>
         <v-radio-group v-model="radioGroup" @change="payment">
           <label for="online" class="radio"
-            >オンライン決済<v-radio id="online" value="online"></v-radio
+            >オンライン決済<v-radio
+              id="online"
+              value="online"
+              v-model="online"
+            ></v-radio
           ></label>
 
           <v-card
@@ -157,7 +163,7 @@
           </v-card>
 
           <label for="cash" class="radio"
-            >現地決済<v-radio id="cash" value="cash"></v-radio
+            >現地決済<v-radio id="cash" value="cash" v-model="cash"></v-radio
           ></label>
 
           <v-card
@@ -210,7 +216,22 @@
 
     <div class="reservetion-contents">
       <img class="reserve-img" src="@/assets/img/1.png" />
-      <reservetionContents></reservetionContents>
+      <!-- コンポーネント -->
+      <reservetionContents
+        :fullName1="fullName1"
+        :fullName2="fullName2"
+        :zipcode="zipcode"
+        :prefecture="prefecture"
+        :address="address"
+        :telephone="telephone"
+        :mailAddress="mailAddress"
+        :checkInTime="checkInTime"
+        :man="man"
+        :woman="woman"
+        :online="online"
+        :cash="cash"
+        :other="other"
+      ></reservetionContents>
     </div>
   </div>
 </template>
@@ -253,10 +274,18 @@ export default {
       checkInTime: "",
       // 宿泊人数
       people: 0,
+      // 男
+      man: "",
+      // 女
+      woman: "",
       // 男女の人数
       items: ["0名", "1名", "2名"],
       // 決済方法
       radioGroup: "online",
+      // オンライン決済
+      online: "",
+      // 現地決済
+      cash: "",
       // 施設への連絡事項
       other: "",
       // カード番号

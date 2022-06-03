@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-select
-      v-model="checkInTime"
-      @input="selectChecin(checkin)"
+      v-model="checkin"
+      @input="selectCheckIn(checkin)"
       class="select"
       label="選択する"
       :items="items"

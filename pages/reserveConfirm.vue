@@ -80,6 +80,7 @@
 
 <script>
 import reservetionContents2 from "../components/reservetionContents2.vue";
+import axios from "axios";
 
 export default {
   name: "reserveForm",
@@ -93,37 +94,42 @@ export default {
       // カードフラッグ
       cardFlag: false,
       // フルネーム（氏名）
-      fullName1: "山田花子",
+      fullName1: "",
       // フルネーム（かな）
-      fullName2: "やまだはなこ",
+      fullName2: "",
       // 郵便番号
-      zipcode: "1234567",
+      zipcode: "",
       // 都道府県
-      prefecture: "東京都",
+      prefecture: "",
       // 住所
-      address: "新宿区新宿3丁目",
+      address: "",
       // 電話番号
-      telephone: "09012345678",
+      telephone: "",
       // メールアドレス
-      mailAddress: "aaa@co.jp",
+      mailAddress: "",
       // チェックイン時間
-      checkInTime: "15:00",
+      checkInTime: "",
       // 宿泊人数
       people: 2,
       // 男性
-      man: 1,
+      man: "",
       // 女性
-      woman: 1,
+      woman: "",
       // 決済方法
-      payment: "オンライン決済",
+      payment: "",
       // 施設への連絡事項
-      other: "特にありません。",
+      other: "",
     };
   }, //end data
 
   computed: {}, // end computed
 
-  methods: {}, // end methods
+  methods: {
+    /**
+     * 非同期処理(予約情報の反映).
+     */
+    async asyncData() {},
+  }, // end methods
 };
 </script>
 
