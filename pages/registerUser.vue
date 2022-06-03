@@ -23,7 +23,8 @@
       outlined
     ></v-text-field>
     住所<span>&emsp;{{ addressError }}</span
-    ><selectPrefectures></selectPrefectures><br />
+    ><selectPrefectures @prefecture="registerPrefecture"></selectPrefectures
+    ><br />
     <v-text-field
       class="address"
       label="港区赤坂0-0-0（海外住所の場合は「海外」と入力）"
@@ -68,7 +69,7 @@ export default {
       // 郵便番号
       zipcode: "",
       // 都道府県
-      // prefecture: "",
+      prefecture: "",
       // 住所
       address: "",
       // 電話番号
@@ -98,6 +99,12 @@ export default {
     };
   },
   methods: {
+    /**
+     * emitで渡ってきた都道府県を変数に代入.
+     */
+    registerPrefecture(prefecture) {
+      this.prefecture = prefecture;
+    },
     /**
      * 登録する.
      */
@@ -199,6 +206,7 @@ export default {
         fullName1: "",
         fullName2: "",
         zipcode: "",
+        prefecture: "",
         address: "",
         telephone: "",
         mailAddress: "",
