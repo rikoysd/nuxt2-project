@@ -72,6 +72,7 @@
     </div>
 
     <div class="reservetion-contents">
+      <img class="reserve-img" src="@/assets/img/2.png" />
       <reservetionContents2></reservetionContents2>
     </div>
   </div>
@@ -139,6 +140,7 @@ export default {
 .radio,
 .container {
   display: flex;
+  justify-content: center;
 }
 .select-g {
   width: 30px;
@@ -205,5 +207,12 @@ td {
 }
 .reservetion-contents {
   margin-left: 100px;
+}
+.reserve-img {
+  object-fit: cover;
+  width: 250px;
+  height: 80px;
+  float: right;
+  margin-right: 100px;
 }
 </style>

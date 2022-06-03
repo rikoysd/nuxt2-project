@@ -51,16 +51,14 @@
         <h4>宿泊情報</h4>
         チェックイン予定時刻<selectChecin></selectChecin>
         <div class="select-gender">
-          宿泊人数&nbsp;&nbsp;&nbsp;1室目 (大人{{
-            people
-          }}名)&nbsp;&nbsp;男性&nbsp;<v-select
+          宿泊人数&emsp;1室目 (大人{{ people }}名)&emsp;男性&nbsp;<v-select
             class="select-g"
             label="選択する"
             :items="items"
             outlined
           >
           </v-select
-          >&nbsp;&nbsp;女性&nbsp;<v-select
+          >&nbsp;女性&nbsp;<v-select
             class="select-g"
             label="選択する"
             :items="items"
@@ -83,6 +81,13 @@
             class="online-info"
             style="background-color: #f5f5f5"
           >
+            <div class="card-img">
+              <img src="@/assets/img/jcb.png" />
+              <img src="@/assets/img/amex.png" />
+              <img src="@/assets/img/visa.png" />
+              <img src="@/assets/img/master.png" />
+              <img src="@/assets/img/diners.png" />
+            </div>
             <v-btn
               Large
               color="primary"
@@ -199,6 +204,7 @@
     </div>
 
     <div class="reservetion-contents">
+      <img class="reserve-img" src="@/assets/img/1.png" />
       <reservetionContents></reservetionContents>
     </div>
   </div>
@@ -314,8 +320,11 @@ export default {
   width: 500px;
 }
 .select-gender,
-.radio,
 .container {
+  display: flex;
+  justify-content: center;
+}
+.radio {
   display: flex;
 }
 .reserve-info,
@@ -354,6 +363,14 @@ td {
 }
 .card-info {
   margin-bottom: 10px;
+}
+.card-img {
+  width: 300px;
+}
+img {
+  object-fit: cover;
+  width: 40px;
+  height: 30px;
 }
 /* モーダルウィンドウ部分のCSS */
 #overlay {
@@ -399,5 +416,12 @@ p {
 }
 .reservetion-contents {
   margin-left: 100px;
+}
+.reserve-img {
+  object-fit: cover;
+  width: 250px;
+  height: 80px;
+  float: right;
+  margin-right: 80px;
 }
 </style>
