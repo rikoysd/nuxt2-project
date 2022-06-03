@@ -113,6 +113,7 @@ span {
   width: 100%;
   height: 100vh;
   background-image: url(../assets/img/background-img.jpg);
-  background-size: 100% 100%;
+  background-size: cover;
+  background-position: center center;
 }
 </style>
