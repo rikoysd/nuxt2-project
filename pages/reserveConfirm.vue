@@ -80,7 +80,6 @@
 
 <script>
 import reservetionContents2 from "../components/reservetionContents2.vue";
-import axios from "axios";
 
 export default {
   name: "reserveForm",
