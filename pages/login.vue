@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div>{{ submitError }}</div>
     メールアドレス<span>&emsp;{{ mailAddressError }}</span
     ><v-text-field
       class="mailAddress"
@@ -35,6 +36,8 @@ export default {
       errorCheck: false,
       // エラーリスト
       errors: [],
+      // 送信エラー
+      submitError: "",
     };
   },
   methods: {
@@ -62,7 +65,7 @@ export default {
       if (this.password === "") {
         this.passwordError = "パスワードを入力してください";
         this.errorCheck = true;
-      } else if (this.password.length < 9) {
+      } else if (this.password.length < 8) {
         this.passwordError = "パスワードは8文字以上を入力してください";
         this.errorCheck = true;
       } else {
@@ -70,6 +73,22 @@ export default {
         this.errorCheck = false;
       }
       this.errors.push(this.errorCheck);
+
+      let object = {};
+
+      // register.jsのユーザー情報を取得
+      object = this.$store.getters["register/getUserInfo"];
+
+      if (
+        object.mailAddress === this.mailAddress &&
+        object.password === this.password
+      ) {
+        // ログイン成功
+        this.submitError = "ログイン成功！";
+      } else {
+        // ログイン失敗
+        this.submitError = "メールアドレスまたはパスワードが間違っています";
+      }
     },
   },
   computed: {},

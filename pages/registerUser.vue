@@ -196,7 +196,7 @@ export default {
       if (this.password === "") {
         this.passwordError = "パスワードを入力してください";
         this.errorCheck = true;
-      } else if (this.password.length < 9) {
+      } else if (this.password.length < 8) {
         this.passwordError = "パスワードは8文字以上で設定してください";
         this.errorCheck = true;
       } else {
