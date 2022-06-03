@@ -133,6 +133,10 @@
       <v-col id="acsess" cols="12">
         <p class="title font-weight-bold">アクセス</p>
         <br />
+        <p class="body-1">
+          住所：{{ address }} 最寄駅：{{ nearestStation + "駅" }}
+        </p>
+        <br />
         <iframe
           :src="
             'https://maps.google.co.jp/maps?output=embed&q=' +
@@ -147,11 +151,12 @@
           referrerpolicy="no-referrer-when-downgrade"
         ></iframe
         ><br />
-        住所：{{ address }} <br />
-        郵便番号：{{ postalCode }} <br />
-        最寄駅：{{ nearestStation + "駅" }} <br />
-        駐車場情報：{{ parkingInformation }}<br />
-        電話番号：{{ telephoneNo }}<br />
+        <p class="caption">
+          郵便番号：{{ postalCode }} <br />
+
+          駐車場情報：{{ parkingInformation }}<br />
+          電話番号：{{ telephoneNo }}<br />
+        </p>
       </v-col>
     </v-row>
   </div>
