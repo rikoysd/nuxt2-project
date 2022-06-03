@@ -26,15 +26,15 @@
         <v-col class="select-gender">
           宿泊人数&nbsp;&nbsp;&nbsp;1室目 (大人{{
             people
-          }}名)&nbsp;&nbsp;男性&nbsp;<span>{{ man }}名</span>
-          &nbsp;女性&nbsp;<span>{{ woman }}名</span>
+          }}名)&nbsp;&nbsp;男性&nbsp;<span>{{ man }}</span>
+          &nbsp;女性&nbsp;<span>{{ woman }}</span>
         </v-col>
         <hr />
       </div>
 
       <div class="payment">
         <h4>お支払い方法</h4>
-        <v-col>{{ payment }}</v-col>
+        <v-col>{{ payments }}</v-col>
         <hr />
       </div>
 
@@ -118,7 +118,7 @@ export default {
       // 女性
       woman: "",
       // 決済方法
-      payment: "",
+      payments: "",
       // 施設への連絡事項
       other: "",
     };
@@ -140,7 +140,7 @@ export default {
     this.checkInTime = this.reserveObject.checkInTime;
     this.man = this.reserveObject.man;
     this.woman = this.reserveObject.woman;
-    this.payment = this.reserveObject.payment;
+    this.payments = this.reserveObject.payments;
     this.other = this.reserveObject.other;
   },
 

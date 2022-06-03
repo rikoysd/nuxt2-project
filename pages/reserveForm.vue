@@ -78,13 +78,9 @@
 
       <div class="payment">
         <h4>お支払い方法</h4>
-        <v-radio-group v-model="radioGroup" @change="payment">
+        <v-radio-group @change="payment" v-model="payments">
           <label for="online" class="radio"
-            >オンライン決済<v-radio
-              id="online"
-              value="online"
-              v-model="online"
-            ></v-radio
+            >オンライン決済<v-radio id="online" value="オンライン決済"></v-radio
           ></label>
 
           <v-card
@@ -163,7 +159,7 @@
           </v-card>
 
           <label for="cash" class="radio"
-            >現地決済<v-radio id="cash" value="cash" v-model="cash"></v-radio
+            >現地決済<v-radio id="cash" value="現地決済"></v-radio
           ></label>
 
           <v-card
@@ -228,8 +224,7 @@
         :checkInTime="checkInTime"
         :man="man"
         :woman="woman"
-        :online="online"
-        :cash="cash"
+        :payments="payments"
         :other="other"
       ></reservetionContents>
     </div>
@@ -281,11 +276,7 @@ export default {
       // 男女の人数
       items: ["0名", "1名", "2名"],
       // 決済方法
-      radioGroup: "online",
-      // オンライン決済
-      online: "",
-      // 現地決済
-      cash: "",
+      payments: "オンライン決済",
       // 施設への連絡事項
       other: "",
       // カード番号

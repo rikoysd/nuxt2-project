@@ -61,8 +61,7 @@ export default {
     checkInTime: String,
     man: String,
     woman: String,
-    online: String,
-    cash: String,
+    payments: String,
     other: String,
   },
   data() {
@@ -95,8 +94,7 @@ export default {
         checkInTime: "",
         man: "",
         woman: "",
-        online: "",
-        cash: "",
+        payments: "",
         other: "",
       };
       object.fullName1 = this.fullName1;
@@ -109,8 +107,7 @@ export default {
       object.checkInTime = this.checkInTime;
       object.man = this.man;
       object.woman = this.woman;
-      object.online = this.online;
-      object.cash = this.cash;
+      object.payments = this.payments;
       object.other = this.other;
 
       this.$store.commit("reserve", object);
