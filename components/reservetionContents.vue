@@ -65,6 +65,9 @@ export default {
   computed: {}, // end computed
 
   methods: {
+    /**
+     * 予約確認画面に遷移する.
+     */
     reserveConfirm() {
       this.$router.push("/reserveConfirm");
     },

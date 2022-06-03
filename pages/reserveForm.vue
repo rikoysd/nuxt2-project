@@ -25,7 +25,10 @@
           maxlength="7"
           outlined
         ></v-text-field>
-        住所<selectPrefectures></selectPrefectures><br />
+        住所<selectPrefectures
+          @prefecture="reservePrefecture"
+        ></selectPrefectures
+        ><br />
         <v-text-field
           class="address"
           label="港区赤坂0-0-0（海外住所の場合は「海外」と入力）"
@@ -49,7 +52,9 @@
 
       <div class="lodging-info">
         <h4>宿泊情報</h4>
-        チェックイン予定時刻<selectChecin></selectChecin>
+        チェックイン予定時刻<selectChecin
+          @checkin="reserveCheckIn"
+        ></selectChecin>
         <div class="select-gender">
           宿泊人数&emsp;1室目 (大人{{ people }}名)&emsp;男性&nbsp;<v-select
             class="select-g"
@@ -270,6 +275,18 @@ export default {
      * ログイン情報の反映.
      */
     loginInfo() {},
+    /**
+     * emitで渡ってきた都道府県を変数に代入.
+     */
+    reservePrefecture(prefecture) {
+      this.prefecture = prefecture;
+    },
+    /**
+     * emitで渡ってきたチェックイン時刻を変数に代入.
+     */
+    reserveCheckIn(checkin) {
+      this.checkInTime = checkin;
+    },
     /**
      * お支払い方法の表示切り替え.
      */

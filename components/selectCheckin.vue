@@ -2,6 +2,7 @@
   <div>
     <v-select
       v-model="checkInTime"
+      @input="selectChecin(checkin)"
       class="select"
       label="選択する"
       :items="items"
@@ -16,6 +17,7 @@ export default {
   name: "selectChecin",
   data() {
     return {
+      checkin: "",
       items: [
         "15:00",
         "15:30",
@@ -34,7 +36,15 @@ export default {
 
   computed: {}, // end computed
 
-  methods: {}, // end methods
+  methods: {
+    /**
+     * チェックイン時刻を選択する.
+     */
+    selectCheckIn(checkin) {
+      // 親に選択したチェックイン時刻を引数として渡す
+      this.$emit("checkin", checkin);
+    },
+  }, // end methods
 };
 </script>
 
