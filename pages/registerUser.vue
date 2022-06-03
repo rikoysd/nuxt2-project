@@ -22,9 +22,10 @@
       v-model="zipcode"
       outlined
     ></v-text-field>
-    住所<span>&emsp;{{ addressError }}</span
+    住所<span>&emsp;{{ prefectureError }}</span
     ><selectPrefectures @prefecture="registerPrefecture"></selectPrefectures
     ><br />
+    <span>&emsp;{{ addressError }}</span>
     <v-text-field
       class="address"
       label="港区赤坂0-0-0（海外住所の場合は「海外」と入力）"
@@ -84,6 +85,8 @@ export default {
       fullName2Error: "",
       // 郵便番号のエラー
       zipcodeError: "",
+      // 都道府県のエラー
+      prefectureError: "",
       // 住所のエラー
       addressError: "",
       // 電話番号のエラー
@@ -109,6 +112,9 @@ export default {
      * 登録する.
      */
     register() {
+      // エラーリストの初期化
+      this.errors = [];
+      
       // フルネーム（漢字）のエラー
       if (this.fullName1 === "") {
         this.fullName1Error = "名前を入力してください";
@@ -139,6 +145,16 @@ export default {
         this.errorCheck = true;
       } else {
         this.zipcodeError = "";
+        this.errorCheck = false;
+      }
+      this.errors.push(this.errorCheck);
+
+      // 都道府県のエラー
+      if (this.prefecture === "") {
+        this.prefectureError = "都道府県を選択してください";
+        this.errorCheck = true;
+      } else {
+        this.prefectureError = "";
         this.errorCheck = false;
       }
       this.errors.push(this.errorCheck);
