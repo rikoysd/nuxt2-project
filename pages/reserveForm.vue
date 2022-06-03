@@ -21,7 +21,8 @@
         郵便番号（ハイフンなし）<v-text-field
           class="zipcode"
           label="0000000"
-          v-model.number="zipcode"
+          type="text"
+          v-model="zipcode"
           maxlength="7"
           outlined
         ></v-text-field>
@@ -38,12 +39,13 @@
         電話番号（ハイフンなし）<v-text-field
           class="telephone"
           label="09012345678"
-          v-model.number="telephone"
+          v-model="telephone"
           outlined
         ></v-text-field>
         メールアドレス<v-text-field
           class="mailaddress"
           label="rakuraku@example.jp"
+          type="text"
           v-model="mailAddress"
           outlined
         ></v-text-field>
