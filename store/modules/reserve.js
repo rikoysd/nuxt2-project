@@ -19,4 +19,10 @@ export default {
       console.log(state.reserveInfo);
     },
   },
+
+  getters: {
+    getReserveInfo(state) {
+      return state.reserveInfo;
+    },
+  },
 };

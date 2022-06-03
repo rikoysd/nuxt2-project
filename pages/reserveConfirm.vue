@@ -89,6 +89,8 @@ export default {
   },
   data() {
     return {
+      // 予約情報オブジェクト
+      reserveObject: {},
       // フラッグ
       flag: false,
       // カードフラッグ
@@ -122,14 +124,29 @@ export default {
     };
   }, //end data
 
+  /**
+   * 非同期処理(予約情報の反映).
+   */
+  async mounted() {
+    this.reserveObject = await this.$store.getters["reserve/getReserveInfo"];
+    console.log(this.reserveObject);
+    this.fullName1 = this.reserveObject.fullName1;
+    this.fullName2 = this.reserveObject.fullName2;
+    this.zipcode = this.reserveObject.zipcode;
+    this.prefecture = this.reserveObject.prefecture;
+    this.address = this.reserveObject.address;
+    this.telephone = this.reserveObject.telephone;
+    this.mailAddress = this.reserveObject.mailAddress;
+    this.checkInTime = this.reserveObject.checkInTime;
+    this.man = this.reserveObject.man;
+    this.woman = this.reserveObject.woman;
+    this.payment = this.reserveObject.payment;
+    this.other = this.reserveObject.other;
+  },
+
   computed: {}, // end computed
 
-  methods: {
-    /**
-     * 非同期処理(予約情報の反映).
-     */
-    async asyncData() {},
-  }, // end methods
+  methods: {}, // end methods
 };
 </script>
 
