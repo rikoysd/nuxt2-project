@@ -95,10 +95,13 @@ export const mutations = {
     state.vacantList = { hotels: payload };
     // console.log(state.vacantList);
   },
-
-  register() {
-    console.log("call");
-    this.commit("register/registerUser", true);
+  /**
+   * register.jsにユーザー情報を渡す.
+   * @param {*} state - ステート
+   * @param {*} object - ユーザー情報のオブジェクト
+   */
+  register(state, object) {
+    this.commit("register/registerUser", object);
   },
 };
 

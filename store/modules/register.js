@@ -2,14 +2,20 @@ export default {
   namespaced: true,
 
   state: {
-    name: "Taro",
+    // ユーザー情報
+    userInfo: {},
   },
 
   actions: {},
 
   mutations: {
-    registerUser(state, payload){
-      console.log(payload);
-    }
+    /**
+     * ユーザー情報をstateに格納.
+     * @param {*} state - ステート
+     * @param {*} payload - ユーザー情報のオブジェクト
+     */
+    registerUser(state, payload) {
+      state.userInfo = payload;
+    },
   },
 };

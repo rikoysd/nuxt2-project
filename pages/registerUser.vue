@@ -114,7 +114,7 @@ export default {
     register() {
       // エラーリストの初期化
       this.errors = [];
-      
+
       // フルネーム（漢字）のエラー
       if (this.fullName1 === "") {
         this.fullName1Error = "名前を入力してください";
@@ -228,10 +228,21 @@ export default {
         mailAddress: "",
         password: "",
       };
-      console.log(object);
+
+      object.fullName1 = this.fullName1;
+      object.fullName2 = this.fullName2;
+      object.zipcode = this.zipcode;
+      object.prefecture = this.prefecture;
+      object.address = this.address;
+      object.telephone = this.telephone;
+      object.mailAddress = this.mailAddress;
+      object.password = this.password;
 
       // 登録情報を送信する
-      this.$store.commit("register");
+      this.$store.commit("register", object);
+
+      // ログインページに遷移
+      this.$router.push("/login");
     },
   },
   computed: {},
