@@ -2,22 +2,29 @@
   <div class="whole">
     <v-container fluid class="login-area">
       <div>{{ submitError }}</div>
-      メールアドレス<span>&emsp;{{ mailAddressError }}</span
+      <span>{{ mailAddressError }}</span
       ><v-text-field
         class="mailAddress"
-        label="rakuraku@example.jp"
+        label="メールアドレス"
         v-model="mailAddress"
         outlined
       ></v-text-field>
-      パスワード<span>&emsp;{{ passwordError }}</span
+      <span>{{ passwordError }}</span
       ><v-text-field
-        class="password"
-        label="rakus12345（8文字以上で設定してください）"
-        v-model="password"
+        :append-icon="show3 ? 'mdi-eye' : 'mdi-eye-off'"
+        :type="show3 ? 'text' : 'password'"
+        name="input-10-2"
+        label="パスワード"
+        class="input-group--focused"
+        @click:append="show3 = !show3"
         outlined
-        type="password"
       ></v-text-field>
       <v-btn class="login-info" color="primary" @click="login">ログイン</v-btn>
+      <div class="msg">
+        アカウントをお持ちではありませんか？<nuxt-link to="/registerUser"
+          >会員登録はこちら</nuxt-link
+        >
+      </div>
     </v-container>
   </div>
 </template>
@@ -40,6 +47,8 @@ export default {
       errors: [],
       // 送信エラー
       submitError: "",
+      // 入力時のパスワード非表示
+      show3: false,
     };
   },
   methods: {
@@ -120,6 +129,10 @@ span {
   border-radius: 5px;
   padding: 45px 40px;
   width: 600px;
+}
+
+.msg {
+  margin-top: 20px;
 }
 
 .whole {
