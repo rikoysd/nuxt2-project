@@ -31,7 +31,7 @@ export default {
      * @param {*} payload - ペイロード
      */
     setInstitutionInfo(state, payload) {
-      state.instituionInfo = payload;
+      state.instituionInfo = { hotels: payload };
       // console.log(state.instituionInfo);
     },
   },
