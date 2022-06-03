@@ -3,18 +3,32 @@
     <div class="main">
       <div class="reserve-info">
         <h4>予約者情報</h4>
-        氏名<v-col class="name-field" outlined>{{ fullName1 }}</v-col>
-        かな<v-col class="name2-field" outlined>{{ fullName2 }}</v-col>
-        郵便番号（ハイフンなし）<v-col class="zipcode" outlined>{{
-          zipcode
-        }}</v-col>
-        住所<v-col class="address" outlined>{{ prefecture + address }}</v-col>
-        電話番号（ハイフンなし）<v-col class="telephone" outlined>{{
-          telephone
-        }}</v-col>
-        メールアドレス<v-col class="mailaddress" outlined>{{
-          mailAddress
-        }}</v-col>
+        <v-col
+          >氏名：<span class="name-field" outlined>{{ fullName1 }}</span></v-col
+        >
+        <v-col
+          >かな：<span class="name2-field" outlined>{{
+            fullName2
+          }}</span></v-col
+        >
+        <v-col
+          >郵便番号：<span class="zipcode" outlined>{{ zipcode }}</span></v-col
+        >
+        <v-col
+          >住所：<span class="address" outlined>{{
+            prefecture + address
+          }}</span></v-col
+        >
+        <v-col
+          >電話番号：<span class="telephone" outlined>{{
+            telephone
+          }}</span></v-col
+        >
+        <v-col
+          >メールアドレス：<span class="mailaddress" outlined>{{
+            mailAddress
+          }}</span></v-col
+        >
         <hr />
       </div>
 
@@ -158,14 +172,10 @@ export default {
 .telephone {
   width: 500px;
 }
-.select-gender,
 .radio,
 .container {
   display: flex;
   justify-content: center;
-}
-.select-g {
-  width: 30px;
 }
 .reserve-info,
 .lodging-info,

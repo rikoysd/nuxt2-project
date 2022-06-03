@@ -21,11 +21,11 @@
         郵便番号（ハイフンなし）<v-text-field
           class="zipcode"
           label="0000000"
-          type="text"
           v-model="zipcode"
           maxlength="7"
           outlined
         ></v-text-field>
+        <!-- コンポーネント -->
         住所<selectPrefectures
           @prefecture="reservePrefecture"
         ></selectPrefectures
