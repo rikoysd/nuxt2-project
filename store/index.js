@@ -4,6 +4,7 @@ import searchInstitution from "./modules/searchInstitution";
 import axios1 from "axios";
 import axios from "@nuxtjs/axios";
 import register from "./modules/register";
+import keyword from "./modules/keyword";
 import reserve from "./modules/reserve";
 
 Vue.use(Vuex);
@@ -96,6 +97,14 @@ export const actions = {
     );
     // console.dir(JSON.stringify(response));
     context.commit("showHotelList", response);
+  },
+  /**
+   * keyword.jsにページ数とキーワードを渡す.
+   * @param {*} context - コンテキスト
+   * @param {*} object - ページ数、キーワード
+   */
+  getPageList(context, object) {
+    context.dispatch("keyword/getPageList", object, { root: true });
   },
 }; // end actions
 
@@ -205,5 +214,6 @@ export const getters = {
 export const modules = {
   searchInstitution,
   register,
+  keyword,
   reserve,
 };
