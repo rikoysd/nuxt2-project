@@ -96,6 +96,8 @@ export default {
       page: 1,
       // 総合評価
       rating: 0,
+      // キーワード
+      keyword: "",
     };
   },
   methods: {
@@ -104,20 +106,29 @@ export default {
      * @param {*} keyword - キーワード
      */
     async searchKeyword(keyword) {
+      this.keyword = keyword;
+
       // actionの呼び出し
       await this.$store.dispatch("getHotelList", keyword);
 
       this.pageInfo = this.$store.getters.getPageInfo;
       this.hotelList = this.$store.getters.getHotelList;
-      console.log(this.pageInfo);
+      // console.log(this.pageInfo);
       // console.log(this.hotelList);
 
       // 検索結果表示
       this.showResult = true;
     },
 
-    getNumber(number) {
-      console.log(number);
+    async getNumber(number) {
+      // 引数として渡したい値をオブジェクトにまとめる
+      let object = {
+        keyword: this.keyword,
+        page: number,
+      };
+
+      // actionの呼び出し
+      await this.$store.dispatch("getPageList", object);
     },
   },
   computed: {},
