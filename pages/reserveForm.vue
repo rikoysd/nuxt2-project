@@ -6,19 +6,19 @@
         <v-btn class="login-info" color="primary" @click="loginInfo"
           >ログイン情報を反映させる</v-btn
         ><br />
-        氏名<v-text-field
+        <span style="color: red">*</span> 氏名<v-text-field
           class="name-field"
           label="楽々太郎"
           v-model="fullName1"
           outlined
         ></v-text-field>
-        かな<v-text-field
+        <span style="color: red">*</span>かな<v-text-field
           class="name2-field"
           label="ラクラクタロウ"
           v-model="fullName2"
           outlined
         ></v-text-field>
-        郵便番号（ハイフンなし）<v-text-field
+        <span style="color: red">*</span>郵便番号（ハイフンなし）<v-text-field
           class="zipcode"
           label="0000000"
           v-model="zipcode"
@@ -26,7 +26,7 @@
           outlined
         ></v-text-field>
         <!-- コンポーネント -->
-        住所<selectPrefectures
+        <span style="color: red">*</span>住所<selectPrefectures
           @prefecture="reservePrefecture"
         ></selectPrefectures
         ><br />
@@ -36,13 +36,13 @@
           v-model="address"
           outlined
         ></v-text-field>
-        電話番号（ハイフンなし）<v-text-field
+        <span style="color: red">*</span>電話番号（ハイフンなし）<v-text-field
           class="telephone"
           label="09012345678"
           v-model="telephone"
           outlined
         ></v-text-field>
-        メールアドレス<v-text-field
+        <span style="color: red">*</span>メールアドレス<v-text-field
           class="mailaddress"
           label="rakuraku@example.jp"
           type="text"
@@ -54,11 +54,13 @@
 
       <div class="lodging-info">
         <h4>宿泊情報</h4>
-        チェックイン予定時刻<selectChecin
+        <span style="color: red">*</span>チェックイン予定時刻<selectChecin
           @checkin="reserveCheckIn"
         ></selectChecin>
         <div class="select-gender">
-          宿泊人数&emsp;1室目 (大人{{ people }}名)&emsp;男性&nbsp;<v-select
+          <span style="color: red">*</span>宿泊人数&emsp;1室目 (大人{{
+            people
+          }}名)&emsp;男性&nbsp;<v-select
             class="select-g"
             label="選択する"
             :items="items"
@@ -79,7 +81,7 @@
       </div>
 
       <div class="payment">
-        <h4>お支払い方法</h4>
+        <h4><span style="color: red">*</span>お支払い方法</h4>
         <v-radio-group @change="payment" v-model="payments">
           <label for="online" class="radio"
             >オンライン決済<v-radio id="online" value="オンライン決済"></v-radio
@@ -180,7 +182,7 @@
       </div>
 
       <div class="contact">
-        <h4>施設への連絡事項</h4>
+        <h4>施設への連絡事項（未記入可）</h4>
         <v-textarea solo style="width: 500px" v-model="other"></v-textarea>
         <div class="attentions">
           <span>※ご希望に添えない場合もございます。予めご了承ください。</span
