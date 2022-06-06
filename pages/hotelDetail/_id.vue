@@ -239,6 +239,7 @@
 export default {
   data() {
     return {
+      paramsNo: 0,
       vacantList: [],
       institutionInfo: "",
       slides: [],
@@ -276,8 +277,9 @@ export default {
   //   },
   // },
   async mounted() {
+    this.paramsNo = this.$route.params.id;
     // 施設検索
-    await this.$store.dispatch("searchInstitution");
+    await this.$store.dispatch("searchInstitution", this.paramsNo);
     this.institutionInfo = this.$store.getters.getInstitutitonInfo;
     const hotels = this.institutionInfo.hotels.hotels[0];
     const basicInfo = hotels.hotel[0].hotelBasicInfo;

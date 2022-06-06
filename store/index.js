@@ -43,14 +43,20 @@ export const actions = {
    * 施設情報をAPIから取得.
    * @param {*} context
    */
-  async searchInstitution(context) {
+  async searchInstitution(context, paramsNo) {
     // console.log("call3");
-    const response = await axios1.get(
-      "https://app.rakuten.co.jp/services/api/Travel/HotelDetailSearch/20170426?applicationId=1098541415969458249&format=json&hotelNo=5387"
-    );
-    const payload = response.data;
-    context.commit("setInstitutionInfo", payload);
-    // console.log(payload);
+    try {
+      const response = await axios1.get(
+        `https://app.rakuten.co.jp/services/api/Travel/HotelDetailSearch/20170426?applicationId=1098541415969458249&format=json&hotelNo=${paramsNo}`
+      );
+
+      const payload = response.data;
+      context.commit("setInstitutionInfo", payload);
+      console.log(payload);
+    } catch (error) {
+      alert("該当する宿泊施設が存在しません");
+      console.log(error);
+    }
   },
   /**
    * 空室検索.
@@ -69,12 +75,17 @@ export const actions = {
    * @param {*} context
    */
   async searchVacant(context, params) {
-    console.log(params);
-    const vacantResponce = await axios1.get(
-      `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&largeClassCode=${params.largeClassCode}&middleClassCode=${params.middleClassCode}&smallClassCode=${params.smallClassCode}&checkinDate=${params.checkinDate}&checkoutDate=${params.checkoutDate}&adultNum=${params.adultNum}&hotelNo=${params.hotelNo}&responseType=large`
-    );
-    // console.dir("response" + JSON.stringify(vacantResponce.data.hotels));
-    context.commit("setVacantList", vacantResponce.data.hotels);
+    try {
+      console.log(params);
+      const vacantResponce = await axios1.get(
+        `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&checkinDate=${params.checkinDate}&checkoutDate=${params.checkoutDate}&adultNum=${params.adultNum}&hotelNo=${params.hotelNo}&responseType=large`
+      );
+      // console.dir("response" + JSON.stringify(vacantResponce.data.hotels));
+      context.commit("setVacantList", vacantResponce.data.hotels);
+    } catch (error) {
+      alert("該当する施設が存在しません");
+      console.log(error);
+    }
   },
   // /**
   //  * 施設検索(モジュール:searchInstitution).
