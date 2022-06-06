@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <v-card class="main-card" style="background-color: lightgray">
-      <span class="hotel-name">{{ hotelName }}</span>
+      <v-col class="hotel-name">{{ hotelName }}</v-col>
 
       <div class="plans" style="background-color: white">
         <span style="font-weight: bold">日付・食事</span>&nbsp;&nbsp;<v-col>{{
@@ -39,9 +39,9 @@
       <v-btn
         x-large
         class="confirm-button"
-        style="background-color: #e9bc00"
-        @click="reserveConfirm"
-        >入力内容を確認する</v-btn
+        style="background-color: #3cb371"
+        @click="reserveFinished"
+        >予約を完了する</v-btn
       >
     </v-card>
   </div>
@@ -65,17 +65,14 @@ export default {
   computed: {}, // end computed
 
   methods: {
-    reserveConfirm() {
-      this.$router.push("/reserveConfirm");
+    reserveFinished() {
+      this.$router.push("/reserveFinished");
     },
   }, // end methods
 };
 </script>
 
 <style scoped>
-.container {
-  margin-top: 20px;
-}
 .main-card,
 .plans,
 .price {

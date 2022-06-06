@@ -1,9 +1,9 @@
 import Vuex from "vuex";
 import Vue from "vue";
-import sample from "./modules/sample";
 import searchInstitution from "./modules/searchInstitution";
 import axios1 from "axios";
 import axios from "@nuxtjs/axios";
+import register from "./modules/register";
 
 Vue.use(Vuex);
 export const state = () => ({
@@ -94,6 +94,14 @@ export const mutations = {
     state.vacantList = { hotels: payload };
     // console.log(state.vacantList);
   },
+  /**
+   * register.jsにユーザー情報を渡す.
+   * @param {*} state - ステート
+   * @param {*} object - ユーザー情報のオブジェクト
+   */
+  register(state, object) {
+    this.commit("register/registerUser", object);
+  },
 };
 
 export const getters = {
@@ -145,6 +153,6 @@ export const getters = {
 };
 
 export const modules = {
-  sample,
   searchInstitution,
+  register,
 };

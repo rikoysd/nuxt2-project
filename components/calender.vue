@@ -1,26 +1,32 @@
 <template>
   <div>
-    <v-col>
+    <v-col cols="12" sm="6">
       <v-text-field
         @focus="dateFocus"
-        v-model="dates"
-        label="Date range"
-        prepend-icon="mdi-calendar"
+        v-model="dateRangeText"
+        label="日付指定"
         readonly
+        outlined
       ></v-text-field>
+      <v-card max-width="400" v-show="showCalender">
+        <v-date-picker
+          class="calender"
+          v-model="dates"
+          range
+          @input="addDates"
+        ></v-date-picker>
+        <v-card-actions>
+          <v-btn text color="deep-purple accent-4" @click="closePopup"
+            >閉じる</v-btn
+          >
+        </v-card-actions>
+      </v-card>
     </v-col>
-    <v-card max-width="400" v-show="showCalender">
-      <v-date-picker class="calender" v-model="dates" range></v-date-picker>
-      <v-card-actions>
-        <v-btn text color="deep-purple accent-4" @click="closePopup"
-          >閉じる</v-btn
-        >
-      </v-card-actions>
-    </v-card>
   </div>
 </template>
 
 <script>
+import { format } from "date-fns";
 export default {
   data() {
     return {
@@ -29,8 +35,27 @@ export default {
     };
   },
   methods: {
-    dateRangeText() {
-      return this.dates.join(" ~ ");
+    addDates() {
+      let array = [];
+      if (this.dates.length === 2) {
+        for (let i = 0; i < this.dates.length; i++) {
+          let candidateDate = new Date(this.dates[i]);
+          array.push(candidateDate);
+        }
+
+        // 日付を昇順に並び替える
+        array.sort(function (a, b) {
+          return a > b ? 1 : -1;
+        });
+
+        // 配列の中身を空に
+        this.dates.splice(0, this.dates.length);
+
+        for (let item of array) {
+          let formatString = format(item, "yyyy-MM-dd");
+          this.dates.push(formatString);
+        }
+      }
     },
     /**
      * カーソルが当たったときカレンダーを表示.
@@ -38,11 +63,21 @@ export default {
     dateFocus() {
       this.showCalender = true;
     },
+    /**
+     * モーダルを閉じる.
+     */
     closePopup() {
       this.showCalender = false;
     },
   },
-  computed: {},
+  computed: {
+    /**
+     * フォームの表示を整える.
+     */
+    dateRangeText() {
+      return this.dates.join(" ~ ");
+    },
+  },
 };
 </script>
 
