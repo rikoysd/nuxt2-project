@@ -95,7 +95,33 @@
       <v-col cols="12">
         <v-card elevation="2" class="plansCard" tile>
           <p class="title font-weight-bold">宿泊プラン</p>
-          <v-row v-for="(plan, i) of plans" :key="i">
+          <v-row v-show="!listShow">
+            <v-col cols="10" md="4">
+              <p>必要情報を入力し空室検索できます</p>
+              <v-text-field
+                v-model="checkinDate"
+                label="params.checkinDate"
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="4">
+              <v-text-field
+                v-model="checkoutDate"
+                label="params.checkoutDate"
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="4">
+              <v-text-field
+                v-model="adultNum"
+                label="params.adultNum"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="2">
+              <v-btn @click="sendReserveData">検索</v-btn>
+            </v-col>
+          </v-row>
+          <v-row v-show="listShow" v-for="(plan, i) of plans" :key="i">
             <v-col id="plans" cols="12">
               <v-card elevation="2" class="planCard" tile>
                 <v-row>
@@ -266,6 +292,10 @@ export default {
       postalCode: "",
       telephoneNo: 0,
       sheet: false,
+      checkinDate: "",
+      checkoutDate: "",
+      adultNum: 0,
+      listShow: false,
     };
   },
   // methods: {
@@ -329,6 +359,19 @@ export default {
     ];
     this.detailInfo = this.vacantList.hotels[0].hotel[1].hotelDetailInfo;
     console.log("plans", this.detailInfo);
+  },
+  methods: {
+    sendReserveData() {
+      this.$store.dispatch("searchVacant", {
+        hotelNo: this.paramsNo,
+        checkinDate: this.checkinDate,
+        checkoutDate: this.checkoutDate,
+        adultNum: this.adultNum,
+      });
+      this.listShow = !this.listShow;
+
+      console.log("空室情報", this.vacantList);
+    },
   },
 };
 </script>
