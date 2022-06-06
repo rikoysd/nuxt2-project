@@ -13,13 +13,13 @@ export default {
     /**
      * 施設情報をAPIから取得.
      */
-    async searchInstitution() {
+    async searchInstitution(context) {
       // console.log("call3");
       const response = await axios.get(
         "https://app.rakuten.co.jp/services/api/Travel/HotelDetailSearch/20170426?applicationId=1098541415969458249&format=json&hotelNo=183382"
       );
       const payload = response.data;
-      this.commit("searchInstitution/setInstitutionInfo", payload);
+      context.commit("searchInstitution/setInstitutionInfo", payload);
       // console.log(payload);
     },
   },

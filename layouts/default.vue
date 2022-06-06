@@ -1,11 +1,11 @@
 <template>
   <div>
     <v-app>
-      <!-- <Header />
+      <Header />
       <Top />
       <Vacant-search />
       <Ranking />
-      <Footer /> -->
+      <Footer />
       <v-main>
         <v-container><Nuxt /></v-container>
       </v-main>
