@@ -33,13 +33,41 @@
       <v-toolbar color="#F5F5F5">
         <v-col cols="6">
           <v-tabs background-color="#F5F5F5" grow>
-            <v-tab to="#plans"> 宿泊・プラン</v-tab>
+            <v-tab @click="sheet = !sheet"> 宿泊・プラン</v-tab>
             <v-tab to="#hotelInfo"> 宿の詳細</v-tab>
             <v-tab to="#reviews"> クチコミ</v-tab>
             <v-tab to="#acsess"> アクセス</v-tab>
           </v-tabs>
         </v-col>
       </v-toolbar>
+    </v-row>
+    <v-row>
+      <v-col>
+        <div class="text-center">
+          <v-bottom-sheet v-model="sheet" inset>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn color="orange" dark v-bind="attrs" v-on="on">
+                Open Inset
+              </v-btn>
+            </template>
+            <v-sheet class="text-center" height="200px">
+              <v-btn class="mt-6" text color="error" @click="sheet = !sheet">
+                close
+              </v-btn>
+              <div class="my-3">
+                This is a bottom sheet using the inset prop
+                <p class="font-weight-bold">{{ hotelName }}</p>
+                <br />
+                {{ hotelSpecial }}<br />
+                IN{{
+                  detailInfo.checkinTime + "~" + detailInfo.lastCheckinTime
+                }}
+                OUT{{ detailInfo.checkoutTime }}
+              </div>
+            </v-sheet>
+          </v-bottom-sheet>
+        </div>
+      </v-col>
     </v-row>
     <v-row>
       <v-col cols="6">
@@ -51,7 +79,13 @@
         }}
       </v-col>
       <v-col id="reviews" cols="6">
-        {{ "評価平均:" + reviewAverage }}<br />
+        {{ "評価平均:" + reviewAverage }}
+        <v-rating
+          color="#e9bc00"
+          :value="reviewAverage"
+          readonly
+          icon-label="custom icon label text {0} of {1}"
+        ></v-rating>
         {{ "評価件数:" + reviewCount }}<br />
         {{ "口コミ:" + userReview }}
       </v-col>
@@ -117,23 +151,62 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col id="hotelInfo" cols="12">
+      <v-col id="hotelInfo" cols="10">
         <p class="title font-weight-bold">施設情報</p>
         <br />
-        <v-img :src="hotelImage"></v-img>
+        <v-img :src="hotelImage"></v-img
+      ></v-col>
+      <v-col id="hotelInfo" cols="2">
         {{ "風呂評価" + bathAverage }}
+        <v-rating
+          color="#e9bc00"
+          :value="bathAverage"
+          readonly
+          icon-label="custom icon label text {0} of {1}"
+        ></v-rating>
         {{ "立地評価" + locationAverage }}
+        <v-rating
+          color="#e9bc00"
+          :value="locationAverage"
+          readonly
+          icon-label="custom icon label text {0} of {1}"
+        ></v-rating>
+
         {{ "装備品評価" + equipmentAverage }}
+        <v-rating
+          color="#e9bc00"
+          :value="equipmentAverage"
+          readonly
+          icon-label="custom icon label text {0} of {1}"
+        ></v-rating>
         {{ "食事評価" + mealAverage }}
+        <v-rating
+          color="#e9bc00"
+          :value="mealAverage"
+          readonly
+          icon-label="custom icon label text {0} of {1}"
+        ></v-rating>
         {{ "部屋評価" + roomAverage }}
+        <v-rating
+          color="#e9bc00"
+          :value="roomAverage"
+          readonly
+          icon-label="custom icon label text {0} of {1}"
+        ></v-rating>
         {{ "サービス評価" + serviceAverage }}
+        <v-rating
+          color="#e9bc00"
+          :value="serviceAverage"
+          readonly
+          icon-label="custom icon label text {0} of {1}"
+        ></v-rating>
       </v-col>
     </v-row>
     <v-row>
       <v-col id="acsess" cols="12">
         <p class="title font-weight-bold">アクセス</p>
         <br />
-        <p class="body-1">
+        <p class="body-1 address">
           住所：{{ address }} 最寄駅：{{ nearestStation + "駅" }}
         </p>
         <br />
@@ -168,13 +241,6 @@ export default {
     return {
       vacantList: [],
       institutionInfo: "",
-      colors: [
-        "indigo",
-        "warning",
-        "pink darken-2",
-        "red lighten-1",
-        "deep-purple accent-4",
-      ],
       slides: [],
       hotelName: "ホテル",
       hotelSpecial: "ホテルの特徴",
@@ -198,6 +264,7 @@ export default {
       parkingInformation: "",
       postalCode: "",
       telephoneNo: 0,
+      sheet: false,
     };
   },
   // methods: {
@@ -296,5 +363,8 @@ v-btn {
   object-fit: cover;
   height: auto;
   width: 150px;
+}
+address {
+  background-color: antiquewhite;
 }
 </style>
