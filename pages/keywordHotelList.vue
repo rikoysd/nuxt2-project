@@ -51,7 +51,12 @@
             </div>
           </v-card-text>
           <v-card-actions>
-            <v-btn color="orange" text>詳細を見る</v-btn>
+            <v-btn
+              color="orange"
+              text
+              @click="showHotelDetail(hotel.hotel[0].hotelBasicInfo.hotelNo)"
+              >詳細を見る</v-btn
+            >
           </v-card-actions>
         </v-card>
       </div>
@@ -133,6 +138,14 @@ export default {
       // actionの呼び出し
       await this.$store.dispatch("getPageList", this.object);
     },
+    /**
+     * 詳細ページに遷移
+     * @param - ホテル番号
+     */
+    showHotelDetail(number) {
+      console.log(number);
+      this.$router.push(`/hotelDetail/${number}`);
+    },
   },
   computed: {
     /**
@@ -140,14 +153,16 @@ export default {
      * @returns ページ情報
      */
     getPageInfo() {
-      return this.$store.getters["keyword/getPageInfo"];
+      this.pageInfo = this.$store.getters["keyword/getPageInfo"];
+      return this.pageInfo;
     },
     /**
      * ホテル一覧を取得.
      * @returns ホテル一覧
      */
     getHotelList() {
-      return this.$store.getters["keyword/getHotelList"];
+      this.hotelList = this.$store.getters["keyword/getHotelList"];
+      return this.hotelList;
     },
   },
 };
