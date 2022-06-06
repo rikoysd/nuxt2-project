@@ -232,15 +232,6 @@
       <img class="reserve-img" src="@/assets/img/1.png" />
       <!-- コンポーネント -->
       <reservetionContents
-        :fullName1Error="fullName1Error"
-        :fullName2Error="fullName2Error"
-        :zipcodeError="zipcodeError"
-        :prefectureError="prefectureError"
-        :addressError="addressError"
-        :telephoneError="telephoneError"
-        :mailaddressError="mailaddressError"
-        :checkInTimeError="checkInTimeError"
-        :manAndWomanError="manAndWomanError"
         :fullName1="fullName1"
         :fullName2="fullName2"
         :zipcode="zipcode"
@@ -253,6 +244,7 @@
         :woman="woman"
         :payments="payments"
         :other="other"
+        :errorChecks="errorChecks"
         @errorObject="errorObject"
       ></reservetionContents>
     </div>
@@ -335,6 +327,18 @@ export default {
       cardName: "",
       // ログイン情報
       loginInfo: {},
+      // エラーチェックオブジェクト
+      errorChecks: {
+        fullName1Error: "",
+        fullName2Error: "",
+        zipcodeError: "",
+        prefectureError: "",
+        addressError: "",
+        telephoneError: "",
+        mailaddressError: "",
+        checkInTimeError: "",
+        manAndWomanError: "",
+      },
     };
   }, //end data
 

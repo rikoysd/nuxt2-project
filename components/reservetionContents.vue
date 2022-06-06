@@ -51,15 +51,6 @@
 export default {
   name: "reservetionContents",
   props: {
-    fullName1Error: String,
-    fullName2Error: String,
-    zipcodeError: String,
-    prefectureError: String,
-    addressError: String,
-    telephoneError: String,
-    mailaddressError: String,
-    checkInTimeError: String,
-    manAndWomanError: String,
     fullName1: String,
     fullName2: String,
     zipcode: String,
@@ -72,6 +63,7 @@ export default {
     woman: String,
     payments: String,
     other: String,
+    errorChecks: Object,
   },
   data() {
     return {
@@ -113,108 +105,109 @@ export default {
 
       // フルネーム（漢字）のエラー
       if (this.fullName1 === "") {
-        this.fullName1Error = "名前を入力してください";
+        this.errorChecks.fullName1Error = "名前を入力してください";
         this.errorCheck = true;
         this.errors.push(this.errorCheck);
       } else {
-        this.fullName1Error = "";
+        this.errorChecks.fullName1Error = "";
         this.errorCheck = false;
       }
-      this.errorObject.fullName1Error = this.fullName1Error;
+      this.errorObject.fullName1Error = this.errorChecks.fullName1Error;
       this.errors.push(this.errorCheck);
 
       // フルネーム（かな）のエラー
       if (this.fullName2 === "") {
-        this.fullName2Error = "ふりがなを入力してください";
+        this.errorChecks.fullName2Error = "ふりがなを入力してください";
         this.errorCheck = true;
       } else {
-        this.fullName2Error = "";
+        this.errorChecks.fullName2Error = "";
         this.errorCheck = false;
       }
-      this.errorObject.fullName2Error = this.fullName2Error;
+      this.errorObject.fullName2Error = this.errorChecks.fullName2Error;
       this.errors.push(this.errorCheck);
 
       // 郵便番号のエラー
       if (this.zipcode === "") {
-        this.zipcodeError = "郵便番号を入力してください";
+        this.errorChecks.zipcodeError = "郵便番号を入力してください";
         this.errorCheck = true;
       } else if (this.zipcode.length !== 7) {
-        this.zipcodeError = "郵便番号は7桁で入力してください";
+        this.errorChecks.zipcodeError = "郵便番号は7桁で入力してください";
         this.errorCheck = true;
       } else {
-        this.zipcodeError = "";
+        this.errorChecks.zipcodeError = "";
         this.errorCheck = false;
       }
-      this.errorObject.zipcodeError = this.zipcodeError;
+      this.errorObject.zipcodeError = this.errorChecks.zipcodeError;
       this.errors.push(this.errorCheck);
 
       // 都道府県のエラー
       if (this.prefecture === "") {
-        this.prefectureError = "都道府県を選択してください";
+        this.errorChecks.prefectureError = "都道府県を選択してください";
         this.errorCheck = true;
       } else {
-        this.prefectureError = "";
+        this.errorChecks.prefectureError = "";
         this.errorCheck = false;
       }
-      this.errorObject.prefectureError = this.prefectureError;
+      this.errorObject.prefectureError = this.errorChecks.prefectureError;
       this.errors.push(this.errorCheck);
 
       // 住所のエラー
       if (this.address === "") {
-        this.addressError = "住所を入力してください";
+        this.errorChecks.addressError = "住所を入力してください";
         this.errorCheck = true;
       } else {
-        this.addressError = "";
+        this.errorChecks.addressError = "";
         this.errorCheck = false;
       }
-      this.errorObject.addressError = this.addressError;
+      this.errorObject.addressError = this.errorChecks.addressError;
       this.errors.push(this.errorCheck);
 
       // 電話番号のエラー
       if (this.telephone === "") {
-        this.telephoneError = "電話番号を入力してください";
+        this.errorChecks.telephoneError = "電話番号を入力してください";
         this.errorCheck = true;
       } else {
-        this.telephoneError = "";
+        this.errorChecks.telephoneError = "";
         this.errorCheck = false;
       }
-      this.errorObject.telephoneError = this.telephoneError;
+      this.errorObject.telephoneError = this.errorChecks.telephoneError;
       this.errors.push(this.errorCheck);
 
       // メールアドレスのエラー
       if (this.mailAddress === "") {
-        this.mailaddressError = "メールアドレスを入力してください";
+        this.errorChecks.mailaddressError = "メールアドレスを入力してください";
         this.errorCheck = true;
       } else if (this.mailAddress.indexOf("@") === -1) {
-        this.mailaddressError = "正しい形式で入力してください";
+        this.errorChecks.mailaddressError = "正しい形式で入力してください";
         this.errorCheck = true;
       } else {
-        this.mailaddressError = "";
+        this.errorChecks.mailaddressError = "";
         this.errorCheck = false;
       }
-      this.errorObject.mailaddressError = this.mailaddressError;
+      this.errorObject.mailaddressError = this.errorChecks.mailaddressError;
       this.errors.push(this.errorCheck);
 
       // チェックイン時刻のエラー
       if (this.checkInTime === "") {
-        this.checkInTimeError = "チェックイン時刻を選択してください";
+        this.errorChecks.checkInTimeError =
+          "チェックイン時刻を選択してください";
         this.errorCheck = true;
       } else {
-        this.checkInTimeError = "";
+        this.errorChecks.checkInTimeError = "";
         this.errorCheck = false;
       }
-      this.errorObject.checkInTimeError = this.checkInTimeError;
+      this.errorObject.checkInTimeError = this.errorChecks.checkInTimeError;
       this.errors.push(this.errorCheck);
 
       // 宿泊人数のエラー
       if (this.man === "" || this.woman === "") {
-        this.manAndWomanError = "人数を選択してください";
+        this.errorChecks.manAndWomanError = "人数を選択してください";
         this.errorCheck = true;
       } else {
-        this.manAndWomanError = "";
+        this.errorChecks.manAndWomanError = "";
         this.errorCheck = false;
       }
-      this.errorObject.manAndWomanError = this.manAndWomanError;
+      this.errorObject.manAndWomanError = this.errorChecks.manAndWomanError;
       this.errors.push(this.errorCheck);
 
       // エラーの数を数える
@@ -227,6 +220,7 @@ export default {
 
       // 親にエラーオブジェクトを渡す
       this.$emit("errorObject", this.errorObject);
+      console.log(this.errorObject);
 
       // エラーが一つでもあったら処理を止める
       if (array.length > 0) {
