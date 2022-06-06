@@ -3,22 +3,29 @@
     <div class="main">
       <div class="reserve-info">
         <h4>予約者情報</h4>
-        <v-btn class="login-info" color="primary" @click="loginInfo"
+        <v-btn class="login-info" color="primary" @click="loginInfoReflection"
           >ログイン情報を反映させる</v-btn
         ><br />
-        <span style="color: red">*</span> 氏名<v-text-field
+        <span style="color: red">*</span>氏名<span style="color: red"
+          >&emsp;{{ fullName1Error }}</span
+        ><v-text-field
           class="name-field"
           label="楽々太郎"
           v-model="fullName1"
           outlined
         ></v-text-field>
-        <span style="color: red">*</span>かな<v-text-field
+        <span style="color: red">*</span>かな<span style="color: red"
+          >&emsp;{{ fullName2Error }}</span
+        ><v-text-field
           class="name2-field"
           label="ラクラクタロウ"
           v-model="fullName2"
           outlined
         ></v-text-field>
-        <span style="color: red">*</span>郵便番号（ハイフンなし）<v-text-field
+        <span style="color: red">*</span>郵便番号（ハイフンなし）<span
+          style="color: red"
+          >&emsp;{{ zipcodeError }}</span
+        ><v-text-field
           class="zipcode"
           label="0000000"
           v-model="zipcode"
@@ -26,23 +33,28 @@
           outlined
         ></v-text-field>
         <!-- コンポーネント -->
-        <span style="color: red">*</span>住所<selectPrefectures
-          @prefecture="reservePrefecture"
-        ></selectPrefectures
-        ><br />
+        <span style="color: red">*</span>住所<span style="color: red"
+          >&emsp;{{ prefectureError }}</span
+        ><selectPrefectures @prefecture="reservePrefecture"></selectPrefectures
+        ><br /><span style="color: red">&emsp;{{ addressError }}</span>
         <v-text-field
           class="address"
           label="港区赤坂0-0-0（海外住所の場合は「海外」と入力）"
           v-model="address"
           outlined
         ></v-text-field>
-        <span style="color: red">*</span>電話番号（ハイフンなし）<v-text-field
+        <span style="color: red">*</span>電話番号（ハイフンなし）<span
+          style="color: red"
+          >&emsp;{{ telephoneError }}</span
+        ><v-text-field
           class="telephone"
           label="09012345678"
           v-model="telephone"
           outlined
         ></v-text-field>
-        <span style="color: red">*</span>メールアドレス<v-text-field
+        <span style="color: red">*</span>メールアドレス<span style="color: red"
+          >&emsp;{{ mailaddressError }}</span
+        ><v-text-field
           class="mailaddress"
           label="rakuraku@example.jp"
           type="text"
@@ -54,11 +66,13 @@
 
       <div class="lodging-info">
         <h4>宿泊情報</h4>
-        <span style="color: red">*</span>チェックイン予定時刻<selectChecin
-          @checkin="reserveCheckIn"
-        ></selectChecin>
+        <span style="color: red">*</span>チェックイン予定時刻<span
+          style="color: red"
+          >&emsp;{{ checkInTimeError }}</span
+        ><selectChecin @checkin="reserveCheckIn"></selectChecin>
         <div class="select-gender">
-          <span style="color: red">*</span>宿泊人数&emsp;1室目 (大人{{
+          <span style="color: red">&emsp;{{ manAndWomanError }}</span>
+          <span style="color: red">*</span>宿泊人数 1室目 (大人{{
             people
           }}名)&emsp;男性&nbsp;<v-select
             class="select-g"
@@ -218,6 +232,15 @@
       <img class="reserve-img" src="@/assets/img/1.png" />
       <!-- コンポーネント -->
       <reservetionContents
+        :fullName1Error="fullName1Error"
+        :fullName2Error="fullName2Error"
+        :zipcodeError="zipcodeError"
+        :prefectureError="prefectureError"
+        :addressError="addressError"
+        :telephoneError="telephoneError"
+        :mailaddressError="mailaddressError"
+        :checkInTimeError="checkInTimeError"
+        :manAndWomanError="manAndWomanError"
         :fullName1="fullName1"
         :fullName2="fullName2"
         :zipcode="zipcode"
@@ -230,6 +253,7 @@
         :woman="woman"
         :payments="payments"
         :other="other"
+        @errorObject="errorObject"
       ></reservetionContents>
     </div>
   </div>
@@ -249,6 +273,24 @@ export default {
   },
   data() {
     return {
+      // フルネーム（氏名）のエラー
+      fullName1Error: "",
+      // フルネーム（かな）のエラー
+      fullName2Error: "",
+      // 郵便番号のエラー
+      zipcodeError: "",
+      // 都道府県のエラー
+      prefectureError: "",
+      // 住所のエラー
+      addressError: "",
+      // 電話番号のエラー
+      telephoneError: "",
+      // メールアドレスのエラー
+      mailaddressError: "",
+      // チェックイン時刻のエラー
+      checkInTimeError: "",
+      // 宿泊人数のエラー
+      manAndWomanError: "",
       // フラッグ
       flag: false,
       // カードフラッグ
@@ -291,6 +333,8 @@ export default {
       expirationDate: "",
       // カード名義人
       cardName: "",
+      // ログイン情報
+      loginInfo: {},
     };
   }, //end data
 
@@ -298,7 +342,10 @@ export default {
     /**
      * ログイン情報の反映.
      */
-    loginInfo() {},
+    loginInfoReflection() {
+      this.loginInfo = this.$store.getters["register/getUserInfo"];
+      console.log(loginInfo);
+    },
     /**
      * emitで渡ってきた都道府県を変数に代入.
      */
@@ -310,6 +357,17 @@ export default {
      */
     reserveCheckIn(checkin) {
       this.checkInTime = checkin;
+    },
+    errorObject(errorObject) {
+      this.fullName1Error = errorObject.fullName1Error;
+      this.fullName2Error = errorObject.fullName2Error;
+      this.zipcodeError = errorObject.zipcodeError;
+      this.prefectureError = errorObject.prefectureError;
+      this.addressError = errorObject.addressError;
+      this.telephoneError = errorObject.telephoneError;
+      this.mailaddressError = errorObject.mailaddressError;
+      this.checkInTimeError = errorObject.checkInTimeError;
+      this.manAndWomanError = errorObject.manAndWomanError;
     },
     /**
      * お支払い方法の表示切り替え.

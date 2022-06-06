@@ -51,6 +51,15 @@
 export default {
   name: "reservetionContents",
   props: {
+    fullName1Error: String,
+    fullName2Error: String,
+    zipcodeError: String,
+    prefectureError: String,
+    addressError: String,
+    telephoneError: String,
+    mailaddressError: String,
+    checkInTimeError: String,
+    manAndWomanError: String,
     fullName1: String,
     fullName2: String,
     zipcode: String,
@@ -73,6 +82,22 @@ export default {
       plan: "ホテルのリンクを貼る（？）",
       subPrice: 0,
       totalPrice: 0,
+      // エラーチェック
+      errorCheck: "false",
+      // エラーリスト
+      errors: [],
+      // エラーオブジェクト
+      errorObject: {
+        fullName1Error: "",
+        fullName2Error: "",
+        zipcodeError: "",
+        prefectureError: "",
+        addressError: "",
+        telephoneError: "",
+        mailaddressError: "",
+        checkInTimeError: "",
+        manAndWomanError: "",
+      },
     };
   }, //end data
 
@@ -83,6 +108,131 @@ export default {
      * 予約確認画面に遷移する.
      */
     reserveConfirm() {
+      // エラーリストの初期化
+      this.errors = [];
+
+      // フルネーム（漢字）のエラー
+      if (this.fullName1 === "") {
+        this.fullName1Error = "名前を入力してください";
+        this.errorCheck = true;
+        this.errors.push(this.errorCheck);
+      } else {
+        this.fullName1Error = "";
+        this.errorCheck = false;
+      }
+      this.errorObject.fullName1Error = this.fullName1Error;
+      this.errors.push(this.errorCheck);
+
+      // フルネーム（かな）のエラー
+      if (this.fullName2 === "") {
+        this.fullName2Error = "ふりがなを入力してください";
+        this.errorCheck = true;
+      } else {
+        this.fullName2Error = "";
+        this.errorCheck = false;
+      }
+      this.errorObject.fullName2Error = this.fullName2Error;
+      this.errors.push(this.errorCheck);
+
+      // 郵便番号のエラー
+      if (this.zipcode === "") {
+        this.zipcodeError = "郵便番号を入力してください";
+        this.errorCheck = true;
+      } else if (this.zipcode.length !== 7) {
+        this.zipcodeError = "郵便番号は7桁で入力してください";
+        this.errorCheck = true;
+      } else {
+        this.zipcodeError = "";
+        this.errorCheck = false;
+      }
+      this.errorObject.zipcodeError = this.zipcodeError;
+      this.errors.push(this.errorCheck);
+
+      // 都道府県のエラー
+      if (this.prefecture === "") {
+        this.prefectureError = "都道府県を選択してください";
+        this.errorCheck = true;
+      } else {
+        this.prefectureError = "";
+        this.errorCheck = false;
+      }
+      this.errorObject.prefectureError = this.prefectureError;
+      this.errors.push(this.errorCheck);
+
+      // 住所のエラー
+      if (this.address === "") {
+        this.addressError = "住所を入力してください";
+        this.errorCheck = true;
+      } else {
+        this.addressError = "";
+        this.errorCheck = false;
+      }
+      this.errorObject.addressError = this.addressError;
+      this.errors.push(this.errorCheck);
+
+      // 電話番号のエラー
+      if (this.telephone === "") {
+        this.telephoneError = "電話番号を入力してください";
+        this.errorCheck = true;
+      } else {
+        this.telephoneError = "";
+        this.errorCheck = false;
+      }
+      this.errorObject.telephoneError = this.telephoneError;
+      this.errors.push(this.errorCheck);
+
+      // メールアドレスのエラー
+      if (this.mailAddress === "") {
+        this.mailaddressError = "メールアドレスを入力してください";
+        this.errorCheck = true;
+      } else if (this.mailAddress.indexOf("@") === -1) {
+        this.mailaddressError = "正しい形式で入力してください";
+        this.errorCheck = true;
+      } else {
+        this.mailaddressError = "";
+        this.errorCheck = false;
+      }
+      this.errorObject.mailaddressError = this.mailaddressError;
+      this.errors.push(this.errorCheck);
+
+      // チェックイン時刻のエラー
+      if (this.checkInTime === "") {
+        this.checkInTimeError = "チェックイン時刻を選択してください";
+        this.errorCheck = true;
+      } else {
+        this.checkInTimeError = "";
+        this.errorCheck = false;
+      }
+      this.errorObject.checkInTimeError = this.checkInTimeError;
+      this.errors.push(this.errorCheck);
+
+      // 宿泊人数のエラー
+      if (this.man === "" || this.woman === "") {
+        this.manAndWomanError = "人数を選択してください";
+        this.errorCheck = true;
+      } else {
+        this.manAndWomanError = "";
+        this.errorCheck = false;
+      }
+      this.errorObject.manAndWomanError = this.manAndWomanError;
+      this.errors.push(this.errorCheck);
+
+      // エラーの数を数える
+      let array = [];
+      for (let error of this.errors) {
+        if (error === true) {
+          array.push(error);
+        }
+      }
+
+      // 親にエラーオブジェクトを渡す
+      this.$emit("errorObject", this.errorObject);
+
+      // エラーが一つでもあったら処理を止める
+      if (array.length > 0) {
+        return;
+      }
+
       let object = {
         fullName1: "",
         fullName2: "",
