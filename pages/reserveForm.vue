@@ -3,6 +3,9 @@
     <div class="main">
       <div class="reserve-info">
         <h4>予約者情報</h4>
+        <v-btn class="login-info" color="primary" @click="loginInfo"
+          >ログイン情報を反映させる</v-btn
+        ><br />
         氏名<v-text-field
           class="name-field"
           label="楽々太郎"
@@ -18,7 +21,8 @@
         郵便番号（ハイフンなし）<v-text-field
           class="zipcode"
           label="0000000"
-          v-model="zipcode"
+          v-model.number="zipcode"
+          maxlength="7"
           outlined
         ></v-text-field>
         住所<selectPrefectures></selectPrefectures><br />
@@ -31,7 +35,7 @@
         電話番号（ハイフンなし）<v-text-field
           class="telephone"
           label="09012345678"
-          v-model="telephone"
+          v-model.number="telephone"
           outlined
         ></v-text-field>
         メールアドレス<v-text-field
@@ -47,16 +51,14 @@
         <h4>宿泊情報</h4>
         チェックイン予定時刻<selectChecin></selectChecin>
         <div class="select-gender">
-          宿泊人数&nbsp;&nbsp;&nbsp;1室目 (大人{{
-            people
-          }}名)&nbsp;&nbsp;男性&nbsp;<v-select
+          宿泊人数&emsp;1室目 (大人{{ people }}名)&emsp;男性&nbsp;<v-select
             class="select-g"
             label="選択する"
             :items="items"
             outlined
           >
           </v-select
-          >&nbsp;&nbsp;女性&nbsp;<v-select
+          >&nbsp;女性&nbsp;<v-select
             class="select-g"
             label="選択する"
             :items="items"
@@ -79,6 +81,13 @@
             class="online-info"
             style="background-color: #f5f5f5"
           >
+            <div class="card-img">
+              <img src="@/assets/img/jcb.png" />
+              <img src="@/assets/img/amex.png" />
+              <img src="@/assets/img/visa.png" />
+              <img src="@/assets/img/master.png" />
+              <img src="@/assets/img/diners.png" />
+            </div>
             <v-btn
               Large
               color="primary"
@@ -87,23 +96,56 @@
               >カード情報を入力する</v-btn
             ><br />
 
+            <!-- モーダルウィンドウ -->
             <div id="overlay" v-if="cardFlag">
               <div id="content" v-if="cardFlag">
                 <v-card class="creditcard" style="background-color: #f5f5f5">
                   <p style="font-weight: bold">カード情報入力</p>
                   <span>カード情報</span>
-                  <v-text-field label="0000000000000" outlined></v-text-field>
+                  <v-text-field
+                    label="0000000000000000"
+                    v-model.number="counts"
+                    outlined
+                    maxlength="16"
+                  ></v-text-field>
                   <span>セキュリティコード</span
-                  ><v-text-field label="000" outlined></v-text-field>
+                  ><v-text-field
+                    label="000"
+                    v-model.number="securityCord"
+                    outlined
+                    maxlength="3"
+                  ></v-text-field>
                   <span>有効期限</span
-                  ><v-text-field label="00/00" outlined></v-text-field>
+                  ><v-text-field
+                    label="MM/YY"
+                    v-model="expirationDate"
+                    outlined
+                  ></v-text-field>
                   <span>カード名義人</span
-                  ><v-text-field label="TARO RAKURAKU" outlined></v-text-field>
+                  ><v-text-field
+                    label="TARO RAKURAKU"
+                    v-model="cardName"
+                    outlined
+                  ></v-text-field>
                 </v-card>
                 <v-btn class="close-button" @click="close">キャンセル</v-btn>
+                <v-btn class="success-button" color="teal" @click="reflection"
+                  >カード情報を反映させる</v-btn
+                >
               </div>
             </div>
-            <span>予約日の翌日に決済となります</span><br />
+            <!-- モーダルウィンドウ -->
+
+            <v-card class="reflectionInfo" v-if="creditFlag">
+              <span>カード情報：{{ counts }} </span><br />
+              <span>セキュリティコード：{{ securityCord }}</span
+              ><br />
+              <span>有効期限：{{ expirationDate }}</span
+              ><br />
+              <span>カード名義人：{{ cardName }}</span>
+            </v-card>
+
+            <span>予約日の翌日に決済となります。</span><br />
             <span style="font-size: 13px"
               >※デビット・プリペイドカードはこの限りではありません</span
             >
@@ -162,6 +204,7 @@
     </div>
 
     <div class="reservetion-contents">
+      <img class="reserve-img" src="@/assets/img/1.png" />
       <reservetionContents></reservetionContents>
     </div>
   </div>
@@ -185,6 +228,8 @@ export default {
       flag: false,
       // カードフラッグ
       cardFlag: false,
+      // クレカフラッグ
+      creditFlag: false,
       // フルネーム（氏名）
       fullName1: "",
       // フルネーム（かな）
@@ -209,12 +254,22 @@ export default {
       radioGroup: "online",
       // 施設への連絡事項
       other: "",
+      // カード番号
+      counts: "",
+      // セキュリティコード
+      securityCord: "",
+      // 有効期限
+      expirationDate: "",
+      // カード名義人
+      cardName: "",
     };
   }, //end data
 
-  computed: {}, // end computed
-
   methods: {
+    /**
+     * ログイン情報の反映.
+     */
+    loginInfo() {},
     /**
      * お支払い方法の表示切り替え.
      */
@@ -239,7 +294,19 @@ export default {
     close() {
       this.cardFlag = false;
     },
+    /**
+     * カード情報を反映させる.
+     */
+    reflection() {
+      this.counts = this.counts;
+      this.securityCord = this.securityCord;
+      this.expirationDate = this.expirationDate;
+      this.cardName = this.cardName;
+      this.close();
+      this.creditFlag = true;
+    },
   }, // end methods
+  computed: {}, // end computed
 };
 </script>
 
@@ -253,12 +320,12 @@ export default {
   width: 500px;
 }
 .select-gender,
-.radio,
 .container {
   display: flex;
+  justify-content: center;
 }
-.select-g {
-  width: 30px;
+.radio {
+  display: flex;
 }
 .reserve-info,
 .lodging-info,
@@ -266,6 +333,9 @@ export default {
 .contact,
 .cancellation-policy {
   margin-top: 20px;
+}
+.login-info {
+  margin-bottom: 20px;
 }
 h4 {
   margin-bottom: 10px;
@@ -282,6 +352,9 @@ td {
   width: 300px;
   padding: 10px;
 }
+.select-g {
+  width: 100px;
+}
 .online-info,
 .cash-info {
   margin-top: 10px;
@@ -291,6 +364,15 @@ td {
 .card-info {
   margin-bottom: 10px;
 }
+.card-img {
+  width: 300px;
+}
+img {
+  object-fit: cover;
+  width: 40px;
+  height: 30px;
+}
+/* モーダルウィンドウ部分のCSS */
 #overlay {
   /*　要素を重ねた時の順番　*/
   z-index: 1;
@@ -318,6 +400,28 @@ td {
 }
 .close-button {
   margin-top: 15px;
-  margin-left: 10px;
+  margin-left: 350px;
+}
+.success-button {
+  color: white;
+  margin-top: 15px;
+  float: right;
+}
+p {
+  font-size: 20px;
+}
+.reflectionInfo {
+  padding: 20px;
+  margin: 10px;
+}
+.reservetion-contents {
+  margin-left: 100px;
+}
+.reserve-img {
+  object-fit: cover;
+  width: 250px;
+  height: 80px;
+  float: right;
+  margin-right: 80px;
 }
 </style>
