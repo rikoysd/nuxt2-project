@@ -4,6 +4,7 @@ import searchInstitution from "./modules/searchInstitution";
 import axios1 from "axios";
 import axios from "@nuxtjs/axios";
 import register from "./modules/register";
+import reserve from "./modules/reserve";
 
 Vue.use(Vuex);
 export const state = () => ({
@@ -153,6 +154,14 @@ export const mutations = {
   register(state, object) {
     this.commit("register/registerUser", object);
   },
+  /**
+   * reserve.jsに予約情報を渡す.
+   * @param {*} state - ステート
+   * @param {*} object - 予約情報のオブジェクト
+   */
+  reserve(state, object) {
+    this.commit("reserve/reserveInfo", object);
+  },
 };
 
 export const getters = {
@@ -207,4 +216,5 @@ export const getters = {
 export const modules = {
   searchInstitution,
   register,
+  reserve,
 };

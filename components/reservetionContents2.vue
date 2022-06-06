@@ -38,6 +38,13 @@
 
       <v-btn
         x-large
+        class="change-reserve"
+        @click="changeReservation"
+        style="background-color: #e9bc00"
+        >入力内容を変更する</v-btn
+      >
+      <v-btn
+        x-large
         class="confirm-button"
         style="background-color: #3cb371"
         @click="reserveFinished"
@@ -65,6 +72,15 @@ export default {
   computed: {}, // end computed
 
   methods: {
+    /**
+     *予約内容を変更する.
+     */
+    changeReservation() {
+      // 添字、idなど一意のものを引数で渡す必要がある
+    },
+    /**
+     * 予約を確定する.
+     */
     reserveFinished() {
       this.$router.push("/reserveFinished");
     },
@@ -98,8 +114,15 @@ export default {
 }
 .confirm-button {
   margin-top: 20px;
-  margin-left: 85px;
-  margin-right: 85px;
+  margin-left: 5px;
+  margin-right: 50px;
+  color: white;
+  font-weight: bold;
+}
+.change-reserve {
+  margin-top: 20px;
+  margin-left: 40px;
+  margin-right: 20px;
   color: white;
   font-weight: bold;
 }
