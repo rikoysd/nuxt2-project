@@ -18,4 +18,15 @@ export default {
       state.userInfo = payload;
     },
   },
+
+  getters: {
+    /**
+     * ユーザー情報を取得.
+     * @param {*} state - ステート
+     * @returns ユーザー情報
+     */
+    getUserInfo(state) {
+      return state.userInfo;
+    },
+  },
 };

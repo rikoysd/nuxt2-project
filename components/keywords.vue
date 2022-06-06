@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="(keyword, index) of tags" v-bind:key="index">
+    <div v-for="(keyword, index) of tags" v-bind:key="index" class="d-flex">
       <v-chip link @click="searchKeyword(keyword)">#{{ keyword }}</v-chip>
     </div>
   </div>
