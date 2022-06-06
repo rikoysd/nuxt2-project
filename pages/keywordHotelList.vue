@@ -58,8 +58,8 @@
       <div class="text-center">
         <v-pagination
           v-model="page"
-          :length="15"
-          :total-visible="7"
+          :length="5"
+          @input="getNumber"
         ></v-pagination>
       </div>
     </div>
@@ -109,10 +109,15 @@ export default {
 
       this.pageInfo = this.$store.getters.getPageInfo;
       this.hotelList = this.$store.getters.getHotelList;
+      console.log(this.pageInfo);
       // console.log(this.hotelList);
 
       // 検索結果表示
       this.showResult = true;
+    },
+
+    getNumber(number) {
+      console.log(number);
     },
   },
   computed: {},
