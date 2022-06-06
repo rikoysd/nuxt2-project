@@ -358,6 +358,9 @@ export default {
     reserveCheckIn(checkin) {
       this.checkInTime = checkin;
     },
+    /**
+     * emitで渡ってきたエラーオブジェクトを変数に代入.
+     */
     errorObject(errorObject) {
       this.fullName1Error = errorObject.fullName1Error;
       this.fullName2Error = errorObject.fullName2Error;
