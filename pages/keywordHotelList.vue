@@ -11,11 +11,12 @@
     </v-breadcrumbs>
     <search-box @search="searchKeyword"></search-box>
     <keywords @search="searchKeyword"></keywords>
+    <!-- 検索結果ページ（初期表示） -->
     <div v-show="showResult">
       <!-- 検索結果カンマ区切り -->
-      <div>対象施設：{{ pageInfo.recordCount }}件</div>
+      <div>対象施設：{{ getPageInfo.recordCount }}件</div>
       <!-- カード -->
-      <div v-for="(hotel, index) of hotelList" v-bind:key="index">
+      <div v-for="(hotel, index) of getHotelList" v-bind:key="index">
         <v-card max-width="500">
           <v-img
             class="white--text align-end"
@@ -50,7 +51,12 @@
             </div>
           </v-card-text>
           <v-card-actions>
-            <v-btn color="orange" text>詳細を見る</v-btn>
+            <v-btn
+              color="orange"
+              text
+              @click="showHotelDetail(hotel.hotel[0].hotelBasicInfo.hotelNo)"
+              >詳細を見る</v-btn
+            >
           </v-card-actions>
         </v-card>
       </div>
@@ -58,8 +64,8 @@
       <div class="text-center">
         <v-pagination
           v-model="page"
-          :length="15"
-          :total-visible="7"
+          :length="5"
+          @input="getNumber"
         ></v-pagination>
       </div>
     </div>
@@ -96,6 +102,10 @@ export default {
       page: 1,
       // 総合評価
       rating: 0,
+      // キーワード
+      keyword: "",
+      // APIに渡すオブジェクト
+      object: {},
     };
   },
   methods: {
@@ -104,18 +114,57 @@ export default {
      * @param {*} keyword - キーワード
      */
     async searchKeyword(keyword) {
-      // actionの呼び出し
-      await this.$store.dispatch("getHotelList", keyword);
+      // １ページ目に初期化
+      this.page = 1;
 
-      this.pageInfo = this.$store.getters.getPageInfo;
-      this.hotelList = this.$store.getters.getHotelList;
-      // console.log(this.hotelList);
+      // 引数として渡したい値をオブジェクトにまとめる
+      this.object = {
+        keyword: keyword,
+        page: this.page,
+      };
+
+      // actionの呼び出し
+      await this.$store.dispatch("getPageList", this.object);
 
       // 検索結果表示
       this.showResult = true;
     },
+    /**
+     * ページを切り替える.
+     */
+    async getNumber(number) {
+      this.object.page = number;
+
+      // actionの呼び出し
+      await this.$store.dispatch("getPageList", this.object);
+    },
+    /**
+     * 詳細ページに遷移
+     * @param - ホテル番号
+     */
+    showHotelDetail(number) {
+      console.log(number);
+      this.$router.push(`/hotelDetail/${number}`);
+    },
   },
-  computed: {},
+  computed: {
+    /**
+     * ページ情報を取得.
+     * @returns ページ情報
+     */
+    getPageInfo() {
+      this.pageInfo = this.$store.getters["keyword/getPageInfo"];
+      return this.pageInfo;
+    },
+    /**
+     * ホテル一覧を取得.
+     * @returns ホテル一覧
+     */
+    getHotelList() {
+      this.hotelList = this.$store.getters["keyword/getHotelList"];
+      return this.hotelList;
+    },
+  },
 };
 </script>
 
