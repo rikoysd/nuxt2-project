@@ -1,14 +1,14 @@
 <template>
   <div>
     <v-app>
-      <!-- <Header />
+      <Header />
       <Top />
       <Vacant-search />
       <Ranking />
-      <Footer /> -->
       <v-main>
         <v-container><Nuxt /></v-container>
       </v-main>
+      <Footer />
     </v-app>
   </div>
 </template>
