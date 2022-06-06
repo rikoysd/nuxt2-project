@@ -4,7 +4,7 @@
       <Header />
       <!-- <Top /> -->
       <Vacant-search />
-      <Ranking />
+      <!-- <Ranking /> -->
       <Footer />
       <v-main>
         <v-container><Nuxt /></v-container>

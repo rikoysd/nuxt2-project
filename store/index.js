@@ -43,15 +43,16 @@ export const actions = {
   /**
    * 空室検索.
    */
-  async searchVacantList() {
+  async searchVacantList(context, vacantData) {
     console.log("call");
+    console.log(vacantData.roomNum);
+
     const vacantResponce = await axios1.get(
-      // `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&largeClassCode=japan&middleClassCode=${prefecture}&smallClassCode=${smallClassCode}&checkinDate=${checkinDate}&checkoutDate=${checkoutDate}&adultNum=${adultNum}&roomNum=${roomNum}&responseType=large`
-      `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&largeClassCode=japan&middleClassCode=akita&smallClassCode=tazawa&checkinDate=2022-12-01&checkoutDate=2022-12-02&adultNum=2&responseType=large`
+      // `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&largeClassCode=japan&middleClassCode=${middleClassCode}&smallClassCode=${smallClassCode}&detailClassCode=${detailClassCode}&checkinDate=${checkinDate}&checkoutDate=${checkoutDate}&adultNum=${adultNum}&roomNum=${roomNum}&responseType=large`
+      `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&largeClassCode=japan&middleClassCode=${vacantData.middleClassCode}&smallClassCode=${vacantData.smallClassCode}&checkinDate=2022-12-01&checkoutDate=2022-12-02&adultNum=${vacantData.adultNum}&roomNum=${vacantData.roomNum}&responseType=large`
     );
     console.dir("response" + JSON.stringify(vacantResponce.data.hotels));
-    this.commit("setVacantList", vacantResponce.data.hotels);
-    // context.commit("setVacantList", vacantResponce.data.hotels);
+    context.commit("setVacantList", vacantResponce.data.hotels);
   },
   /**
    * 施設検索(モジュール:searchInstitution).
@@ -74,6 +75,7 @@ export const actions = {
   },
   /**
    * 地区コードの取得.
+   *  @param {*} context - コンテキスト
    */
   async getAreaCode(context) {
     const response = await axios1.get(
