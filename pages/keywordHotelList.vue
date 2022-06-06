@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-container>
     <drawerMenu></drawerMenu>
     <calender></calender>
     <requirement></requirement>
@@ -14,52 +14,59 @@
     <!-- 検索結果ページ（初期表示） -->
     <div v-show="showResult">
       <!-- 検索結果カンマ区切り -->
-      <div>対象施設：{{ getPageInfo.recordCount }}件</div>
+      <div class="record-count">対象施設：{{ getPageInfo.recordCount }}件</div>
       <!-- カード -->
-      <div v-for="(hotel, index) of getHotelList" v-bind:key="index">
-        <v-card max-width="500">
-          <v-img
-            class="white--text align-end"
-            height="160px"
-            src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-          >
-            <v-card-title>{{
-              hotel.hotel[0].hotelBasicInfo.hotelName
-            }}</v-card-title>
-            <v-card-subtitle class="pb-0"
-              >{{ hotel.hotel[2].hotelDetailInfo.areaName }} [全{{
-                hotel.hotel[3].hotelFacilitiesInfo.hotelRoomNum
-              }}室]</v-card-subtitle
+      <v-row>
+        <v-col
+          class="d-flex justify-center"
+          v-for="(hotel, index) of getHotelList"
+          v-bind:key="index"
+        >
+          <v-card class="card" max-width="399">
+            <v-img
+              class="white--text align-end"
+              height="160px"
+              src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
             >
-          </v-img>
-          <v-card-text class="text--primary">
-            <div>
-              <star-rating
-                v-bind:increment="0.01"
-                v-bind:max-rating="5"
-                v-bind:rating="hotel.hotel[0].hotelBasicInfo.reviewAverage"
-                inactive-color="#000"
-                active-color="#ffd700"
-                v-bind:star-size="15"
-                v-bind:read-only="true"
+              <v-card-title>{{
+                hotel.hotel[0].hotelBasicInfo.hotelName
+              }}</v-card-title>
+              <v-card-subtitle class="pb-0"
+                >{{ hotel.hotel[2].hotelDetailInfo.areaName }} [全{{
+                  hotel.hotel[3].hotelFacilitiesInfo.hotelRoomNum
+                }}室]</v-card-subtitle
               >
-              </star-rating>
-            </div>
-            <div>{{ hotel.hotel[0].hotelBasicInfo.hotelSpecial }}</div>
-            <div>
-              最安値{{ hotel.hotel[0].hotelBasicInfo.hotelMinCharge }} 円(税込)
-            </div>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn
-              color="orange"
-              text
-              @click="showHotelDetail(hotel.hotel[0].hotelBasicInfo.hotelNo)"
-              >詳細を見る</v-btn
-            >
-          </v-card-actions>
-        </v-card>
-      </div>
+            </v-img>
+            <v-card-text class="text--primary">
+              <div>
+                <star-rating
+                  v-bind:increment="0.01"
+                  v-bind:max-rating="5"
+                  v-bind:rating="hotel.hotel[0].hotelBasicInfo.reviewAverage"
+                  inactive-color="#000"
+                  active-color="#ffd700"
+                  v-bind:star-size="15"
+                  v-bind:read-only="true"
+                >
+                </star-rating>
+              </div>
+              <div>{{ hotel.hotel[0].hotelBasicInfo.hotelSpecial }}</div>
+              <div>
+                最安値{{ hotel.hotel[0].hotelBasicInfo.hotelMinCharge }}
+                円(税込)
+              </div>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn
+                color="orange"
+                text
+                @click="showHotelDetail(hotel.hotel[0].hotelBasicInfo.hotelNo)"
+                >詳細を見る</v-btn
+              >
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
       <!-- ページネーション -->
       <div class="text-center">
         <v-pagination
@@ -69,7 +76,7 @@
         ></v-pagination>
       </div>
     </div>
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -168,4 +175,12 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.card {
+  margin-bottom: 60px;
+}
+
+.record-count {
+  margin-bottom: 10px;
+}
+</style>
