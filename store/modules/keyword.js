@@ -13,7 +13,6 @@ export default {
      * @param {*} keyword - キーワード
      */
     async getPageList(context, object) {
-      console.log(object);
       const response = await this.$axios.$get(
         `https://app.rakuten.co.jp/services/api/Travel/KeywordHotelSearch/20170426?applicationId=1098541415969458249&format=json&page=${object.page}&responseType=large&keyword=${object.keyword}`
       );
@@ -36,20 +35,20 @@ export default {
 
   getters: {
     /**
-   * ページ情報を取得する.
-   * @param {*} state - ステート
-   * @returns ページ情報
-   */
-  getPageInfo(state) {
-    return state.pageInfo;
-  },
-  /**
-   * ホテル一覧を取得する.
-   * @param {*} state - ステート
-   * @returns ホテル一覧
-   */
-  getHotelList(state) {
-    return state.hotelList;
-  },
+     * ページ情報を取得する.
+     * @param {*} state - ステート
+     * @returns ページ情報
+     */
+    getPageInfo(state) {
+      return state.pageInfo;
+    },
+    /**
+     * ホテル一覧を取得する.
+     * @param {*} state - ステート
+     * @returns ホテル一覧
+     */
+    getHotelList(state) {
+      return state.hotelList;
+    },
   },
 };

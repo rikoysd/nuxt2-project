@@ -11,11 +11,12 @@
     </v-breadcrumbs>
     <search-box @search="searchKeyword"></search-box>
     <keywords @search="searchKeyword"></keywords>
+    <!-- 検索結果ページ（初期表示） -->
     <div v-show="showResult">
       <!-- 検索結果カンマ区切り -->
-      <div>対象施設：{{ pageInfo.recordCount }}件</div>
+      <div>対象施設：{{ getPageInfo.recordCount }}件</div>
       <!-- カード -->
-      <div v-for="(hotel, index) of hotelList" v-bind:key="index">
+      <div v-for="(hotel, index) of getHotelList" v-bind:key="index">
         <v-card max-width="500">
           <v-img
             class="white--text align-end"
@@ -98,6 +99,8 @@ export default {
       rating: 0,
       // キーワード
       keyword: "",
+      // APIに渡すオブジェクト
+      object: {},
     };
   },
   methods: {
@@ -106,32 +109,47 @@ export default {
      * @param {*} keyword - キーワード
      */
     async searchKeyword(keyword) {
-      this.keyword = keyword;
+      // １ページ目に初期化
+      this.page = 1;
+
+      // 引数として渡したい値をオブジェクトにまとめる
+      this.object = {
+        keyword: keyword,
+        page: this.page,
+      };
 
       // actionの呼び出し
-      await this.$store.dispatch("getHotelList", keyword);
-
-      this.pageInfo = this.$store.getters.getPageInfo;
-      this.hotelList = this.$store.getters.getHotelList;
-      // console.log(this.pageInfo);
-      // console.log(this.hotelList);
+      await this.$store.dispatch("getPageList", this.object);
 
       // 検索結果表示
       this.showResult = true;
     },
-
+    /**
+     * ページを切り替える.
+     */
     async getNumber(number) {
-      // 引数として渡したい値をオブジェクトにまとめる
-      let object = {
-        keyword: this.keyword,
-        page: number,
-      };
+      this.object.page = number;
 
       // actionの呼び出し
-      await this.$store.dispatch("getPageList", object);
+      await this.$store.dispatch("getPageList", this.object);
     },
   },
-  computed: {},
+  computed: {
+    /**
+     * ページ情報を取得.
+     * @returns ページ情報
+     */
+    getPageInfo() {
+      return this.$store.getters["keyword/getPageInfo"];
+    },
+    /**
+     * ホテル一覧を取得.
+     * @returns ホテル一覧
+     */
+    getHotelList() {
+      return this.$store.getters["keyword/getHotelList"];
+    },
+  },
 };
 </script>
 
