@@ -8,7 +8,6 @@
       <v-container>
         <v-col class="d-flex" cols="12" sm="2">
           <v-select
-            :item-text="middleClassName"
             :items="areaNameList"
             label="都道府県"
             @change="getInfo('middleClassCode', $event)"
@@ -89,6 +88,7 @@ export default {
       roomNum: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
 
       detailList: [],
+      sapporoArray: [],
     };
   },
 
@@ -192,7 +192,35 @@ export default {
     // console.log(
     //   cityLists.middleClass[1].smallClasses[0].smallClass[1].detailClasses
     // );
-    console.log(this.cityLists.middleClass);
+    console.log(this.cityList);
+    let smallList = [];
+    for (let detail of this.cityList) {
+      smallList.push(detail[0].smallClass[1]);
+    }
+    console.log(smallList);
+    //detailClassがあるものだけ一つの配列(detailList)に入れる
+    this.detailList.push(
+      smallList[0].detailClasses, //札幌
+      smallList[12].detailClasses, //東京23区
+      smallList[22].detailClasses, //名古屋
+      smallList[25].detailClasses, //京都
+      smallList[26].detailClasses //大阪
+    );
+    console.log(this.detailList);
+
+    let sapporoList = [];
+    for (let sapporo of this.detailList) {
+      sapporoList.push(sapporo);
+      console.log(sapporo.detailClass);
+    }
+    console.log(sapporoList);
+    // this.sapporoArray = sapporoList[0];
+    // console.log(this.sapporoArray);
+    // console.log(this.sapporoArray[0]);
+    // for (let single of sapporoList[0]) {
+    //   this.sapporo.push(single.detailClass);
+    // }
+    // console.log(this.sapporoA);
 
     if (this.smallClassList === 0) {
       this.smallClassList.push({ hokkaidoName: "都道府県を選択してください" });
