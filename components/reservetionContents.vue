@@ -50,6 +50,21 @@
 <script>
 export default {
   name: "reservetionContents",
+  props: {
+    fullName1: String,
+    fullName2: String,
+    zipcode: String,
+    prefecture: String,
+    address: String,
+    telephone: String,
+    mailAddress: String,
+    checkInTime: String,
+    man: String,
+    woman: String,
+    payments: String,
+    other: String,
+    errorChecks: Object,
+  },
   data() {
     return {
       hotelName: "The Okura Tokyo",
@@ -59,13 +74,187 @@ export default {
       plan: "ホテルのリンクを貼る（？）",
       subPrice: 0,
       totalPrice: 0,
+      // エラーチェック
+      errorCheck: "false",
+      // エラーリスト
+      errors: [],
+      // エラーオブジェクト
+      errorObject: {
+        fullName1Error: "",
+        fullName2Error: "",
+        zipcodeError: "",
+        prefectureError: "",
+        addressError: "",
+        telephoneError: "",
+        mailaddressError: "",
+        checkInTimeError: "",
+        manAndWomanError: "",
+      },
     };
   }, //end data
 
   computed: {}, // end computed
 
   methods: {
+    /**
+     * 予約確認画面に遷移する.
+     */
     reserveConfirm() {
+      // エラーリストの初期化
+      this.errors = [];
+
+      // フルネーム（漢字）のエラー
+      if (this.fullName1 === "") {
+        this.errorChecks.fullName1Error = "名前を入力してください";
+        this.errorCheck = true;
+        this.errors.push(this.errorCheck);
+      } else {
+        this.errorChecks.fullName1Error = "";
+        this.errorCheck = false;
+      }
+      this.errorObject.fullName1Error = this.errorChecks.fullName1Error;
+      this.errors.push(this.errorCheck);
+
+      // フルネーム（かな）のエラー
+      if (this.fullName2 === "") {
+        this.errorChecks.fullName2Error = "ふりがなを入力してください";
+        this.errorCheck = true;
+      } else {
+        this.errorChecks.fullName2Error = "";
+        this.errorCheck = false;
+      }
+      this.errorObject.fullName2Error = this.errorChecks.fullName2Error;
+      this.errors.push(this.errorCheck);
+
+      // 郵便番号のエラー
+      if (this.zipcode === "") {
+        this.errorChecks.zipcodeError = "郵便番号を入力してください";
+        this.errorCheck = true;
+      } else if (this.zipcode.length !== 7) {
+        this.errorChecks.zipcodeError = "郵便番号は7桁で入力してください";
+        this.errorCheck = true;
+      } else {
+        this.errorChecks.zipcodeError = "";
+        this.errorCheck = false;
+      }
+      this.errorObject.zipcodeError = this.errorChecks.zipcodeError;
+      this.errors.push(this.errorCheck);
+
+      // 都道府県のエラー
+      if (this.prefecture === "") {
+        this.errorChecks.prefectureError = "都道府県を選択してください";
+        this.errorCheck = true;
+      } else {
+        this.errorChecks.prefectureError = "";
+        this.errorCheck = false;
+      }
+      this.errorObject.prefectureError = this.errorChecks.prefectureError;
+      this.errors.push(this.errorCheck);
+
+      // 住所のエラー
+      if (this.address === "") {
+        this.errorChecks.addressError = "住所を入力してください";
+        this.errorCheck = true;
+      } else {
+        this.errorChecks.addressError = "";
+        this.errorCheck = false;
+      }
+      this.errorObject.addressError = this.errorChecks.addressError;
+      this.errors.push(this.errorCheck);
+
+      // 電話番号のエラー
+      if (this.telephone === "") {
+        this.errorChecks.telephoneError = "電話番号を入力してください";
+        this.errorCheck = true;
+      } else {
+        this.errorChecks.telephoneError = "";
+        this.errorCheck = false;
+      }
+      this.errorObject.telephoneError = this.errorChecks.telephoneError;
+      this.errors.push(this.errorCheck);
+
+      // メールアドレスのエラー
+      if (this.mailAddress === "") {
+        this.errorChecks.mailaddressError = "メールアドレスを入力してください";
+        this.errorCheck = true;
+      } else if (this.mailAddress.indexOf("@") === -1) {
+        this.errorChecks.mailaddressError = "正しい形式で入力してください";
+        this.errorCheck = true;
+      } else {
+        this.errorChecks.mailaddressError = "";
+        this.errorCheck = false;
+      }
+      this.errorObject.mailaddressError = this.errorChecks.mailaddressError;
+      this.errors.push(this.errorCheck);
+
+      // チェックイン時刻のエラー
+      if (this.checkInTime === "") {
+        this.errorChecks.checkInTimeError =
+          "チェックイン時刻を選択してください";
+        this.errorCheck = true;
+      } else {
+        this.errorChecks.checkInTimeError = "";
+        this.errorCheck = false;
+      }
+      this.errorObject.checkInTimeError = this.errorChecks.checkInTimeError;
+      this.errors.push(this.errorCheck);
+
+      // 宿泊人数のエラー
+      if (this.man === "" || this.woman === "") {
+        this.errorChecks.manAndWomanError = "人数を選択してください";
+        this.errorCheck = true;
+      } else {
+        this.errorChecks.manAndWomanError = "";
+        this.errorCheck = false;
+      }
+      this.errorObject.manAndWomanError = this.errorChecks.manAndWomanError;
+      this.errors.push(this.errorCheck);
+
+      // エラーの数を数える
+      let array = [];
+      for (let error of this.errors) {
+        if (error === true) {
+          array.push(error);
+        }
+      }
+
+      // 親にエラーオブジェクトを渡す
+      this.$emit("errorObject", this.errorObject);
+      console.log(this.errorObject);
+
+      // エラーが一つでもあったら処理を止める
+      if (array.length > 0) {
+        return;
+      }
+
+      let object = {
+        fullName1: "",
+        fullName2: "",
+        zipcode: "",
+        prefecture: "",
+        address: "",
+        telephone: "",
+        mailAddress: "",
+        checkInTime: "",
+        man: "",
+        woman: "",
+        payments: "",
+        other: "",
+      };
+      object.fullName1 = this.fullName1;
+      object.fullName2 = this.fullName2;
+      object.zipcode = this.zipcode;
+      object.prefecture = this.prefecture;
+      object.address = this.address;
+      object.telephone = this.telephone;
+      object.mailAddress = this.mailAddress;
+      object.checkInTime = this.checkInTime;
+      object.man = this.man;
+      object.woman = this.woman;
+      object.payments = this.payments;
+      object.other = this.other;
+
+      this.$store.commit("reserve", object);
       this.$router.push("/reserveConfirm");
     },
   }, // end methods
