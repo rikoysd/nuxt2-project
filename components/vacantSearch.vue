@@ -1,50 +1,31 @@
 <template>
   <div>
     <!-- カレンダー -->
-    <calender></calender>
+    <calender @selectDates="addDates"></calender>
 
-    <!-- 地区コード取得 -->
     <div>
-      <!-- {{ area.middleClass[0].middleClassName }} -->
+      <!-- 都道府県選択 -->
       <v-container>
-        <!-- <v-col class="d-flex" cols="12" sm="2">
-          <v-select
-            :items="areaList"
-            label="都道府県"
-            @change="getInfo('middleClassCode', $event)"
-            outlined
-          ></v-select>
-        </v-col> -->
-        <!-- 都道府県選択 -->
         <v-col class="d-flex" cols="12" sm="2">
           <v-select
-            v-model="select"
-            :items="prefecture"
-            item-text="state"
-            item-value="value"
+            :item-text="middleClassName"
+            :items="areaNameList"
             label="都道府県"
-            return-object.value
-            single-line
-            outlined
             @change="getInfo('middleClassCode', $event)"
+            outlined
           ></v-select>
         </v-col>
         <!-- 市町村選択 -->
         <v-col class="d-flex" cols="12" sm="2">
           <v-select
-            :items="cityList"
-            label="目的地"
-            @change="getInfo('smallClassCode', $event)"
+            :items="hokkaidoLists"
+            label="市町村"
+            @change="getHokkaidoList('smallClassCode', $event)"
             outlined
           ></v-select>
         </v-col>
       </v-container>
     </div>
-
-    <!-- {{ areaList }} -->
-    <!-- {{ areaList.middleClasses }} -->
-    <!-- {{ areaList.middleClasses[0].middleClass }} -->
-
     <v-container fluid>
       <v-row align="center">
         <!-- 人数選択 -->
@@ -53,7 +34,7 @@
             :items="adultNum"
             label="大人人数"
             outlined
-            @change="getInfo('adultNum', $event)"
+            @change="requestdata('adultNum', $event)"
           ></v-select>
         </v-col>
         <!-- 部屋数選択 -->
@@ -62,7 +43,7 @@
             :items="roomNum"
             label="部屋数"
             outlined
-            @change="getInfo('roomNum', $event)"
+            @change="requestdata('roomNum', $event)"
           ></v-select>
         </v-col>
       </v-row>
@@ -74,10 +55,6 @@
         空室検索する
       </v-btn>
       {{ responseData.hotels }}
-      <!-- <button type="button" v-on:click="getVacantlist">検索する</button> -->
-      <!-- <div v-for="result of responseData" :key="result.id">
-        {{ result }}
-      </div> -->
     </div>
   </div>
 </template>
@@ -89,98 +66,131 @@ export default {
 
   data() {
     return {
-      select: { state: "都道府県", value: "todofuken" },
-      prefecture: [
-        { state: "北海道", value: "hokkaido" },
-        { state: "青森県", value: "aomori" },
-        { state: "岩手県", value: "iwate" },
-        { state: "宮城県", value: "miyagi" },
-        { state: "秋田県", value: "akita" },
-      ],
       //検索結果
       responseData: [],
       //apiに送るパラメータ
       vacantData: {
-        roomNum: 0,
-        middleClassCode: "",
-        smallClassCode: "",
-        detailClassCode: "",
-        checkinDate: 0,
-        checkoutDate: 0,
-        adultNum: 0,
+        roomNum: 0, //部屋数
+        middleClassCode: "", //都道府県
+        smallClassCode: "", //主要な市町村
+        detailClassCode: "", //駅や詳細地域
+        checkinDate: 0, //チェックイン日
+        checkoutDate: 0, //チェックアウト日
+        adultNum: 0, //大人人数
       },
       //都道府県情報
       areaList: [],
-      //市町村情報
-      cityList: [],
-      //地区詳細情報
-      detailList: [],
+      //主要な市町村
+      hokkaidoList: ["都道府県を選択してください"],
       //大人人数
       adultNum: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
       //部屋数
       roomNum: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-      searchWord: "",
+      detailList: [],
+      detailClassList: [],
     };
   },
 
   methods: {
+    addDates(date) {
+      this.vacantData.checkinDate = date[0];
+      this.vacantData.checkoutDate = date[1];
+      console.log(date[0]);
+      console.log(date[1]);
+    },
     /**
      * 空室検索の結果を出力する.
      */
     async getVacantlist() {
       await this.$store.dispatch("searchVacantList", this.vacantData);
       this.responseData = this.$store.getters.getVacantList;
-      console.log("call");
       console.log(this.responseData);
     },
 
-    // async getList() {
-    //   await this.$store.dispatch("getAreaCode");
-    //   this.areaList = this.$store.getters.getAreaList.middleClasses;
-    //   console.log(this.areaList);
-    // },
     /**
      * 検索値をパラメーラーに渡す.
      */
-    getInfo(data, event) {
+    getInfo(data, name) {
       console.log(data);
-      console.log(event);
-      this.vacantData[data] = event;
+      console.log(name);
+      let obj = this.areaList.find((area) => area.name === name);
+      this.vacantData[data] = obj.code;
+      console.log(obj);
+      //選択した都道府県の添え字を取得する
+      let result = 0;
+      const keys = Object.keys(this.areaList);
+      for (let i = 0; i <= this.areaList.length; i++) {
+        if (this.areaList[keys[i]].code === obj.code) {
+          result = keys[i];
+          break;
+        }
+      }
+      //選択肢が残らないよう空の配列でリセットする
+      this.hokkaidoList = [];
+      //選択した都道府県の添え字と同じ番号の市町村を表示する
+      for (let hokkaido of this.detailList[result]) {
+        const hokkaidoCode = hokkaido.smallClass[0].smallClassCode;
+        const hokkaidoName = hokkaido.smallClass[0].smallClassName;
+        this.hokkaidoList.push({
+          hokkaidoCode: hokkaidoCode,
+          hokkaidoName: hokkaidoName,
+        });
+      }
     },
-  }, //methods
+    requestdata(data, name) {
+      this.vacantData[data] = name;
+    },
+    getHokkaidoList(data, name) {
+      let hokkaidoObj = this.hokkaidoList.find(
+        (hokkaido) => hokkaido.hokkaidoName === name
+      );
+      this.vacantData[data] = hokkaidoObj.hokkaidoCode;
+      console.log(data);
+      console.log(hokkaidoObj);
+    },
+  }, //end of methods
+
+  computed: {
+    areaNameList() {
+      let array = [];
+      for (let area of this.areaList) {
+        array.push(area.name);
+      }
+      return array;
+    },
+    hokkaidoLists() {
+      let array3 = [];
+      for (let detail of this.hokkaidoList) {
+        array3.push(detail.hokkaidoName);
+      }
+      return array3;
+    },
+  }, //end of computed
 
   async mounted() {
-    /**
-     * 地区コードを取得する.
-     */
     await this.$store.dispatch("getAreaCode");
+    //middleClass（都道府県）を取得.
     const areaLists = this.$store.getters.getAreaList.middleClasses;
     for (let area of areaLists) {
-      console.log(area);
-      //middleClass（都道府県）を取得.
-      this.areaList.push(area.middleClass[0].middleClassCode);
+      const code = area.middleClass[0].middleClassCode;
+      const name = area.middleClass[0].middleClassName;
+      this.areaList.push({ code: code, name: name });
     }
-    //smallClass（市町村）を取得.
-    const cityLists = this.$store.getters.getAreaList.middleClasses;
-    for (let city of cityLists) {
-      this.cityList.push(
-        city.middleClass[1].smallClasses[0].smallClass[0].smallClassCode
-      );
-    }
-    // const cityLists = this.$store.getters.getAreaList.middleClasses;
-    // this.cityList.push(
-    //   cityLists[0].middleClass[1].smallClasses[0].smallClass[0].smallClassCode
-    // );
-    console.log(cityLists);
-    //地区詳細
-    const detailLists = this.$store.getters.getAreaList.middleClasses;
+
+    //smallClass（主要な市町村）を取得.
+    let detailLists = this.$store.getters.getAreaList.middleClasses;
+    console.log(detailLists);
     for (let detail of detailLists) {
-      this.detailList.push(
-        detail.middleClass[1].smallClasses[0].smallClass[0].smallClassCode
-          .detailClasses
-      );
+      this.detailList.push(detail.middleClass[1].smallClasses);
     }
-    console.log(this.detailList);
+    console.log(this.detailList[0]);
+
+    //detailClass（地区詳細）を取得
+
+    if (this.hokkaidoList === 0) {
+      this.hokkaidoList.push({ hokkaidoName: "都道府県を選択してください" });
+    }
+    console.log(this.hokkaidoList);
   }, //end of mounted
 };
 </script>
