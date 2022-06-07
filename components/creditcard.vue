@@ -24,12 +24,14 @@
               label="MM"
               v-model="card_exp_month"
               outlined
+              maxlength="2"
             ></v-text-field
             >&emsp;
             <v-text-field
-              label="YY"
+              label="YYYY"
               v-model="card_exp_year"
               outlined
+              maxlength="4"
             ></v-text-field>
           </div>
           <span>カード名義人</span
@@ -62,7 +64,7 @@ export default {
       // カード番号
       card_number: "",
       // セキュリティコード
-      card_cvv: "",
+      card_cvv: 123,
       // 有効期限(月)
       card_exp_month: "",
       // 有効期限(年)

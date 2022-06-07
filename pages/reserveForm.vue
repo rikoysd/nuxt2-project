@@ -297,7 +297,7 @@ export default {
       // カード番号
       card_number: "",
       // セキュリティコード
-      card_cvv: "",
+      card_cvv: 0,
       // 有効期限(月)
       card_exp_month: "",
       // 有効期限(年)
