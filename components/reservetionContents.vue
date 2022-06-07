@@ -64,6 +64,10 @@ export default {
     payments: String,
     other: String,
     errorChecks: Object,
+    card_number: String,
+    card_cvv: String,
+    card_exp_monthAndYear: String,
+    card_name: String,
   },
   data() {
     return {
@@ -239,6 +243,10 @@ export default {
         man: "",
         woman: "",
         payments: "",
+        card_number: "",
+        card_cvv: "",
+        card_exp_monthAndYear: "",
+        card_name: "",
         other: "",
       };
       object.fullName1 = this.fullName1;
@@ -252,8 +260,13 @@ export default {
       object.man = this.man;
       object.woman = this.woman;
       object.payments = this.payments;
+      object.card_number = this.card_number;
+      object.card_cvv = this.card_cvv;
+      object.card_exp_monthAndYear = this.card_exp_monthAndYear;
+      object.card_name = this.card_name;
       object.other = this.other;
 
+      // storeのmutationにobjectを渡す
       this.$store.commit("reserve", object);
       this.$router.push("/reserveConfirm");
     },

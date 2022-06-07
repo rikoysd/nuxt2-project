@@ -124,6 +124,7 @@
             <!-- モーダルウィンドウ -->
             <creditcard
               :cardFlag="cardFlag"
+              @change="inputCardInfo"
               @reflectionCardInfo="reflectionCardInfo"
             ></creditcard>
             <!-- モーダルウィンドウ -->
@@ -212,6 +213,10 @@
         :payments="payments"
         :other="other"
         :errorChecks="errorChecks"
+        :card_number="card_name"
+        :card_cvv="card_cvv"
+        :card_exp_monthAndYear="card_exp_monthAndYear"
+        :card_name="card_name"
         @errorObject="errorObject"
       ></reservetionContents>
     </div>
@@ -359,10 +364,10 @@ export default {
      * カード情報を入力する.
      */
     inputCardInfo() {
-      // 初期化
-      this.cardFlag = false;
       if (this.cardFlag === false) {
         this.cardFlag = true;
+      } else {
+        this.cardFlag = false;
       }
     },
     /**
@@ -374,6 +379,7 @@ export default {
       this.card_exp_monthAndYear = creditObject.card_exp_monthAndYear;
       this.card_name = creditObject.card_name;
       this.cardFlag = creditObject.cardFlag;
+      console.log(this.cardFlag);
       this.creditFlag = creditObject.creditFlag;
     },
   }, // end methods

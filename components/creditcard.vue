@@ -6,7 +6,7 @@
           <p style="font-weight: bold">カード情報入力</p>
           <span>カード情報</span>
           <v-text-field
-            label="0000000000000000"
+            label="1234567812345678"
             v-model.number="card_number"
             outlined
             maxlength="16"
@@ -31,7 +31,7 @@
             outlined
           ></v-text-field>
         </v-card>
-        <v-btn class="close-button" @click="close">キャンセル</v-btn>
+        <v-btn class="close-button" @click="preClick">キャンセル</v-btn>
         <v-btn
           class="success-button"
           color="teal"
@@ -82,16 +82,15 @@ export default {
       this.creditObject.card_cvv = this.card_cvv;
       this.creditObject.card_exp_monthAndYear = this.card_exp_monthAndYear;
       this.creditObject.card_name = this.card_name;
-      this.close();
       this.creditObject.creditFlag = true;
-      this.creditObject.cardFlag = false;
       this.$emit("reflectionCardInfo", creditObject);
     },
     /**
-     * モーダルウィンドウを閉じる.
+     * モーダルウィンドウを閉じる(親にメソッドのみを渡す).
      */
-    close() {
-      this.creditObject.cardFlag = false;
+    preClick() {
+      // emitで値を渡すときは引数なしでもいける
+      this.$emit("change");
     },
   }, // end methods
 };

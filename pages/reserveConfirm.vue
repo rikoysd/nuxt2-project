@@ -49,6 +49,14 @@
       <div class="payment">
         <h4>お支払い方法</h4>
         <v-col>{{ payments }}</v-col>
+        <v-card class="reflectionInfo" v-if="!cardFlag">
+          <span>カード情報：{{ card_number }} </span><br />
+          <span>セキュリティコード：{{ card_cvv }}</span
+          ><br />
+          <span>有効期限：{{ card_exp_monthAndYear }}</span
+          ><br />
+          <span>カード名義人：{{ card_name }}</span>
+        </v-card>
         <hr />
       </div>
 
@@ -104,8 +112,6 @@ export default {
     return {
       // 予約情報オブジェクト
       reserveObject: {},
-      // フラッグ
-      flag: false,
       // カードフラッグ
       cardFlag: false,
       // フルネーム（氏名）
@@ -132,6 +138,14 @@ export default {
       woman: "",
       // 決済方法
       payments: "",
+      // カード番号
+      card_number: "",
+      // セキュリティコード
+      card_cvv: "",
+      // 有効期限
+      card_exp_monthAndYear: "",
+      // カード名義人
+      card_name: "",
       // 施設への連絡事項
       other: "",
     };
@@ -154,7 +168,18 @@ export default {
     this.man = this.reserveObject.man;
     this.woman = this.reserveObject.woman;
     this.payments = this.reserveObject.payments;
+    this.card_number = this.reserveObject.card_number;
+    this.card_cvv = this.reserveObject.card_cvv;
+    this.card_exp_monthAndYear = this.reserveObject.card_exp_monthAndYear;
+    this.card_name = this.reserveObject.card_name;
     this.other = this.reserveObject.other;
+
+    // 決済方法によるカードの表示切り替え
+    if (this.payments === "現地決済") {
+      this.cardFlag = true;
+    } else {
+      this.cardFlag = false;
+    }
   },
 
   computed: {}, // end computed
@@ -246,5 +271,9 @@ td {
   height: 80px;
   float: right;
   margin-right: 50px;
+}
+.reflectionInfo {
+  padding: 20px;
+  margin: 10px;
 }
 </style>
