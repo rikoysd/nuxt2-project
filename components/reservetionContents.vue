@@ -64,15 +64,26 @@ export default {
     payments: String,
     other: String,
     errorChecks: Object,
+    card_number: String,
+    card_cvv: String,
+    card_exp_monthAndYear: String,
+    card_name: String,
   },
   data() {
     return {
+      // ホテル名
       hotelName: "The Okura Tokyo",
+      // ホテル詳細
       dateAndMeal: "2022月5月30日〜 1泊 食事なし",
+      // 宿泊人数
       peopleAndRooms: "大人2名 1室",
+      // 部屋の種類
       room: "プレステージルーム ツイン 【禁煙】",
+      // リンク？
       plan: "ホテルのリンクを貼る（？）",
+      // 宿泊料金合計
       subPrice: 0,
+      // お支払い金額
       totalPrice: 0,
       // エラーチェック
       errorCheck: "false",
@@ -239,6 +250,10 @@ export default {
         man: "",
         woman: "",
         payments: "",
+        card_number: "",
+        card_cvv: "",
+        card_exp_monthAndYear: "",
+        card_name: "",
         other: "",
       };
       object.fullName1 = this.fullName1;
@@ -252,8 +267,13 @@ export default {
       object.man = this.man;
       object.woman = this.woman;
       object.payments = this.payments;
+      object.card_number = this.card_number;
+      object.card_cvv = this.card_cvv;
+      object.card_exp_monthAndYear = this.card_exp_monthAndYear;
+      object.card_name = this.card_name;
       object.other = this.other;
 
+      // storeのmutationにobjectを渡す
       this.$store.commit("reserve", object);
       this.$router.push("/reserveConfirm");
     },
