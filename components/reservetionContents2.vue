@@ -108,7 +108,7 @@ export default {
       const response = await axios.post(
         "http://153.127.48.168:8080/sample-credit-card-web-api/credit-card/payment",
         {
-          user_id: this.reserveObject.userId,
+          user_id: 1,
           order_number: orderNum,
           amount: this.totalPrice,
           card_number: this.reserveObject.card_num,
@@ -118,6 +118,7 @@ export default {
           card_cvv: this.reserveObject.card_cvv,
         }
       );
+      console.log(response);
       this.$router.push("/reserveFinished");
     },
   }, // end methods

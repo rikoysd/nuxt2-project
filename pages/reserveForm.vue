@@ -385,7 +385,6 @@ export default {
       this.card_exp_year = creditObject.card_exp_year;
       this.card_name = creditObject.card_name;
       this.cardFlag = creditObject.cardFlag;
-      console.log(this.cardFlag);
       this.creditFlag = creditObject.creditFlag;
     },
   }, // end methods

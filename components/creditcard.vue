@@ -7,14 +7,14 @@
           <span>カード情報</span>
           <v-text-field
             label="1234567812345678"
-            v-model.number="card_number"
+            v-model="card_number"
             outlined
             maxlength="16"
           ></v-text-field>
           <span>セキュリティコード</span
           ><v-text-field
             label="000"
-            v-model.number="card_cvv"
+            v-model="card_cvv"
             outlined
             maxlength="3"
           ></v-text-field>
