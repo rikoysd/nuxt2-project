@@ -64,7 +64,7 @@ export default {
   data() {
     return {
       // 予約情報オブジェクト
-      reserveObject: {},
+      reserveObjects: {},
       // ホテル名
       hotelName: "The Okura Tokyo",
       // ホテル詳細
@@ -95,7 +95,6 @@ export default {
      * 予約を確定する.
      */
     async reserveFinished() {
-      console.log(reserveObject);
       // 注文IDの生成
       let orderNum = "";
       for (let i = 0; i < 7; i++) {
