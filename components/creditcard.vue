@@ -7,32 +7,35 @@
           <span>カード情報</span>
           <v-text-field
             label="0000000000000000"
-            v-model.number="counts"
+            v-model.number="card_number"
             outlined
             maxlength="16"
           ></v-text-field>
           <span>セキュリティコード</span
           ><v-text-field
             label="000"
-            v-model.number="securityCord"
+            v-model.number="card_cvv"
             outlined
             maxlength="3"
           ></v-text-field>
           <span>有効期限</span
           ><v-text-field
             label="MM/YY"
-            v-model="expirationDate"
+            v-model="card_exp_monthAndYear"
             outlined
           ></v-text-field>
           <span>カード名義人</span
           ><v-text-field
             label="TARO RAKURAKU"
-            v-model="cardName"
+            v-model="card_name"
             outlined
           ></v-text-field>
         </v-card>
         <v-btn class="close-button" @click="close">キャンセル</v-btn>
-        <v-btn class="success-button" color="teal" @click="reflection"
+        <v-btn
+          class="success-button"
+          color="teal"
+          @click="reflection(creditObject)"
           >カード情報を反映させる</v-btn
         >
       </div>
@@ -47,14 +50,42 @@ export default {
   },
   data() {
     return {
-      // カードフラッグ
-      cardFlag: false,
+      // カード番号
+      card_number: "",
+      // セキュリティコード
+      card_cvv: "",
+      // 有効期限
+      card_exp_monthAndYear: "",
+      // カード名義人
+      card_name: "",
+      // カード内容のオブジェクト
+      creditObject: {
+        card_number: "",
+        card_cvv: "",
+        card_exp_monthAndYear: "",
+        card_name: "",
+        cardFlag: false,
+        creditFlag: false,
+      },
     };
   }, //end data
 
   computed: {}, // end computed
 
   methods: {
+    /**
+     * カード情報を反映させる.
+     */
+    reflection(creditObject) {
+      this.creditObject.card_number = this.card_number;
+      this.creditObject.card_cvv = this.card_cvv;
+      this.creditObject.card_exp_monthAndYear = this.card_exp_monthAndYear;
+      this.creditObject.card_name = this.card_name;
+      this.close();
+      this.creditObject.creditFlag = true;
+      this.creditObject.cardFlag = false;
+      this.$emit("reflectionCardInfo", creditObject);
+    },
     /**
      * モーダルウィンドウを閉じる.
      */

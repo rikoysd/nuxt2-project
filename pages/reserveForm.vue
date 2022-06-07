@@ -106,16 +106,19 @@
             ><br />
 
             <!-- モーダルウィンドウ -->
-            <creditcard :cardFlag="cardFlag"></creditcard>
+            <creditcard
+              :cardFlag="cardFlag"
+              @reflectionCardInfo="reflectionCardInfo"
+            ></creditcard>
             <!-- モーダルウィンドウ -->
 
             <v-card class="reflectionInfo" v-if="creditFlag">
-              <span>カード情報：{{ counts }} </span><br />
-              <span>セキュリティコード：{{ securityCord }}</span
+              <span>カード情報：{{ card_number }} </span><br />
+              <span>セキュリティコード：{{ card_cvv }}</span
               ><br />
-              <span>有効期限：{{ expirationDate }}</span
+              <span>有効期限：{{ card_exp_monthAndYear }}</span
               ><br />
-              <span>カード名義人：{{ cardName }}</span>
+              <span>カード名義人：{{ card_name }}</span>
             </v-card>
 
             <span>予約日の翌日に決済となります。</span><br />
@@ -248,13 +251,13 @@ export default {
       // 施設への連絡事項
       other: "",
       // カード番号
-      counts: "",
+      card_number: "",
       // セキュリティコード
-      securityCord: "",
+      card_cvv: "",
       // 有効期限
-      expirationDate: "",
+      card_exp_monthAndYear: "",
       // カード名義人
-      cardName: "",
+      card_name: "",
     };
   }, //end data
 
@@ -289,20 +292,23 @@ export default {
      * カード情報を入力する.
      */
     inputCardInfo() {
+      // 初期化
+      this.cardFlag = false;
       if (this.cardFlag === false) {
         this.cardFlag = true;
       }
     },
     /**
-     * カード情報を反映させる.
+     * emitで渡ってきたクレカ情報を変数に代入.
      */
-    reflection() {
-      this.counts = this.counts;
-      this.securityCord = this.securityCord;
-      this.expirationDate = this.expirationDate;
-      this.cardName = this.cardName;
-      this.close();
-      this.creditFlag = true;
+    reflectionCardInfo(creditObject) {
+      console.log(creditObject);
+      this.card_number = creditObject.card_number;
+      this.card_cvv = creditObject.card_cvv;
+      this.card_exp_monthAndYear = creditObject.card_exp_monthAndYear;
+      this.card_name = creditObject.card_name;
+      this.cardFlag = creditObject.cardFlag;
+      this.creditFlag = creditObject.creditFlag;
     },
   }, // end methods
   computed: {}, // end computed
