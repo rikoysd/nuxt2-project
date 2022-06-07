@@ -1,44 +1,46 @@
 <template>
-  <div>
+  <v-col>
     <v-btn color="primary" elevation="2" @click="addItems"
       >こだわりを追加する</v-btn
     >
-    <v-card class="menu" max-width="400" tile v-show="showMenu">
-      <v-list-item>
-        <v-list-item-content>
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title>人気のこだわり</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-divider></v-divider>
-          <v-list>
-            <v-list-item v-for="(item, i) of items" :key="i">
-              <v-list-item-action>
-                <v-checkbox
-                  v-model="checkbox"
-                  v-bind:value="item"
-                  :label="item"
-                ></v-checkbox>
-              </v-list-item-action>
+    <v-expand-transition>
+      <v-card class="menu" max-width="400" tile v-show="showMenu">
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title>人気のこだわり</v-list-item-title>
+              </v-list-item-content>
             </v-list-item>
-          </v-list>
-          <div v-for="(item, index) of checkbox" v-bind:key="index">
-            <v-chip
-              class="ma-2"
-              close
-              color="primary"
-              outlined
-              @click:close="deleteItem(index)"
-            >
-              {{ item }}
-            </v-chip>
-          </div>
-          <v-btn color="primary" elevation="2">検索</v-btn>
-        </v-list-item-content>
-      </v-list-item>
-    </v-card>
-  </div>
+            <v-divider></v-divider>
+            <v-list>
+              <v-list-item v-for="(item, i) of items" :key="i">
+                <v-list-item-action>
+                  <v-checkbox
+                    v-model="checkbox"
+                    v-bind:value="item"
+                    :label="item"
+                  ></v-checkbox>
+                </v-list-item-action>
+              </v-list-item>
+            </v-list>
+            <div v-for="(item, index) of checkbox" v-bind:key="index">
+              <v-chip
+                class="ma-2"
+                close
+                color="primary"
+                outlined
+                @click:close="deleteItem(index)"
+              >
+                {{ item }}
+              </v-chip>
+            </div>
+            <v-btn color="primary" elevation="2">検索</v-btn>
+          </v-list-item-content>
+        </v-list-item>
+      </v-card>
+    </v-expand-transition>
+  </v-col>
 </template>
 
 <script>
@@ -52,6 +54,7 @@ export default {
       showMenu: false,
       // チェック一覧
       checkbox: [],
+      expand: false,
     };
   },
   methods: {

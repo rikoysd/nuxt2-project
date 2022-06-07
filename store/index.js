@@ -4,6 +4,8 @@ import searchInstitution from "./modules/searchInstitution";
 import axios1 from "axios";
 import axios from "@nuxtjs/axios";
 import register from "./modules/register";
+import keyword from "./modules/keyword";
+import reserve from "./modules/reserve";
 
 Vue.use(Vuex);
 export const state = () => ({
@@ -22,6 +24,8 @@ export const state = () => ({
   vacantList: [],
   //地区情報
   areaList: [],
+  // 施設情報
+  instituionInfo: [],
 });
 
 export const actions = {
@@ -41,26 +45,54 @@ export const actions = {
     return payload;
   },
   /**
+   * 施設情報をAPIから取得.
+   * @param {*} context
+   */
+  async searchInstitution(context) {
+    // console.log("call3");
+    const response = await axios1.get(
+      "https://app.rakuten.co.jp/services/api/Travel/HotelDetailSearch/20170426?applicationId=1098541415969458249&format=json&hotelNo=5387"
+    );
+    const payload = response.data;
+    context.commit("setInstitutionInfo", payload);
+    // console.log(payload);
+  },
+  /**
    * 空室検索.
+   * @param {*} context
    */
   async searchVacantList(context, vacantData) {
     console.log("call");
     console.log(vacantData.roomNum);
-
+    // console.log("call");
     const vacantResponce = await axios1.get(
       // `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&largeClassCode=japan&middleClassCode=${middleClassCode}&smallClassCode=${smallClassCode}&detailClassCode=${detailClassCode}&checkinDate=${checkinDate}&checkoutDate=${checkoutDate}&adultNum=${adultNum}&roomNum=${roomNum}&responseType=large`
       `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&largeClassCode=japan&middleClassCode=${vacantData.middleClassCode}&smallClassCode=${vacantData.smallClassCode}&checkinDate=${vacantData.checkinDate}&checkoutDate=${vacantData.checkoutDate}&adultNum=${vacantData.adultNum}&roomNum=${vacantData.roomNum}&responseType=large`
     );
     console.dir("response" + JSON.stringify(vacantResponce.data.hotels));
+    // console.dir("response" + JSON.stringify(vacantResponce.data.hotels));
     context.commit("setVacantList", vacantResponce.data.hotels);
   },
   /**
-   * 施設検索(モジュール:searchInstitution).
+   * 一件空室検索.
+   * @param {*} context
    */
-  searchInstitution() {
-    // console.log("call");
-    this.dispatch("searchInstitution/searchInstitution", { root: true });
+  async searchVacant(context, params) {
+    console.log(params);
+    const vacantResponce = await axios1.get(
+      `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&largeClassCode=${params.largeClassCode}&middleClassCode=${params.middleClassCode}&smallClassCode=${params.smallClassCode}&checkinDate=${params.checkinDate}&checkoutDate=${params.checkoutDate}&adultNum=${params.adultNum}&hotelNo=${params.hotelNo}&responseType=large`
+    );
+    // console.dir("response" + JSON.stringify(vacantResponce.data.hotels));
+    context.commit("setVacantList", vacantResponce.data.hotels);
   },
+  // /**
+  //  * 施設検索(モジュール:searchInstitution).
+  //  */
+  // searchInstitution() {
+  //   // console.log("call");
+  //   this.dispatch("searchInstitution/searchInstitution", { root: true });
+  // },
+
   /**
    * キーワード検索結果のホテルを取得する.
    * @param {*} context - コンテキスト
@@ -86,7 +118,15 @@ export const actions = {
     console.log(payload);
     context.commit("showAreaList", payload);
   },
-}; // end of actions
+  /**
+   * keyword.jsにページ数とキーワードを渡す.
+   * @param {*} context - コンテキスト
+   * @param {*} object - ページ数、キーワード
+   */
+  getPageList(context, object) {
+    context.dispatch("keyword/getPageList", object, { root: true });
+  },
+}; // end actions
 
 export const mutations = {
   /**
@@ -108,26 +148,43 @@ export const mutations = {
   },
   /**
    * 空室検索の結果をstateにセット.
+   * @param {*} state - ステート
+   * @param {*} payload - ペイロード
    */
   setVacantList(state, payload) {
     state.vacantList = { hotels: payload };
     // console.log(state.vacantList);
   },
   /**
-
    *地区コード情報をstateに格納.
    */
   showAreaList(state, payload) {
     state.areaList = payload;
   },
-
   /**
-   * register.jsにユーザー情報を渡す.
+   * 施設情報をステートにセット.
+   * @param {*} state - ステート
+   * @param {*} payload - ペイロード
+   */
+  setInstitutionInfo(state, payload) {
+    state.instituionInfo = { hotels: payload };
+    // console.log(state.instituionInfo);
+  },
+  /** register.jsにユーザー情報を渡す.
    * @param {*} state - ステート
    * @param {*} object - ユーザー情報のオブジェクト
    */
   register(state, object) {
     this.commit("register/registerUser", object);
+  },
+
+  /**
+   * reserve.jsに予約情報を渡す.
+   * @param {*} state - ステート
+   * @param {*} object - 予約情報のオブジェクト
+   */
+  reserve(state, object) {
+    this.commit("reserve/reserveInfo", object);
   },
 }; //end of mutations
 
@@ -160,7 +217,8 @@ export const getters = {
    * @returns - 施設情報
    */
   getInstitutitonInfo(state) {
-    return state.searchInstitution;
+    // return state.searchInstitution;
+    return state.instituionInfo;
   },
   /**
    *
@@ -194,4 +252,6 @@ export const getters = {
 export const modules = {
   searchInstitution,
   register,
+  keyword,
+  reserve,
 };

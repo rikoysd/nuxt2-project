@@ -3,18 +3,32 @@
     <div class="main">
       <div class="reserve-info">
         <h4>予約者情報</h4>
-        氏名<v-col class="name-field" outlined>{{ fullName1 }}</v-col>
-        かな<v-col class="name2-field" outlined>{{ fullName2 }}</v-col>
-        郵便番号（ハイフンなし）<v-col class="zipcode" outlined>{{
-          zipcode
-        }}</v-col>
-        住所<v-col class="address" outlined>{{ prefecture + address }}</v-col>
-        電話番号（ハイフンなし）<v-col class="telephone" outlined>{{
-          telephone
-        }}</v-col>
-        メールアドレス<v-col class="mailaddress" outlined>{{
-          mailAddress
-        }}</v-col>
+        <v-col
+          >氏名：<span class="name-field" outlined>{{ fullName1 }}</span></v-col
+        >
+        <v-col
+          >かな：<span class="name2-field" outlined>{{
+            fullName2
+          }}</span></v-col
+        >
+        <v-col
+          >郵便番号：<span class="zipcode" outlined>{{ zipcode }}</span></v-col
+        >
+        <v-col
+          >住所：<span class="address" outlined>{{
+            prefecture + address
+          }}</span></v-col
+        >
+        <v-col
+          >電話番号：<span class="telephone" outlined>{{
+            telephone
+          }}</span></v-col
+        >
+        <v-col
+          >メールアドレス：<span class="mailaddress" outlined>{{
+            mailAddress
+          }}</span></v-col
+        >
         <hr />
       </div>
 
@@ -26,15 +40,15 @@
         <v-col class="select-gender">
           宿泊人数&nbsp;&nbsp;&nbsp;1室目 (大人{{
             people
-          }}名)&nbsp;&nbsp;男性&nbsp;<span>{{ man }}名</span>
-          &nbsp;女性&nbsp;<span>{{ woman }}名</span>
+          }}名)&nbsp;&nbsp;男性&nbsp;<span>{{ man }}</span>
+          &nbsp;女性&nbsp;<span>{{ woman }}</span>
         </v-col>
         <hr />
       </div>
 
       <div class="payment">
         <h4>お支払い方法</h4>
-        <v-col>{{ payment }}</v-col>
+        <v-col>{{ payments }}</v-col>
         <hr />
       </div>
 
@@ -88,38 +102,60 @@ export default {
   },
   data() {
     return {
+      // 予約情報オブジェクト
+      reserveObject: {},
       // フラッグ
       flag: false,
       // カードフラッグ
       cardFlag: false,
       // フルネーム（氏名）
-      fullName1: "山田花子",
+      fullName1: "",
       // フルネーム（かな）
-      fullName2: "やまだはなこ",
+      fullName2: "",
       // 郵便番号
-      zipcode: "1234567",
+      zipcode: "",
       // 都道府県
-      prefecture: "東京都",
+      prefecture: "",
       // 住所
-      address: "新宿区新宿3丁目",
+      address: "",
       // 電話番号
-      telephone: "09012345678",
+      telephone: "",
       // メールアドレス
-      mailAddress: "aaa@co.jp",
+      mailAddress: "",
       // チェックイン時間
-      checkInTime: "15:00",
+      checkInTime: "",
       // 宿泊人数
       people: 2,
       // 男性
-      man: 1,
+      man: "",
       // 女性
-      woman: 1,
+      woman: "",
       // 決済方法
-      payment: "オンライン決済",
+      payments: "",
       // 施設への連絡事項
-      other: "特にありません。",
+      other: "",
     };
   }, //end data
+
+  /**
+   * 非同期処理(予約情報の反映).
+   */
+  async mounted() {
+    this.reserveObject = await this.$store.getters["reserve/getReserveInfo"];
+    console.log(this.reserveObject);
+    this.fullName1 = this.reserveObject.fullName1;
+    this.fullName2 = this.reserveObject.fullName2;
+    this.zipcode = this.reserveObject.zipcode;
+    this.prefecture = this.reserveObject.prefecture;
+    this.address = this.reserveObject.address;
+    this.telephone = this.reserveObject.telephone;
+    this.mailAddress = this.reserveObject.mailAddress;
+    this.checkInTime = this.reserveObject.checkInTime;
+    this.man = this.reserveObject.man;
+    this.woman = this.reserveObject.woman;
+    this.payments = this.reserveObject.payments;
+    this.other = this.reserveObject.other;
+  },
 
   computed: {}, // end computed
 
@@ -136,14 +172,10 @@ export default {
 .telephone {
   width: 500px;
 }
-.select-gender,
 .radio,
 .container {
   display: flex;
   justify-content: center;
-}
-.select-g {
-  width: 30px;
 }
 .reserve-info,
 .lodging-info,
@@ -213,6 +245,6 @@ td {
   width: 250px;
   height: 80px;
   float: right;
-  margin-right: 100px;
+  margin-right: 50px;
 }
 </style>
