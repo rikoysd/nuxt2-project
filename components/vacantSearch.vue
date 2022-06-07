@@ -18,9 +18,9 @@
         <!-- 市町村選択 -->
         <v-col class="d-flex" cols="12" sm="2">
           <v-select
-            :items="hokkaidoLists"
+            :items="cityNameList"
             label="市町村"
-            @change="getHokkaidoList('smallClassCode', $event)"
+            @change="getCityList('smallClassCode', $event)"
             outlined
           ></v-select>
         </v-col>
@@ -81,13 +81,14 @@ export default {
       //都道府県情報
       areaList: [],
       //主要な市町村
-      hokkaidoList: ["都道府県を選択してください"],
+      cityList: [],
+      smallClassList: ["都道府県を選択してください"],
       //大人人数
       adultNum: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
       //部屋数
       roomNum: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+
       detailList: [],
-      detailClassList: [],
     };
   },
 
@@ -126,12 +127,12 @@ export default {
         }
       }
       //選択肢が残らないよう空の配列でリセットする
-      this.hokkaidoList = [];
+      this.smallClassList = [];
       //選択した都道府県の添え字と同じ番号の市町村を表示する
-      for (let hokkaido of this.detailList[result]) {
+      for (let hokkaido of this.cityList[result]) {
         const hokkaidoCode = hokkaido.smallClass[0].smallClassCode;
         const hokkaidoName = hokkaido.smallClass[0].smallClassName;
-        this.hokkaidoList.push({
+        this.smallClassList.push({
           hokkaidoCode: hokkaidoCode,
           hokkaidoName: hokkaidoName,
         });
@@ -140,8 +141,8 @@ export default {
     requestdata(data, name) {
       this.vacantData[data] = name;
     },
-    getHokkaidoList(data, name) {
-      let hokkaidoObj = this.hokkaidoList.find(
+    getCityList(data, name) {
+      let hokkaidoObj = this.smallClassList.find(
         (hokkaido) => hokkaido.hokkaidoName === name
       );
       this.vacantData[data] = hokkaidoObj.hokkaidoCode;
@@ -158,10 +159,10 @@ export default {
       }
       return array;
     },
-    hokkaidoLists() {
+    cityNameList() {
       let array3 = [];
-      for (let detail of this.hokkaidoList) {
-        array3.push(detail.hokkaidoName);
+      for (let city of this.smallClassList) {
+        array3.push(city.hokkaidoName);
       }
       return array3;
     },
@@ -178,19 +179,25 @@ export default {
     }
 
     //smallClass（主要な市町村）を取得.
-    let detailLists = this.$store.getters.getAreaList.middleClasses;
-    console.log(detailLists);
-    for (let detail of detailLists) {
-      this.detailList.push(detail.middleClass[1].smallClasses);
+    let cityLists = this.$store.getters.getAreaList.middleClasses;
+    for (let city of cityLists) {
+      this.cityList.push(city.middleClass[1].smallClasses);
     }
-    console.log(this.detailList[0]);
 
     //detailClass（地区詳細）を取得
+    // let detailLists = this.$store.getters.getAreaList.middleClasses;
+    // for (let detail of detailLists) {
+    //   this.detailList.push(detail.middleClass[1].smallClasses);
+    // }
+    // console.log(
+    //   cityLists.middleClass[1].smallClasses[0].smallClass[1].detailClasses
+    // );
+    console.log(this.cityLists.middleClass);
 
-    if (this.hokkaidoList === 0) {
-      this.hokkaidoList.push({ hokkaidoName: "都道府県を選択してください" });
+    if (this.smallClassList === 0) {
+      this.smallClassList.push({ hokkaidoName: "都道府県を選択してください" });
     }
-    console.log(this.hokkaidoList);
+    console.log(this.smallClassList);
   }, //end of mounted
 };
 </script>
