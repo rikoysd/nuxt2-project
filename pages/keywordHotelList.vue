@@ -2,7 +2,6 @@
   <v-container>
     <drawerMenu></drawerMenu>
     <calender></calender>
-    <requirement></requirement>
     <!-- パンくずリスト -->
     <v-breadcrumbs :items="items">
       <template v-slot:divider>
@@ -14,7 +13,9 @@
     <!-- 検索結果ページ（初期表示） -->
     <div v-show="showResult">
       <!-- 検索結果カンマ区切り -->
-      <div class="record-count">対象施設：{{ getPageInfo.recordCount }}件</div>
+      <div class="record-count">
+        対象施設：{{ getPageInfo.recordCount.toLocaleString() }}件
+      </div>
       <!-- カード -->
       <v-row>
         <v-col
@@ -28,10 +29,10 @@
               height="160px"
               src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
             >
-              <v-card-title>{{
+              <v-card-title class="title">{{
                 hotel.hotel[0].hotelBasicInfo.hotelName
               }}</v-card-title>
-              <v-card-subtitle class="pb-0"
+              <v-card-subtitle class="pb-0 sub-title"
                 >{{ hotel.hotel[2].hotelDetailInfo.areaName }} [全{{
                   hotel.hotel[3].hotelFacilitiesInfo.hotelRoomNum
                 }}室]</v-card-subtitle
@@ -50,9 +51,15 @@
                 >
                 </star-rating>
               </div>
-              <div>{{ hotel.hotel[0].hotelBasicInfo.hotelSpecial }}</div>
-              <div>
-                最安値{{ hotel.hotel[0].hotelBasicInfo.hotelMinCharge }}
+              <div class="description">
+                {{ hotel.hotel[0].hotelBasicInfo.hotelSpecial }}
+              </div>
+              <div class="min-charge">
+                最安値<span
+                  >&nbsp;{{
+                    hotel.hotel[0].hotelBasicInfo.hotelMinCharge.toLocaleString()
+                  }}&nbsp;</span
+                >
                 円(税込)
               </div>
             </v-card-text>
@@ -180,7 +187,30 @@ export default {
   margin-bottom: 60px;
 }
 
+.description {
+  margin-top: 5px;
+}
+
+.min-charge {
+  margin-top: 15px;
+}
+
+.min-charge span {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
 .record-count {
   margin-bottom: 10px;
+}
+
+.sub-title {
+  margin-bottom: 10px;
+  opacity: 0.7;
+  font-size: 0.7rem;
+}
+
+.title {
+  font-size: 10px;
 }
 </style>
