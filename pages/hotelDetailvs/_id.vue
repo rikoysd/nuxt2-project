@@ -96,8 +96,10 @@
         <v-card elevation="2" class="plansCard" tile>
           <p class="title font-weight-bold">宿泊プラン</p>
           <v-row v-show="!listShow">
+            <calender></calender>
             <v-col cols="10" md="4">
               <p>必要情報を入力し空室検索できます</p>
+
               <v-text-field
                 v-model="checkinDate"
                 label="params.checkinDate"
@@ -262,7 +264,9 @@
 </template>
 
 <script>
+import calender from "../../components/calender.vue";
 export default {
+  components: { calender },
   data() {
     return {
       paramsNo: 0,

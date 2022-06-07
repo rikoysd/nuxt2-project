@@ -1,16 +1,22 @@
 <template>
-  <div>
-    <v-text-field
-      v-model="keyword"
-      solo
-      label="エリア・キーワード・駅名など"
-      clearable
-    ></v-text-field>
-    <v-btn color="primary" elevation="2" @click="searchWord(keyword)"
-      >検索</v-btn
-    >
-    <div>{{ errorMessage }}</div>
-  </div>
+  <v-container>
+    <v-row class="d-flex">
+      <v-text-field
+        v-model="keyword"
+        solo
+        label="エリア・キーワード・駅名など"
+        clearable
+      ></v-text-field>
+      <v-btn
+        class="btn"
+        color="primary"
+        elevation="2"
+        @click="searchWord(keyword)"
+        >検索</v-btn
+      >
+    </v-row>
+    <div class="msg">{{ errorMessage }}</div>
+  </v-container>
 </template>
 
 <script>
@@ -43,4 +49,13 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.btn {
+  margin-top: 5px;
+  margin-left: 10px;
+}
+
+.msg {
+  color: red;
+}
+</style>

@@ -1,10 +1,11 @@
 <template>
   <div>
     <v-container>
+      <p>今人気の宿10選</p>
       <v-sheet>
         <v-slide-group multiple show-arrows>
           <v-slide-item v-for="hotel of responsedata" v-bind:key="hotel.id">
-            <v-card :loading="loading" class="mx-auto x-2" max-width="270">
+            <v-card :loading="loading" class="mx-2" max-width="270">
               <template slot="progress">
                 <v-progress-linear
                   color="deep-purple"
@@ -13,10 +14,7 @@
                 ></v-progress-linear>
               </template>
 
-              <v-img
-                height="150"
-                src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-              ></v-img>
+              <v-img height="150" :src="hotel.hotel.hotelImageUrl"></v-img>
 
               <v-card-title>{{ hotel.hotel.hotelName }}</v-card-title>
 
@@ -66,11 +64,10 @@ export default {
    * 総合ランキング情報を取得、表示する.
    */
   async mounted() {
-    console.log("call");
     await this.$store.dispatch("getRankingList");
     this.responsedata = this.$store.getters.getHotels;
     console.log(this.responsedata);
-  }, //created
+  }, //mounted
 
   methods: {
     reserve() {
@@ -82,14 +79,14 @@ export default {
 </script>
 
 <style>
-.flex {
-  display: flex;
-}
 .v-card__title {
-  font-size: 12px;
+  font-size: 13px;
 }
-.v-card {
-  /* margin-left: 15px; */
-  margin-right: 15px;
+.v-application .text-subtitle-1 {
+  font-size: 13px;
+}
+P {
+  font-size: 20px;
+  padding-left: 60px;
 }
 </style>
