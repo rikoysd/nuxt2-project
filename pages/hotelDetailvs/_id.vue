@@ -1,18 +1,8 @@
 <template>
   <div>
-    <!-- {{ institutionInfo }} -->
-    <!-- <div v-for="(vacantInfo, i) of vacantList" :key="i">
-      {{ vacantInfo }}<br />
-      {{ vacantInfo.vacantRoom }}
-      <v-img :src="vacantInfo.roomImageUrl"></v-img>
-      <v-img :src="vacantInfo.roomThumbnailUrl"></v-img>
-      <v-img :src="vacantInfo.hotelImageUrl"></v-img>
-      <v-img :src="vacantInfo.hotelThumbnailUrl"></v-img>
-      <v-img :src="vacantInfo.hotelMapImageUrl"></v-img>
-    </div> -->
-
     <v-row>
       <v-col cols="12">
+        <!-- カルーセル -->
         <v-carousel
           cycle
           height="400"
@@ -29,6 +19,7 @@
         </v-carousel>
       </v-col>
     </v-row>
+    <!-- ナビゲーションバー -->
     <v-row>
       <v-toolbar color="#F5F5F5">
         <v-col cols="6">
@@ -41,34 +32,24 @@
         </v-col>
       </v-toolbar>
     </v-row>
+    <!-- ボトムシート -->
+
+    <v-navigation-drawer v-model="drawer" absolute bottom temporary>
+    </v-navigation-drawer>
     <v-row>
       <v-col>
-        <div class="text-center">
-          <v-bottom-sheet v-model="sheet" inset>
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn color="orange" dark v-bind="attrs" v-on="on">
-                Open Inset
-              </v-btn>
-            </template>
-            <v-sheet class="text-center" height="200px">
-              <v-btn class="mt-6" text color="error" @click="sheet = !sheet">
-                close
-              </v-btn>
-              <div class="my-3">
-                This is a bottom sheet using the inset prop
-                <p class="font-weight-bold">{{ hotelName }}</p>
-                <br />
-                {{ hotelSpecial }}<br />
-                IN{{
-                  detailInfo.checkinTime + "~" + detailInfo.lastCheckinTime
-                }}
-                OUT{{ detailInfo.checkoutTime }}
-              </div>
-            </v-sheet>
-          </v-bottom-sheet>
-        </div>
+        <v-btn
+          color="orange"
+          dark
+          v-bind="attrs"
+          v-on="on"
+          @click.stop="drawer = !drawer"
+        >
+          Open Inset
+        </v-btn>
       </v-col>
     </v-row>
+    <!-- 施設概要 -->
     <v-row>
       <v-col cols="6">
         <p class="font-weight-bold">{{ hotelName }}</p>
@@ -90,29 +71,26 @@
         口コミ:<span v-html="userReview"></span>
       </v-col>
     </v-row>
-    <!-- <nuxt-link>link</nuxt-link> -->
+    <!-- 宿泊プラン -->
     <v-row>
       <v-col cols="12">
         <v-card elevation="2" class="plansCard" tile>
           <p class="title font-weight-bold">宿泊プラン</p>
           <v-row v-show="!listShow">
-            <calender></calender>
+            <calender @selectDates="addDates"></calender>
             <v-col cols="10" md="4">
               <p>必要情報を入力し空室検索できます</p>
-
               <v-text-field
                 v-model="checkinDate"
                 label="params.checkinDate"
               ></v-text-field>
             </v-col>
-
             <v-col cols="12" md="4">
               <v-text-field
                 v-model="checkoutDate"
                 label="params.checkoutDate"
               ></v-text-field>
             </v-col>
-
             <v-col cols="12" md="4">
               <v-text-field
                 v-model="adultNum"
@@ -178,6 +156,7 @@
         </v-card>
       </v-col>
     </v-row>
+    <!-- 施設詳細 -->
     <v-row>
       <v-col id="hotelInfo" cols="10">
         <p class="title font-weight-bold">施設情報</p>
@@ -199,7 +178,6 @@
           readonly
           icon-label="custom icon label text {0} of {1}"
         ></v-rating>
-
         {{ "装備品評価" + equipmentAverage }}
         <v-rating
           color="#e9bc00"
@@ -230,6 +208,7 @@
         ></v-rating>
       </v-col>
     </v-row>
+    <!-- アクセス -->
     <v-row>
       <v-col id="acsess" cols="12">
         <p class="title font-weight-bold">アクセス</p>
@@ -254,7 +233,6 @@
         ><br />
         <p class="caption">
           郵便番号：{{ postalCode }} <br />
-
           駐車場情報：{{ parkingInformation }}<br />
           電話番号：{{ telephoneNo }}<br />
         </p>
@@ -302,16 +280,25 @@ export default {
       listShow: false,
       now: new Date(),
       target: "",
+      dates: [],
+      drawer: false,
+      group: null,
     };
   },
-  // methods: {
-  //   searchVacant() {
-  //     console.log("call1");
-  //     this.$store.dispatch("searchVacantList");
-  //     this.vacantList = this.$store.getters.getVacantList;
-  //     console.log(this.vacantList);
-  //   },
-  // },
+  watch: {
+    group() {
+      this.drawer = false;
+    },
+  },
+  methods: {
+    addDates(date) {
+      console.log(date);
+      this.checkinDate = date[0];
+      this.checkoutDate = date[1];
+      // console.log(date[0]);
+      // console.log(date[1]);
+    },
+  },
   async mounted() {
     this.paramsNo = this.$route.params.id;
     // 施設検索
@@ -331,9 +318,9 @@ export default {
     if (Date < 10) {
       Date = "0" + Date;
     }
-    let Date2 = this.now.getDate() + 1;
+    let Date2 = this.now.getDate() + 8;
     if (Date2 < 10) {
-      Date2 = "0" + Date;
+      Date2 = "0" + Date2;
     }
     this.target = Year + "-" + Month + "-" + Date;
     const target2 = Year + "-" + Month + "-" + Date2;

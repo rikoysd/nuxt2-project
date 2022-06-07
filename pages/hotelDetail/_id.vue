@@ -296,9 +296,9 @@ export default {
     if (Date < 10) {
       Date = "0" + Date;
     }
-    let Date2 = this.now.getDate() + 1;
+    let Date2 = this.now.getDate() + 8;
     if (Date2 < 10) {
-      Date2 = "0" + Date;
+      Date2 = "0" + Date2;
     }
     this.target = Year + "-" + Month + "-" + Date;
     const target2 = Year + "-" + Month + "-" + Date2;
