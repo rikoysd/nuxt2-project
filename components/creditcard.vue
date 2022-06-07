@@ -90,7 +90,7 @@ export default {
      * モーダルウィンドウを閉じる.
      */
     close() {
-      this.cardFlag = false;
+      this.creditObject.cardFlag = false;
     },
   }, // end methods
 };
