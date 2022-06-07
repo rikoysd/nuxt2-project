@@ -99,7 +99,13 @@ export default {
       errorCheck: "false",
       // エラーリスト
       errors: [],
+      // ユーザー一覧
+      userList: [],
     };
+  },
+  mounted() {
+    this.userList = this.$store.getters["register/getUserList"];
+    console.log(this.userList);
   },
   methods: {
     /**
@@ -218,7 +224,21 @@ export default {
         return;
       }
 
+      // ユーザーIDを作成
+      let userId = 0;
+      let idList = [];
+
+      if (this.userList.length === 0) {
+        userId = 1;
+      } else {
+        for (let user of this.userList) {
+          idList.push(user.id);
+        }
+        userId = Math.max(...idList) + 1;
+      }
+
       let object = {
+        id: "",
         fullName1: "",
         fullName2: "",
         zipcode: "",
@@ -229,6 +249,7 @@ export default {
         password: "",
       };
 
+      object.id = userId;
       object.fullName1 = this.fullName1;
       object.fullName2 = this.fullName2;
       object.zipcode = this.zipcode;
