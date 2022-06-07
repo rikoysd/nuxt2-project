@@ -1,8 +1,7 @@
 <template>
-  <div>
+  <v-container>
     <drawerMenu></drawerMenu>
     <calender></calender>
-    <requirement></requirement>
     <!-- パンくずリスト -->
     <v-breadcrumbs :items="items">
       <template v-slot:divider>
@@ -14,52 +13,69 @@
     <!-- 検索結果ページ（初期表示） -->
     <div v-show="showResult">
       <!-- 検索結果カンマ区切り -->
-      <div>対象施設：{{ getPageInfo.recordCount }}件</div>
-      <!-- カード -->
-      <div v-for="(hotel, index) of getHotelList" v-bind:key="index">
-        <v-card max-width="500">
-          <v-img
-            class="white--text align-end"
-            height="160px"
-            src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-          >
-            <v-card-title>{{
-              hotel.hotel[0].hotelBasicInfo.hotelName
-            }}</v-card-title>
-            <v-card-subtitle class="pb-0"
-              >{{ hotel.hotel[2].hotelDetailInfo.areaName }} [全{{
-                hotel.hotel[3].hotelFacilitiesInfo.hotelRoomNum
-              }}室]</v-card-subtitle
-            >
-          </v-img>
-          <v-card-text class="text--primary">
-            <div>
-              <star-rating
-                v-bind:increment="0.01"
-                v-bind:max-rating="5"
-                v-bind:rating="hotel.hotel[0].hotelBasicInfo.reviewAverage"
-                inactive-color="#000"
-                active-color="#ffd700"
-                v-bind:star-size="15"
-                v-bind:read-only="true"
-              >
-              </star-rating>
-            </div>
-            <div>{{ hotel.hotel[0].hotelBasicInfo.hotelSpecial }}</div>
-            <div>
-              最安値{{ hotel.hotel[0].hotelBasicInfo.hotelMinCharge }} 円(税込)
-            </div>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn
-              color="orange"
-              text
-              @click="showHotelDetail(hotel.hotel[0].hotelBasicInfo.hotelNo)"
-              >詳細を見る</v-btn
-            >
-          </v-card-actions>
-        </v-card>
+      <div class="record-count">
+        対象施設：{{ Number(getPageInfo.recordCount).toLocaleString() }}件
       </div>
+      <!-- カード -->
+      <v-row>
+        <v-col
+          class="d-flex justify-center"
+          v-for="(hotel, index) of getHotelList"
+          v-bind:key="index"
+        >
+          <v-card class="card" max-width="399">
+            <v-img
+              class="white--text align-end"
+              height="160px"
+              src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+            >
+              <v-card-title class="title">{{
+                hotel.hotel[0].hotelBasicInfo.hotelName
+              }}</v-card-title>
+              <v-card-subtitle class="pb-0 sub-title"
+                >{{ hotel.hotel[2].hotelDetailInfo.areaName }} [全{{
+                  hotel.hotel[3].hotelFacilitiesInfo.hotelRoomNum
+                }}室]</v-card-subtitle
+              >
+            </v-img>
+            <v-card-text class="text--primary">
+              <div>
+                <star-rating
+                  v-bind:increment="0.01"
+                  v-bind:max-rating="5"
+                  v-bind:rating="hotel.hotel[0].hotelBasicInfo.reviewAverage"
+                  inactive-color="#000"
+                  active-color="#ffd700"
+                  v-bind:star-size="15"
+                  v-bind:read-only="true"
+                >
+                </star-rating>
+              </div>
+              <div class="description">
+                {{ hotel.hotel[0].hotelBasicInfo.hotelSpecial }}
+              </div>
+              <div class="min-charge">
+                最安値<span
+                  >&nbsp;{{
+                    Number(
+                      hotel.hotel[0].hotelBasicInfo.hotelMinCharge
+                    ).toLocaleString()
+                  }}&nbsp;</span
+                >
+                円(税込)
+              </div>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn
+                color="orange"
+                text
+                @click="showHotelDetail(hotel.hotel[0].hotelBasicInfo.hotelNo)"
+                >詳細を見る</v-btn
+              >
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
       <!-- ページネーション -->
       <div class="text-center">
         <v-pagination
@@ -69,7 +85,7 @@
         ></v-pagination>
       </div>
     </div>
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -168,4 +184,35 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.card {
+  margin-bottom: 60px;
+}
+
+.description {
+  margin-top: 5px;
+}
+
+.min-charge {
+  margin-top: 15px;
+}
+
+.min-charge span {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.record-count {
+  margin-bottom: 10px;
+}
+
+.sub-title {
+  margin-bottom: 10px;
+  opacity: 0.7;
+  font-size: 0.7rem;
+}
+
+.title {
+  font-size: 10px;
+}
+</style>

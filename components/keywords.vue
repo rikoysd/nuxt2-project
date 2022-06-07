@@ -1,9 +1,13 @@
 <template>
-  <div>
-    <div v-for="(keyword, index) of tags" v-bind:key="index" class="d-flex">
-      <v-chip link @click="searchKeyword(keyword)">#{{ keyword }}</v-chip>
-    </div>
-  </div>
+  <v-container>
+    <v-row>
+      <div v-for="(keyword, index) of tags" v-bind:key="index">
+        <v-chip class="chip" link @click="searchKeyword(keyword)"
+          >#{{ keyword }}</v-chip
+        >
+      </div>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -36,4 +40,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.chip {
+  margin-bottom: 5px;
+  margin-right: 5px;
+}
+</style>
