@@ -369,7 +369,6 @@ export default {
      * emitで渡ってきたクレカ情報を変数に代入.
      */
     reflectionCardInfo(creditObject) {
-      console.log(creditObject);
       this.card_number = creditObject.card_number;
       this.card_cvv = creditObject.card_cvv;
       this.card_exp_monthAndYear = creditObject.card_exp_monthAndYear;
