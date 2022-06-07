@@ -14,7 +14,7 @@
     <div v-show="showResult">
       <!-- 検索結果カンマ区切り -->
       <div class="record-count">
-        対象施設：{{ getPageInfo.recordCount.toLocaleString() }}件
+        対象施設：{{ Number(getPageInfo.recordCount).toLocaleString() }}件
       </div>
       <!-- カード -->
       <v-row>
@@ -57,7 +57,9 @@
               <div class="min-charge">
                 最安値<span
                   >&nbsp;{{
-                    hotel.hotel[0].hotelBasicInfo.hotelMinCharge.toLocaleString()
+                    Number(
+                      hotel.hotel[0].hotelBasicInfo.hotelMinCharge
+                    ).toLocaleString()
                   }}&nbsp;</span
                 >
                 円(税込)
