@@ -2,9 +2,9 @@
   <div>
     <v-app>
       <Header />
-      <Top />
+      <!-- <Top />
       <Vacant-search />
-      <Ranking />
+      <Ranking /> -->
       <v-main>
         <v-container><Nuxt /></v-container>
       </v-main>

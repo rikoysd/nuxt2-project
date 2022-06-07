@@ -85,7 +85,7 @@ export const actions = {
       // console.dir("response" + JSON.stringify(vacantResponce.data.hotels));
       context.commit("setVacantList", vacantResponce.data.hotels);
     } catch (error) {
-      alert("該当する施設が存在しません");
+      alert("該当する宿泊プランが存在しません");
       console.log(error);
     }
   },

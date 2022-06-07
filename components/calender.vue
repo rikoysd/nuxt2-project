@@ -44,7 +44,6 @@ export default {
           let candidateDate = new Date(this.dates[i]);
           array.push(candidateDate);
         }
-
         // 日付を昇順に並び替える
         array.sort(function (a, b) {
           return a > b ? 1 : -1;

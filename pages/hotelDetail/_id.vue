@@ -266,6 +266,8 @@ export default {
       postalCode: "",
       telephoneNo: 0,
       sheet: false,
+      now: new Date(),
+      target: "",
     };
   },
   // methods: {
@@ -285,10 +287,27 @@ export default {
     const basicInfo = hotels.hotel[0].hotelBasicInfo;
     console.log("施設情報", hotels);
     // 空室検索
+    const Year = this.now.getFullYear();
+    let Month = this.now.getMonth() + 1;
+    if (Month < 10) {
+      Month = "0" + Month;
+    }
+    let Date = this.now.getDate() + 7;
+    if (Date < 10) {
+      Date = "0" + Date;
+    }
+    let Date2 = this.now.getDate() + 1;
+    if (Date2 < 10) {
+      Date2 = "0" + Date;
+    }
+    this.target = Year + "-" + Month + "-" + Date;
+    const target2 = Year + "-" + Month + "-" + Date2;
+    console.log("target", this.target);
+
     await this.$store.dispatch("searchVacant", {
       hotelNo: basicInfo.hotelNo,
-      checkinDate: "2022-12-01",
-      checkoutDate: "2022-12-02",
+      checkinDate: this.target,
+      checkoutDate: target2,
       adultNum: "2",
     });
     this.vacantList = this.$store.getters.getVacantList;
@@ -344,9 +363,9 @@ export default {
 v-btn {
   height: 100%;
 }
-* {
+/* * {
   margin: auto;
-}
+} */
 .planCard {
   height: 230px;
   padding-bottom: 5px;
