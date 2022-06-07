@@ -15,6 +15,7 @@
             v-model="dates"
             range
             @input="addDates"
+            @change="getDates(dates)"
           ></v-date-picker>
           <v-card-actions>
             <v-btn text color="deep-purple accent-4" @click="closePopup"
@@ -37,6 +38,10 @@ export default {
     };
   },
   methods: {
+    getDates(dates) {
+      this.$emit("selectDates", dates);
+      console.log("call");
+    },
     addDates() {
       let array = [];
       if (this.dates.length === 2) {

@@ -1,5 +1,7 @@
 <template>
-  <div></div>
+  <div>
+    <vacantSearch></vacantSearch>
+  </div>
 </template>
 
 <script></script>
