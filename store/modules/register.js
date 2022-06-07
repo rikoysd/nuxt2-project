@@ -2,8 +2,8 @@ export default {
   namespaced: true,
 
   state: {
-    // ユーザー情報
-    userInfo: {},
+    // ユーザー一覧
+    userList: [],
   },
 
   actions: {},
@@ -15,18 +15,18 @@ export default {
      * @param {*} payload - ユーザー情報のオブジェクト
      */
     registerUser(state, payload) {
-      state.userInfo = payload;
+      state.userList.push(payload);
     },
   },
 
   getters: {
     /**
-     * ユーザー情報を取得.
+     * ユーザー一覧を取得.
      * @param {*} state - ステート
-     * @returns ユーザー情報
+     * @returns ユーザー一覧
      */
-    getUserInfo(state) {
-      return state.userInfo;
+    getUserList(state) {
+      return state.userList;
     },
   },
 };

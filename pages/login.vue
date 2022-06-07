@@ -1,7 +1,7 @@
 <template>
   <div class="whole">
     <v-container fluid class="login-area">
-      <div>{{ submitError }}</div>
+      <div class="submit-error">{{ submitError }}</div>
       <span>{{ mailAddressError }}</span
       ><v-text-field
         class="mailAddress"
@@ -18,6 +18,7 @@
         class="input-group--focused"
         @click:append="show3 = !show3"
         outlined
+        v-model="password"
       ></v-text-field>
       <v-btn class="login-info" color="primary" @click="login">ログイン</v-btn>
       <div class="msg">
@@ -107,8 +108,8 @@ export default {
         object.mailAddress === this.mailAddress &&
         object.password === this.password
       ) {
-        // ログイン成功
-        this.submitError = "ログイン成功！";
+        // マイページに遷移
+        this.$router.push("/mypage");
       } else {
         // ログイン失敗
         this.submitError = "メールアドレスまたはパスワードが間違っています";
@@ -133,6 +134,11 @@ span {
 
 .msg {
   margin-top: 20px;
+}
+
+.submit-error {
+  margin-bottom: 10px;
+  color: red;
 }
 
 .whole {
