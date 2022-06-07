@@ -105,7 +105,6 @@ export default {
   },
   mounted() {
     this.userList = this.$store.getters["register/getUserList"];
-    console.log(this.userList);
   },
   methods: {
     /**
@@ -191,6 +190,26 @@ export default {
         this.errorCheck = true;
       } else if (this.mailAddress.indexOf("@") === -1) {
         this.mailaddressError = "正しい形式で入力してください";
+        this.errorCheck = true;
+      } else {
+        this.mailaddressError = "";
+        this.errorCheck = false;
+      }
+      this.errors.push(this.errorCheck);
+
+      // メールアドレスの重複エラー
+      let addressArray = [];
+      for (let user of this.userList) {
+        addressArray.push(user.mailAddress);
+      }
+      let sameAddress = "";
+      for (let address of addressArray) {
+        if (address === this.mailAddress) {
+          sameAddress = this.mailAddress;
+        }
+      }
+      if (sameAddress !== "") {
+        this.mailaddressError = "このメールアドレスは既に登録されています";
         this.errorCheck = true;
       } else {
         this.mailaddressError = "";
