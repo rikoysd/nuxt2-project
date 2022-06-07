@@ -32,11 +32,13 @@
           maxlength="7"
           outlined
         ></v-text-field>
-        <!-- コンポーネント -->
+        <!-- コンポーネント start-->
         <span style="color: red">*</span>住所<span style="color: red"
           >&emsp;{{ prefectureError }}</span
         ><selectPrefectures @prefecture="reservePrefecture"></selectPrefectures
-        ><br /><span style="color: red">&emsp;{{ addressError }}</span>
+        ><br />
+        <!-- コンポーネント end-->
+        <span style="color: red">&emsp;{{ addressError }}</span>
         <v-text-field
           class="address"
           label="港区赤坂0-0-0（海外住所の場合は「海外」と入力）"
@@ -121,13 +123,13 @@
               >カード情報を入力する</v-btn
             ><br />
 
-            <!-- モーダルウィンドウ -->
+            <!-- モーダルウィンドウ start-->
             <creditcard
               :cardFlag="cardFlag"
               @change="inputCardInfo"
               @reflectionCardInfo="reflectionCardInfo"
             ></creditcard>
-            <!-- モーダルウィンドウ -->
+            <!-- モーダルウィンドウ end-->
 
             <v-card class="reflectionInfo" v-if="creditFlag">
               <span>カード情報：{{ card_number }} </span><br />
@@ -198,7 +200,7 @@
 
     <div class="reservetion-contents">
       <img class="reserve-img" src="@/assets/img/1.png" />
-      <!-- コンポーネント -->
+      <!-- コンポーネント start-->
       <reservetionContents
         :fullName1="fullName1"
         :fullName2="fullName2"
@@ -219,6 +221,7 @@
         :card_name="card_name"
         @errorObject="errorObject"
       ></reservetionContents>
+      <!-- コンポーネント end-->
     </div>
   </div>
 </template>

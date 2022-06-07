@@ -71,12 +71,19 @@ export default {
   },
   data() {
     return {
+      // ホテル名
       hotelName: "The Okura Tokyo",
+      // ホテル詳細
       dateAndMeal: "2022月5月30日〜 1泊 食事なし",
+      // 宿泊人数
       peopleAndRooms: "大人2名 1室",
+      // 部屋の種類
       room: "プレステージルーム ツイン 【禁煙】",
+      // リンク？
       plan: "ホテルのリンクを貼る（？）",
+      // 宿泊料金合計
       subPrice: 0,
+      // お支払い金額
       totalPrice: 0,
       // エラーチェック
       errorCheck: "false",
