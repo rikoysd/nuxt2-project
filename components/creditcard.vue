@@ -46,6 +46,7 @@
 <script>
 export default {
   props: {
+    // propsは直接書き換えてはいけない！！！
     cardFlag: Boolean,
   },
   data() {
