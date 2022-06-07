@@ -53,7 +53,7 @@
           <span>カード情報：{{ card_number }} </span><br />
           <span>セキュリティコード：{{ card_cvv }}</span
           ><br />
-          <span>有効期限：{{ card_exp_monthAndYear }}</span
+          <span>有効期限：{{ card_exp_month }}/{{ card_exp_year }}</span
           ><br />
           <span>カード名義人：{{ card_name }}</span>
         </v-card>
@@ -95,7 +95,11 @@
 
     <div class="reservetion-contents">
       <img class="reserve-img" src="@/assets/img/2.png" />
-      <reservetionContents2></reservetionContents2>
+      <!-- コンポーネント start-->
+      <reservetionContents2
+        :reserveObject="reserveObject"
+      ></reservetionContents2>
+      <!-- コンポーネント end-->
     </div>
   </div>
 </template>
@@ -142,8 +146,10 @@ export default {
       card_number: "",
       // セキュリティコード
       card_cvv: "",
-      // 有効期限
-      card_exp_monthAndYear: "",
+      // 有効期限(月)
+      card_exp_month: "",
+      // 有効期限(日)
+      card_exp_year: "",
       // カード名義人
       card_name: "",
       // 施設への連絡事項
@@ -156,7 +162,6 @@ export default {
    */
   async mounted() {
     this.reserveObject = await this.$store.getters["reserve/getReserveInfo"];
-    console.log(this.reserveObject);
     this.fullName1 = this.reserveObject.fullName1;
     this.fullName2 = this.reserveObject.fullName2;
     this.zipcode = this.reserveObject.zipcode;
@@ -170,9 +175,11 @@ export default {
     this.payments = this.reserveObject.payments;
     this.card_number = this.reserveObject.card_number;
     this.card_cvv = this.reserveObject.card_cvv;
-    this.card_exp_monthAndYear = this.reserveObject.card_exp_monthAndYear;
+    this.card_exp_month = this.reserveObject.card_exp_month;
+    this.card_exp_year = this.reserveObject.card_exp_year;
     this.card_name = this.reserveObject.card_name;
     this.other = this.reserveObject.other;
+    console.log(this.reserveObject); //ok
 
     // 決済方法によるカードの表示切り替え
     if (this.payments === "現地決済") {

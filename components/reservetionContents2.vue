@@ -55,10 +55,16 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-  name: "reservetionContents",
+  props: {
+    reserveObject: Object,
+  },
   data() {
     return {
+      // 予約情報オブジェクト
+      reserveObject: {},
       // ホテル名
       hotelName: "The Okura Tokyo",
       // ホテル詳細
@@ -88,7 +94,30 @@ export default {
     /**
      * 予約を確定する.
      */
-    reserveFinished() {
+    async reserveFinished() {
+      console.log(reserveObject);
+      // 注文IDの生成
+      let orderNum = "";
+      for (let i = 0; i < 7; i++) {
+        let num = Math.floor(Math.random() * 10) + 11;
+        let str = String(num);
+        orderNum += str;
+      }
+
+      // クレカ情報を送る
+      const response = await axios.post(
+        "http://153.127.48.168:8080/sample-credit-card-web-api/credit-card/payment",
+        {
+          user_id: this.reserveObject.userId,
+          order_number: orderNum,
+          amount: this.totalPrice,
+          card_number: this.reserveObject.card_num,
+          card_exp_year: this.reserveObject.card_exp_year,
+          card_exp_month: this.reserveObject.card_exp_month,
+          card_name: this.reserveObject.card_name,
+          card_cvv: this.reserveObject.card_cvv,
+        }
+      );
       this.$router.push("/reserveFinished");
     },
   }, // end methods

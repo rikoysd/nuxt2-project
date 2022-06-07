@@ -35,8 +35,7 @@
         <!-- コンポーネント start-->
         <span style="color: red">*</span>住所<span style="color: red"
           >&emsp;{{ prefectureError }}</span
-        ><selectPrefectures @prefecture="reservePrefecture"></selectPrefectures
-        ><br />
+        ><selectPrefectures @prefecture="reservePrefecture"></selectPrefectures>
         <!-- コンポーネント end-->
         <span style="color: red">&emsp;{{ addressError }}</span>
         <v-text-field
@@ -135,7 +134,7 @@
               <span>カード情報：{{ card_number }} </span><br />
               <span>セキュリティコード：{{ card_cvv }}</span
               ><br />
-              <span>有効期限：{{ card_exp_monthAndYear }}</span
+              <span>有効期限：{{ card_exp_month }}/{{ card_exp_year }}</span
               ><br />
               <span>カード名義人：{{ card_name }}</span>
             </v-card>
@@ -217,7 +216,8 @@
         :errorChecks="errorChecks"
         :card_number="card_name"
         :card_cvv="card_cvv"
-        :card_exp_monthAndYear="card_exp_monthAndYear"
+        :card_exp_month="card_exp_month"
+        :card_exp_year="card_exp_year"
         :card_name="card_name"
         @errorObject="errorObject"
       ></reservetionContents>
@@ -298,8 +298,10 @@ export default {
       card_number: "",
       // セキュリティコード
       card_cvv: "",
-      // 有効期限
-      card_exp_monthAndYear: "",
+      // 有効期限(月)
+      card_exp_month: "",
+      // 有効期限(年)
+      card_exp_year: "",
       // カード名義人
       card_name: "",
       // ログイン情報
@@ -379,7 +381,8 @@ export default {
     reflectionCardInfo(creditObject) {
       this.card_number = creditObject.card_number;
       this.card_cvv = creditObject.card_cvv;
-      this.card_exp_monthAndYear = creditObject.card_exp_monthAndYear;
+      this.card_exp_month = creditObject.card_exp_month;
+      this.card_exp_year = creditObject.card_exp_year;
       this.card_name = creditObject.card_name;
       this.cardFlag = creditObject.cardFlag;
       console.log(this.cardFlag);

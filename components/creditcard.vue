@@ -18,12 +18,20 @@
             outlined
             maxlength="3"
           ></v-text-field>
-          <span>有効期限</span
-          ><v-text-field
-            label="MM/YY"
-            v-model="card_exp_monthAndYear"
-            outlined
-          ></v-text-field>
+          <span>有効期限</span>
+          <div class="card-exp">
+            <v-text-field
+              label="MM"
+              v-model="card_exp_month"
+              outlined
+            ></v-text-field
+            >&emsp;
+            <v-text-field
+              label="YY"
+              v-model="card_exp_year"
+              outlined
+            ></v-text-field>
+          </div>
           <span>カード名義人</span
           ><v-text-field
             label="TARO RAKURAKU"
@@ -55,15 +63,18 @@ export default {
       card_number: "",
       // セキュリティコード
       card_cvv: "",
-      // 有効期限
-      card_exp_monthAndYear: "",
+      // 有効期限(月)
+      card_exp_month: "",
+      // 有効期限(年)
+      card_exp_year: "",
       // カード名義人
       card_name: "",
       // カード内容のオブジェクト
       creditObject: {
         card_number: "",
         card_cvv: "",
-        card_exp_monthAndYear: "",
+        card_exp_month: "",
+        card_exp_year: "",
         card_name: "",
         cardFlag: false,
         creditFlag: false,
@@ -80,7 +91,8 @@ export default {
     reflection(creditObject) {
       this.creditObject.card_number = this.card_number;
       this.creditObject.card_cvv = this.card_cvv;
-      this.creditObject.card_exp_monthAndYear = this.card_exp_monthAndYear;
+      this.creditObject.card_exp_month = this.card_exp_month;
+      this.creditObject.card_exp_year = this.card_exp_year;
       this.creditObject.card_name = this.card_name;
       this.creditObject.creditFlag = true;
       this.$emit("reflectionCardInfo", creditObject);
@@ -131,5 +143,9 @@ export default {
   color: white;
   margin-top: 15px;
   float: right;
+}
+.card-exp {
+  display: flex;
+  width: 200px;
 }
 </style>
