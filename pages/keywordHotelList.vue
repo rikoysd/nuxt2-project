@@ -13,6 +13,14 @@
     <!-- 検索結果ページ（初期表示） -->
     <div class="error-flag">{{ getErrorFlag }}</div>
     <div v-show="showResult">
+      <!-- ページネーション -->
+      <div class="text-center">
+        <v-pagination
+          v-model="page"
+          :length="5"
+          @input="getNumber"
+        ></v-pagination>
+      </div>
       <!-- 検索結果カンマ区切り -->
       <div class="record-count">
         対象施設：{{ Number(getPageInfo.recordCount).toLocaleString() }}件
@@ -28,19 +36,17 @@
             <v-img
               class="white--text align-end"
               height="160px"
-              src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+              v-bind:src="hotel.hotel[0].hotelBasicInfo.hotelImageUrl"
             >
-              <v-card-title class="title">{{
-                hotel.hotel[0].hotelBasicInfo.hotelName
-              }}</v-card-title>
-              <v-card-subtitle class="pb-0 sub-title"
-                >{{ hotel.hotel[2].hotelDetailInfo.areaName }} [全{{
-                  hotel.hotel[3].hotelFacilitiesInfo.hotelRoomNum
-                }}室]</v-card-subtitle
-              >
             </v-img>
             <v-card-text class="text--primary">
-              <div>
+              <div class="hotel-name">
+                {{ hotel.hotel[0].hotelBasicInfo.hotelName }}
+              </div>
+              <div class="pb-0 sub-title">
+                {{ hotel.hotel[2].hotelDetailInfo.areaName }} [全{{
+                  hotel.hotel[3].hotelFacilitiesInfo.hotelRoomNum
+                }}室]
                 <star-rating
                   v-bind:increment="0.01"
                   v-bind:max-rating="5"
@@ -170,7 +176,6 @@ export default {
      * @param - ホテル番号
      */
     showHotelDetail(number) {
-      console.log(number);
       this.$router.push(`/hotelDetail/${number}`);
     },
   },
@@ -215,10 +220,16 @@ export default {
 
 .description {
   margin-top: 5px;
+  font-size: 12px;
 }
 
 .error-flag {
   margin: 10px 0;
+}
+
+.hotel-name {
+  font-size: 15px;
+  font-weight: bold;
 }
 
 .min-charge {
@@ -238,9 +249,5 @@ export default {
   margin-bottom: 10px;
   opacity: 0.7;
   font-size: 0.7rem;
-}
-
-.title {
-  font-size: 10px;
 }
 </style>
