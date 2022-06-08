@@ -146,5 +146,7 @@ span {
   background-image: url(../assets/img/background-img.jpg);
   background-size: cover;
   background-position: center center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
 }
 </style>
