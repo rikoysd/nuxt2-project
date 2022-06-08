@@ -229,10 +229,10 @@
 </template>
 
 <script>
-import selectPrefectures from "../components/selectPrefectures.vue";
-import selectChecin from "../components/selectCheckin.vue";
-import reservetionContents from "../components/reservetionContents.vue";
-import creditcard from "../components/creditcard.vue";
+import selectPrefectures from "../../components/selectPrefectures.vue";
+import selectChecin from "../../components/selectCheckin.vue";
+import reservetionContents from "../../components/reservetionContents.vue";
+import creditcard from "../../components/creditcard.vue";
 
 export default {
   name: "reserveForm",
