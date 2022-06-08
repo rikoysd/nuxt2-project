@@ -238,8 +238,16 @@ export default {
       if (array.length > 0) {
         return;
       }
+      // 予約情報IDの生成
+      let reserveId = "";
+      for (let i = 0; i < 7; i++) {
+        let num = Math.floor(Math.random() * 10) + 11;
+        let str = String(num);
+        reserveId += str;
+      }
 
       let object = {
+        reserveId: "",
         fullName1: "",
         fullName2: "",
         zipcode: "",
@@ -258,6 +266,7 @@ export default {
         card_name: "",
         other: "",
       };
+      object.reserveId = reserveId;
       object.fullName1 = this.fullName1;
       object.fullName2 = this.fullName2;
       object.zipcode = this.zipcode;

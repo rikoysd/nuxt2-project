@@ -118,6 +118,8 @@ export default {
       reserveObject: {},
       // カードフラッグ
       cardFlag: false,
+      // 予約者ID
+      reserveId: "",
       // フルネーム（氏名）
       fullName1: "",
       // フルネーム（かな）
@@ -162,6 +164,7 @@ export default {
    */
   async mounted() {
     this.reserveObject = await this.$store.getters["reserve/getReserveInfo"];
+    this.reserveId = this.reserveObject.reserveId;
     this.fullName1 = this.reserveObject.fullName1;
     this.fullName2 = this.reserveObject.fullName2;
     this.zipcode = this.reserveObject.zipcode;
@@ -179,6 +182,7 @@ export default {
     this.card_exp_year = this.reserveObject.card_exp_year;
     this.card_name = this.reserveObject.card_name;
     this.other = this.reserveObject.other;
+
     console.log(this.reserveObject); //ok
 
     // 決済方法によるカードの表示切り替え
