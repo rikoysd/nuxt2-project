@@ -33,7 +33,7 @@
             v-for="(hotel, index) of getHotelList"
             v-bind:key="index"
           >
-            <v-card class="card" max-width="399" @click="showHotelDetail">
+            <v-card class="card" max-width="399">
               <v-img
                 class="white--text align-end"
                 height="160px"
@@ -82,6 +82,9 @@
                   "
                   >詳細を見る</v-btn
                 >
+                <favorite-button
+                  :hotelNum="hotel.hotel[0].hotelBasicInfo.hotelNo"
+                ></favorite-button>
               </v-card-actions>
             </v-card>
           </v-col>
