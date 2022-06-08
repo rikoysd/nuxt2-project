@@ -47,7 +47,6 @@ export default {
      * @param {*} payload - エラー情報
      */
     inputErrorList(state, payload) {
-      console.log(payload);
       state.flag = payload;
     },
   },

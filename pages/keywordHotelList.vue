@@ -127,6 +127,9 @@ export default {
       searchError: "",
     };
   },
+  mounted() {
+    this.showResult = false;
+  },
   methods: {
     /**
      * キーワードの検索結果を取得する.
