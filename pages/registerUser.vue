@@ -50,15 +50,11 @@
       パスワード<span>&emsp;{{ passwordError }}</span
       ><v-text-field
         class="password"
-        label="rakus12345"
+        label="Rakus12345?（8～16文字、英小大文字、数字、記号(.?/-)を各1つ以上）"
         v-model="password"
         type="password"
         outlined
       ></v-text-field>
-      <div>・8～16文字以内</div>
-      <div>
-        ・英語小文字・大文字、数字、記号(.?/-)をそれぞれ1つ以上使用してください
-      </div>
       <v-row justify="center">
         <v-btn
           class="register-btn"
@@ -312,7 +308,7 @@ export default {
 
 <style scoped>
 .register-btn {
-  margin-top: 40px;
+  margin-top: 30px;
 }
 
 span {
