@@ -1,5 +1,5 @@
 <template>
-  <div class="whole">
+  <div class="whole d-flex align-center mb-6">
     <v-container fluid class="login-area">
       <div class="submit-error">{{ submitError }}</div>
       <span>{{ mailAddressError }}</span
@@ -99,7 +99,7 @@ export default {
       }
       // register.jsのユーザー情報を取得
 
-      let object = this.$store.getters["register/getUserList"]
+      let object = this.$store.getters["register/getUserList"];
 
       if (
         this.mailAddress !== object[0].mailAddress ||
