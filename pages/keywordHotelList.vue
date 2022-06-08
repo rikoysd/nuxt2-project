@@ -11,7 +11,7 @@
     <search-box @search="searchKeyword"></search-box>
     <keywords @search="searchKeyword"></keywords>
     <!-- 検索結果ページ（初期表示） -->
-    <div>{{ getErrorFlag }}</div>
+    <div class="error-flag">{{ getErrorFlag }}</div>
     <div v-show="showResult">
       <!-- 検索結果カンマ区切り -->
       <div class="record-count">
@@ -125,6 +125,8 @@ export default {
       object: {},
       // 検索エラー
       searchError: "",
+      // エラー判定
+      errorFlag: false,
     };
   },
   mounted() {
@@ -136,6 +138,9 @@ export default {
      * @param {*} keyword - キーワード
      */
     async searchKeyword(keyword) {
+      // エラー判定を初期化
+      this.$store.commit("changeFlag", this.errorFlag);
+
       // １ページ目に初期化
       this.page = 1;
 
@@ -210,6 +215,10 @@ export default {
 
 .description {
   margin-top: 5px;
+}
+
+.error-flag {
+  margin: 10px 0;
 }
 
 .min-charge {

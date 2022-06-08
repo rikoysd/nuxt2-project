@@ -26,7 +26,7 @@ export default {
       } catch (error) {
         // console.dir(JSON.stringify(error));
         let flag = true;
-        context.commit("inputErrorList", flag);
+        context.commit("changeErrorFlag", flag);
       }
     },
   },
@@ -42,11 +42,11 @@ export default {
       state.hotelList = payload.hotels;
     },
     /**
-     * エラーをstateに格納.
+     * エラー判定をstateに格納.
      * @param {*} state - ステート
      * @param {*} payload - エラー情報
      */
-    inputErrorList(state, payload) {
+    changeErrorFlag(state, payload) {
       state.flag = payload;
     },
   },

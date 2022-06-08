@@ -190,6 +190,15 @@ export const mutations = {
   reserve(state, object) {
     this.commit("reserve/reserveInfo", object);
   },
+
+  /**
+   * keyword.jsにエラー判定を渡す.
+   * @param {*} state - ステート
+   * @param {*} payload - エラー判定
+   */
+  changeFlag(state, payload) {
+    this.commit("keyword/changeErrorFlag", payload);
+  },
 }; //end of mutations
 
 export const getters = {
