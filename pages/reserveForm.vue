@@ -35,7 +35,10 @@
         <!-- コンポーネント start-->
         <span style="color: red">*</span>住所<span style="color: red"
           >&emsp;{{ prefectureError }}</span
-        ><selectPrefectures @prefecture="reservePrefecture"></selectPrefectures>
+        ><selectPrefectures
+          @prefecture="reservePrefecture"
+          :prefecture="prefecture"
+        ></selectPrefectures>
         <!-- コンポーネント end-->
         <span style="color: red">&emsp;{{ addressError }}</span>
         <v-text-field
@@ -325,8 +328,15 @@ export default {
      * ログイン情報の反映.
      */
     loginInfoReflection() {
-      this.loginInfo = this.$store.getters["register/getUserInfo"];
-      console.log(loginInfo);
+      this.loginInfo = this.$store.getters["register/getUserList"];
+      console.log(this.loginInfo);
+      this.fullName1 = this.loginInfo[0].fullName1;
+      this.fullName2 = this.loginInfo[0].fullName2;
+      this.zipcode = this.loginInfo[0].zipcode;
+      this.prefecture = this.loginInfo[0].prefecture;
+      this.address = this.loginInfo[0].address;
+      this.telephone = this.loginInfo[0].telephone;
+      this.mailaddress = this.loginInfo[0].mailAddress;
     },
     /**
      * emitで渡ってきた都道府県を変数に代入.
