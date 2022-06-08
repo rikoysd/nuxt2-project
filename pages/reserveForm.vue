@@ -329,14 +329,13 @@ export default {
      */
     loginInfoReflection() {
       this.loginInfo = this.$store.getters["register/getUserList"];
-      console.log(this.loginInfo);
       this.fullName1 = this.loginInfo[0].fullName1;
       this.fullName2 = this.loginInfo[0].fullName2;
       this.zipcode = this.loginInfo[0].zipcode;
       this.prefecture = this.loginInfo[0].prefecture;
       this.address = this.loginInfo[0].address;
       this.telephone = this.loginInfo[0].telephone;
-      this.mailaddress = this.loginInfo[0].mailAddress;
+      this.mailAddress = this.loginInfo[0].mailAddress;
     },
     /**
      * emitで渡ってきた都道府県を変数に代入.
