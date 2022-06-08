@@ -1,6 +1,6 @@
 <template>
-  <div class="whole mx-auto">
-    <div>
+  <div class="whole mx-auto d-flex justify-center">
+    <div class="container">
       <h3 class="d-flex justify-center mb-6">会員登録</h3>
       氏名<span>&emsp;{{ fullName1Error }}</span>
       <v-text-field
@@ -307,6 +307,16 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  width: 600px;
+  border-radius: 5px;
+  padding: 45px 40px;
+  background-color: white;
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+  margin: 60px 0;
+}
+
 .register-btn {
   margin-top: 30px;
 }
@@ -316,7 +326,12 @@ span {
 }
 
 .whole {
-  width: 600px;
-  margin: 60px 0;
+  width: 100%;
+  height: 100%;
+  background-image: url(../assets/img/background-img.jpg);
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
 }
 </style>

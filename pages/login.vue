@@ -1,6 +1,6 @@
 <template>
-  <div class="whole d-flex align-center mb-6">
-    <v-container fluid class="login-area">
+  <div class="whole d-flex align-center justify-center">
+    <v-container class="login-area">
       <div class="submit-error">{{ submitError }}</div>
       <span>{{ mailAddressError }}</span
       ><v-text-field
@@ -127,6 +127,8 @@ span {
   border-radius: 5px;
   padding: 45px 40px;
   width: 600px;
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 }
 
 .msg {

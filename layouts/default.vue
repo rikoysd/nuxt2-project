@@ -3,7 +3,7 @@
     <v-app>
       <Header />
       <v-main>
-        <v-container><Nuxt /></v-container>
+        <v-container mt-0 pt-0><Nuxt /></v-container>
       </v-main>
       <Footer />
     </v-app>
@@ -20,3 +20,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+v-container {
+  padding: 0;
+  max-width: 1920px;
+}
+</style>
