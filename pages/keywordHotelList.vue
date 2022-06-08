@@ -11,6 +11,7 @@
     <search-box @search="searchKeyword"></search-box>
     <keywords @search="searchKeyword"></keywords>
     <!-- 検索結果ページ（初期表示） -->
+    <div>{{ getErrorFlag }}</div>
     <div v-show="showResult">
       <!-- 検索結果カンマ区切り -->
       <div class="record-count">
@@ -122,6 +123,8 @@ export default {
       keyword: "",
       // APIに渡すオブジェクト
       object: {},
+      // 検索エラー
+      searchError: "",
     };
   },
   methods: {
@@ -179,6 +182,19 @@ export default {
     getHotelList() {
       this.hotelList = this.$store.getters["keyword/getHotelList"];
       return this.hotelList;
+    },
+    /**
+     * エラー時にメッセージを表示する.
+     */
+    getErrorFlag() {
+      if (this.$store.getters["keyword/getErrorFlag"] === true) {
+        this.showResult = false;
+        this.searchError = "検索結果がありません";
+      } else {
+        this.showResult = true;
+        this.searchError = "";
+      }
+      return this.searchError;
     },
   },
 };
