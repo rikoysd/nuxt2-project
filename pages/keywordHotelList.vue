@@ -52,7 +52,7 @@
                   v-bind:max-rating="5"
                   v-bind:rating="hotel.hotel[0].hotelBasicInfo.reviewAverage"
                   inactive-color="#000"
-                  active-color="#ffd700"
+                  active-color="#fa8000"
                   v-bind:star-size="15"
                   v-bind:read-only="true"
                 >
