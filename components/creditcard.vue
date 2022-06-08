@@ -3,43 +3,50 @@
     <div id="overlay" v-if="cardFlag">
       <div id="content" v-if="cardFlag">
         <v-card class="creditcard" style="background-color: #f5f5f5">
-          <p style="font-weight: bold">カード情報入力</p>
-          <span>カード情報</span>
-          <v-text-field
-            label="1234567812345678"
-            v-model="card_number"
-            outlined
-            maxlength="16"
-          ></v-text-field>
-          <span>セキュリティコード</span
-          ><v-text-field
-            label="000"
-            v-model="card_cvv"
-            outlined
-            maxlength="3"
-          ></v-text-field>
-          <span>有効期限</span>
-          <div class="card-exp">
+          <v-col class="title">カード情報入力</v-col>
+          <v-col>
+            <span>カード情報</span>
             <v-text-field
-              label="MM"
-              v-model="card_exp_month"
+              label="1234567812345678"
+              v-model="card_number"
               outlined
-              maxlength="2"
-            ></v-text-field
-            >&emsp;
-            <v-text-field
-              label="YYYY"
-              v-model="card_exp_year"
-              outlined
-              maxlength="4"
+              maxlength="16"
             ></v-text-field>
-          </div>
-          <span>カード名義人</span
-          ><v-text-field
-            label="TARO RAKURAKU"
-            v-model="card_name"
-            outlined
-          ></v-text-field>
+          </v-col>
+          <v-col>
+            <span>セキュリティコード（123のみ使用可能）</span
+            ><v-text-field
+              v-model="card_cvv"
+              outlined
+              maxlength="3"
+            ></v-text-field>
+          </v-col>
+          <v-col>
+            <span>有効期限</span>
+            <div class="card-exp">
+              <v-text-field
+                label="MM"
+                v-model="card_exp_month"
+                outlined
+                maxlength="2"
+              ></v-text-field
+              >&emsp;
+              <v-text-field
+                label="YYYY"
+                v-model="card_exp_year"
+                outlined
+                maxlength="4"
+              ></v-text-field>
+            </div>
+          </v-col>
+          <v-col>
+            <span>カード名義人</span
+            ><v-text-field
+              label="TARO RAKURAKU"
+              v-model="card_name"
+              outlined
+            ></v-text-field>
+          </v-col>
         </v-card>
         <v-btn class="close-button" @click="preClick">キャンセル</v-btn>
         <v-btn
@@ -149,5 +156,9 @@ export default {
 .card-exp {
   display: flex;
   width: 200px;
+}
+.title {
+  font-size: 15px;
+  font-weight: bold;
 }
 </style>
