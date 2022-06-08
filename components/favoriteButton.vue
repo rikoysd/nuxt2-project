@@ -14,7 +14,7 @@ export default {
   },
   methods: {
     addFavorite(number) {
-      console.log(number);
+      this.$store.dispatch("searchHotel", number);
     },
   },
   computed: {},

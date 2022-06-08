@@ -6,6 +6,7 @@ import axios from "@nuxtjs/axios";
 import register from "./modules/register";
 import keyword from "./modules/keyword";
 import reserve from "./modules/reserve";
+import favorite from "./modules/favorite";
 
 Vue.use(Vuex);
 export const state = () => ({
@@ -129,6 +130,14 @@ export const actions = {
    */
   getPageList(context, object) {
     context.dispatch("keyword/getPageList", object, { root: true });
+  },
+  /**
+   * favorite.jsにホテル番号を渡す.
+   * @param {*} context - コンテキスト
+   * @param {*} number - ホテル番号
+   */
+  searchHotel(context, number) {
+    context.dispatch("favorite/searchInstitution", number, { root: true });
   },
 }; // end actions
 
@@ -267,4 +276,5 @@ export const modules = {
   register,
   keyword,
   reserve,
+  favorite,
 };
