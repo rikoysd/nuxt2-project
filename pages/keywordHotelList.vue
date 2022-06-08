@@ -32,7 +32,7 @@
           v-for="(hotel, index) of getHotelList"
           v-bind:key="index"
         >
-          <v-card class="card" max-width="399">
+          <v-card class="card" max-width="399" @click="showHotelDetail">
             <v-img
               class="white--text align-end"
               height="160px"
@@ -216,6 +216,11 @@ export default {
 <style scoped>
 .card {
   margin-bottom: 60px;
+  transition: all 0.3s ease 0s;
+}
+
+.card:hover {
+  opacity: 0.7;
 }
 
 .description {
