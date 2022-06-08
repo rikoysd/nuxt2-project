@@ -35,7 +35,10 @@
         <!-- コンポーネント start-->
         <span style="color: red">*</span>住所<span style="color: red"
           >&emsp;{{ prefectureError }}</span
-        ><selectPrefectures @prefecture="reservePrefecture"></selectPrefectures>
+        ><selectPrefectures
+          @prefecture="reservePrefecture"
+          :prefecture="prefecture"
+        ></selectPrefectures>
         <!-- コンポーネント end-->
         <span style="color: red">&emsp;{{ addressError }}</span>
         <v-text-field
@@ -71,11 +74,10 @@
           style="color: red"
           >&emsp;{{ checkInTimeError }}</span
         ><selectChecin @checkin="reserveCheckIn"></selectChecin>
-        <div class="select-gender">
-          <span style="color: red">&emsp;{{ manAndWomanError }}</span>
-          <span style="color: red">*</span>宿泊人数 1室目 (大人{{
-            people
-          }}名)&emsp;男性&nbsp;<v-select
+        <span style="color: red">*</span>宿泊人数 1室目 (大人{{ people }}名)
+        <span style="color: red">&ensp;{{ manAndWomanError }}</span>
+        <v-row class="gender"
+          >男性&nbsp;<v-select
             class="select-g"
             label="選択する"
             :items="items"
@@ -90,8 +92,8 @@
             v-model="woman"
             outlined
           >
-          </v-select>
-        </div>
+          </v-select
+        ></v-row>
         <hr />
       </div>
 
@@ -297,7 +299,7 @@ export default {
       // カード番号
       card_number: "",
       // セキュリティコード
-      card_cvv: "",
+      card_cvv: 0,
       // 有効期限(月)
       card_exp_month: "",
       // 有効期限(年)
@@ -326,8 +328,15 @@ export default {
      * ログイン情報の反映.
      */
     loginInfoReflection() {
-      this.loginInfo = this.$store.getters["register/getUserInfo"];
-      console.log(loginInfo);
+      this.loginInfo = this.$store.getters["register/getUserList"];
+      console.log(this.loginInfo);
+      this.fullName1 = this.loginInfo[0].fullName1;
+      this.fullName2 = this.loginInfo[0].fullName2;
+      this.zipcode = this.loginInfo[0].zipcode;
+      this.prefecture = this.loginInfo[0].prefecture;
+      this.address = this.loginInfo[0].address;
+      this.telephone = this.loginInfo[0].telephone;
+      this.mailaddress = this.loginInfo[0].mailAddress;
     },
     /**
      * emitで渡ってきた都道府県を変数に代入.
@@ -401,7 +410,6 @@ export default {
 .telephone {
   width: 500px;
 }
-.select-gender,
 .container {
   display: flex;
   justify-content: center;
@@ -470,5 +478,10 @@ p {
   height: 80px;
   float: right;
   margin-right: 80px;
+}
+.gender {
+  margin-top: 10px;
+  margin-left: 15px;
+  margin-right: 15px;
 }
 </style>

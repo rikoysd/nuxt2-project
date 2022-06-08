@@ -65,8 +65,9 @@ export default {
     other: String,
     errorChecks: Object,
     card_number: String,
-    card_cvv: String,
-    card_exp_monthAndYear: String,
+    card_cvv: Number,
+    card_exp_month: String,
+    card_exp_year: String,
     card_name: String,
   },
   data() {
@@ -251,8 +252,9 @@ export default {
         woman: "",
         payments: "",
         card_number: "",
-        card_cvv: "",
-        card_exp_monthAndYear: "",
+        card_cvv: 0,
+        card_exp_month: "",
+        card_exp_year: "",
         card_name: "",
         other: "",
       };
@@ -269,7 +271,8 @@ export default {
       object.payments = this.payments;
       object.card_number = this.card_number;
       object.card_cvv = this.card_cvv;
-      object.card_exp_monthAndYear = this.card_exp_monthAndYear;
+      object.card_exp_month = this.card_exp_month;
+      object.card_exp_year = this.card_exp_year;
       object.card_name = this.card_name;
       object.other = this.other;
 

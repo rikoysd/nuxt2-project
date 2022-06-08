@@ -95,6 +95,7 @@ export default {
      * 予約を確定する.
      */
     async reserveFinished() {
+      console.log("call10");
       // 注文IDの生成
       let orderNum = "";
       for (let i = 0; i < 7; i++) {
