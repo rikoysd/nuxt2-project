@@ -2,29 +2,78 @@
   <div>
     <!-- カレンダー -->
     <calender @selectDates="addDates"></calender>
+    <!-- 都道府県選択 -->
+    <v-container>
+      <v-col class="d-flex" cols="12" sm="2">
+        <v-select
+          :items="areaNameList"
+          label="都道府県"
+          @change="getInfo('middleClassCode', $event)"
+          outlined
+        ></v-select>
+      </v-col>
+      <!-- 市町村選択 -->
+      <v-col class="d-flex" cols="12" sm="2">
+        <v-select
+          v-model="selectedItem"
+          :items="cityNameList"
+          label="市町村"
+          @change="getCityList('smallClassCode', $event)"
+          outlined
+        ></v-select>
+      </v-col>
+      <!-- 札幌の地区詳細 -->
+      <v-col class="d-flex" cols="12" sm="2">
+        <v-select
+          v-if="selectedItem === '札幌'"
+          :items="sapporoList"
+          label="地区詳細"
+          @change="getDetailList('detailClassCode', $event)"
+          outlined
+        ></v-select>
+      </v-col>
+      <!-- 東京23区の地区詳細 -->
+      <v-col class="d-flex" cols="12" sm="2">
+        <v-select
+          v-if="selectedItem === '東京２３区内'"
+          :items="tokyoList"
+          label="地区詳細"
+          @change="getTokyoDetail('detailClassCode', $event)"
+          outlined
+        ></v-select>
+      </v-col>
+      <!-- 名古屋の地区詳細 -->
+      <v-col class="d-flex" cols="12" sm="2">
+        <v-select
+          v-if="selectedItem === '名古屋'"
+          :items="nagoyaList"
+          label="地区詳細"
+          @change="getNagoyaDetail('detailClassCode', $event)"
+          outlined
+        ></v-select>
+      </v-col>
+      <!-- 京都の地区詳細 -->
+      <v-col class="d-flex" cols="12" sm="2">
+        <v-select
+          v-if="selectedItem === '京都'"
+          :items="kyotoList"
+          label="地区詳細"
+          @change="getKyotoDetail('detailClassCode', $event)"
+          outlined
+        ></v-select>
+      </v-col>
+      <!-- 大阪の地区詳細 -->
+      <v-col class="d-flex" cols="12" sm="2">
+        <v-select
+          v-if="selectedItem === '大阪'"
+          :items="osakaList"
+          label="地区詳細"
+          @change="getOsakaDetail('detailClassCode', $event)"
+          outlined
+        ></v-select>
+      </v-col>
+    </v-container>
 
-    <div>
-      <!-- 都道府県選択 -->
-      <v-container>
-        <v-col class="d-flex" cols="12" sm="2">
-          <v-select
-            :items="areaNameList"
-            label="都道府県"
-            @change="getInfo('middleClassCode', $event)"
-            outlined
-          ></v-select>
-        </v-col>
-        <!-- 市町村選択 -->
-        <v-col class="d-flex" cols="12" sm="2">
-          <v-select
-            :items="cityNameList"
-            label="市町村"
-            @change="getCityList('smallClassCode', $event)"
-            outlined
-          ></v-select>
-        </v-col>
-      </v-container>
-    </div>
     <v-container fluid>
       <v-row align="center">
         <!-- 人数選択 -->
@@ -47,7 +96,6 @@
         </v-col>
       </v-row>
     </v-container>
-
     <!-- 空室検索 -->
     <div class="my-2">
       <v-btn small color="primary" v-on:click="getVacantlist">
@@ -67,7 +115,7 @@ export default {
     return {
       //検索結果
       responseData: [],
-      //apiに送るパラメータ
+      //apiに送るリクエストパラメータ
       vacantData: {
         roomNum: 0, //部屋数
         middleClassCode: "", //都道府県
@@ -77,22 +125,36 @@ export default {
         checkoutDate: 0, //チェックアウト日
         adultNum: 0, //大人人数
       },
-      //都道府県情報
+      //都道府県のリスト
       areaList: [],
-      //主要な市町村
+      //全国の主要な市町村のリスト
       cityList: [],
+      //選択した都道府県の市町村が入るリスト
       smallClassList: ["都道府県を選択してください"],
       //大人人数
       adultNum: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
       //部屋数
       roomNum: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-
+      //全地区詳細のリスト
       detailList: [],
+      //札幌の地区詳細
       sapporoArray: [],
+      //東京の地区詳細
+      tokyoArray: [],
+      //名古屋の地区詳細
+      nagoyaArray: [],
+      //京都の地区詳細
+      kyotoArray: [],
+      //大阪の地区詳細
+      osakaAray: [],
+      selectedItem: "",
     };
   },
 
   methods: {
+    /**
+     * カレンダーから選択した日付をパラメーターに渡す.
+     */
     addDates(date) {
       this.vacantData.checkinDate = date[0];
       this.vacantData.checkoutDate = date[1];
@@ -109,14 +171,14 @@ export default {
     },
 
     /**
-     * 検索値をパラメーラーに渡す.
+     * 検索値をパラメーターに渡す.
      */
     getInfo(data, name) {
       console.log(data);
       console.log(name);
+      //選択した値と同じ名前のコードを値として渡す
       let obj = this.areaList.find((area) => area.name === name);
       this.vacantData[data] = obj.code;
-      console.log(obj);
       //選択した都道府県の添え字を取得する
       let result = 0;
       const keys = Object.keys(this.areaList);
@@ -129,29 +191,136 @@ export default {
       //選択肢が残らないよう空の配列でリセットする
       this.smallClassList = [];
       //選択した都道府県の添え字と同じ番号の市町村を表示する
-      for (let hokkaido of this.cityList[result]) {
-        const hokkaidoCode = hokkaido.smallClass[0].smallClassCode;
-        const hokkaidoName = hokkaido.smallClass[0].smallClassName;
+      for (let city of this.cityList[result]) {
+        const cityCode = city.smallClass[0].smallClassCode;
+        const cityName = city.smallClass[0].smallClassName;
         this.smallClassList.push({
-          hokkaidoCode: hokkaidoCode,
-          hokkaidoName: hokkaidoName,
+          cityCode: cityCode,
+          cityName: cityName,
+        });
+      }
+      console.log(this.smallClassList); //選択済の市町村のリストが入る
+      //
+
+      //札幌地区の名前・コードを(sapporoArray)に入れる
+      for (let detail of this.detailList[0]) {
+        const detailCode = detail.detailClass.detailClassCode;
+        const detailName = detail.detailClass.detailClassName;
+        this.sapporoArray.push({
+          detailCode: detailCode,
+          detailName: detailName,
+        });
+      }
+
+      //東京地区の名前・コードを配列(tokyoArray)に入れる
+      for (let detail of this.detailList[1]) {
+        const detailCode = detail.detailClass.detailClassCode;
+        const detailName = detail.detailClass.detailClassName;
+        this.tokyoArray.push({
+          detailCode: detailCode,
+          detailName: detailName,
+        });
+      }
+
+      //名古屋地区の名前・コードを配列(nagoyaArray)に入れる
+      for (let detail of this.detailList[2]) {
+        const detailCode = detail.detailClass.detailClassCode;
+        const detailName = detail.detailClass.detailClassName;
+        this.nagoyaArray.push({
+          detailCode: detailCode,
+          detailName: detailName,
+        });
+      }
+      //京都地区の名前・コードを配列(kyotoArray)に入れる
+      for (let detail of this.detailList[3]) {
+        const detailCode = detail.detailClass.detailClassCode;
+        const detailName = detail.detailClass.detailClassName;
+        this.kyotoArray.push({
+          detailCode: detailCode,
+          detailName: detailName,
+        });
+      }
+      // 大阪地区の名前・コードを配列(osakaArray)に入れる
+      for (let detail of this.detailList[4]) {
+        const detailCode = detail.detailClass.detailClassCode;
+        const detailName = detail.detailClass.detailClassName;
+        this.osakaAray.push({
+          detailCode: detailCode,
+          detailName: detailName,
         });
       }
     },
+    /**
+     * 人数、部屋数をパラメーターとして渡す.
+     */
     requestdata(data, name) {
       this.vacantData[data] = name;
     },
+    /**
+     * 市町村コードをパラメーターとして渡す.
+     */
     getCityList(data, name) {
-      let hokkaidoObj = this.smallClassList.find(
-        (hokkaido) => hokkaido.hokkaidoName === name
-      );
-      this.vacantData[data] = hokkaidoObj.hokkaidoCode;
+      let cityObj = this.smallClassList.find((city) => city.cityName === name);
+      this.vacantData[data] = cityObj.cityCode;
       console.log(data);
-      console.log(hokkaidoObj);
+      if (cityObj.cityCode === "sapporo") {
+      }
+    },
+    /**
+     * 札幌の地区詳細コードをパラメーターとして渡す.
+     */
+    getDetailList(data, name) {
+      console.log(name);
+      let sapporoObj = this.sapporoArray.find(
+        (detail) => detail.detailName === name
+      );
+      this.vacantData[data] = sapporoObj.detailCode;
+    },
+    /**
+     * 東京２３区の地区詳細コードをパラメーターとして渡す.
+     */
+    getTokyoDetail(data, name) {
+      console.log(name);
+      let tokyoObj = this.tokyoArray.find(
+        (detail) => detail.detailName === name
+      );
+      this.vacantData[data] = tokyoObj.detailCode;
+      console.log(tokyoObj);
+    },
+    /**
+     * 名古屋の地区詳細コードをパラメーターとして渡す.
+     */
+    getNagoyaDetail(data, name) {
+      let nagoyaObj = this.nagoyaArray.find(
+        (detail) => detail.detailName === name
+      );
+      this.vacantData[data] = nagoyaObj.detailCode;
+    },
+    /**
+     * 京都の地区詳細コードをパラメーターとして渡す.
+     */
+    getKyotoDetail(data, name) {
+      let kyotoObj = this.kyotoArray.find(
+        (detail) => detail.detailName === name
+      );
+      this.vacantData[data] = kyotoObj.detailCode;
+    },
+    /**
+     * 大阪の地区詳細コードをパラメーターとして渡す.
+     */
+    getOsakaDetail(data, name) {
+      let osakaObj = this.osakaAray.find(
+        (detail) => detail.detailName === name
+      );
+      console.log(data);
+      this.vacantData[data] = osakaObj.detailCode;
     },
   }, //end of methods
 
   computed: {
+    /**
+     * 都道府県の漢字表記のみを返す.
+     */
     areaNameList() {
       let array = [];
       for (let area of this.areaList) {
@@ -159,12 +328,65 @@ export default {
       }
       return array;
     },
+    /**
+     * 市町村の漢字表記のみを返す.
+     */
     cityNameList() {
       let array3 = [];
       for (let city of this.smallClassList) {
-        array3.push(city.hokkaidoName);
+        array3.push(city.cityName);
       }
       return array3;
+    },
+    /**
+     * 札幌の地区詳細の漢字表記のみを返す.
+     */
+    sapporoList() {
+      let detailLists = [];
+      for (let sapporoDetail of this.sapporoArray) {
+        detailLists.push(sapporoDetail.detailName);
+      }
+      return detailLists;
+    },
+    /**
+     * 東京２３区の地区詳細の漢字表記のみを返す.
+     */
+    tokyoList() {
+      let tokyoLists = [];
+      for (let tokyoDetail of this.tokyoArray) {
+        tokyoLists.push(tokyoDetail.detailName);
+      }
+      return tokyoLists;
+    },
+    /**
+     * 名古屋の地区詳細の漢字表記のみを返す.
+     */
+    nagoyaList() {
+      let nagoyaLists = [];
+      for (let nagoyaDetail of this.nagoyaArray) {
+        nagoyaLists.push(nagoyaDetail.detailName);
+      }
+      return nagoyaLists;
+    },
+    /**
+     * 京都の地区詳細の漢字表記のみを返す.
+     */
+    kyotoList() {
+      let kyotoLists = [];
+      for (let kyotoDetail of this.kyotoArray) {
+        kyotoLists.push(kyotoDetail.detailName);
+      }
+      return kyotoLists;
+    },
+    /**
+     * 大阪の地区詳細の漢字表記のみを返す.
+     */
+    osakaList() {
+      let osakaLists = [];
+      for (let osakaDetail of this.osakaAray) {
+        osakaLists.push(osakaDetail.detailName);
+      }
+      return osakaLists;
     },
   }, //end of computed
 
@@ -185,20 +407,12 @@ export default {
     }
 
     //detailClass（地区詳細）を取得
-    // let detailLists = this.$store.getters.getAreaList.middleClasses;
-    // for (let detail of detailLists) {
-    //   this.detailList.push(detail.middleClass[1].smallClasses);
-    // }
-    // console.log(
-    //   cityLists.middleClass[1].smallClasses[0].smallClass[1].detailClasses
-    // );
-    console.log(this.cityList);
     let smallList = [];
     for (let detail of this.cityList) {
       smallList.push(detail[0].smallClass[1]);
     }
-    console.log(smallList);
-    //detailClassがあるものだけ一つの配列(detailList)に入れる
+
+    // //detailClassが存在する地区だけ配列(detailList)に入れる
     this.detailList.push(
       smallList[0].detailClasses, //札幌
       smallList[12].detailClasses, //東京23区
@@ -206,26 +420,63 @@ export default {
       smallList[25].detailClasses, //京都
       smallList[26].detailClasses //大阪
     );
-    console.log(this.detailList);
 
-    let sapporoList = [];
-    for (let sapporo of this.detailList) {
-      sapporoList.push(sapporo);
-      console.log(sapporo.detailClass);
-    }
-    console.log(sapporoList);
-    // this.sapporoArray = sapporoList[0];
-    // console.log(this.sapporoArray);
-    // console.log(this.sapporoArray[0]);
-    // for (let single of sapporoList[0]) {
-    //   this.sapporo.push(single.detailClass);
+    // 札幌地区詳細を取得
+    // this.sapporoArray = this.detailList[0];
+    // //札幌地区の名前・コードを(sapporoArray)に入れる
+    // for (let detail of this.detailList[0]) {
+    //   const detailCode = detail.detailClass.detailClassCode;
+    //   const detailName = detail.detailClass.detailClassName;
+    //   this.sapporoArray.push({
+    //     detailCode: detailCode,
+    //     detailName: detailName,
+    //   });
     // }
-    // console.log(this.sapporoA);
 
-    if (this.smallClassList === 0) {
-      this.smallClassList.push({ hokkaidoName: "都道府県を選択してください" });
-    }
-    console.log(this.smallClassList);
+    // //東京
+    // // this.sapporoArray = this.detailList[1];
+    // //東京地区の名前・コードを配列(tokyoArray)に入れる
+    // for (let detail of this.detailList[1]) {
+    //   const detailCode = detail.detailClass.detailClassCode;
+    //   const detailName = detail.detailClass.detailClassName;
+    //   this.tokyoArray.push({
+    //     detailCode: detailCode,
+    //     detailName: detailName,
+    //   });
+    // }
+
+    // //名古屋地区の名前・コードを配列(nagoyaArray)に入れる
+    // for (let detail of this.detailList[2]) {
+    //   const detailCode = detail.detailClass.detailClassCode;
+    //   const detailName = detail.detailClass.detailClassName;
+    //   this.nagoyaArray.push({
+    //     detailCode: detailCode,
+    //     detailName: detailName,
+    //   });
+    // }
+    // //京都地区の名前・コードを配列(kyotoArray)に入れる
+    // for (let detail of this.detailList[3]) {
+    //   const detailCode = detail.detailClass.detailClassCode;
+    //   const detailName = detail.detailClass.detailClassName;
+    //   this.kyotoArray.push({
+    //     detailCode: detailCode,
+    //     detailName: detailName,
+    //   });
+    // }
+    //大阪地区の名前・コードを配列(osakaArray)に入れる
+    // for (let detail of this.detailList[4]) {
+    //   const detailCode = detail.detailClass.detailClassCode;
+    //   const detailName = detail.detailClass.detailClassName;
+    //   this.osakaArray.push({
+    //     detailCode: detailCode,
+    //     detailName: detailName,
+    //   });
+    // }
+
+    // if (this.smallClassList === 0) {
+    //   this.smallClassList.push({ cityName: "都道府県を選択してください" });
+    // }
+    // console.log(this.smallClassList);
   }, //end of mounted
 };
 </script>
