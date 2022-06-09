@@ -113,8 +113,7 @@ export default {
       // ログインしたユーザー情報をstateに入れる
       this.$store.commit("registerLoginUser");
 
-      // マイページに遷移
-      this.$router.push("/mypage");
+      this.$router.push("/");
     },
   },
   computed: {},

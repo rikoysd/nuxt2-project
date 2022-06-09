@@ -157,9 +157,18 @@ export default {
       // 閲覧履歴のエラー
       watchedError: "",
       model: null,
+      // ログインユーザー
+      loginUser: {},
     };
   },
   mounted() {
+    this.loginUser = this.$store.getters["register/getLoginUser"];
+
+    // ログインしていなかったらログインページへ誘導
+    if (this.loginUser.id === 0) {
+      this.$router.push("/login");
+    }
+
     this.favoriteList = this.$store.getters["favorite/getFavoriteList"];
     this.watchedList = this.$store.getters["watchedList/getWatchedList"];
   },

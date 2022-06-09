@@ -26,6 +26,12 @@ export default {
      * @param {*} number - ホテル番号
      */
     addFavorite(number) {
+      // ログインしていなかったらログインページへ誘導
+      if (this.$store.getters["register/getLoginUser"].id === 0) {
+        this.$router.push("/login");
+        return;
+      }
+
       this.$store.dispatch("searchHotel", number);
       this.flag = false;
     },

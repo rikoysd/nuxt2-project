@@ -35,11 +35,23 @@ export default {
      */
     registerLoginUser(state) {
       state.loginUser = state.userList[0];
-      console.log(state.loginUser);
     },
+    /**
+     * ログイン中のユーザー情報をstateから削除する（ログアウト）.
+     * @param {*} state - ステート
+     */
     deleteLoginUser(state) {
-      state.loginUser = {};
-      console.log(state.loginUser);
+      state.loginUser = {
+        id: 0,
+        fullName1: "",
+        fullName2: "",
+        zipcode: "",
+        prefecture: "",
+        address: "",
+        mailAddress: "",
+        telephone: "",
+        password: "",
+      };
     },
   },
 
