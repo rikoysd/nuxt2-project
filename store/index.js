@@ -217,6 +217,14 @@ export const mutations = {
   changeFlag(state, payload) {
     this.commit("keyword/changeErrorFlag", payload);
   },
+  /**
+   * favorite.jsにホテル番号を渡す.
+   * @param {*} state - ステート
+   * @param {*} payload - ホテル番号
+   */
+  deleteFavorite(state, payload) {
+    this.commit("favorite/deleteFavorite", payload);
+  },
 }; //end of mutations
 
 export const getters = {

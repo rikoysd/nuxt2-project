@@ -30,6 +30,19 @@ export default {
     setFavoriteList(state, payload) {
       state.favoriteList.push(payload);
     },
+    /**
+     * お気に入り一覧からホテルを削除しstateに格納.
+     * @param {*} state - ステート
+     * @param {*} payload - ホテル番号
+     */
+    deleteFavorite(state, payload) {
+      for (let i = 0; i < state.favoriteList.length; i++) {
+        console.log(state.favoriteList[i][0].hotelBasicInfo.hotelNo);
+        if (payload === state.favoriteList[i][0].hotelBasicInfo.hotelNo) {
+          state.favoriteList.splice(i, 1);
+        }
+      }
+    },
   },
 
   getters: {
