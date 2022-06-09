@@ -29,6 +29,9 @@
             :plans="plans"
             :roomImage="roomImage"
             :detailInfo="detailInfo"
+            :staySpan="staySpan"
+            :checkInDate="target"
+            :adultNum="adultNum"
           ></detail-plans>
         </v-card>
       </v-col>
@@ -60,8 +63,15 @@ export default {
       reviewAverage: [],
       sheet: false,
       now: new Date(),
+      staySpan: 0,
       target: "",
+      adultNum: 2,
     };
+  },
+  methods: {
+    createDate(date) {
+      return new Date(date);
+    },
   },
   async mounted() {
     // URLからhotelIdを取得
@@ -70,6 +80,7 @@ export default {
     await this.$store.dispatch("searchInstitution", this.paramsNo);
     this.institutionInfo = this.$store.getters.getInstitutitonInfo;
     const hotels = this.institutionInfo.hotels.hotels[0];
+    // 施設概要
     this.basicInfo = hotels.hotel[0].hotelBasicInfo;
     console.log("施設情報", hotels);
 
@@ -84,8 +95,6 @@ export default {
     }
     // 施設詳細
     this.reviewAverage = hotels.hotel[1].hotelRatingInfo;
-    // 施設概要
-    console.log("空室情報", this.vacantList);
     // アクセス
     this.address = this.basicInfo.address1 + this.basicInfo.address2;
 
@@ -93,28 +102,36 @@ export default {
     // 仮の日付で検索
     const Year = this.now.getFullYear();
     let Month = this.now.getMonth() + 1;
+    let Date = this.now.getDate() + 7;
+    let Date2 = this.now.getDate() + 8;
+
+    let targetDate = Year + Month + Date;
+    console.log(targetDate);
+
+    let target2Date = Year + Month + Date2;
+    console.log(target2Date);
+    this.staySpan = target2Date - targetDate;
+    console.log("staySpan", this.staySpan);
     if (Month < 10) {
       Month = "0" + Month;
     }
-    let Date = this.now.getDate() + 7;
     if (Date < 10) {
       Date = "0" + Date;
     }
-    let Date2 = this.now.getDate() + 8;
     if (Date2 < 10) {
       Date2 = "0" + Date2;
     }
     this.target = Year + "-" + Month + "-" + Date;
     const target2 = Year + "-" + Month + "-" + Date2;
-    // console.log("target", this.target);
 
     await this.$store.dispatch("searchVacant", {
       hotelNo: this.basicInfo.hotelNo,
       checkinDate: this.target,
       checkoutDate: target2,
-      adultNum: "2",
+      adultNum: this.adultNum,
     });
     this.vacantList = this.$store.getters.getVacantList;
+    console.log("空室情報", this.vacantList);
     const hotelBasicInfo = this.vacantList.hotels[0].hotel[0].hotelBasicInfo;
 
     this.plans = [
@@ -123,7 +140,7 @@ export default {
       this.vacantList.hotels[0].hotel[5].roomInfo,
     ];
     this.detailInfo = this.vacantList.hotels[0].hotel[1].hotelDetailInfo;
-    // console.log("plans", this.detailInfo);
+    console.log("plans", this.plans);
   },
 };
 </script>

@@ -35,14 +35,14 @@
                 <p class="text-right">
                   税込
                   <span class="text-h6 font-weight-bold">
-                    {{ plan[1].dailyCharge.total }}
+                    {{ plan[1].dailyCharge.total * staySpan }}
                   </span>
                   円
                 </p>
               </v-card-text>
             </v-col>
             <v-col cols="2">
-              <v-btn color="#65CC42">詳細・予約</v-btn>
+              <v-btn color="#65CC42" @click="preReserve">詳細・予約</v-btn>
             </v-col>
           </v-row>
         </v-card>
@@ -57,6 +57,9 @@ export default {
     plans: { type: Array, default: [] },
     roomImage: { type: String, default: "" },
     detailInfo: { default: "" },
+    staySpan: { type: Number, default: 0 },
+    checkInDate: { type: String, default: "" },
+    adultNum: { type: Number, default: 0 },
   },
   methods: {
     sendReserveData() {
@@ -74,6 +77,21 @@ export default {
       } else {
         return "";
       }
+    },
+    preReserve() {
+      const plan = this.plans[0];
+      this.$store.commit("setPreReserveData", {
+        checkInDate: this.checkInDate,
+        staySpan: this.staySpan,
+        withDinnerFlag: plan[0].roomBasicInfo.withDinnerFlag,
+        withBreakfastFlag: plan[0].roomBasicInfo.withBreakfastFlag,
+        planName: plan[0].roomBasicInfo.planName,
+        roomName: plan[0].roomBasicInfo.roomName,
+        // 0:現金1:クレジットカード / 現金2:クレジットカード
+        payment: plan[0].roomBasicInfo.payment,
+        adultNum: this.adultNum,
+      });
+      console.log(this.$store.state.preReserveData);
     },
   },
 };

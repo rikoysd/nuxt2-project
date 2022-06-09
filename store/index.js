@@ -27,6 +27,7 @@ export const state = () => ({
   // 施設情報
   instituionInfo: [],
   stayPlanFlag: false,
+  preReserveData: "",
 });
 
 export const actions = {
@@ -53,7 +54,7 @@ export const actions = {
     // console.log("call3");
     try {
       const response = await axios1.get(
-        `https://app.rakuten.co.jp/services/api/Travel/HotelDetailSearch/20170426?applicationId=1098541415969458249&format=json&hotelNo=${paramsNo}`
+        `https://app.rakuten.co.jp/services/api/Travel/HotelDetailSearch/20170426?applicationId=1098541415969458249&format=json&hotelNo=${paramsNo}&responseType=large`
       );
 
       const payload = response.data;
@@ -174,6 +175,9 @@ export const mutations = {
   setVacantList(state, payload) {
     state.vacantList = { hotels: payload };
     // console.log(state.vacantList);
+  },
+  setPreReserveData(state, payload) {
+    state.preReserveData = payload;
   },
   changeErrorStayFlag(state) {
     state.stayPlanFlag = false;

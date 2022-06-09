@@ -59,6 +59,9 @@
               :plans="plans"
               :roomImage="roomImage"
               :detailInfo="detailInfo"
+              :staySpan="staySpan"
+              :checkInDate="target"
+              :adultNum="adultNum"
               @sendReserveData="sendReserveData"
             ></detail-plans>
           </div>
@@ -103,6 +106,8 @@ export default {
       dates: [],
       drawer: false,
       group: null,
+      staySpan: 0,
+      adultNum: 2,
     };
   },
   watch: {
