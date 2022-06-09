@@ -14,9 +14,6 @@
 
 <script>
 export default {
-  props: {
-    prefecture: String,
-  },
   data() {
     return {
       prefecture: "",

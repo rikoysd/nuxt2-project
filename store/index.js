@@ -225,6 +225,13 @@ export const mutations = {
   deleteFavorite(state, payload) {
     this.commit("favorite/deleteFavorite", payload);
   },
+  /**
+   * register.jsのregisterLoginUserを呼び出す.
+   * @param {*} state - ステート
+   */
+  registerLoginUser(state) {
+    this.commit("register/registerLoginUser");
+  },
 }; //end of mutations
 
 export const getters = {

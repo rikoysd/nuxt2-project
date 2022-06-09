@@ -7,6 +7,17 @@
 
       <div class="flex-grow-1"></div>
 
+      <v-btn
+        icon
+        color="white"
+        @click="favoriteList"
+        v-if="changeFlag === true"
+      >
+        <v-icon class="header">mdi-account</v-icon>
+      </v-btn>
+
+      <nuxt-link to="/login" class="header menu" v-else>ログイン</nuxt-link>
+
       <v-btn icon color="white" @click="favoriteList">
         <v-icon class="header">mdi-heart</v-icon>
       </v-btn>
@@ -23,7 +34,9 @@
 <script>
 export default {
   data() {
-    return {};
+    return {
+      flag: false,
+    };
   },
   methods: {
     /**
@@ -33,12 +46,28 @@ export default {
       this.$router.push("/mypage");
     },
   },
-  computed: {},
+  computed: {
+    /**
+     * アイコンの切り替え.
+     */
+    changeFlag() {
+      if (this.$store.getters["register/getLoginUser"].id === 0) {
+        this.flag = false;
+      } else {
+        this.flag = true;
+      }
+      return this.flag;
+    },
+  },
 };
 </script>
 
 <style>
 .header {
   color: white;
+}
+
+.menu {
+  font-size: 80%;
 }
 </style>

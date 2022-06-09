@@ -4,6 +4,18 @@ export default {
   state: {
     // ユーザー一覧
     userList: [],
+    // 現在ログイン中のユーザー
+    loginUser: {
+      id: 0,
+      fullName1: "",
+      fullName2: "",
+      zipcode: "",
+      prefecture: "",
+      address: "",
+      mailAddress: "",
+      telephone: "",
+      password: "",
+    },
   },
 
   actions: {},
@@ -17,6 +29,14 @@ export default {
     registerUser(state, payload) {
       state.userList.push(payload);
     },
+    /**
+     * ログイン中のユーザー情報をstateに格納.
+     * @param {*} state - ステート
+     */
+    registerLoginUser(state) {
+      state.loginUser = state.userList[0];
+      console.log(state.loginUser);
+    },
   },
 
   getters: {
@@ -27,6 +47,9 @@ export default {
      */
     getUserList(state) {
       return state.userList;
+    },
+    getLoginUser(state) {
+      return state.loginUser;
     },
   },
 };

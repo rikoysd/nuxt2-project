@@ -109,6 +109,10 @@ export default {
         this.submitError = "メールアドレスまたはパスワードが間違っています";
         return;
       }
+
+      // ログインしたユーザー情報をstateに入れる
+      this.$store.commit("registerLoginUser");
+
       // マイページに遷移
       this.$router.push("/mypage");
     },
