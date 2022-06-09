@@ -2,8 +2,8 @@ export default {
   namespaced: true,
 
   state: {
-    // お気に入り一覧
-    favoriteList: [],
+    // 閲覧履歴
+    watchedList: [],
   },
 
   actions: {
@@ -11,13 +11,13 @@ export default {
      * 施設情報をAPIから取得.
      * @param {*} context
      */
-    async searchInstitution(context, number) {
+    async searchHotel(context, number) {
       const response = await this.$axios.$get(
         `https://app.rakuten.co.jp/services/api/Travel/HotelDetailSearch/20170426?applicationId=1098541415969458249&format=json&responseType=large&hotelNo=${number}`
       );
       // console.dir(JSON.stringify(response));
       const payload = response.hotels[0].hotel;
-      context.commit("setFavoriteList", payload);
+      context.commit("setWatchedList", payload);
     },
   },
 
@@ -27,19 +27,19 @@ export default {
      * @param {*} state - ステート
      * @param {*} payload - ホテル情報（配列）
      */
-    setFavoriteList(state, payload) {
-      state.favoriteList.push(payload);
+    setWatchedList(state, payload) {
+      state.watchedList.push(payload);
     },
   },
 
   getters: {
     /**
-     * お気に入り一覧を取得.
+     * 閲覧履歴を取得.
      * @param {*} state - ステート
-     * @returns お気に入り一覧
+     * @returns 閲覧履歴
      */
-    getFavoriteList(state) {
-      return state.favoriteList;
+    getWatchedList(state) {
+      return state.watchedList;
     },
   },
 };

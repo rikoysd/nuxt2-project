@@ -187,6 +187,9 @@ export default {
      * @param - ホテル番号
      */
     showHotelDetail(number) {
+      // actionの呼び出し（閲覧履歴）
+      this.$store.dispatch("searchHotel2", number);
+
       this.$router.push(`/hotelDetail/${number}`);
     },
   },
