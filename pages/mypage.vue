@@ -4,71 +4,142 @@
       <v-btn @click="moveToReserve">予約画面に移動</v-btn>
       <nuxt-link to="/keywordHotelList">一覧</nuxt-link>
 
-      <h4>お気に入りの宿</h4>
-      <v-slide-group
-        v-model="model"
-        class="pa-4"
-        active-class="success"
-        show-arrows
-      >
-        <v-slide-item
-          v-for="(hotel, index) of getFavoriteList"
-          v-bind:key="index"
+      <div>
+        <h4>お気に入りの宿</h4>
+        <div>{{ favoriteError }}</div>
+        <v-slide-group
+          v-model="model"
+          class="pa-4"
+          active-class="success"
+          show-arrows
         >
-          <v-card class="card ma-4" max-width="300">
-            <v-img
-              class="white--text align-end"
-              height="160px"
-              v-bind:src="hotel[0].hotelBasicInfo.hotelImageUrl"
-            >
-            </v-img>
-            <v-card-text class="text--primary">
-              <div class="hotel-name">
-                {{ hotel[0].hotelBasicInfo.hotelName }}
-              </div>
-              <div class="pb-0 sub-title">
-                {{ hotel[2].hotelDetailInfo.areaName }} [全{{
-                  hotel[3].hotelFacilitiesInfo.hotelRoomNum
-                }}室]
-                <star-rating
-                  v-bind:increment="0.01"
-                  v-bind:max-rating="5"
-                  v-bind:rating="hotel[0].hotelBasicInfo.reviewAverage"
-                  inactive-color="#000"
-                  active-color="#fa8000"
-                  v-bind:star-size="15"
-                  v-bind:read-only="true"
-                >
-                </star-rating>
-              </div>
-              <div class="description">
-                {{ hotel[0].hotelBasicInfo.hotelSpecial }}
-              </div>
-              <div class="min-charge">
-                最安値<span
-                  >&nbsp;{{
-                    Number(
-                      hotel[0].hotelBasicInfo.hotelMinCharge
-                    ).toLocaleString()
-                  }}&nbsp;</span
-                >
-                円(税込)
-              </div>
-            </v-card-text>
-            <v-card-actions>
-              <v-btn
-                color="orange"
-                text
-                @click="showHotelDetail(hotel[0].hotelBasicInfo.hotelNo)"
-                >詳細を見る</v-btn
+          <v-slide-item
+            v-for="(hotel, index) of getFavoriteList"
+            v-bind:key="index"
+          >
+            <v-card class="card ma-4" max-width="300">
+              <v-img
+                class="white--text align-end"
+                height="160px"
+                v-bind:src="hotel[0].hotelBasicInfo.hotelImageUrl"
               >
-              <favorite-button
-                :hotelNum="hotel[0].hotelBasicInfo.hotelNo"
-              ></favorite-button>
-            </v-card-actions>
-          </v-card>
-        </v-slide-item>
-      </v-slide-group>
+              </v-img>
+              <v-card-text class="text--primary">
+                <div class="hotel-name">
+                  {{ hotel[0].hotelBasicInfo.hotelName }}
+                </div>
+                <div class="pb-0 sub-title">
+                  {{ hotel[2].hotelDetailInfo.areaName }} [全{{
+                    hotel[3].hotelFacilitiesInfo.hotelRoomNum
+                  }}室]
+                  <star-rating
+                    v-bind:increment="0.01"
+                    v-bind:max-rating="5"
+                    v-bind:rating="hotel[0].hotelBasicInfo.reviewAverage"
+                    inactive-color="#000"
+                    active-color="#fa8000"
+                    v-bind:star-size="15"
+                    v-bind:read-only="true"
+                  >
+                  </star-rating>
+                </div>
+                <div class="description">
+                  {{ hotel[0].hotelBasicInfo.hotelSpecial }}
+                </div>
+                <div class="min-charge">
+                  最安値<span
+                    >&nbsp;{{
+                      Number(
+                        hotel[0].hotelBasicInfo.hotelMinCharge
+                      ).toLocaleString()
+                    }}&nbsp;</span
+                  >
+                  円(税込)
+                </div>
+              </v-card-text>
+              <v-card-actions>
+                <v-btn
+                  color="orange"
+                  text
+                  @click="showHotelDetail(hotel[0].hotelBasicInfo.hotelNo)"
+                  >詳細を見る</v-btn
+                >
+                <favorite-button
+                  :hotelNum="hotel[0].hotelBasicInfo.hotelNo"
+                ></favorite-button>
+              </v-card-actions>
+            </v-card>
+          </v-slide-item>
+        </v-slide-group>
+      </div>
+      <div>
+        <h4>閲覧履歴</h4>
+        <div>{{ watchedError }}</div>
+        <v-slide-group
+          v-model="model"
+          class="pa-4"
+          active-class="success"
+          show-arrows
+        >
+          <v-slide-item
+            v-for="(hotel, index) of getWatchedList"
+            v-bind:key="index"
+          >
+            <v-card class="card ma-4" max-width="300">
+              <v-img
+                class="white--text align-end"
+                height="160px"
+                v-bind:src="hotel[0].hotelBasicInfo.hotelImageUrl"
+              >
+              </v-img>
+              <v-card-text class="text--primary">
+                <div class="hotel-name">
+                  {{ hotel[0].hotelBasicInfo.hotelName }}
+                </div>
+                <div class="pb-0 sub-title">
+                  {{ hotel[2].hotelDetailInfo.areaName }} [全{{
+                    hotel[3].hotelFacilitiesInfo.hotelRoomNum
+                  }}室]
+                  <star-rating
+                    v-bind:increment="0.01"
+                    v-bind:max-rating="5"
+                    v-bind:rating="hotel[0].hotelBasicInfo.reviewAverage"
+                    inactive-color="#000"
+                    active-color="#fa8000"
+                    v-bind:star-size="15"
+                    v-bind:read-only="true"
+                  >
+                  </star-rating>
+                </div>
+                <div class="description">
+                  {{ hotel[0].hotelBasicInfo.hotelSpecial }}
+                </div>
+                <div class="min-charge">
+                  最安値<span
+                    >&nbsp;{{
+                      Number(
+                        hotel[0].hotelBasicInfo.hotelMinCharge
+                      ).toLocaleString()
+                    }}&nbsp;</span
+                  >
+                  円(税込)
+                </div>
+              </v-card-text>
+              <v-card-actions>
+                <v-btn
+                  color="orange"
+                  text
+                  @click="showHotelDetail(hotel[0].hotelBasicInfo.hotelNo)"
+                  >詳細を見る</v-btn
+                >
+                <favorite-button
+                  :hotelNum="hotel[0].hotelBasicInfo.hotelNo"
+                ></favorite-button>
+              </v-card-actions>
+            </v-card>
+          </v-slide-item>
+        </v-slide-group>
+      </div>
     </div>
   </div>
 </template>
@@ -77,9 +148,20 @@
 export default {
   data() {
     return {
-      hotelList: [],
+      // お気に入り一覧
+      favoriteList: [],
+      // 閲覧履歴
+      watchedList: [],
+      // お気に入り一覧のエラー
+      favoriteError: "",
+      // 閲覧履歴のエラー
+      watchedError: "",
       model: null,
     };
+  },
+  mounted() {
+    this.favoriteList = this.$store.getters["favorite/getFavoriteList"];
+    this.watchedList = this.$store.getters["watchedList/getWatchedList"];
   },
   methods: {
     moveToReserve() {
@@ -87,9 +169,27 @@ export default {
     },
   },
   computed: {
+    /**
+     * お気に入り一覧を取得する.
+     */
     getFavoriteList() {
-      this.hotelList = this.$store.getters["favorite/getFavoriteList"];
-      return this.hotelList;
+      if (this.favoriteList.length === 0) {
+        this.favoriteError = "お気に入りした宿がありません";
+      } else {
+        this.favoriteError = "";
+      }
+      return this.favoriteList;
+    },
+    /**
+     * 閲覧履歴を取得する.
+     */
+    getWatchedList() {
+      if (this.watchedList.length === 0) {
+        this.watchedError = "閲覧履歴がありません";
+      } else {
+        this.watchedError = "";
+      }
+      return this.watchedList;
     },
   },
 };
