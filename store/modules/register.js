@@ -37,6 +37,10 @@ export default {
       state.loginUser = state.userList[0];
       console.log(state.loginUser);
     },
+    deleteLoginUser(state) {
+      state.loginUser = {};
+      console.log(state.loginUser);
+    },
   },
 
   getters: {

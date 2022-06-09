@@ -232,6 +232,13 @@ export const mutations = {
   registerLoginUser(state) {
     this.commit("register/registerLoginUser");
   },
+  /**
+   * register.jsのdeleteLoginUserを呼び出す.
+   * @param {*} state - ステート
+   */
+  deleteUser(state) {
+    this.commit("register/deleteLoginUser");
+  },
 }; //end of mutations
 
 export const getters = {

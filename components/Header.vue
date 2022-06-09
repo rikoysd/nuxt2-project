@@ -7,20 +7,38 @@
 
       <div class="flex-grow-1"></div>
 
-      <v-btn
-        icon
-        color="white"
-        @click="favoriteList"
+      <v-menu
+        top
+        :close-on-content-click="closeOnContentClick"
         v-if="changeFlag === true"
       >
-        <v-icon class="header">mdi-account</v-icon>
-      </v-btn>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn icon color="white" v-bind="attrs" v-on="on">
+            <v-icon class="header">mdi-account</v-icon>
+          </v-btn>
+        </template>
+
+        <v-list>
+          <v-list-item class="list" v-for="(item, index) in items" :key="index">
+            <v-list-item-title @click="myPageAction(index)">{{
+              item.title
+            }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
 
       <nuxt-link to="/login" class="header menu" v-else>ログイン</nuxt-link>
 
-      <v-btn icon color="white" @click="favoriteList">
-        <v-icon class="header">mdi-heart</v-icon>
-      </v-btn>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn color="white" icon @click="favoriteList">
+            <v-icon class="header" color="white" dark v-bind="attrs" v-on="on">
+              mdi-heart
+            </v-icon>
+          </v-btn>
+        </template>
+        <span>行きたい宿</span>
+      </v-tooltip>
 
       <v-btn icon color="white">
         <v-icon class="header">mdi-magnify</v-icon>
@@ -36,6 +54,8 @@ export default {
   data() {
     return {
       flag: false,
+      items: [{ title: "マイページ" }, { title: "ログアウト" }],
+      closeOnContentClick: true,
     };
   },
   methods: {
@@ -44,6 +64,16 @@ export default {
      */
     favoriteList() {
       this.$router.push("/mypage");
+    },
+    /**
+     * マイページのメニューを選択する.
+     */
+    myPageAction(number) {
+      if (number === 0) {
+        this.$router.push("/mypage");
+      } else {
+        this.$store.commit("deleteUser");
+      }
     },
   },
   computed: {
@@ -65,6 +95,10 @@ export default {
 <style>
 .header {
   color: white;
+}
+
+.list {
+  cursor: pointer;
 }
 
 .menu {
