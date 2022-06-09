@@ -3,7 +3,11 @@
     <v-app-bar color="#333c5e">
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
-      <v-toolbar-title class="header">楽々booking.com</v-toolbar-title>
+      <v-toolbar-title class="header"
+        ><nuxt-link to="/" tag="div" class="title"
+          >楽々booking.com</nuxt-link
+        ></v-toolbar-title
+      >
 
       <div class="flex-grow-1"></div>
 
@@ -119,6 +123,10 @@ export default {
 .menu {
   font-size: 80%;
   margin-right: 7px;
+  cursor: pointer;
+}
+
+.title {
   cursor: pointer;
 }
 </style>
