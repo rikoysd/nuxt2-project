@@ -1,24 +1,7 @@
 <template>
   <div>
-    <v-row>
-      <v-col cols="12">
-        <!-- カルーセル -->
-        <v-carousel
-          cycle
-          height="400"
-          hide-delimiter-background
-          show-arrows-on-hover
-        >
-          <v-carousel-item v-for="(slide, i) in slides" :key="i">
-            <v-row class="fill-height" align="center" justify="center">
-              <div class="text-h2">
-                <v-img class="hotelImage" align="center" :src="slide"></v-img>
-              </div>
-            </v-row>
-          </v-carousel-item>
-        </v-carousel>
-      </v-col>
-    </v-row>
+    <!-- カルーセル -->
+    <detail-carousel :slides="slides"></detail-carousel>
     <!-- ナビゲーションバー -->
     <v-row>
       <v-toolbar color="#F5F5F5">
@@ -33,246 +16,83 @@
       </v-toolbar>
     </v-row>
     <!-- ボトムシート -->
-
     <v-navigation-drawer v-model="drawer" absolute bottom temporary>
     </v-navigation-drawer>
     <v-row>
       <v-col>
-        <v-btn
-          color="orange"
-          dark
-          v-bind="attrs"
-          v-on="on"
-          @click.stop="drawer = !drawer"
-        >
+        <v-btn color="orange" dark @click.stop="drawer = !drawer">
           Open Inset
         </v-btn>
       </v-col>
     </v-row>
     <!-- 施設概要 -->
-    <v-row>
-      <v-col cols="6">
-        <p class="font-weight-bold">{{ hotelName }}</p>
-        <br />
-        {{ hotelSpecial }}<br />
-        IN{{ detailInfo.checkinTime + "~" + detailInfo.lastCheckinTime }} OUT{{
-          detailInfo.checkoutTime
-        }}
-      </v-col>
-      <v-col id="reviews" cols="6">
-        {{ "評価平均:" + reviewAverage }}
-        <v-rating
-          color="#e9bc00"
-          :value="reviewAverage"
-          readonly
-          icon-label="custom icon label text {0} of {1}"
-        ></v-rating>
-        {{ "評価件数:" + reviewCount }}<br />
-        口コミ:<span v-html="userReview"></span>
-      </v-col>
-    </v-row>
+    <detail-overview
+      :basicInfo="basicInfo"
+      :detailInfo="detailInfo"
+    ></detail-overview>
     <!-- 宿泊プラン -->
     <v-row>
       <v-col cols="12">
         <v-card elevation="2" class="plansCard" tile>
           <p class="title font-weight-bold">宿泊プラン</p>
-          <v-row v-show="!listShow">
-            <calender @selectDates="addDates"></calender>
-            <v-col cols="10" md="4">
+          <div v-show="!listShow">
+            <v-row>
               <p>必要情報を入力し空室検索できます</p>
-              <v-text-field
-                v-model="checkinDate"
-                label="params.checkinDate"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-text-field
-                v-model="checkoutDate"
-                label="params.checkoutDate"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-text-field
-                v-model="adultNum"
-                label="params.adultNum"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="2">
-              <v-btn @click="sendReserveData">検索</v-btn>
-            </v-col>
-          </v-row>
-          <v-row v-show="listShow" v-for="(plan, i) of plans" :key="i">
-            <v-col id="plans" cols="12">
-              <v-card elevation="2" class="planCard" tile>
-                <v-row>
-                  <v-col cols="12">
-                    <v-card-title class="subtitle-1 font-weight-bold">
-                      {{ plan[0].roomBasicInfo.planName }}
-                    </v-card-title>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="2" class="planImg">
-                    <v-img class="planImg" :src="roomImage"></v-img>
-                  </v-col>
-                  <v-col cols="8">
-                    <v-card-text class="body-2">
-                      <p>{{ plan[0].roomBasicInfo.roomName }}</p>
-                      <span
-                        v-if="plan[0].roomBasicInfo.withBreakfastFlag === 1"
-                      >
-                        朝食あり
-                      </span>
-                      <span v-else>朝食なし</span>
-                      <span v-if="plan[0].roomBasicInfo.withDinnerFlag === 1">
-                        夕食あり
-                      </span>
-                      <span v-else>夕食なし</span>
-                      <p>
-                        IN{{
-                          detailInfo.checkinTime +
-                          "~" +
-                          detailInfo.lastCheckinTime
-                        }}
-                        OUT{{ detailInfo.checkoutTime }}
-                      </p>
-                      <v-spacer />
-                      <p class="text-right">
-                        税込
-                        <span class="text-h6 font-weight-bold">
-                          {{ plan[1].dailyCharge.total }}
-                        </span>
-                        円
-                      </p>
-                    </v-card-text>
-                  </v-col>
-                  <v-col cols="2">
-                    <v-btn color="#65CC42">詳細・予約</v-btn>
-                  </v-col>
-                </v-row>
-              </v-card>
-            </v-col>
-          </v-row>
+            </v-row>
+            <v-row>
+              <v-col cols="10" md="4">
+                <calender @selectDates="addDate"></calender>
+              </v-col>
+              <v-col cols="2" md="4">
+                <v-text-field
+                  v-model="adultNum"
+                  label="params.adultNum"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="1">
+                <v-btn @click="sendReserveData">検索</v-btn>
+              </v-col>
+            </v-row>
+          </div>
+          <div v-show="listShow">
+            <detail-plans
+              :plans="plans"
+              :roomImage="roomImage"
+              :detailInfo="detailInfo"
+              @sendReserveData="sendReserveData"
+            ></detail-plans>
+          </div>
         </v-card>
       </v-col>
     </v-row>
     <!-- 施設詳細 -->
-    <v-row>
-      <v-col id="hotelInfo" cols="10">
-        <p class="title font-weight-bold">施設情報</p>
-        <br />
-        <v-img :src="hotelImage"></v-img
-      ></v-col>
-      <v-col id="hotelInfo" cols="2">
-        {{ "風呂評価" + bathAverage }}
-        <v-rating
-          color="#e9bc00"
-          :value="bathAverage"
-          readonly
-          icon-label="custom icon label text {0} of {1}"
-        ></v-rating>
-        {{ "立地評価" + locationAverage }}
-        <v-rating
-          color="#e9bc00"
-          :value="locationAverage"
-          readonly
-          icon-label="custom icon label text {0} of {1}"
-        ></v-rating>
-        {{ "装備品評価" + equipmentAverage }}
-        <v-rating
-          color="#e9bc00"
-          :value="equipmentAverage"
-          readonly
-          icon-label="custom icon label text {0} of {1}"
-        ></v-rating>
-        {{ "食事評価" + mealAverage }}
-        <v-rating
-          color="#e9bc00"
-          :value="mealAverage"
-          readonly
-          icon-label="custom icon label text {0} of {1}"
-        ></v-rating>
-        {{ "部屋評価" + roomAverage }}
-        <v-rating
-          color="#e9bc00"
-          :value="roomAverage"
-          readonly
-          icon-label="custom icon label text {0} of {1}"
-        ></v-rating>
-        {{ "サービス評価" + serviceAverage }}
-        <v-rating
-          color="#e9bc00"
-          :value="serviceAverage"
-          readonly
-          icon-label="custom icon label text {0} of {1}"
-        ></v-rating>
-      </v-col>
-    </v-row>
+    <detail-info
+      :reviewAverage="reviewAverage"
+      :hotelImage="hotelImage"
+    ></detail-info>
     <!-- アクセス -->
-    <v-row>
-      <v-col id="acsess" cols="12">
-        <p class="title font-weight-bold">アクセス</p>
-        <br />
-        <p class="body-1 address">
-          住所：{{ address }} 最寄駅：{{ nearestStation + "駅" }}
-        </p>
-        <br />
-        <iframe
-          :src="
-            'https://maps.google.co.jp/maps?output=embed&q=' +
-            address +
-            hotelName
-          "
-          width="1000"
-          height="450"
-          style="border: 0"
-          allowfullscreen=""
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-        ></iframe
-        ><br />
-        <p class="caption">
-          郵便番号：{{ postalCode }} <br />
-          駐車場情報：{{ parkingInformation }}<br />
-          電話番号：{{ telephoneNo }}<br />
-        </p>
-      </v-col>
-    </v-row>
+    <detail-acsess :basicInfo="basicInfo" :address="address"></detail-acsess>
   </div>
 </template>
 
 <script>
 import calender from "../../components/calender.vue";
+import DetailOverview from "../../components/detailHotel/detailOverview.vue";
 export default {
-  components: { calender },
+  components: { calender, DetailOverview },
   data() {
     return {
       paramsNo: 0,
       vacantList: [],
-      institutionInfo: "",
       slides: [],
-      hotelName: "ホテル",
-      hotelSpecial: "ホテルの特徴",
-      reviewAverage: 0,
-      reviewCount: 0,
-      userReview: "",
-      bathAverage: 0,
-      equipmentAverage: 0,
-      locationAverage: 0,
-      mealAverage: 0,
-      roomAverage: 0,
-      serviceAverage: 0,
       roomImage: "",
       hotelImage: "",
+      basicInfo: [],
       address: "",
       plans: [],
       detailInfo: [],
       address: "",
-      access: "",
-      nearestStation: "",
-      parkingInformation: "",
-      postalCode: "",
-      telephoneNo: 0,
+      reviewAverage: [],
       sheet: false,
       checkinDate: "",
       checkoutDate: "",
@@ -290,25 +110,35 @@ export default {
       this.drawer = false;
     },
   },
-  methods: {
-    addDates(date) {
-      console.log(date);
-      this.checkinDate = date[0];
-      this.checkoutDate = date[1];
-      // console.log(date[0]);
-      // console.log(date[1]);
-    },
-  },
+
   async mounted() {
+    // URLからhotelIdを取得
     this.paramsNo = this.$route.params.id;
     // 施設検索
     await this.$store.dispatch("searchInstitution", this.paramsNo);
     this.institutionInfo = this.$store.getters.getInstitutitonInfo;
     const hotels = this.institutionInfo.hotels.hotels[0];
-    const basicInfo = hotels.hotel[0].hotelBasicInfo;
+    this.basicInfo = hotels.hotel[0].hotelBasicInfo;
     console.log("施設情報", hotels);
-    // 空室検索
 
+    // カルーセル
+    this.roomImage = this.basicInfo.roomImageUrl;
+    this.hotelImage = this.basicInfo.hotelImageUrl;
+    if (this.roomImage !== null) {
+      this.slides.push(this.roomImage);
+    }
+    if (this.hotelImage !== null) {
+      this.slides.push(this.hotelImage);
+    }
+    // 施設詳細
+    this.reviewAverage = hotels.hotel[1].hotelRatingInfo;
+    // 施設概要
+    console.log("空室情報", this.vacantList);
+    // アクセス
+    this.address = this.basicInfo.address1 + this.basicInfo.address2;
+
+    // 空室検索
+    // 仮の日付で検索
     const Year = this.now.getFullYear();
     let Month = this.now.getMonth() + 1;
     if (Month < 10) {
@@ -324,64 +154,46 @@ export default {
     }
     this.target = Year + "-" + Month + "-" + Date;
     const target2 = Year + "-" + Month + "-" + Date2;
-    console.log("target", this.target);
+    // console.log("target", this.target);
 
     await this.$store.dispatch("searchVacant", {
-      hotelNo: basicInfo.hotelNo,
+      hotelNo: this.basicInfo.hotelNo,
       checkinDate: this.target,
       checkoutDate: target2,
       adultNum: "2",
     });
     this.vacantList = this.$store.getters.getVacantList;
     const hotelBasicInfo = this.vacantList.hotels[0].hotel[0].hotelBasicInfo;
-    this.roomImage = hotelBasicInfo.roomImageUrl;
-    this.hotelImage = hotelBasicInfo.hotelImageUrl;
-    this.slides.push(this.roomImage, this.hotelImage);
-    this.hotelName = hotelBasicInfo.hotelName;
-    this.hotelSpecial = hotelBasicInfo.hotelSpecial;
 
-    console.log("空室情報", this.vacantList);
-    this.reviewAverage = hotelBasicInfo.reviewAverage;
-    this.reviewCount = hotelBasicInfo.reviewCount;
-    // this.serviceAverage = ratingInfo.serviceAverage;
-    // this.locationAverage = ratingInfo.locationAverage;
-    // this.roomAverage = ratingInfo.roomAverage;
-    // this.equipmentAverage = ratingInfo.equipmentAverage;
-    // this.bathAverage = ratingInfo.bathAverage;
-    // this.mealAverage = ratingInfo.mealAverage;
-    this.userReview = hotelBasicInfo.userReview;
-    // console.log(hotels);
-    this.bathAverage = hotels.hotel[1].hotelRatingInfo.bathAverage;
-    this.equipmentAverage = hotels.hotel[1].hotelRatingInfo.equipmentAverage;
-    this.locationAverage = hotels.hotel[1].hotelRatingInfo.locationAverage;
-    this.mealAverage = hotels.hotel[1].hotelRatingInfo.mealAverage;
-    this.roomAverage = hotels.hotel[1].hotelRatingInfo.roomAverage;
-    this.serviceAverage = hotels.hotel[1].hotelRatingInfo.serviceAverage;
-    this.address = hotelBasicInfo.address1 + hotelBasicInfo.address2;
-    this.access = hotelBasicInfo.access;
-    this.nearestStation = hotelBasicInfo.nearestStation;
-    this.parkingInformation = hotelBasicInfo.parkingInformation;
-    this.postalCode = hotelBasicInfo.postalCode;
-    this.telephoneNo = hotelBasicInfo.telephoneNo;
     this.plans = [
       this.vacantList.hotels[0].hotel[3].roomInfo,
       this.vacantList.hotels[0].hotel[4].roomInfo,
       this.vacantList.hotels[0].hotel[5].roomInfo,
     ];
     this.detailInfo = this.vacantList.hotels[0].hotel[1].hotelDetailInfo;
-    console.log("plans", this.detailInfo);
+    // console.log("plans", this.detailInfo);
   },
   methods: {
-    sendReserveData() {
-      this.$store.dispatch("searchVacant", {
-        hotelNo: this.paramsNo,
-        checkinDate: this.checkinDate,
-        checkoutDate: this.checkoutDate,
-        adultNum: this.adultNum,
-      });
-      this.listShow = !this.listShow;
+    sendReserveData(data) {
+      this.vacantList = this.$store.getters.getVacantList;
+      console.log(this.vacantList);
 
-      console.log("空室情報", this.vacantList);
+      this.listShow = data;
+      console.log("空室情報", this.listShow);
+    },
+    addDate(date) {
+      console.log("date", date);
+      this.checkinDate = date[0];
+      this.checkoutDate = date[1];
+      // console.log(date[0]);
+      // console.log(date[1]);
+    },
+    exist(data) {
+      if (data !== null) {
+        return "~" + data;
+      } else {
+        return "";
+      }
     },
   },
 };
@@ -416,8 +228,5 @@ v-btn {
   object-fit: cover;
   height: auto;
   width: 150px;
-}
-address {
-  background-color: antiquewhite;
 }
 </style>
