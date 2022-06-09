@@ -7,38 +7,53 @@
 
       <div class="flex-grow-1"></div>
 
-      <v-menu
-        top
-        :close-on-content-click="closeOnContentClick"
-        v-if="changeFlag === true"
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn icon color="white" v-bind="attrs" v-on="on">
-            <v-icon class="header">mdi-account</v-icon>
-          </v-btn>
-        </template>
+      <div v-if="changeFlag === true">
+        <v-menu top :close-on-content-click="closeOnContentClick">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn icon color="white" v-bind="attrs" v-on="on">
+              <v-icon class="header">mdi-account</v-icon>
+            </v-btn>
+          </template>
 
-        <v-list>
-          <v-list-item class="list" v-for="(item, index) in items" :key="index">
-            <v-list-item-title @click="myPageAction(index)">{{
-              item.title
-            }}</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+          <v-list>
+            <v-list-item
+              class="list"
+              v-for="(item, index) in items"
+              :key="index"
+            >
+              <v-list-item-title @click="myPageAction(index)">{{
+                item.title
+              }}</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn color="white" icon @click="favoriteList">
+              <v-icon
+                class="header"
+                color="white"
+                dark
+                v-bind="attrs"
+                v-on="on"
+              >
+                mdi-heart
+              </v-icon>
+            </v-btn>
+          </template>
+          <span>行きたい宿</span>
+        </v-tooltip>
+      </div>
 
-      <nuxt-link to="/login" class="header menu" v-else>ログイン</nuxt-link>
+      <div class="d-flex align-center" v-else>
+        <nuxt-link to="/login" tag="div" class="header menu"
+          >ログイン</nuxt-link
+        >
 
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn color="white" icon @click="favoriteList">
-            <v-icon class="header" color="white" dark v-bind="attrs" v-on="on">
-              mdi-heart
-            </v-icon>
-          </v-btn>
-        </template>
-        <span>行きたい宿</span>
-      </v-tooltip>
+        <nuxt-link to="/registerUser" tag="div" class="header menu"
+          >会員登録</nuxt-link
+        >
+      </div>
 
       <v-btn icon color="white">
         <v-icon class="header">mdi-magnify</v-icon>
@@ -103,5 +118,7 @@ export default {
 
 .menu {
   font-size: 80%;
+  margin-right: 7px;
+  cursor: pointer;
 }
 </style>
