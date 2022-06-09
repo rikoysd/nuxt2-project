@@ -15,6 +15,8 @@ export default {
   methods: {
     addFavorite(number) {
       this.$store.dispatch("searchHotel", number);
+
+      this.$router.push("/mypage");
     },
   },
   computed: {},

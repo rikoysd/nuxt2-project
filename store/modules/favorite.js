@@ -14,7 +14,7 @@ export default {
     async searchInstitution(context, number) {
       console.log(number);
       const response = await this.$axios.$get(
-        `https://app.rakuten.co.jp/services/api/Travel/HotelDetailSearch/20170426?applicationId=1098541415969458249&format=json&hotelNo=${number}`
+        `https://app.rakuten.co.jp/services/api/Travel/HotelDetailSearch/20170426?applicationId=1098541415969458249&format=json&responseType=large&hotelNo=${number}`
       );
       // console.dir(JSON.stringify(response));
       const payload = response.hotels[0].hotel;

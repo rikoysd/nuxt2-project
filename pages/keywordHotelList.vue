@@ -1,5 +1,5 @@
 <template>
-  <v-container class="d-flex justify-center">
+  <div class="d-flex justify-center">
     <div class="whole">
       <drawerMenu></drawerMenu>
       <calender></calender>
@@ -99,7 +99,7 @@
         </div>
       </div>
     </div>
-  </v-container>
+  </div>
 </template>
 
 <script>
