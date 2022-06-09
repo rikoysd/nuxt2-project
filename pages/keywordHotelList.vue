@@ -13,6 +13,11 @@
       <keywords @search="searchKeyword"></keywords>
       <!-- 検索結果ページ（初期表示） -->
       <div class="error-flag">{{ getErrorFlag }}</div>
+      <v-progress-circular
+        v-show="loading"
+        :value="60"
+        color="primary"
+      ></v-progress-circular>
       <div class="d-flex justify-center">
         <div v-show="showResult" class="result">
           <!-- ページネーション -->
@@ -144,10 +149,21 @@ export default {
       searchError: "",
       // エラー判定
       errorFlag: false,
+      // ローディング
+      loading: false,
     };
   },
   mounted() {
     this.showResult = false;
+  },
+  watch: {
+    // ホテル一覧の変数を監視する
+    hotelList() {
+      if (this.hotelList.length !== 0) {
+        this.loading = false;
+        this.showResult = true;
+      }
+    },
   },
   methods: {
     /**
@@ -155,6 +171,8 @@ export default {
      * @param {*} keyword - キーワード
      */
     async searchKeyword(keyword) {
+      this.loading = true;
+
       // エラー判定を初期化
       this.$store.commit("changeFlag", this.errorFlag);
 
@@ -169,9 +187,6 @@ export default {
 
       // actionの呼び出し
       await this.$store.dispatch("getPageList", this.object);
-
-      // 検索結果表示
-      this.showResult = true;
     },
     /**
      * ページを切り替える.
@@ -268,6 +283,10 @@ export default {
   margin-bottom: 10px;
   opacity: 0.7;
   font-size: 0.7rem;
+}
+
+.v-progress-circular {
+  margin: 1rem;
 }
 
 .whole {
