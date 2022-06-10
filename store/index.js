@@ -6,6 +6,8 @@ import axios from "@nuxtjs/axios";
 import register from "./modules/register";
 import keyword from "./modules/keyword";
 import reserve from "./modules/reserve";
+import favorite from "./modules/favorite";
+import watchedList from "./modules/watchedList";
 
 Vue.use(Vuex);
 export const state = () => ({
@@ -149,6 +151,22 @@ export const actions = {
   getPageList(context, object) {
     context.dispatch("keyword/getPageList", object, { root: true });
   },
+  /**
+   * favorite.jsにホテル番号を渡す（お気に入り一覧）.
+   * @param {*} context - コンテキスト
+   * @param {*} number - ホテル番号
+   */
+  searchHotel(context, number) {
+    context.dispatch("favorite/searchInstitution", number, { root: true });
+  },
+  /**
+   * watchedList.jsにホテル番号を渡す（閲覧履歴）.
+   * @param {*} context - コンテキスト
+   * @param {*} number - ホテル番号
+   */
+  searchHotel2(context, number) {
+    context.dispatch("watchedList/searchHotel", number, { root: true });
+  },
 }; // end actions
 
 export const mutations = {
@@ -252,6 +270,28 @@ export const mutations = {
   changeFlag(state, payload) {
     this.commit("keyword/changeErrorFlag", payload);
   },
+  /**
+   * favorite.jsにホテル番号を渡す.
+   * @param {*} state - ステート
+   * @param {*} payload - ホテル番号
+   */
+  deleteFavorite(state, payload) {
+    this.commit("favorite/deleteFavorite", payload);
+  },
+  /**
+   * register.jsのregisterLoginUserを呼び出す.
+   * @param {*} state - ステート
+   */
+  registerLoginUser(state) {
+    this.commit("register/registerLoginUser");
+  },
+  /**
+   * register.jsのdeleteLoginUserを呼び出す.
+   * @param {*} state - ステート
+   */
+  deleteUser(state) {
+    this.commit("register/deleteLoginUser");
+  },
 }; //end of mutations
 
 export const getters = {
@@ -335,4 +375,6 @@ export const modules = {
   register,
   keyword,
   reserve,
+  favorite,
+  watchedList,
 };
