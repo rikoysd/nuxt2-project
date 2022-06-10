@@ -2,6 +2,7 @@
   <div class="d-flex justify-center">
     <div>
       <div>
+        {{ basicInfo.hotelName }}
         <!-- カルーセル -->
         <detail-carousel :slides="slides"></detail-carousel>
         <!-- ナビゲーションバー -->
@@ -77,6 +78,9 @@
           <detail-info
             :reviewAverage="reviewAverage"
             :hotelImage="hotelImage"
+            :facilitiesInfo="facilitiesInfo"
+            :policyInfo="policyInfo"
+            :otherInfo="otherInfo"
           ></detail-info>
           <!-- アクセス -->
           <detail-acsess
@@ -114,6 +118,9 @@ export default {
       plans: [],
       // ホテル詳細情報
       detailInfo: [],
+      facilitiesInfo: [],
+      policyInfo: [],
+      otherInfo: [],
       // レビュー平均リスト
       reviewAverage: [],
       sheet: false,
@@ -162,6 +169,12 @@ export default {
     }
     // 施設詳細
     this.reviewAverage = hotels.hotel[1].hotelRatingInfo;
+    this.facilitiesInfo = hotels.hotel[3].hotelFacilitiesInfo;
+    console.log("this.facilitiesInfo", this.facilitiesInfo);
+    this.policyInfo = hotels.hotel[4].hotelPolicyInfo;
+    console.log("this.policyInfo", this.policyInfo);
+    this.otherInfo = hotels.hotel[5].hotelOtherInfo;
+    console.log("this.otherInfo", this.otherInfo);
     // 施設概要
     console.log("空室情報", this.vacantList);
     // アクセス
@@ -173,6 +186,7 @@ export default {
      * @param {*} - store.state.stayPlanFlag
      */
     async sendReserveData(data) {
+      this.plans = [];
       // console.log(data);
       this.staySpan = this.getStaySpan;
       // console.log(this.staySpan);
@@ -185,7 +199,9 @@ export default {
       });
       this.listShow = data;
       // console.log("this.listShow", this.listShow.isTrusted);
-      if (this.listShow.isTrusted === true) {
+      this.vacantList = this.$store.getters.getVacantList;
+      console.log("空室情報", this.vacantList);
+      if (this.vacantList.hotels !== undefined) {
         this.vacantList = this.$store.getters.getVacantList;
         console.log("空室情報", this.vacantList);
         const hotelBasicInfo =
@@ -198,6 +214,9 @@ export default {
         ];
         this.detailInfo = this.vacantList.hotels[0].hotel[1].hotelDetailInfo;
         // console.log("plans", this.detailInfo);
+      } else {
+        this.listShow = false;
+        alert("エラー");
       }
     },
     /**
