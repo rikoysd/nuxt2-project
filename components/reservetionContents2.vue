@@ -55,16 +55,29 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-  name: "reservetionContents",
+  props: {
+    reserveObject: Object,
+  },
   data() {
     return {
+      // 予約情報オブジェクト
+      reserveObjects: {},
+      // ホテル名
       hotelName: "The Okura Tokyo",
+      // ホテル詳細
       dateAndMeal: "2022月5月30日〜 1泊 食事なし",
+      // 宿泊人数
       peopleAndRooms: "大人2名 1室",
+      // 部屋の種類
       room: "プレステージルーム ツイン 【禁煙】",
+      // リンク？
       plan: "ホテルのリンクを貼る（？）",
+      // 宿泊料金合計
       subPrice: 0,
+      // お支払い金額
       totalPrice: 0,
     };
   }, //end data
@@ -81,7 +94,31 @@ export default {
     /**
      * 予約を確定する.
      */
-    reserveFinished() {
+    async reserveFinished() {
+      console.log("call10");
+      // 注文IDの生成
+      let orderNum = "";
+      for (let i = 0; i < 7; i++) {
+        let num = Math.floor(Math.random() * 10) + 11;
+        let str = String(num);
+        orderNum += str;
+      }
+
+      // クレカ情報を送る
+      const response = await axios.post(
+        "http://153.127.48.168:8080/sample-credit-card-web-api/credit-card/payment",
+        {
+          user_id: 1,
+          order_number: orderNum,
+          amount: this.totalPrice,
+          card_number: this.reserveObject.card_num,
+          card_exp_year: this.reserveObject.card_exp_year,
+          card_exp_month: this.reserveObject.card_exp_month,
+          card_name: this.reserveObject.card_name,
+          card_cvv: this.reserveObject.card_cvv,
+        }
+      );
+      console.log(response);
       this.$router.push("/reserveFinished");
     },
   }, // end methods

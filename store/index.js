@@ -96,11 +96,15 @@ export const actions = {
    * @param {*} keyword - キーワード
    */
   async getHotelList(context, keyword) {
-    const response = await this.$axios.$get(
-      `https://app.rakuten.co.jp/services/api/Travel/KeywordHotelSearch/20170426?applicationId=1098541415969458249&format=json&responseType=large&keyword=${keyword}`
-    );
-    // console.dir(JSON.stringify(response));
-    context.commit("showHotelList", response);
+    try {
+      const response = await this.$axios.$get(
+        `https://app.rakuten.co.jp/services/api/Travel/KeywordHotelSearch/20170426?applicationId=1098541415969458249&format=json&responseType=large&keyword=${keyword}`
+      );
+      // console.dir(JSON.stringify(response));
+      context.commit("showHotelList", response);
+    } catch (error) {
+      console.log(error);
+    }
   },
   /**
    * 地区コードの取得.
@@ -193,6 +197,15 @@ export const mutations = {
    */
   reserve(state, object) {
     this.commit("reserve/reserveInfo", object);
+  },
+
+  /**
+   * keyword.jsにエラー判定を渡す.
+   * @param {*} state - ステート
+   * @param {*} payload - エラー判定
+   */
+  changeFlag(state, payload) {
+    this.commit("keyword/changeErrorFlag", payload);
   },
 }; //end of mutations
 
