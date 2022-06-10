@@ -90,7 +90,7 @@ export default {
      */
     changeReservation(reserveId) {
       reserveId = this.reserveObject.reserveId;
-      this.$roter.push(`/reserveForm/${reserveId}`);
+      this.$router.push(`/reserveForm2/${reserveId}`);
     },
     /**
      * 予約を確定する.

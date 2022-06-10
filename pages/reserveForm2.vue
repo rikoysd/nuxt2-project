@@ -37,7 +37,7 @@
           >&emsp;{{ prefectureError }}</span
         ><selectPrefectures
           @prefecture="reservePrefecture"
-          :prefecture="prefecture"
+          :prefecture2="prefecture"
         ></selectPrefectures>
         <!-- コンポーネント end-->
         <span style="color: red">&emsp;{{ addressError }}</span>
@@ -229,10 +229,10 @@
 </template>
 
 <script>
-import selectPrefectures from "../../components/selectPrefectures.vue";
-import selectChecin from "../../components/selectCheckin.vue";
-import reservetionContents from "../../components/reservetionContents.vue";
-import creditcard from "../../components/creditcard.vue";
+import selectPrefectures from "../components/selectPrefectures.vue";
+import selectChecin from "../components/selectCheckin.vue";
+import reservetionContents from "../components/reservetionContents.vue";
+import creditcard from "../components/creditcard.vue";
 
 export default {
   name: "reserveForm",
@@ -322,6 +322,10 @@ export default {
       },
     };
   }, //end data
+
+  mounted() {
+    const reserveId = Number(this.$route.params.id);
+  },
 
   methods: {
     /**
