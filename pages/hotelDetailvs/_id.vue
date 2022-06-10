@@ -85,29 +85,43 @@ export default {
   components: { calender, DetailOverview },
   data() {
     return {
+      // Params番号
       paramsNo: 0,
+      // 空室検索結果
       vacantList: [],
+      // カルーセル写真リスト
       slides: [],
+      // 部屋写真
       roomImage: "",
+      // ホテル写真
       hotelImage: "",
+      // ホテル基本情報
       basicInfo: [],
+      // 住所
       address: "",
+      // 宿泊プラン
       plans: [],
+      // ホテル詳細情報
       detailInfo: [],
-      address: "",
+      // レビュー平均リスト
       reviewAverage: [],
       sheet: false,
+      // チェックイン日時
       checkinDate: "",
+      // チェックアウト日時
       checkoutDate: "",
-      adultNum: 0,
+      // 人数
+      adultNum: 2,
+      // 宿泊日数
+      staySpan: 0,
+      // 宿泊リスト表示フラグ
       listShow: false,
+      // 現在の日時
       now: new Date(),
+      // 指定した日時
       target: "",
-      dates: [],
       drawer: false,
       group: null,
-      staySpan: 0,
-      adultNum: 2,
     };
   },
   watch: {
@@ -143,10 +157,15 @@ export default {
     this.address = this.basicInfo.address1 + this.basicInfo.address2;
   },
   methods: {
+    /**
+     * 入力された宿泊の条件を元に宿泊リストを取得する.
+     * @param {*} - store.state.stayPlanFlag
+     */
     async sendReserveData(data) {
       console.log(data);
       this.staySpan = this.getStaySpan;
       console.log(this.staySpan);
+      // 条件を元にAPIで検索
       await this.$store.dispatch("searchVacant", {
         hotelNo: this.basicInfo.hotelNo,
         checkinDate: this.checkinDate,
@@ -163,7 +182,7 @@ export default {
         this.vacantList = this.$store.getters.getVacantList;
         const hotelBasicInfo =
           this.vacantList.hotels[0].hotel[0].hotelBasicInfo;
-
+        // 取得した情報をセット
         this.plans = [
           this.vacantList.hotels[0].hotel[3].roomInfo,
           this.vacantList.hotels[0].hotel[4].roomInfo,
@@ -173,6 +192,10 @@ export default {
         console.log("plans", this.detailInfo);
       }
     },
+    /**
+     * コンポーネントから取得した情報を指定に変数にセット.
+     * @param {*} - 日時
+     */
     addDate(date) {
       console.log("date", date);
       this.checkinDate = date[0];
@@ -180,6 +203,10 @@ export default {
       // console.log(date[0]);
       // console.log(date[1]);
     },
+    /**
+     * dataが空だったら表示させない.
+     * @param {*} - データ
+     */
     exist(data) {
       if (data !== null) {
         return "~" + data;
@@ -189,6 +216,9 @@ export default {
     },
   },
   computed: {
+    /**
+     * 宿泊期間の計算.
+     */
     getStaySpan() {
       return (
         (new Date(this.checkoutDate) - new Date(this.checkinDate)) / 86400000
