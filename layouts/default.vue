@@ -21,9 +21,4 @@ export default {
 };
 </script>
 
-<style scoped>
-v-container {
-  padding: 0;
-  max-width: 1920px;
-}
-</style>
+<style scoped></style>

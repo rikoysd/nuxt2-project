@@ -40,7 +40,7 @@ export default {
   methods: {
     getDates(dates) {
       this.$emit("selectDates", dates);
-      console.log("call");
+      console.log(dates);
     },
     addDates() {
       let array = [];
@@ -49,7 +49,6 @@ export default {
           let candidateDate = new Date(this.dates[i]);
           array.push(candidateDate);
         }
-
         // 日付を昇順に並び替える
         array.sort(function (a, b) {
           return a > b ? 1 : -1;
