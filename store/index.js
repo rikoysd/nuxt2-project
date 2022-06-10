@@ -28,6 +28,8 @@ export const state = () => ({
   areaList: [],
   // 施設情報
   instituionInfo: [],
+  //検索条件
+  searchResult: [],
 });
 
 export const actions = {
@@ -64,14 +66,9 @@ export const actions = {
    * @param {*} context
    */
   async searchVacantList(context, vacantData) {
-    console.log("call");
-    console.log(vacantData.roomNum);
-    // console.log("call");
     const vacantResponce = await axios1.get(
-      // `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&largeClassCode=japan&middleClassCode=${middleClassCode}&smallClassCode=${smallClassCode}&detailClassCode=${detailClassCode}&checkinDate=${checkinDate}&checkoutDate=${checkoutDate}&adultNum=${adultNum}&roomNum=${roomNum}&responseType=large`
-      `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&largeClassCode=japan&middleClassCode=${vacantData.middleClassCode}&smallClassCode=${vacantData.smallClassCode}&checkinDate=${vacantData.checkinDate}&checkoutDate=${vacantData.checkoutDate}&adultNum=${vacantData.adultNum}&roomNum=${vacantData.roomNum}&responseType=large`
+      `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&largeClassCode=japan&middleClassCode=${vacantData.middleClassCode}&smallClassCode=${vacantData.smallClassCode}&detailClassCode=${vacantData.detailClassCode}&checkinDate=${vacantData.checkinDate}&checkoutDate=${vacantData.checkoutDate}&adultNum=${vacantData.adultNum}&roomNum=${vacantData.roomNum}&responseType=large`
     );
-    console.dir("response" + JSON.stringify(vacantResponce.data.hotels));
     // console.dir("response" + JSON.stringify(vacantResponce.data.hotels));
     context.commit("setVacantList", vacantResponce.data.hotels);
   },
@@ -119,9 +116,8 @@ export const actions = {
     const response = await axios1.get(
       "https://app.rakuten.co.jp/services/api/Travel/GetAreaClass/20131024?applicationId=1098541415969458249&format=json"
     );
-    console.dir("response:" + JSON.stringify(response));
+    // console.dir("response:" + JSON.stringify(response));
     const payload = response.data.areaClasses.largeClasses[0].largeClass[1];
-    console.log(payload);
     context.commit("showAreaList", payload);
   },
   /**
@@ -153,6 +149,8 @@ export const actions = {
 export const mutations = {
   /**
    * 総合ランキング情報をstateに格納.
+   * @param {*} state - ステート
+   * @param {*} payload - ペイロード
    */
   getHotelList(state, payload) {
     for (const hotel of payload) {
@@ -175,10 +173,20 @@ export const mutations = {
    */
   setVacantList(state, payload) {
     state.vacantList = { hotels: payload };
-    // console.log(state.vacantList);
+    console.log(state.vacantList);
+  },
+  /**
+   * 検索条件をステートに格納.
+   * @param {*} state - ステート
+   * @param {*} payload  - ペイロード
+   */
+  searchResultList(state, payload) {
+    state.searchResult = payload;
   },
   /**
    *地区コード情報をstateに格納.
+   * @param {*} state - ステート
+   * @param {*} payload - ペイロード
    */
   showAreaList(state, payload) {
     state.areaList = payload;
@@ -259,6 +267,7 @@ export const getters = {
     return state.hotelList;
   },
   /**
+   * 空室検索結果を取得.
    * @param {*} state - ステート
    * @returns - 空室リスト
    */
@@ -274,16 +283,13 @@ export const getters = {
     return state.instituionInfo;
   },
   /**
-   *
+   *総合ランキング情報を取得.
    * @param {*} state - ステート
    * @returns - 総合ランキング情報
    */
   getHotels(state) {
     return state.rankings;
   },
-  /**
-   * vacantListの取得.
-   */
   /**
    * キーワード検索結果のホテルをstateに格納.
    * @param {*} state
@@ -294,11 +300,20 @@ export const getters = {
     state.hotelList = payload.hotels;
   },
   /**
+   * 地区コード情報を取得.
    * @param {*} state - ステート
    * @returns - 地区コード情報
    */
   getAreaList(state) {
     return state.areaList;
+  },
+  /**
+   * 検索条件を取得.
+   * @param {*} state - ステート
+   * @returns - 検索条件
+   */
+  getSearchResult(state) {
+    return state.searchResult;
   },
 };
 
