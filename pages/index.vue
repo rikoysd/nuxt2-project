@@ -11,5 +11,6 @@
 <style scoped>
 .whole {
   width: 80%;
+  margin: 60px 0;
 }
 </style>
