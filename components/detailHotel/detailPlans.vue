@@ -59,7 +59,7 @@ export default {
     detailInfo: { default: "" },
     staySpan: { type: Number, default: 0 },
     checkInDate: { type: String, default: "" },
-    adultNum: { type: Number, default: 0 },
+    adultNum: { default: "" },
   },
   methods: {
     sendReserveData() {
@@ -69,7 +69,8 @@ export default {
         checkoutDate: this.checkoutDate,
         adultNum: this.adultNum,
       });
-      this.$emit("sendReserveData", true);
+      const showList = this.$store.getters.getStayFlag;
+      this.$emit("sendReserveData", showList);
     },
     exist(data) {
       if (data !== null) {

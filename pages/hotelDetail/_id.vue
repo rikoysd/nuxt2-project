@@ -62,9 +62,11 @@ export default {
       address: "",
       reviewAverage: [],
       sheet: false,
+      checkinDate: "",
+      adultNum: 0,
       now: new Date(),
-      staySpan: 0,
       target: "",
+      staySpan: 0,
       adultNum: 2,
     };
   },

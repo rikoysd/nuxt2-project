@@ -35,7 +35,7 @@
       <v-col cols="12">
         <v-card elevation="2" class="plansCard" tile>
           <p class="title font-weight-bold">宿泊プラン</p>
-          <div v-show="!listShow">
+          <div>
             <v-row>
               <p>必要情報を入力し空室検索できます</p>
             </v-row>
@@ -141,50 +141,37 @@ export default {
     console.log("空室情報", this.vacantList);
     // アクセス
     this.address = this.basicInfo.address1 + this.basicInfo.address2;
-
-    // 空室検索
-    // 仮の日付で検索
-    const Year = this.now.getFullYear();
-    let Month = this.now.getMonth() + 1;
-    if (Month < 10) {
-      Month = "0" + Month;
-    }
-    let Date = this.now.getDate() + 7;
-    if (Date < 10) {
-      Date = "0" + Date;
-    }
-    let Date2 = this.now.getDate() + 8;
-    if (Date2 < 10) {
-      Date2 = "0" + Date2;
-    }
-    this.target = Year + "-" + Month + "-" + Date;
-    const target2 = Year + "-" + Month + "-" + Date2;
-    // console.log("target", this.target);
-
-    await this.$store.dispatch("searchVacant", {
-      hotelNo: this.basicInfo.hotelNo,
-      checkinDate: this.target,
-      checkoutDate: target2,
-      adultNum: "2",
-    });
-    this.vacantList = this.$store.getters.getVacantList;
-    const hotelBasicInfo = this.vacantList.hotels[0].hotel[0].hotelBasicInfo;
-
-    this.plans = [
-      this.vacantList.hotels[0].hotel[3].roomInfo,
-      this.vacantList.hotels[0].hotel[4].roomInfo,
-      this.vacantList.hotels[0].hotel[5].roomInfo,
-    ];
-    this.detailInfo = this.vacantList.hotels[0].hotel[1].hotelDetailInfo;
-    // console.log("plans", this.detailInfo);
   },
   methods: {
-    sendReserveData(data) {
+    async sendReserveData(data) {
+      console.log(data);
+      this.staySpan = this.getStaySpan;
+      console.log(this.staySpan);
+      await this.$store.dispatch("searchVacant", {
+        hotelNo: this.basicInfo.hotelNo,
+        checkinDate: this.checkinDate,
+        checkoutDate: this.checkoutDate,
+        adultNum: this.adultNum,
+      });
       this.vacantList = this.$store.getters.getVacantList;
       console.log(this.vacantList);
 
       this.listShow = data;
-      console.log("空室情報", this.listShow);
+      console.log("this.listShow", this.listShow.isTrusted);
+      if (this.listShow.isTrusted === true) {
+        console.log("空室情報", this.listShow);
+        this.vacantList = this.$store.getters.getVacantList;
+        const hotelBasicInfo =
+          this.vacantList.hotels[0].hotel[0].hotelBasicInfo;
+
+        this.plans = [
+          this.vacantList.hotels[0].hotel[3].roomInfo,
+          this.vacantList.hotels[0].hotel[4].roomInfo,
+          this.vacantList.hotels[0].hotel[5].roomInfo,
+        ];
+        this.detailInfo = this.vacantList.hotels[0].hotel[1].hotelDetailInfo;
+        console.log("plans", this.detailInfo);
+      }
     },
     addDate(date) {
       console.log("date", date);
@@ -199,6 +186,13 @@ export default {
       } else {
         return "";
       }
+    },
+  },
+  computed: {
+    getStaySpan() {
+      return (
+        (new Date(this.checkoutDate) - new Date(this.checkinDate)) / 86400000
+      );
     },
   },
 };

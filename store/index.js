@@ -91,8 +91,13 @@ export const actions = {
       const vacantResponce = await axios1.get(
         `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&checkinDate=${params.checkinDate}&checkoutDate=${params.checkoutDate}&adultNum=${params.adultNum}&hotelNo=${params.hotelNo}&responseType=large`
       );
-      // console.dir("response" + JSON.stringify(vacantResponce));
-      context.commit("setVacantList", vacantResponce.data.hotels);
+      if (vacantResponce !== null) {
+        // console.dir("response" + JSON.stringify(vacantResponce));
+        context.commit("setVacantList", vacantResponce.data.hotels);
+        context.commit("changeStayFlag");
+      } else {
+        context.commit("changeErrorStayFlag");
+      }
     } catch (error) {
       alert("該当する宿泊プランが存在しません");
       console.log(error.response.status);
