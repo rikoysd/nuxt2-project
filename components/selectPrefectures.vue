@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-select
-      v-model="prefecture"
-      @input="selectPrefecture(prefecture)"
+      v-model="prefecture2"
+      @input="selectPrefecture(prefecture2)"
       class="select"
       label="都道府県"
       :items="items"
@@ -14,6 +14,9 @@
 
 <script>
 export default {
+  props: {
+    prefecture2: String,
+  },
   data() {
     return {
       prefecture: "",
