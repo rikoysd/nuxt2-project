@@ -50,6 +50,7 @@
             :policyInfo="policyInfo"
             :otherInfo="otherInfo"
           ></detail-info>
+
           <!-- アクセス -->
           <detail-acsess
             :basicInfo="basicInfo"
