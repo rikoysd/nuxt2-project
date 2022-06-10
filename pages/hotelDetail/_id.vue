@@ -1,49 +1,58 @@
 <template>
   <div class="d-flex justify-center">
-    <div class="whole">
-      <!-- カルーセル -->
-      <detail-carousel :slides="slides"></detail-carousel>
-      <!-- ナビゲーションバー -->
-      <v-row>
-        <v-toolbar color="#F5F5F5">
-          <v-col cols="6">
-            <v-tabs background-color="#F5F5F5" grow>
-              <v-tab @click="sheet = !sheet"> 宿泊・プラン</v-tab>
-              <v-tab to="#hotelInfo"> 宿の詳細</v-tab>
-              <v-tab to="#reviews"> クチコミ</v-tab>
-              <v-tab to="#acsess"> アクセス</v-tab>
-            </v-tabs>
-          </v-col>
-        </v-toolbar>
-      </v-row>
-      <!-- 施設概要 -->
-      <detail-overview
-        :basicInfo="basicInfo"
-        :detailInfo="detailInfo"
-      ></detail-overview>
-      <!-- 宿泊プラン -->
-      <v-row>
-        <v-col cols="12">
-          <v-card elevation="2" class="plansCard" tile>
-            <p class="title font-weight-bold">宿泊プラン</p>
-            <detail-plans
-              :plans="plans"
-              :roomImage="roomImage"
-              :detailInfo="detailInfo"
-              :staySpan="staySpan"
-              :checkInDate="checkinDate"
-              :adultNum="adultNum"
-            ></detail-plans>
-          </v-card>
-        </v-col>
-      </v-row>
-      <!-- 施設詳細 -->
-      <detail-info
-        :reviewAverage="reviewAverage"
-        :hotelImage="hotelImage"
-      ></detail-info>
-      <!-- アクセス -->
-      <detail-acsess :basicInfo="basicInfo" :address="address"></detail-acsess>
+    <div>
+      <div>
+        <!-- カルーセル -->
+        <detail-carousel :slides="slides"></detail-carousel>
+        <!-- ナビゲーションバー -->
+        <v-row>
+          <v-toolbar color="#F5F5F5">
+            <v-col cols="6">
+              <v-tabs background-color="#F5F5F5" grow>
+                <v-tab @click="sheet = !sheet"> 宿泊・プラン</v-tab>
+                <v-tab to="#hotelInfo"> 宿の詳細</v-tab>
+                <v-tab to="#reviews"> クチコミ</v-tab>
+                <v-tab to="#acsess"> アクセス</v-tab>
+              </v-tabs>
+            </v-col>
+          </v-toolbar>
+        </v-row>
+      </div>
+      <div class="d-flex justify-center">
+        <div class="whole">
+          <!-- 施設概要 -->
+          <detail-overview
+            :basicInfo="basicInfo"
+            :detailInfo="detailInfo"
+          ></detail-overview>
+          <!-- 宿泊プラン -->
+          <v-row>
+            <v-col cols="12">
+              <v-card elevation="2" class="plansCard" tile>
+                <p class="title font-weight-bold">宿泊プラン</p>
+                <detail-plans
+                  :plans="plans"
+                  :roomImage="roomImage"
+                  :detailInfo="detailInfo"
+                  :staySpan="staySpan"
+                  :checkInDate="checkinDate"
+                  :adultNum="adultNum"
+                ></detail-plans>
+              </v-card>
+            </v-col>
+          </v-row>
+          <!-- 施設詳細 -->
+          <detail-info
+            :reviewAverage="reviewAverage"
+            :hotelImage="hotelImage"
+          ></detail-info>
+          <!-- アクセス -->
+          <detail-acsess
+            :basicInfo="basicInfo"
+            :address="address"
+          ></detail-acsess>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -218,5 +227,6 @@ address {
 
 .whole {
   width: 80%;
+  margin: 60px 0;
 }
 </style>
