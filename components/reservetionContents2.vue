@@ -39,7 +39,7 @@
       <v-btn
         x-large
         class="change-reserve"
-        @click="changeReservation"
+        @click="changeReservation(reserveId)"
         style="background-color: #e9bc00"
         >入力内容を変更する</v-btn
       >
@@ -88,8 +88,9 @@ export default {
     /**
      *予約内容を変更する.
      */
-    changeReservation() {
-      // 添字、idなど一意のものを引数で渡す必要がある
+    changeReservation(reserveId) {
+      reserveId = this.reserveObject.reserveId;
+      this.$router.push(`/reserveForm2/${reserveId}`);
     },
     /**
      * 予約を確定する.

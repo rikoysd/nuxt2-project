@@ -33,10 +33,10 @@
         maxlength="7"
       ></v-text-field>
       住所<span>&emsp;{{ prefectureError }}</span
-      ><selectPrefectures
+      ><selectPrefectures2
         :prefecture2="prefecture"
         @prefecture="registerPrefecture"
-      ></selectPrefectures
+      ></selectPrefectures2
       ><br />
       <span>&emsp;{{ addressError }}</span>
       <v-text-field
@@ -82,7 +82,12 @@
 </template>
 
 <script>
+import selectPrefectures2 from "../components/selectPrefectures2.vue";
+
 export default {
+  components: {
+    selectPrefectures2,
+  },
   data() {
     return {
       // フルネーム（氏名）
@@ -188,10 +193,12 @@ export default {
 
       // 都道府県のエラー
       if (this.prefecture === "") {
-        this.prefectureError = "都道府県を選択してください";
+        this.prefecture;
+        Error = "都道府県を選択してください";
         this.errorCheck = true;
       } else {
-        this.prefectureError = "";
+        this.prefecture;
+        Error = "";
         this.errorCheck = false;
       }
       this.errors.push(this.errorCheck);
@@ -276,7 +283,6 @@ export default {
           array.push(error);
         }
       }
-
       // エラーが一つでもあったら処理を止める
       if (array.length > 0) {
         return;
@@ -285,7 +291,6 @@ export default {
       // ユーザーIDを作成
       let userId = 0;
       let idList = [];
-
       if (this.userList.length === 0) {
         userId = 1;
       } else {
