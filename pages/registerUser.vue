@@ -33,10 +33,10 @@
         maxlength="7"
       ></v-text-field>
       住所<span>&emsp;{{ prefectureError }}</span
-      ><selectPrefectures
+      ><selectPrefectures2
         :prefecture2="prefecture"
         @prefecture="registerPrefecture"
-      ></selectPrefectures
+      ></selectPrefectures2
       ><br />
       <span>&emsp;{{ addressError }}</span>
       <v-text-field
