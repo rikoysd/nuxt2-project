@@ -4,74 +4,75 @@
     <calender @selectDates="addDates"></calender>
     <!-- 都道府県選択 -->
     <v-container>
-      <v-col class="d-flex" cols="12" sm="2">
-        <v-select
-          :items="areaNameList"
-          label="都道府県"
-          @change="getInfo('middleClassCode', $event)"
-          outlined
-        ></v-select>
-      </v-col>
-      <!-- 市町村選択 -->
-      <v-col class="d-flex" cols="12" sm="2">
-        <v-select
-          v-model="selectedItem"
-          :items="cityNameList"
-          label="市町村"
-          @change="getCityList('smallClassCode', $event)"
-          outlined
-        ></v-select>
-      </v-col>
+      <v-row align="center">
+        <v-col class="d-flex" cols="6" sm="6">
+          <v-select
+            :items="areaNameList"
+            label="都道府県"
+            @change="getInfo('middleClassCode', $event)"
+            outlined
+          ></v-select>
+        </v-col>
+        <!-- 市町村選択 -->
+        <v-col class="d-flex" cols="6" sm="6">
+          <v-select
+            v-model="selectedItem"
+            :items="cityNameList"
+            label="市町村"
+            @change="getCityList('smallClassCode', $event)"
+            outlined
+          ></v-select>
+        </v-col>
+      </v-row>
       <!-- 札幌の地区詳細 -->
-      <v-col class="d-flex" cols="12" sm="2">
-        <v-select
-          v-if="selectedItem === '札幌'"
-          :items="sapporoList"
-          label="地区詳細"
-          @change="getDetailList('detailClassCode', $event)"
-          outlined
-        ></v-select>
-      </v-col>
+
+      <v-select
+        v-if="selectedItem === '札幌'"
+        :items="sapporoList"
+        label="地区詳細"
+        @change="getDetailList('detailClassCode', $event)"
+        outlined
+      ></v-select>
+
       <!-- 東京23区の地区詳細 -->
-      <v-col class="d-flex" cols="12" sm="2">
-        <v-select
-          v-if="selectedItem === '東京２３区内'"
-          :items="tokyoList"
-          label="地区詳細"
-          @change="getTokyoDetail('detailClassCode', $event)"
-          outlined
-        ></v-select>
-      </v-col>
+
+      <v-select
+        v-if="selectedItem === '東京２３区内'"
+        :items="tokyoList"
+        label="地区詳細"
+        @change="getTokyoDetail('detailClassCode', $event)"
+        outlined
+      ></v-select>
+
       <!-- 名古屋の地区詳細 -->
-      <v-col class="d-flex" cols="12" sm="2">
-        <v-select
-          v-if="selectedItem === '名古屋'"
-          :items="nagoyaList"
-          label="地区詳細"
-          @change="getNagoyaDetail('detailClassCode', $event)"
-          outlined
-        ></v-select>
-      </v-col>
+
+      <v-select
+        v-if="selectedItem === '名古屋'"
+        :items="nagoyaList"
+        label="地区詳細"
+        @change="getNagoyaDetail('detailClassCode', $event)"
+        outlined
+      ></v-select>
+
       <!-- 京都の地区詳細 -->
-      <v-col class="d-flex" cols="12" sm="2">
-        <v-select
-          v-if="selectedItem === '京都'"
-          :items="kyotoList"
-          label="地区詳細"
-          @change="getKyotoDetail('detailClassCode', $event)"
-          outlined
-        ></v-select>
-      </v-col>
+
+      <v-select
+        v-if="selectedItem === '京都'"
+        :items="kyotoList"
+        label="地区詳細"
+        @change="getKyotoDetail('detailClassCode', $event)"
+        outlined
+      ></v-select>
+
       <!-- 大阪の地区詳細 -->
-      <v-col class="d-flex" cols="12" sm="2">
-        <v-select
-          v-if="selectedItem === '大阪'"
-          :items="osakaList"
-          label="地区詳細"
-          @change="getOsakaDetail('detailClassCode', $event)"
-          outlined
-        ></v-select>
-      </v-col>
+
+      <v-select
+        v-if="selectedItem === '大阪'"
+        :items="osakaList"
+        label="地区詳細"
+        @change="getOsakaDetail('detailClassCode', $event)"
+        outlined
+      ></v-select>
     </v-container>
 
     <v-container fluid>
@@ -98,10 +99,9 @@
     </v-container>
     <!-- 空室検索 -->
     <div class="my-2">
-      <v-btn small color="primary" v-on:click="getVacantlist">
+      <v-btn small color="primary" v-on:click="moveToVacantList">
         空室検索する
       </v-btn>
-      {{ responseData.hotels }}
     </div>
   </div>
 </template>
@@ -113,8 +113,6 @@ export default {
 
   data() {
     return {
-      //検索結果
-      responseData: [],
       //apiに送るリクエストパラメータ
       vacantData: {
         roomNum: 0, //部屋数
@@ -148,10 +146,19 @@ export default {
       //大阪の地区詳細
       osakaAray: [],
       selectedItem: "",
+      hotels: [],
     };
   },
 
   methods: {
+    /**
+     *検索条件をペイロードに渡す.
+     */
+    moveToVacantList() {
+      this.$store.commit("searchResultList", this.vacantData);
+      //検索結果一覧へ遷移
+      this.$router.push("/vacancyHotelList");
+    },
     /**
      * カレンダーから選択した日付をパラメーターに渡す.
      */
@@ -161,15 +168,6 @@ export default {
       console.log(date[0]);
       console.log(date[1]);
     },
-    /**
-     * 空室検索の結果を出力する.
-     */
-    async getVacantlist() {
-      await this.$store.dispatch("searchVacantList", this.vacantData);
-      this.responseData = this.$store.getters.getVacantList;
-      console.log(this.responseData);
-    },
-
     /**
      * 検索値をパラメーターに渡す.
      */
@@ -420,58 +418,6 @@ export default {
       smallList[25].detailClasses, //京都
       smallList[26].detailClasses //大阪
     );
-
-    // 札幌地区詳細を取得
-    // this.sapporoArray = this.detailList[0];
-    // //札幌地区の名前・コードを(sapporoArray)に入れる
-    // for (let detail of this.detailList[0]) {
-    //   const detailCode = detail.detailClass.detailClassCode;
-    //   const detailName = detail.detailClass.detailClassName;
-    //   this.sapporoArray.push({
-    //     detailCode: detailCode,
-    //     detailName: detailName,
-    //   });
-    // }
-
-    // //東京
-    // // this.sapporoArray = this.detailList[1];
-    // //東京地区の名前・コードを配列(tokyoArray)に入れる
-    // for (let detail of this.detailList[1]) {
-    //   const detailCode = detail.detailClass.detailClassCode;
-    //   const detailName = detail.detailClass.detailClassName;
-    //   this.tokyoArray.push({
-    //     detailCode: detailCode,
-    //     detailName: detailName,
-    //   });
-    // }
-
-    // //名古屋地区の名前・コードを配列(nagoyaArray)に入れる
-    // for (let detail of this.detailList[2]) {
-    //   const detailCode = detail.detailClass.detailClassCode;
-    //   const detailName = detail.detailClass.detailClassName;
-    //   this.nagoyaArray.push({
-    //     detailCode: detailCode,
-    //     detailName: detailName,
-    //   });
-    // }
-    // //京都地区の名前・コードを配列(kyotoArray)に入れる
-    // for (let detail of this.detailList[3]) {
-    //   const detailCode = detail.detailClass.detailClassCode;
-    //   const detailName = detail.detailClass.detailClassName;
-    //   this.kyotoArray.push({
-    //     detailCode: detailCode,
-    //     detailName: detailName,
-    //   });
-    // }
-    //大阪地区の名前・コードを配列(osakaArray)に入れる
-    // for (let detail of this.detailList[4]) {
-    //   const detailCode = detail.detailClass.detailClassCode;
-    //   const detailName = detail.detailClass.detailClassName;
-    //   this.osakaArray.push({
-    //     detailCode: detailCode,
-    //     detailName: detailName,
-    //   });
-    // }
 
     // if (this.smallClassList === 0) {
     //   this.smallClassList.push({ cityName: "都道府県を選択してください" });

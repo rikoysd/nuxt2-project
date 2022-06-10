@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-col v-for="hotel of getResultList" :key="hotel.id">
+    <v-col v-for="hotel of this.responseData" :key="hotel.id">
       <p>{{ hotel.hotel[0].hotelBasicInfo.hotelName }}</p>
       <p>最低料金{{ hotel.hotel[0].hotelBasicInfo.hotelMinCharge }}円~</p>
       <p>{{ hotel.hotel[1].hotelDetailInfo.areaName }}</p>
@@ -15,7 +15,6 @@ export default {
     return {
       //検索結果
       responseData: [],
-      //apiに送るリクエストパラメータ
       vacantData: {
         roomNum: 0, //部屋数
         middleClassCode: "", //都道府県
@@ -29,19 +28,18 @@ export default {
   },
   async mounted() {
     /**
-     * リクエストパラメーターをapiにセットする.
+     * 空室検索の結果を出力する.
      */
-    this.vacantData = this.$store.getters.getSearchResult;
     await this.$store.dispatch("searchVacantList", this.vacantData);
+    this.responseData = this.$store.getters.getVacantList.hotels;
+    console.log(this.responseData);
+    // this.$nuxt.$on("send_number", (result) => {
+    //   this.vacantData[data] = result;
+    //   console.log(this.vacantData.roomNum);
+    // });
   },
-  computed: {
-    /**
-     * 空室検索の結果を返す.
-     */
-    getResultList() {
-      this.responseData = this.$store.getters.getVacantList.hotels;
-      return this.responseData;
-    },
-  },
+  //   beforeDestroy() {
+  //     this.$nuxt.$off("send_number");
+  //   },
 };
 </script>
