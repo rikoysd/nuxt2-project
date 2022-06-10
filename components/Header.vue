@@ -100,7 +100,7 @@ export default {
      * アイコンの切り替え.
      */
     changeFlag() {
-      if (this.$store.getters["register/getLoginUser"].id === 0) {
+      if (this.$store.getters["register/getLoginUser"] === 0) {
         this.flag = false;
       } else {
         this.flag = true;

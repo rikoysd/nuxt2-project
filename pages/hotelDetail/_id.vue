@@ -2,6 +2,7 @@
   <div class="d-flex justify-center">
     <div>
       <div>
+        {{ detailInfo.areaName + ">" + basicInfo.hotelName }}
         <!-- カルーセル -->
         <detail-carousel :slides="slides"></detail-carousel>
         <!-- ナビゲーションバー -->
@@ -45,6 +46,9 @@
           <detail-info
             :reviewAverage="reviewAverage"
             :hotelImage="hotelImage"
+            :facilitiesInfo="facilitiesInfo"
+            :policyInfo="policyInfo"
+            :otherInfo="otherInfo"
           ></detail-info>
           <!-- アクセス -->
           <detail-acsess
