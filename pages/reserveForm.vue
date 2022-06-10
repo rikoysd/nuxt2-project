@@ -214,7 +214,7 @@
         </div>
 
         <div class="reservetion-contents">
-          <!-- <img class="reserve-img" src="@/assets/img/1.png" /> -->
+          <img class="reserve-img" src="@/assets/img/1.png" />
           <!-- コンポーネント start-->
           <reservetionContents
             :fullName1="fullName1"
@@ -492,7 +492,6 @@ p {
   object-fit: cover;
   width: 250px;
   height: 80px;
-  float: right;
   margin-right: 80px;
 }
 .gender {

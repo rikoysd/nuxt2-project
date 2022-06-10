@@ -106,7 +106,7 @@
         </div>
 
         <div class="reservetion-contents">
-          <!-- <img class="reserve-img" src="@/assets/img/2.png" /> -->
+          <img class="reserve-img" src="@/assets/img/2.png" />
           <!-- コンポーネント start-->
           <reservetionContents2
             :reserveObject="reserveObject"
@@ -290,7 +290,6 @@ td {
   object-fit: cover;
   width: 250px;
   height: 80px;
-  float: right;
   margin-right: 50px;
 }
 .reflectionInfo {
