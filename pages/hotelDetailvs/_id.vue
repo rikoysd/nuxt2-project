@@ -1,80 +1,91 @@
 <template>
-  <div>
-    <!-- カルーセル -->
-    <detail-carousel :slides="slides"></detail-carousel>
-    <!-- ナビゲーションバー -->
-    <v-row>
-      <v-toolbar color="#F5F5F5">
-        <v-col cols="6">
-          <v-tabs background-color="#F5F5F5" grow>
-            <v-tab @click="sheet = !sheet"> 宿泊・プラン</v-tab>
-            <v-tab to="#hotelInfo"> 宿の詳細</v-tab>
-            <v-tab to="#reviews"> クチコミ</v-tab>
-            <v-tab to="#acsess"> アクセス</v-tab>
-          </v-tabs>
-        </v-col>
-      </v-toolbar>
-    </v-row>
-    <!-- ボトムシート -->
-    <v-navigation-drawer v-model="drawer" absolute bottom temporary>
-    </v-navigation-drawer>
-    <v-row>
-      <v-col>
-        <v-btn color="orange" dark @click.stop="drawer = !drawer">
-          Open Inset
-        </v-btn>
-      </v-col>
-    </v-row>
-    <!-- 施設概要 -->
-    <detail-overview
-      :basicInfo="basicInfo"
-      :detailInfo="detailInfo"
-    ></detail-overview>
-    <!-- 宿泊プラン -->
-    <v-row>
-      <v-col cols="12">
-        <v-card elevation="2" class="plansCard" tile>
-          <p class="title font-weight-bold">宿泊プラン</p>
-          <div>
-            <v-row>
-              <p>必要情報を入力し空室検索できます</p>
-            </v-row>
-            <v-row>
-              <v-col cols="10" md="4">
-                <calender @selectDates="addDate"></calender>
-              </v-col>
-              <v-col cols="2" md="4">
-                <v-text-field
-                  v-model="adultNum"
-                  label="params.adultNum"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="1">
-                <v-btn @click="sendReserveData">検索</v-btn>
-              </v-col>
-            </v-row>
-          </div>
-          <div v-show="listShow">
-            <detail-plans
-              :plans="plans"
-              :roomImage="roomImage"
-              :detailInfo="detailInfo"
-              :staySpan="staySpan"
-              :checkInDate="checkinDate"
-              :adultNum="adultNum"
-              @sendReserveData="sendReserveData"
-            ></detail-plans>
-          </div>
-        </v-card>
-      </v-col>
-    </v-row>
-    <!-- 施設詳細 -->
-    <detail-info
-      :reviewAverage="reviewAverage"
-      :hotelImage="hotelImage"
-    ></detail-info>
-    <!-- アクセス -->
-    <detail-acsess :basicInfo="basicInfo" :address="address"></detail-acsess>
+  <div class="d-flex justify-center">
+    <div>
+      <div>
+        <!-- カルーセル -->
+        <detail-carousel :slides="slides"></detail-carousel>
+        <!-- ナビゲーションバー -->
+        <v-row>
+          <v-toolbar color="#F5F5F5">
+            <v-col cols="6">
+              <v-tabs background-color="#F5F5F5" grow>
+                <v-tab @click="sheet = !sheet"> 宿泊・プラン</v-tab>
+                <v-tab to="#hotelInfo"> 宿の詳細</v-tab>
+                <v-tab to="#reviews"> クチコミ</v-tab>
+                <v-tab to="#acsess"> アクセス</v-tab>
+              </v-tabs>
+            </v-col>
+          </v-toolbar>
+        </v-row>
+        <!-- ボトムシート -->
+        <v-navigation-drawer v-model="drawer" absolute bottom temporary>
+        </v-navigation-drawer>
+        <v-row>
+          <v-col>
+            <v-btn color="orange" dark @click.stop="drawer = !drawer">
+              Open Inset
+            </v-btn>
+          </v-col>
+        </v-row>
+      </div>
+      <div class="d-flex justify-center">
+        <div class="whole">
+          <!-- 施設概要 -->
+          <detail-overview
+            :basicInfo="basicInfo"
+            :detailInfo="detailInfo"
+          ></detail-overview>
+          <!-- 宿泊プラン -->
+          <v-row>
+            <v-col cols="12">
+              <v-card elevation="2" class="plansCard" tile>
+                <p class="title font-weight-bold">宿泊プラン</p>
+                <div>
+                  <v-row>
+                    <p>必要情報を入力し空室検索できます</p>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="10" md="4">
+                      <calender @selectDates="addDate"></calender>
+                    </v-col>
+                    <v-col cols="2" md="4">
+                      <v-text-field
+                        v-model="adultNum"
+                        label="params.adultNum"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="1">
+                      <v-btn @click="sendReserveData">検索</v-btn>
+                    </v-col>
+                  </v-row>
+                </div>
+                <div v-show="listShow">
+                  <detail-plans
+                    :plans="plans"
+                    :roomImage="roomImage"
+                    :detailInfo="detailInfo"
+                    :staySpan="staySpan"
+                    :checkInDate="checkinDate"
+                    :adultNum="adultNum"
+                    @sendReserveData="sendReserveData"
+                  ></detail-plans>
+                </div>
+              </v-card>
+            </v-col>
+          </v-row>
+          <!-- 施設詳細 -->
+          <detail-info
+            :reviewAverage="reviewAverage"
+            :hotelImage="hotelImage"
+          ></detail-info>
+          <!-- アクセス -->
+          <detail-acsess
+            :basicInfo="basicInfo"
+            :address="address"
+          ></detail-acsess>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -254,5 +265,10 @@ v-btn {
   object-fit: cover;
   height: auto;
   width: 150px;
+}
+
+.whole {
+  width: 80%;
+  margin: 60px 0;
 }
 </style>
