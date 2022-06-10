@@ -26,8 +26,12 @@ export const state = () => ({
   areaList: [],
   // 施設情報
   instituionInfo: [],
+  // 宿泊プラン表示フラグ
   stayPlanFlag: false,
+  // 予約用のパラメータ
   preReserveData: "",
+  //検索条件
+  searchResult: [],
 });
 
 export const actions = {
@@ -49,6 +53,7 @@ export const actions = {
   /**
    * 施設情報をAPIから取得.
    * @param {*} context
+   * @param {*} params - ホテル番号
    */
   async searchInstitution(context, paramsNo) {
     // console.log("call3");
@@ -68,22 +73,19 @@ export const actions = {
   /**
    * 空室検索.
    * @param {*} context
+   * @param {*} params - 検索条件のオブジェクト
    */
   async searchVacantList(context, vacantData) {
-    console.log("call");
-    console.log(vacantData.roomNum);
-    // console.log("call");
     const vacantResponce = await axios1.get(
-      // `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&largeClassCode=japan&middleClassCode=${middleClassCode}&smallClassCode=${smallClassCode}&detailClassCode=${detailClassCode}&checkinDate=${checkinDate}&checkoutDate=${checkoutDate}&adultNum=${adultNum}&roomNum=${roomNum}&responseType=large`
-      `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&largeClassCode=japan&middleClassCode=${vacantData.middleClassCode}&smallClassCode=${vacantData.smallClassCode}&checkinDate=${vacantData.checkinDate}&checkoutDate=${vacantData.checkoutDate}&adultNum=${vacantData.adultNum}&roomNum=${vacantData.roomNum}&responseType=large`
+      `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&largeClassCode=japan&middleClassCode=${vacantData.middleClassCode}&smallClassCode=${vacantData.smallClassCode}&detailClassCode=${vacantData.detailClassCode}&checkinDate=${vacantData.checkinDate}&checkoutDate=${vacantData.checkoutDate}&adultNum=${vacantData.adultNum}&roomNum=${vacantData.roomNum}&responseType=large`
     );
-    console.dir("response" + JSON.stringify(vacantResponce.data.hotels));
     // console.dir("response" + JSON.stringify(vacantResponce.data.hotels));
     context.commit("setVacantList", vacantResponce.data.hotels);
   },
   /**
    * 一件空室検索.
    * @param {*} context
+   * @param {*} params - 検索条件のオブジェクト
    */
   async searchVacant(context, params) {
     try {
@@ -102,14 +104,6 @@ export const actions = {
       alert("該当する宿泊プランが存在しません");
       console.log(error.response.status);
     }
-    // finally {
-    //   console.log(errorStatus);
-    //   if (errorStaus !== 404) {
-    //     context.commit("changeStayFlag");
-    //   } else {
-    //     context.commit("changeErrorStayFlag");
-    //   }
-    // }
   },
   // /**
   //  * 施設検索(モジュール:searchInstitution).
@@ -125,11 +119,15 @@ export const actions = {
    * @param {*} keyword - キーワード
    */
   async getHotelList(context, keyword) {
-    const response = await this.$axios.$get(
-      `https://app.rakuten.co.jp/services/api/Travel/KeywordHotelSearch/20170426?applicationId=1098541415969458249&format=json&responseType=large&keyword=${keyword}`
-    );
-    // console.dir(JSON.stringify(response));
-    context.commit("showHotelList", response);
+    try {
+      const response = await this.$axios.$get(
+        `https://app.rakuten.co.jp/services/api/Travel/KeywordHotelSearch/20170426?applicationId=1098541415969458249&format=json&responseType=large&keyword=${keyword}`
+      );
+      // console.dir(JSON.stringify(response));
+      context.commit("showHotelList", response);
+    } catch (error) {
+      console.log(error);
+    }
   },
   /**
    * 地区コードの取得.
@@ -139,9 +137,8 @@ export const actions = {
     const response = await axios1.get(
       "https://app.rakuten.co.jp/services/api/Travel/GetAreaClass/20131024?applicationId=1098541415969458249&format=json"
     );
-    console.dir("response:" + JSON.stringify(response));
+    // console.dir("response:" + JSON.stringify(response));
     const payload = response.data.areaClasses.largeClasses[0].largeClass[1];
-    console.log(payload);
     context.commit("showAreaList", payload);
   },
   /**
@@ -157,6 +154,8 @@ export const actions = {
 export const mutations = {
   /**
    * 総合ランキング情報をstateに格納.
+   * @param {*} state - ステート
+   * @param {*} payload - ペイロード
    */
   getHotelList(state, payload) {
     for (const hotel of payload) {
@@ -179,19 +178,42 @@ export const mutations = {
    */
   setVacantList(state, payload) {
     state.vacantList = { hotels: payload };
-    // console.log(state.vacantList);
+    console.log(state.vacantList);
   },
+  /**
+   * 検索条件をステートに格納.
+   * @param {*} state - ステート
+   * @param {*} payload  - ペイロード
+   */
+  searchResultList(state, payload) {
+    state.searchResult = payload;
+  },
+  /**
+   * setPreReserveDataにセットする.
+   * @param {*} state - ステート
+   * @param {*} payload  - ペイロード
+   */
   setPreReserveData(state, payload) {
     state.preReserveData = payload;
   },
+  /**
+   * stayFlagをtrueにする.
+   * @param {*} state - ステート
+   */
   changeErrorStayFlag(state) {
     state.stayPlanFlag = false;
   },
+  /**
+   * stayFlagをfalseにする.
+   * @param {*} state - ステート
+   */
   changeStayFlag(state) {
     state.stayPlanFlag = true;
   },
   /**
    *地区コード情報をstateに格納.
+   * @param {*} state - ステート
+   * @param {*} payload - ペイロード
    */
   showAreaList(state, payload) {
     state.areaList = payload;
@@ -221,6 +243,15 @@ export const mutations = {
   reserve(state, object) {
     this.commit("reserve/reserveInfo", object);
   },
+
+  /**
+   * keyword.jsにエラー判定を渡す.
+   * @param {*} state - ステート
+   * @param {*} payload - エラー判定
+   */
+  changeFlag(state, payload) {
+    this.commit("keyword/changeErrorFlag", payload);
+  },
 }; //end of mutations
 
 export const getters = {
@@ -241,6 +272,7 @@ export const getters = {
     return state.hotelList;
   },
   /**
+   * 空室検索結果を取得.
    * @param {*} state - ステート
    * @returns - 空室リスト
    */
@@ -256,16 +288,13 @@ export const getters = {
     return state.instituionInfo;
   },
   /**
-   *
+   *総合ランキング情報を取得.
    * @param {*} state - ステート
    * @returns - 総合ランキング情報
    */
   getHotels(state) {
     return state.rankings;
   },
-  /**
-   * vacantListの取得.
-   */
   /**
    * キーワード検索結果のホテルをstateに格納.
    * @param {*} state
@@ -276,14 +305,28 @@ export const getters = {
     state.hotelList = payload.hotels;
   },
   /**
+   * 地区コード情報を取得.
    * @param {*} state - ステート
    * @returns - 地区コード情報
    */
   getAreaList(state) {
     return state.areaList;
   },
+  /**
+   * 宿泊リスト表示フラグを取得.
+   * @param {*} state - ステート
+   * @returns - 宿泊リスト表示フラグ
+   */
   getStayFlag(state) {
     return state.stayPlanFlag;
+  },
+  /**
+   * 検索条件を取得.
+   * @param {*} state - ステート
+   * @returns - 検索条件
+   */
+  getSearchResult(state) {
+    return state.searchResult;
   },
 };
 

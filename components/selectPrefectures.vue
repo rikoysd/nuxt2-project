@@ -14,7 +14,9 @@
 
 <script>
 export default {
-  name: "selectPrefectures",
+  props: {
+    prefecture: String,
+  },
   data() {
     return {
       prefecture: "",

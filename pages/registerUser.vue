@@ -49,11 +49,15 @@
     パスワード<span>&emsp;{{ passwordError }}</span
     ><v-text-field
       class="password"
-      label="rakus12345（8桁以上を設定してください）"
+      label="rakus12345"
       v-model="password"
       type="password"
       outlined
     ></v-text-field>
+    <div>・8～16文字以内</div>
+    <div>
+      ・英語小文字・大文字、数字、記号(.?/-)をそれぞれ1つ以上使用してください
+    </div>
     <v-btn color="primary" elevation="2" @click="register">登録</v-btn>
     <v-btn color="primary" elevation="2">戻る</v-btn>
   </div>
@@ -105,7 +109,6 @@ export default {
   },
   mounted() {
     this.userList = this.$store.getters["register/getUserList"];
-    console.log(this.userList);
   },
   methods: {
     /**
@@ -198,12 +201,39 @@ export default {
       }
       this.errors.push(this.errorCheck);
 
+      // メールアドレスの重複エラー
+      let addressArray = [];
+      for (let user of this.userList) {
+        addressArray.push(user.mailAddress);
+      }
+      let sameAddress = "";
+      for (let address of addressArray) {
+        if (address === this.mailAddress) {
+          sameAddress = this.mailAddress;
+        }
+      }
+      if (sameAddress !== "") {
+        this.mailaddressError = "このメールアドレスは既に登録されています";
+        this.errorCheck = true;
+      } else {
+        this.mailaddressError = "";
+        this.errorCheck = false;
+      }
+      this.errors.push(this.errorCheck);
+
       // パスワードのエラー
+      // 正規表示を定義(※英語小文字・大文字、数字、記号(.?/-)をそれぞれ1つ以上使用して設定)
+      const regex = /^(?=.*[A-Z])(?=.*[.?/-])[a-zA-Z0-9.?/-]{8,16}$/;
+
       if (this.password === "") {
         this.passwordError = "パスワードを入力してください";
         this.errorCheck = true;
-      } else if (this.password.length < 8) {
-        this.passwordError = "パスワードは8文字以上で設定してください";
+      } else if (this.password.length < 8 || this.password.length > 16) {
+        this.passwordError =
+          "パスワードは8文字以上16文字以内で設定してください";
+        this.errorCheck = true;
+      } else if (!regex.test(this.password)) {
+        this.passwordError = "設定の条件を満たしていません";
         this.errorCheck = true;
       } else {
         this.passwordError = "";

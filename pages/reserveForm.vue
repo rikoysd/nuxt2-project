@@ -32,11 +32,15 @@
           maxlength="7"
           outlined
         ></v-text-field>
-        <!-- コンポーネント -->
+        <!-- コンポーネント start-->
         <span style="color: red">*</span>住所<span style="color: red"
           >&emsp;{{ prefectureError }}</span
-        ><selectPrefectures @prefecture="reservePrefecture"></selectPrefectures
-        ><br /><span style="color: red">&emsp;{{ addressError }}</span>
+        ><selectPrefectures
+          @prefecture="reservePrefecture"
+          :prefecture="prefecture"
+        ></selectPrefectures>
+        <!-- コンポーネント end-->
+        <span style="color: red">&emsp;{{ addressError }}</span>
         <v-text-field
           class="address"
           label="港区赤坂0-0-0（海外住所の場合は「海外」と入力）"
@@ -70,11 +74,10 @@
           style="color: red"
           >&emsp;{{ checkInTimeError }}</span
         ><selectChecin @checkin="reserveCheckIn"></selectChecin>
-        <div class="select-gender">
-          <span style="color: red">&emsp;{{ manAndWomanError }}</span>
-          <span style="color: red">*</span>宿泊人数 1室目 (大人{{
-            people
-          }}名)&emsp;男性&nbsp;<v-select
+        <span style="color: red">*</span>宿泊人数 1室目 (大人{{ people }}名)
+        <span style="color: red">&ensp;{{ manAndWomanError }}</span>
+        <v-row class="gender"
+          >男性&nbsp;<v-select
             class="select-g"
             label="選択する"
             :items="items"
@@ -89,8 +92,8 @@
             v-model="woman"
             outlined
           >
-          </v-select>
-        </div>
+          </v-select
+        ></v-row>
         <hr />
       </div>
 
@@ -121,53 +124,21 @@
               >カード情報を入力する</v-btn
             ><br />
 
-            <!-- モーダルウィンドウ -->
-            <div id="overlay" v-if="cardFlag">
-              <div id="content" v-if="cardFlag">
-                <v-card class="creditcard" style="background-color: #f5f5f5">
-                  <p style="font-weight: bold">カード情報入力</p>
-                  <span>カード情報</span>
-                  <v-text-field
-                    label="0000000000000000"
-                    v-model.number="counts"
-                    outlined
-                    maxlength="16"
-                  ></v-text-field>
-                  <span>セキュリティコード</span
-                  ><v-text-field
-                    label="000"
-                    v-model.number="securityCord"
-                    outlined
-                    maxlength="3"
-                  ></v-text-field>
-                  <span>有効期限</span
-                  ><v-text-field
-                    label="MM/YY"
-                    v-model="expirationDate"
-                    outlined
-                  ></v-text-field>
-                  <span>カード名義人</span
-                  ><v-text-field
-                    label="TARO RAKURAKU"
-                    v-model="cardName"
-                    outlined
-                  ></v-text-field>
-                </v-card>
-                <v-btn class="close-button" @click="close">キャンセル</v-btn>
-                <v-btn class="success-button" color="teal" @click="reflection"
-                  >カード情報を反映させる</v-btn
-                >
-              </div>
-            </div>
-            <!-- モーダルウィンドウ -->
+            <!-- モーダルウィンドウ start-->
+            <creditcard
+              :cardFlag="cardFlag"
+              @change="inputCardInfo"
+              @reflectionCardInfo="reflectionCardInfo"
+            ></creditcard>
+            <!-- モーダルウィンドウ end-->
 
             <v-card class="reflectionInfo" v-if="creditFlag">
-              <span>カード情報：{{ counts }} </span><br />
-              <span>セキュリティコード：{{ securityCord }}</span
+              <span>カード情報：{{ card_number }} </span><br />
+              <span>セキュリティコード：{{ card_cvv }}</span
               ><br />
-              <span>有効期限：{{ expirationDate }}</span
+              <span>有効期限：{{ card_exp_month }}/{{ card_exp_year }}</span
               ><br />
-              <span>カード名義人：{{ cardName }}</span>
+              <span>カード名義人：{{ card_name }}</span>
             </v-card>
 
             <span>予約日の翌日に決済となります。</span><br />
@@ -230,7 +201,7 @@
 
     <div class="reservetion-contents">
       <img class="reserve-img" src="@/assets/img/1.png" />
-      <!-- コンポーネント -->
+      <!-- コンポーネント start-->
       <reservetionContents
         :fullName1="fullName1"
         :fullName2="fullName2"
@@ -245,8 +216,14 @@
         :payments="payments"
         :other="other"
         :errorChecks="errorChecks"
+        :card_number="card_name"
+        :card_cvv="card_cvv"
+        :card_exp_month="card_exp_month"
+        :card_exp_year="card_exp_year"
+        :card_name="card_name"
         @errorObject="errorObject"
       ></reservetionContents>
+      <!-- コンポーネント end-->
     </div>
   </div>
 </template>
@@ -255,6 +232,7 @@
 import selectPrefectures from "../components/selectPrefectures.vue";
 import selectChecin from "../components/selectCheckin.vue";
 import reservetionContents from "../components/reservetionContents.vue";
+import creditcard from "../components/creditcard.vue";
 
 export default {
   name: "reserveForm",
@@ -262,6 +240,7 @@ export default {
     selectPrefectures,
     selectChecin,
     reservetionContents,
+    creditcard,
   },
   data() {
     return {
@@ -318,13 +297,15 @@ export default {
       // 施設への連絡事項
       other: "",
       // カード番号
-      counts: "",
+      card_number: "",
       // セキュリティコード
-      securityCord: "",
-      // 有効期限
-      expirationDate: "",
+      card_cvv: 0,
+      // 有効期限(月)
+      card_exp_month: "",
+      // 有効期限(年)
+      card_exp_year: "",
       // カード名義人
-      cardName: "",
+      card_name: "",
       // ログイン情報
       loginInfo: {},
       // エラーチェックオブジェクト
@@ -347,8 +328,15 @@ export default {
      * ログイン情報の反映.
      */
     loginInfoReflection() {
-      this.loginInfo = this.$store.getters["register/getUserInfo"];
-      console.log(loginInfo);
+      this.loginInfo = this.$store.getters["register/getUserList"];
+      console.log(this.loginInfo);
+      this.fullName1 = this.loginInfo[0].fullName1;
+      this.fullName2 = this.loginInfo[0].fullName2;
+      this.zipcode = this.loginInfo[0].zipcode;
+      this.prefecture = this.loginInfo[0].prefecture;
+      this.address = this.loginInfo[0].address;
+      this.telephone = this.loginInfo[0].telephone;
+      this.mailaddress = this.loginInfo[0].mailAddress;
     },
     /**
      * emitで渡ってきた都道府県を変数に代入.
@@ -392,24 +380,21 @@ export default {
     inputCardInfo() {
       if (this.cardFlag === false) {
         this.cardFlag = true;
+      } else {
+        this.cardFlag = false;
       }
     },
     /**
-     * モーダルウィンドウを閉じる.
+     * emitで渡ってきたクレカ情報を変数に代入.
      */
-    close() {
-      this.cardFlag = false;
-    },
-    /**
-     * カード情報を反映させる.
-     */
-    reflection() {
-      this.counts = this.counts;
-      this.securityCord = this.securityCord;
-      this.expirationDate = this.expirationDate;
-      this.cardName = this.cardName;
-      this.close();
-      this.creditFlag = true;
+    reflectionCardInfo(creditObject) {
+      this.card_number = creditObject.card_number;
+      this.card_cvv = creditObject.card_cvv;
+      this.card_exp_month = creditObject.card_exp_month;
+      this.card_exp_year = creditObject.card_exp_year;
+      this.card_name = creditObject.card_name;
+      this.cardFlag = creditObject.cardFlag;
+      this.creditFlag = creditObject.creditFlag;
     },
   }, // end methods
   computed: {}, // end computed
@@ -425,7 +410,6 @@ export default {
 .telephone {
   width: 500px;
 }
-.select-gender,
 .container {
   display: flex;
   justify-content: center;
@@ -478,41 +462,6 @@ img {
   width: 40px;
   height: 30px;
 }
-/* モーダルウィンドウ部分のCSS */
-#overlay {
-  /*　要素を重ねた時の順番　*/
-  z-index: 1;
-  /*　画面全体を覆う設定　*/
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  /*　画面の中央に要素を表示させる設定　*/
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-#content {
-  z-index: 2;
-  width: 50%;
-  padding: 1em;
-  background: #fff;
-}
-.creditcard {
-  margin: 10px;
-  padding: 20px;
-}
-.close-button {
-  margin-top: 15px;
-  margin-left: 350px;
-}
-.success-button {
-  color: white;
-  margin-top: 15px;
-  float: right;
-}
 p {
   font-size: 20px;
 }
@@ -529,5 +478,10 @@ p {
   height: 80px;
   float: right;
   margin-right: 80px;
+}
+.gender {
+  margin-top: 10px;
+  margin-left: 15px;
+  margin-right: 15px;
 }
 </style>

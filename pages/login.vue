@@ -4,7 +4,6 @@
       <div class="submit-error">{{ submitError }}</div>
       <span>{{ mailAddressError }}</span
       ><v-text-field
-        class="mailAddress"
         label="メールアドレス"
         v-model="mailAddress"
         outlined
@@ -98,22 +97,20 @@ export default {
       if (array.length > 0) {
         return;
       }
-
-      let object = {};
-
       // register.jsのユーザー情報を取得
-      object = this.$store.getters["register/getUserInfo"];
+
+      let object = this.$store.getters["register/getUserList"]
 
       if (
-        object.mailAddress === this.mailAddress &&
-        object.password === this.password
+        this.mailAddress !== object[0].mailAddress ||
+        this.password !== object[0].password
       ) {
-        // マイページに遷移
-        this.$router.push("/mypage");
-      } else {
         // ログイン失敗
         this.submitError = "メールアドレスまたはパスワードが間違っています";
+        return;
       }
+      // マイページに遷移
+      this.$router.push("/mypage");
     },
   },
   computed: {},
