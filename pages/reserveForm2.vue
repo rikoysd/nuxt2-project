@@ -1,229 +1,245 @@
 <template>
-  <div class="container">
-    <div class="main">
-      <div class="reserve-info">
-        <h4>予約者情報</h4>
-        <v-btn class="login-info" color="primary" @click="loginInfoReflection"
-          >ログイン情報を反映させる</v-btn
-        ><br />
-        <span style="color: red">*</span>氏名<span style="color: red"
-          >&emsp;{{ fullName1Error }}</span
-        ><v-text-field
-          class="name-field"
-          label="楽々太郎"
-          v-model="fullName1"
-          outlined
-        ></v-text-field>
-        <span style="color: red">*</span>かな<span style="color: red"
-          >&emsp;{{ fullName2Error }}</span
-        ><v-text-field
-          class="name2-field"
-          label="ラクラクタロウ"
-          v-model="fullName2"
-          outlined
-        ></v-text-field>
-        <span style="color: red">*</span>郵便番号（ハイフンなし）<span
-          style="color: red"
-          >&emsp;{{ zipcodeError }}</span
-        ><v-text-field
-          class="zipcode"
-          label="0000000"
-          v-model="zipcode"
-          maxlength="7"
-          outlined
-        ></v-text-field>
-        <!-- コンポーネント start-->
-        <span style="color: red">*</span>住所<span style="color: red"
-          >&emsp;{{ prefectureError }}</span
-        ><selectPrefectures
-          @prefecture="reservePrefecture"
-          :prefecture2="prefecture"
-        ></selectPrefectures>
-        <!-- コンポーネント end-->
-        <span style="color: red">&emsp;{{ addressError }}</span>
-        <v-text-field
-          class="address"
-          label="港区赤坂0-0-0（海外住所の場合は「海外」と入力）"
-          v-model="address"
-          outlined
-        ></v-text-field>
-        <span style="color: red">*</span>電話番号（ハイフンなし）<span
-          style="color: red"
-          >&emsp;{{ telephoneError }}</span
-        ><v-text-field
-          class="telephone"
-          label="09012345678"
-          v-model="telephone"
-          outlined
-        ></v-text-field>
-        <span style="color: red">*</span>メールアドレス<span style="color: red"
-          >&emsp;{{ mailaddressError }}</span
-        ><v-text-field
-          class="mailaddress"
-          label="rakuraku@example.jp"
-          type="text"
-          v-model="mailAddress"
-          outlined
-        ></v-text-field>
-        <hr />
-      </div>
-
-      <div class="lodging-info">
-        <h4>宿泊情報</h4>
-        <span style="color: red">*</span>チェックイン予定時刻<span
-          style="color: red"
-          >&emsp;{{ checkInTimeError }}</span
-        ><selectChecin @checkin="reserveCheckIn"></selectChecin>
-        <span style="color: red">*</span>宿泊人数 1室目 (大人{{ people }}名)
-        <span style="color: red">&ensp;{{ manAndWomanError }}</span>
-        <v-row class="gender"
-          >男性&nbsp;<v-select
-            class="select-g"
-            label="選択する"
-            :items="items"
-            v-model="man"
-            outlined
-          >
-          </v-select
-          >&nbsp;女性&nbsp;<v-select
-            class="select-g"
-            label="選択する"
-            :items="items"
-            v-model="woman"
-            outlined
-          >
-          </v-select
-        ></v-row>
-        <hr />
-      </div>
-
-      <div class="payment">
-        <h4><span style="color: red">*</span>お支払い方法</h4>
-        <v-radio-group @change="payment" v-model="payments">
-          <label for="online" class="radio"
-            >オンライン決済<v-radio id="online" value="オンライン決済"></v-radio
-          ></label>
-
-          <v-card
-            v-if="!flag"
-            class="online-info"
-            style="background-color: #f5f5f5"
-          >
-            <div class="card-img">
-              <img src="@/assets/img/jcb.png" />
-              <img src="@/assets/img/amex.png" />
-              <img src="@/assets/img/visa.png" />
-              <img src="@/assets/img/master.png" />
-              <img src="@/assets/img/diners.png" />
-            </div>
+  <div class="d-flex justify-center">
+    <div class="whole">
+      <div class="container">
+        <div class="main">
+          <div class="reserve-info">
+            <h4>予約者情報</h4>
             <v-btn
-              Large
+              class="login-info"
               color="primary"
-              class="card-info"
-              @click="inputCardInfo"
-              >カード情報を入力する</v-btn
+              @click="loginInfoReflection"
+              >ログイン情報を反映させる</v-btn
             ><br />
+            <span style="color: red">*</span>氏名<span style="color: red"
+              >&emsp;{{ fullName1Error }}</span
+            ><v-text-field
+              class="name-field"
+              label="楽々太郎"
+              v-model="fullName1"
+              outlined
+            ></v-text-field>
+            <span style="color: red">*</span>かな<span style="color: red"
+              >&emsp;{{ fullName2Error }}</span
+            ><v-text-field
+              class="name2-field"
+              label="ラクラクタロウ"
+              v-model="fullName2"
+              outlined
+            ></v-text-field>
+            <span style="color: red">*</span>郵便番号（ハイフンなし）<span
+              style="color: red"
+              >&emsp;{{ zipcodeError }}</span
+            ><v-text-field
+              class="zipcode"
+              label="0000000"
+              v-model="zipcode"
+              maxlength="7"
+              outlined
+            ></v-text-field>
+            <!-- コンポーネント start-->
+            <span style="color: red">*</span>住所<span style="color: red"
+              >&emsp;{{ prefectureError }}</span
+            ><selectPrefectures
+              @prefecture="reservePrefecture"
+              :prefecture="prefecture"
+            ></selectPrefectures>
+            <!-- コンポーネント end-->
+            <span style="color: red">&emsp;{{ addressError }}</span>
+            <v-text-field
+              class="address"
+              label="港区赤坂0-0-0（海外住所の場合は「海外」と入力）"
+              v-model="address"
+              outlined
+            ></v-text-field>
+            <span style="color: red">*</span>電話番号（ハイフンなし）<span
+              style="color: red"
+              >&emsp;{{ telephoneError }}</span
+            ><v-text-field
+              class="telephone"
+              label="09012345678"
+              v-model="telephone"
+              outlined
+            ></v-text-field>
+            <span style="color: red">*</span>メールアドレス<span
+              style="color: red"
+              >&emsp;{{ mailaddressError }}</span
+            ><v-text-field
+              class="mailaddress"
+              label="rakuraku@example.jp"
+              type="text"
+              v-model="mailAddress"
+              outlined
+            ></v-text-field>
+            <hr />
+          </div>
 
-            <!-- モーダルウィンドウ start-->
-            <creditcard
-              :cardFlag="cardFlag"
-              @change="inputCardInfo"
-              @reflectionCardInfo="reflectionCardInfo"
-            ></creditcard>
-            <!-- モーダルウィンドウ end-->
+          <div class="lodging-info">
+            <h4>宿泊情報</h4>
+            <span style="color: red">*</span>チェックイン予定時刻<span
+              style="color: red"
+              >&emsp;{{ checkInTimeError }}</span
+            ><selectChecin @checkin="reserveCheckIn"></selectChecin>
+            <span style="color: red">*</span>宿泊人数 1室目 (大人{{ people }}名)
+            <span style="color: red">&ensp;{{ manAndWomanError }}</span>
+            <v-row class="gender"
+              >男性&nbsp;<v-select
+                class="select-g"
+                label="選択する"
+                :items="items"
+                v-model="man"
+                outlined
+              >
+              </v-select
+              >&nbsp;女性&nbsp;<v-select
+                class="select-g"
+                label="選択する"
+                :items="items"
+                v-model="woman"
+                outlined
+              >
+              </v-select
+            ></v-row>
+            <hr />
+          </div>
 
-            <v-card class="reflectionInfo" v-if="creditFlag">
-              <span>カード情報：{{ card_number }} </span><br />
-              <span>セキュリティコード：{{ card_cvv }}</span
+          <div class="payment">
+            <h4><span style="color: red">*</span>お支払い方法</h4>
+            <v-radio-group @change="payment" v-model="payments">
+              <label for="online" class="radio"
+                >オンライン決済<v-radio
+                  id="online"
+                  value="オンライン決済"
+                ></v-radio
+              ></label>
+
+              <v-card
+                v-if="!flag"
+                class="online-info"
+                style="background-color: #f5f5f5"
+              >
+                <div class="card-img">
+                  <img src="@/assets/img/jcb.png" />
+                  <img src="@/assets/img/amex.png" />
+                  <img src="@/assets/img/visa.png" />
+                  <img src="@/assets/img/master.png" />
+                  <img src="@/assets/img/diners.png" />
+                </div>
+                <v-btn
+                  Large
+                  color="primary"
+                  class="card-info"
+                  @click="inputCardInfo"
+                  >カード情報を入力する</v-btn
+                ><br />
+
+                <!-- モーダルウィンドウ start-->
+                <creditcard
+                  :cardFlag="cardFlag"
+                  @change="inputCardInfo"
+                  @reflectionCardInfo="reflectionCardInfo"
+                ></creditcard>
+                <!-- モーダルウィンドウ end-->
+
+                <v-card class="reflectionInfo" v-if="creditFlag">
+                  <span>カード情報：{{ card_number }} </span><br />
+                  <span>セキュリティコード：{{ card_cvv }}</span
+                  ><br />
+                  <span>有効期限：{{ card_exp_month }}/{{ card_exp_year }}</span
+                  ><br />
+                  <span>カード名義人：{{ card_name }}</span>
+                </v-card>
+
+                <span>予約日の翌日に決済となります。</span><br />
+                <span style="font-size: 13px"
+                  >※デビット・プリペイドカードはこの限りではありません</span
+                >
+              </v-card>
+
+              <label for="cash" class="radio"
+                >現地決済<v-radio id="cash" value="現地決済"></v-radio
+              ></label>
+
+              <v-card
+                v-if="flag"
+                class="cash-info"
+                style="background-color: #f5f5f5"
+              >
+                <span
+                  >宿泊当日の正午までにオンラインカード決済に変更可能です。</span
+                ><br />
+                <span style="font-size: 13px"
+                  >※チェックイン予定時間以降の変更はできません</span
+                >
+              </v-card>
+            </v-radio-group>
+            <hr />
+          </div>
+
+          <div class="contact">
+            <h4>施設への連絡事項（未記入可）</h4>
+            <v-textarea solo style="width: 500px" v-model="other"></v-textarea>
+            <div class="attentions">
+              <span
+                >※ご希望に添えない場合もございます。予めご了承ください。</span
               ><br />
-              <span>有効期限：{{ card_exp_month }}/{{ card_exp_year }}</span
-              ><br />
-              <span>カード名義人：{{ card_name }}</span>
-            </v-card>
+              <span>※機種依存文字の入力はできません。</span><br />
+              <span
+                >※当サイトに関する質問は
+                お問合せフォームをご利用ください。</span
+              >
+            </div>
+            <hr />
+          </div>
 
-            <span>予約日の翌日に決済となります。</span><br />
-            <span style="font-size: 13px"
-              >※デビット・プリペイドカードはこの限りではありません</span
+          <div class="cancellation-policy">
+            <h4>キャンセルポリシー</h4>
+            <span
+              >当予約のキャンセル・変更の場合、以下のキャンセル料を申し受けます。</span
             >
-          </v-card>
-
-          <label for="cash" class="radio"
-            >現地決済<v-radio id="cash" value="現地決済"></v-radio
-          ></label>
-
-          <v-card
-            v-if="flag"
-            class="cash-info"
-            style="background-color: #f5f5f5"
-          >
-            <span>宿泊当日の正午までにオンラインカード決済に変更可能です。</span
-            ><br />
-            <span style="font-size: 13px"
-              >※チェックイン予定時間以降の変更はできません</span
+            <table border="1px">
+              <td>
+                前日 15:00から <br />
+                100%
+              </td>
+              <td>
+                不泊 <br />
+                100%
+              </td>
+            </table>
+            <span class="attention"
+              >※ 8日前まではキャンセル料はかかりません。</span
             >
-          </v-card>
-        </v-radio-group>
-        <hr />
-      </div>
-
-      <div class="contact">
-        <h4>施設への連絡事項（未記入可）</h4>
-        <v-textarea solo style="width: 500px" v-model="other"></v-textarea>
-        <div class="attentions">
-          <span>※ご希望に添えない場合もございます。予めご了承ください。</span
-          ><br />
-          <span>※機種依存文字の入力はできません。</span><br />
-          <span
-            >※当サイトに関する質問は お問合せフォームをご利用ください。</span
-          >
+          </div>
         </div>
-        <hr />
-      </div>
 
-      <div class="cancellation-policy">
-        <h4>キャンセルポリシー</h4>
-        <span
-          >当予約のキャンセル・変更の場合、以下のキャンセル料を申し受けます。</span
-        >
-        <table border="1px">
-          <td>
-            前日 15:00から <br />
-            100%
-          </td>
-          <td>
-            不泊 <br />
-            100%
-          </td>
-        </table>
-        <span class="attention">※ 8日前まではキャンセル料はかかりません。</span>
+        <div class="reservetion-contents">
+          <img class="reserve-img" src="@/assets/img/1.png" />
+          <!-- コンポーネント start-->
+          <reservetionContents
+            :fullName1="fullName1"
+            :fullName2="fullName2"
+            :zipcode="zipcode"
+            :prefecture="prefecture"
+            :address="address"
+            :telephone="telephone"
+            :mailAddress="mailAddress"
+            :checkInTime="checkInTime"
+            :man="man"
+            :woman="woman"
+            :payments="payments"
+            :other="other"
+            :errorChecks="errorChecks"
+            :card_number="card_name"
+            :card_cvv="card_cvv"
+            :card_exp_month="card_exp_month"
+            :card_exp_year="card_exp_year"
+            :card_name="card_name"
+            @errorObject="errorObject"
+          ></reservetionContents>
+          <!-- コンポーネント end-->
+        </div>
       </div>
-    </div>
-
-    <div class="reservetion-contents">
-      <img class="reserve-img" src="@/assets/img/1.png" />
-      <!-- コンポーネント start-->
-      <reservetionContents
-        :fullName1="fullName1"
-        :fullName2="fullName2"
-        :zipcode="zipcode"
-        :prefecture="prefecture"
-        :address="address"
-        :telephone="telephone"
-        :mailAddress="mailAddress"
-        :checkInTime="checkInTime"
-        :man="man"
-        :woman="woman"
-        :payments="payments"
-        :other="other"
-        :errorChecks="errorChecks"
-        :card_number="card_name"
-        :card_cvv="card_cvv"
-        :card_exp_month="card_exp_month"
-        :card_exp_year="card_exp_year"
-        :card_name="card_name"
-        @errorObject="errorObject"
-      ></reservetionContents>
-      <!-- コンポーネント end-->
     </div>
   </div>
 </template>
@@ -479,12 +495,16 @@ p {
   object-fit: cover;
   width: 250px;
   height: 80px;
-  float: right;
   margin-right: 80px;
 }
 .gender {
   margin-top: 10px;
   margin-left: 15px;
   margin-right: 15px;
+}
+
+.whole {
+  width: 80%;
+  margin: 60px 0;
 }
 </style>

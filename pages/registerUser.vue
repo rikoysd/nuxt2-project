@@ -1,66 +1,83 @@
 <template>
-  <div>
-    <h4>会員登録</h4>
-    氏名<span>&emsp;{{ fullName1Error }}</span>
-    <v-text-field
-      class="name-field"
-      label="楽々太郎"
-      v-model="fullName1"
-      outlined
-    ></v-text-field>
-    かな<span>&emsp;{{ fullName2Error }}</span
-    ><v-text-field
-      class="name2-field"
-      label="ラクラクタロウ"
-      v-model="fullName2"
-      outlined
-    ></v-text-field>
-    郵便番号（ハイフンなし）<span>&emsp;{{ zipcodeError }}</span
-    ><v-text-field
-      class="zipcode"
-      label="0000000"
-      v-model="zipcode"
-      outlined
-    ></v-text-field>
-
-    住所<span>&emsp;{{ prefectureError }}</span>
-    <selectPrefectures2 @prefecture="registerPrefecture"></selectPrefectures2>
-
-    <span>&emsp;{{ addressError }}</span>
-    <v-text-field
-      class="address"
-      label="港区赤坂0-0-0（海外住所の場合は「海外」と入力）"
-      v-model="address"
-      outlined
-    ></v-text-field>
-    電話番号（ハイフンなし）<span>&emsp;{{ telephoneError }}</span
-    ><v-text-field
-      class="telephone"
-      label="09012345678"
-      v-model="telephone"
-      outlined
-    ></v-text-field>
-    メールアドレス<span>&emsp;{{ mailaddressError }}</span
-    ><v-text-field
-      class="mailaddress"
-      label="rakuraku@example.jp"
-      v-model="mailAddress"
-      outlined
-    ></v-text-field>
-    パスワード<span>&emsp;{{ passwordError }}</span
-    ><v-text-field
-      class="password"
-      label="rakus12345"
-      v-model="password"
-      type="password"
-      outlined
-    ></v-text-field>
-    <div>・8～16文字以内</div>
-    <div>
-      ・英語小文字・大文字、数字、記号(.?/-)をそれぞれ1つ以上使用してください
+  <div class="whole mx-auto d-flex justify-center">
+    <div class="container">
+      <v-btn
+        class="register-btn"
+        color="primary"
+        elevation="2"
+        @click="registerDummy"
+        >ダミーを登録する</v-btn
+      >
+      <div>※パスワードはフォームの例と同じ</div>
+      <h3 class="d-flex justify-center mb-6">会員登録</h3>
+      氏名<span>&emsp;{{ fullName1Error }}</span>
+      <v-text-field
+        class="name-field"
+        label="楽々太郎"
+        v-model="fullName1"
+        outlined
+      ></v-text-field>
+      かな<span>&emsp;{{ fullName2Error }}</span
+      ><v-text-field
+        class="name2-field"
+        label="らくらくたろう"
+        v-model="fullName2"
+        outlined
+      ></v-text-field>
+      郵便番号（ハイフンなし）<span>&emsp;{{ zipcodeError }}</span
+      ><v-text-field
+        class="zipcode"
+        label="0000000"
+        v-model="zipcode"
+        outlined
+        maxlength="7"
+      ></v-text-field>
+      住所<span>&emsp;{{ prefectureError }}</span
+      ><selectPrefectures
+        :prefecture2="prefecture"
+        @prefecture="registerPrefecture"
+      ></selectPrefectures
+      ><br />
+      <span>&emsp;{{ addressError }}</span>
+      <v-text-field
+        class="address"
+        label="港区赤坂0-0-0（海外住所の場合は「海外」と入力）"
+        v-model="address"
+        outlined
+      ></v-text-field>
+      電話番号（ハイフンなし）<span>&emsp;{{ telephoneError }}</span
+      ><v-text-field
+        class="telephone"
+        label="09012345678"
+        v-model="telephone"
+        outlined
+      ></v-text-field>
+      メールアドレス<span>&emsp;{{ mailaddressError }}</span
+      ><v-text-field
+        class="mailaddress"
+        label="rakuraku@example.jp"
+        v-model="mailAddress"
+        outlined
+      ></v-text-field>
+      パスワード<span>&emsp;{{ passwordError }}</span
+      ><v-text-field
+        class="password"
+        label="Rakus12345?（8～16文字、英小大文字、数字、記号(.?/-)を各1つ以上）"
+        v-model="password"
+        type="password"
+        outlined
+      ></v-text-field>
+      <v-row justify="center">
+        <v-btn
+          class="register-btn"
+          color="primary"
+          elevation="2"
+          large
+          @click="register"
+          >登録</v-btn
+        >
+      </v-row>
     </div>
-    <v-btn color="primary" elevation="2" @click="register">登録</v-btn>
-    <v-btn color="primary" elevation="2">戻る</v-btn>
   </div>
 </template>
 
@@ -117,6 +134,16 @@ export default {
     this.userList = this.$store.getters["register/getUserList"];
   },
   methods: {
+    // テスト用(最後に削除する)
+    registerDummy() {
+      this.fullName1 = "山田太郎";
+      this.fullName2 = "やまだたろう";
+      this.zipcode = "1600022";
+      this.address = "新宿区";
+      this.telephone = "09012345678";
+      this.mailAddress = "aa@aa";
+      this.password = "Rakus12345?";
+    },
     /**
      * emitで渡ってきた都道府県を変数に代入.
      */
@@ -196,19 +223,6 @@ export default {
       }
       this.errors.push(this.errorCheck);
 
-      // メールアドレスのエラー
-      if (this.mailAddress === "") {
-        this.mailaddressError = "メールアドレスを入力してください";
-        this.errorCheck = true;
-      } else if (this.mailAddress.indexOf("@") === -1) {
-        this.mailaddressError = "正しい形式で入力してください";
-        this.errorCheck = true;
-      } else {
-        this.mailaddressError = "";
-        this.errorCheck = false;
-      }
-      this.errors.push(this.errorCheck);
-
       // メールアドレスの重複エラー
       let addressArray = [];
       for (let user of this.userList) {
@@ -222,6 +236,19 @@ export default {
       }
       if (sameAddress !== "") {
         this.mailaddressError = "このメールアドレスは既に登録されています";
+        this.errorCheck = true;
+      } else {
+        this.mailaddressError = "";
+        this.errorCheck = false;
+      }
+      this.errors.push(this.errorCheck);
+
+      // メールアドレスのエラー
+      if (this.mailAddress === "") {
+        this.mailaddressError = "メールアドレスを入力してください";
+        this.errorCheck = true;
+      } else if (this.mailAddress.indexOf("@") === -1) {
+        this.mailaddressError = "正しい形式で入力してください";
         this.errorCheck = true;
       } else {
         this.mailaddressError = "";
@@ -307,7 +334,31 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  width: 600px;
+  border-radius: 5px;
+  padding: 45px 40px;
+  background-color: white;
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+  margin: 60px 0;
+}
+
+.register-btn {
+  margin-top: 30px;
+}
+
 span {
   color: red;
+}
+
+.whole {
+  width: 100%;
+  height: 100%;
+  background-image: url(../assets/img/background-img.jpg);
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
 }
 </style>

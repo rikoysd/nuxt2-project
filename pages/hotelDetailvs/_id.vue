@@ -17,6 +17,16 @@
             </v-col>
           </v-toolbar>
         </v-row>
+        <!-- ボトムシート -->
+        <v-navigation-drawer v-model="drawer" absolute bottom temporary>
+        </v-navigation-drawer>
+        <v-row>
+          <v-col>
+            <v-btn color="orange" dark @click.stop="drawer = !drawer">
+              Open Inset
+            </v-btn>
+          </v-col>
+        </v-row>
       </div>
       <div class="d-flex justify-center">
         <div class="whole">
@@ -30,14 +40,36 @@
             <v-col cols="12">
               <v-card elevation="2" class="plansCard" tile>
                 <p class="title font-weight-bold">宿泊プラン</p>
-                <detail-plans
-                  :plans="plans"
-                  :roomImage="roomImage"
-                  :detailInfo="detailInfo"
-                  :staySpan="staySpan"
-                  :checkInDate="checkinDate"
-                  :adultNum="adultNum"
-                ></detail-plans>
+                <div>
+                  <v-row>
+                    <p>必要情報を入力し空室検索できます</p>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="10" md="4">
+                      <calender @selectDates="addDate"></calender>
+                    </v-col>
+                    <v-col cols="2" md="4">
+                      <v-text-field
+                        v-model="adultNum"
+                        label="params.adultNum"
+                      ></v-text-field>
+                    </v-col>
+                    <v-col cols="1">
+                      <v-btn @click="sendReserveData">検索</v-btn>
+                    </v-col>
+                  </v-row>
+                </div>
+                <div v-show="listShow">
+                  <detail-plans
+                    :plans="plans"
+                    :roomImage="roomImage"
+                    :detailInfo="detailInfo"
+                    :staySpan="staySpan"
+                    :checkInDate="checkinDate"
+                    :adultNum="adultNum"
+                    @sendReserveData="sendReserveData"
+                  ></detail-plans>
+                </div>
               </v-card>
             </v-col>
           </v-row>
@@ -58,7 +90,10 @@
 </template>
 
 <script>
+import calender from "../../components/calender.vue";
+import DetailOverview from "../../components/detailHotel/detailOverview.vue";
 export default {
+  components: { calender, DetailOverview },
   data() {
     return {
       // Params番号
@@ -79,12 +114,8 @@ export default {
       plans: [],
       // ホテル詳細情報
       detailInfo: [],
-      facilitiesInfo: [],
-      policyInfo: [],
-      otherInfo: [],
       // レビュー平均リスト
       reviewAverage: [],
-      address: "",
       sheet: false,
       // チェックイン日時
       checkinDate: "2022-12-01",
@@ -94,28 +125,29 @@ export default {
       adultNum: 2,
       // 宿泊日数
       staySpan: 0,
-
+      // 宿泊リスト表示フラグ
+      listShow: false,
       // 現在の日時
       now: new Date(),
       // 指定した日時
       target: "",
+      drawer: false,
+      group: null,
     };
   },
-  methods: {
-    createDate(date) {
-      return new Date(date);
+  watch: {
+    group() {
+      this.drawer = false;
     },
   },
-  async created() {
-    this.vacantList = [];
-    this.plans = [];
+
+  async mounted() {
     // URLからhotelIdを取得
     this.paramsNo = this.$route.params.id;
     // 施設検索
     await this.$store.dispatch("searchInstitution", this.paramsNo);
     this.institutionInfo = this.$store.getters.getInstitutitonInfo;
     const hotels = this.institutionInfo.hotels.hotels[0];
-    // 施設概要
     this.basicInfo = hotels.hotel[0].hotelBasicInfo;
     console.log("施設情報", hotels);
 
@@ -130,42 +162,55 @@ export default {
     }
     // 施設詳細
     this.reviewAverage = hotels.hotel[1].hotelRatingInfo;
-    this.facilitiesInfo = hotels.hotel[3].hotelFacilitiesInfo;
-    console.log("this.facilitiesInfo", this.facilitiesInfo);
-    this.policyInfo = hotels.hotel[4].hotelPolicyInfo;
-    console.log("this.policyInfo", this.policyInfo);
-    this.otherInfo = hotels.hotel[5].hotelOtherInfo;
-    console.log("this.otherInfo", this.otherInfo);
-
+    // 施設概要
+    console.log("空室情報", this.vacantList);
     // アクセス
     this.address = this.basicInfo.address1 + this.basicInfo.address2;
-
-    // 空室検索
-    this.staySpan = this.getStaySpan;
-
-    await this.$store.dispatch("searchVacant", {
-      hotelNo: this.basicInfo.hotelNo,
-      checkinDate: this.checkinDate,
-      checkoutDate: this.checkoutDate,
-      adultNum: this.adultNum,
-    });
-
-    this.vacantList = this.$store.getters.getVacantList;
-    if (this.vacantList.hotels == undefined) {
-      this.$router.push("/keywordHotelList");
-    }
-    console.log("空室情報", this.vacantList);
-    const hotelBasicInfo = this.vacantList.hotels[0].hotel[0].hotelBasicInfo;
-
-    this.plans = [
-      this.vacantList.hotels[0].hotel[3].roomInfo,
-      this.vacantList.hotels[0].hotel[4].roomInfo,
-      this.vacantList.hotels[0].hotel[5].roomInfo,
-    ];
-    this.detailInfo = this.vacantList.hotels[0].hotel[1].hotelDetailInfo;
-    console.log("plans", this.plans);
   },
   methods: {
+    /**
+     * 入力された宿泊の条件を元に宿泊リストを取得する.
+     * @param {*} - store.state.stayPlanFlag
+     */
+    async sendReserveData(data) {
+      // console.log(data);
+      this.staySpan = this.getStaySpan;
+      // console.log(this.staySpan);
+      // 条件を元にAPIで検索
+      await this.$store.dispatch("searchVacant", {
+        hotelNo: this.basicInfo.hotelNo,
+        checkinDate: this.checkinDate,
+        checkoutDate: this.checkoutDate,
+        adultNum: this.adultNum,
+      });
+      this.listShow = data;
+      // console.log("this.listShow", this.listShow.isTrusted);
+      if (this.listShow.isTrusted === true) {
+        this.vacantList = this.$store.getters.getVacantList;
+        console.log("空室情報", this.vacantList);
+        const hotelBasicInfo =
+          this.vacantList.hotels[0].hotel[0].hotelBasicInfo;
+        // 取得した情報をセット
+        this.plans = [
+          this.vacantList.hotels[0].hotel[3].roomInfo,
+          this.vacantList.hotels[0].hotel[4].roomInfo,
+          this.vacantList.hotels[0].hotel[5].roomInfo,
+        ];
+        this.detailInfo = this.vacantList.hotels[0].hotel[1].hotelDetailInfo;
+        // console.log("plans", this.detailInfo);
+      }
+    },
+    /**
+     * コンポーネントから取得した情報を指定に変数にセット.
+     * @param {*} - 日時
+     */
+    addDate(date) {
+      // console.log("date", date);
+      this.checkinDate = date[0];
+      this.checkoutDate = date[1];
+      // console.log(date[0]);
+      // console.log(date[1]);
+    },
     /**
      * dataが空だったら表示させない.
      * @param {*} - データ
@@ -220,9 +265,6 @@ v-btn {
   object-fit: cover;
   height: auto;
   width: 150px;
-}
-address {
-  background-color: antiquewhite;
 }
 
 .whole {

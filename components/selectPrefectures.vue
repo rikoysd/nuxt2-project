@@ -1,34 +1,21 @@
 <template>
   <div>
-    <div v-if="prefecture !== ''">
-      <v-select
-        v-model="prefecture"
-        @input="selectPrefecture(prefecture)"
-        class="select"
-        label="都道府県"
-        :items="items"
-        outlined
-      >
-      </v-select>
-    </div>
-    <div v-else>
-      <v-select
-        v-model="prefecture2"
-        @input="selectPrefecture(prefecture2)"
-        class="select"
-        label="都道府県"
-        :items="items"
-        outlined
-      >
-      </v-select>
-    </div>
+    <v-select
+      v-model="prefecture2"
+      @input="selectPrefecture(prefecture2)"
+      class="select"
+      label="都道府県"
+      :items="items"
+      outlined
+    >
+    </v-select>
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    prefecture: String,
+    prefecture2: String,
   },
   data() {
     return {

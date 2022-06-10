@@ -1,6 +1,6 @@
 <template>
-  <div class="whole">
-    <v-container fluid class="login-area">
+  <div class="whole d-flex align-center justify-center">
+    <v-container class="login-area">
       <div class="submit-error">{{ submitError }}</div>
       <span>{{ mailAddressError }}</span
       ><v-text-field
@@ -99,7 +99,7 @@ export default {
       }
       // register.jsのユーザー情報を取得
 
-      let object = this.$store.getters["register/getUserList"]
+      let object = this.$store.getters["register/getUserList"];
 
       if (
         this.mailAddress !== object[0].mailAddress ||
@@ -109,8 +109,11 @@ export default {
         this.submitError = "メールアドレスまたはパスワードが間違っています";
         return;
       }
-      // マイページに遷移
-      this.$router.push("/mypage");
+
+      // ログインしたユーザー情報をstateに入れる
+      this.$store.commit("registerLoginUser");
+
+      this.$router.push("/");
     },
   },
   computed: {},
@@ -127,6 +130,8 @@ span {
   border-radius: 5px;
   padding: 45px 40px;
   width: 600px;
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
 }
 
 .msg {
@@ -144,5 +149,7 @@ span {
   background-image: url(../assets/img/background-img.jpg);
   background-size: cover;
   background-position: center center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
 }
 </style>
