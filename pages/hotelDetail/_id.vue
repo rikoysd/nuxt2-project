@@ -30,7 +30,7 @@
             :roomImage="roomImage"
             :detailInfo="detailInfo"
             :staySpan="staySpan"
-            :checkInDate="target"
+            :checkInDate="checkinDate"
             :adultNum="adultNum"
           ></detail-plans>
         </v-card>
@@ -50,24 +50,41 @@
 export default {
   data() {
     return {
+      // Params番号
       paramsNo: 0,
+      // 空室検索結果
       vacantList: [],
+      // カルーセル写真リスト
       slides: [],
+      // 部屋写真
       roomImage: "",
+      // ホテル写真
       hotelImage: "",
+      // ホテル基本情報
       basicInfo: [],
+      // 住所
       address: "",
+      // 宿泊プラン
       plans: [],
+      // ホテル詳細情報
       detailInfo: [],
-      address: "",
+      // レビュー平均リスト
       reviewAverage: [],
+      address: "",
       sheet: false,
-      checkinDate: "",
-      adultNum: 0,
-      now: new Date(),
-      target: "",
-      staySpan: 0,
+      // チェックイン日時
+      checkinDate: "2022-12-01",
+      // チェックアウト日時
+      checkoutDate: "2022-12-02",
+      // 人数
       adultNum: 2,
+      // 宿泊日数
+      staySpan: 0,
+
+      // 現在の日時
+      now: new Date(),
+      // 指定した日時
+      target: "",
     };
   },
   methods: {
@@ -101,35 +118,12 @@ export default {
     this.address = this.basicInfo.address1 + this.basicInfo.address2;
 
     // 空室検索
-    // 仮の日付で検索
-    const Year = this.now.getFullYear();
-    let Month = this.now.getMonth() + 1;
-    let Date = this.now.getDate() + 7;
-    let Date2 = this.now.getDate() + 8;
-
-    let targetDate = Year + Month + Date;
-    console.log(targetDate);
-
-    let target2Date = Year + Month + Date2;
-    console.log(target2Date);
-    this.staySpan = target2Date - targetDate;
-    console.log("staySpan", this.staySpan);
-    if (Month < 10) {
-      Month = "0" + Month;
-    }
-    if (Date < 10) {
-      Date = "0" + Date;
-    }
-    if (Date2 < 10) {
-      Date2 = "0" + Date2;
-    }
-    this.target = Year + "-" + Month + "-" + Date;
-    const target2 = Year + "-" + Month + "-" + Date2;
+    this.staySpan = this.getStaySpan;
 
     await this.$store.dispatch("searchVacant", {
       hotelNo: this.basicInfo.hotelNo,
-      checkinDate: this.target,
-      checkoutDate: target2,
+      checkinDate: this.checkinDate,
+      checkoutDate: this.checkoutDate,
       adultNum: this.adultNum,
     });
     this.vacantList = this.$store.getters.getVacantList;
@@ -143,6 +137,29 @@ export default {
     ];
     this.detailInfo = this.vacantList.hotels[0].hotel[1].hotelDetailInfo;
     console.log("plans", this.plans);
+  },
+  methods: {
+    /**
+     * dataが空だったら表示させない.
+     * @param {*} - データ
+     */
+    exist(data) {
+      if (data !== null) {
+        return "~" + data;
+      } else {
+        return "";
+      }
+    },
+  },
+  computed: {
+    /**
+     * 宿泊期間の計算.
+     */
+    getStaySpan() {
+      return (
+        (new Date(this.checkoutDate) - new Date(this.checkinDate)) / 86400000
+      );
+    },
   },
 };
 </script>

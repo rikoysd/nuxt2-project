@@ -60,7 +60,7 @@
               :roomImage="roomImage"
               :detailInfo="detailInfo"
               :staySpan="staySpan"
-              :checkInDate="target"
+              :checkInDate="checkinDate"
               :adultNum="adultNum"
               @sendReserveData="sendReserveData"
             ></detail-plans>
@@ -107,9 +107,9 @@ export default {
       reviewAverage: [],
       sheet: false,
       // チェックイン日時
-      checkinDate: "",
+      checkinDate: "2022-12-01",
       // チェックアウト日時
-      checkoutDate: "",
+      checkoutDate: "2022-12-02",
       // 人数
       adultNum: 2,
       // 宿泊日数
@@ -162,9 +162,9 @@ export default {
      * @param {*} - store.state.stayPlanFlag
      */
     async sendReserveData(data) {
-      console.log(data);
+      // console.log(data);
       this.staySpan = this.getStaySpan;
-      console.log(this.staySpan);
+      // console.log(this.staySpan);
       // 条件を元にAPIで検索
       await this.$store.dispatch("searchVacant", {
         hotelNo: this.basicInfo.hotelNo,
@@ -172,14 +172,11 @@ export default {
         checkoutDate: this.checkoutDate,
         adultNum: this.adultNum,
       });
-      this.vacantList = this.$store.getters.getVacantList;
-      console.log(this.vacantList);
-
       this.listShow = data;
-      console.log("this.listShow", this.listShow.isTrusted);
+      // console.log("this.listShow", this.listShow.isTrusted);
       if (this.listShow.isTrusted === true) {
-        console.log("空室情報", this.listShow);
         this.vacantList = this.$store.getters.getVacantList;
+        console.log("空室情報", this.vacantList);
         const hotelBasicInfo =
           this.vacantList.hotels[0].hotel[0].hotelBasicInfo;
         // 取得した情報をセット
@@ -189,7 +186,7 @@ export default {
           this.vacantList.hotels[0].hotel[5].roomInfo,
         ];
         this.detailInfo = this.vacantList.hotels[0].hotel[1].hotelDetailInfo;
-        console.log("plans", this.detailInfo);
+        // console.log("plans", this.detailInfo);
       }
     },
     /**
@@ -197,7 +194,7 @@ export default {
      * @param {*} - 日時
      */
     addDate(date) {
-      console.log("date", date);
+      // console.log("date", date);
       this.checkinDate = date[0];
       this.checkoutDate = date[1];
       // console.log(date[0]);
