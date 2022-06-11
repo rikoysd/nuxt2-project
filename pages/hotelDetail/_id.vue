@@ -11,9 +11,10 @@
             <v-col cols="6">
               <v-tabs background-color="#F5F5F5" grow>
                 <v-tab @click="sheet = !sheet"> 宿泊・プラン</v-tab>
-                <v-tab to="#hotelInfo"> 宿の詳細</v-tab>
-                <v-tab to="#reviews"> クチコミ</v-tab>
-                <v-tab to="#acsess"> アクセス</v-tab>
+                <!-- <v-tab  to="#hotelInfo"> -->
+                <v-tab @click="goTo('hotelInfo')"> 宿の詳細</v-tab>
+                <v-tab @click="goTo('reviews')"> クチコミ</v-tab>
+                <v-tab @click="goTo('acsess')"> アクセス</v-tab>
               </v-tabs>
             </v-col>
           </v-toolbar>
@@ -181,6 +182,9 @@ export default {
       } else {
         return "";
       }
+    },
+    goTo(id) {
+      this.$vuetify.goTo(`#${id}`);
     },
   },
   computed: {
