@@ -83,6 +83,7 @@ export default {
      * お気に入り一覧を見る.
      */
     favoriteList() {
+      // 一時的に右辺を書き換えてます。
       window.location.href = "/mypage";
     },
     /**
@@ -90,6 +91,7 @@ export default {
      */
     myPageAction(number) {
       if (number === 0) {
+        // 一時的に右辺を書き換えてます。（ログイン状態は保持されない）
         window.location.href = "/reserveForm";
       } else {
         this.$store.commit("deleteUser");
