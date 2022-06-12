@@ -75,7 +75,6 @@ export default {
       flag: false,
       items: [{ title: "マイページ" }, { title: "ログアウト" }],
       closeOnContentClick: true,
-      pligins: "../plugins/createPersistedState",
     };
   }, // end data
 
@@ -90,7 +89,6 @@ export default {
      * マイページのメニューを選択する.
      */
     myPageAction(number) {
-      console.log(number);
       if (number === 0) {
         window.location.href = "/reserveForm";
       } else {
@@ -106,10 +104,8 @@ export default {
     changeFlag() {
       if (this.$store.getters["register/getLoginUser"].id === 0) {
         this.flag = false;
-        this.plugins = this.flag;
       } else {
         this.flag = true;
-        this.plugins = this.flag;
       }
       return this.flag;
     },
