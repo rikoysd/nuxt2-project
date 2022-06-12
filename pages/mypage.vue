@@ -161,22 +161,26 @@ export default {
       loginUser: {},
     };
   },
+
   mounted() {
     this.loginUser = this.$store.getters["register/getLoginUser"];
-
     // ログインしていなかったらログインページへ誘導
     if (this.loginUser.id === 0) {
       this.$router.push("/login");
     }
-
     this.favoriteList = this.$store.getters["favorite/getFavoriteList"];
     this.watchedList = this.$store.getters["watchedList/getWatchedList"];
   },
+
   methods: {
+    /**
+     * テスト用
+     */
     moveToReserve() {
       this.$router.push("/reserveForm");
     },
   },
+
   computed: {
     /**
      * お気に入り一覧を取得する.

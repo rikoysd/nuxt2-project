@@ -75,26 +75,30 @@ export default {
       flag: false,
       items: [{ title: "マイページ" }, { title: "ログアウト" }],
       closeOnContentClick: true,
+      pligins: "../plugins/createPersistedState",
     };
-  },
+  }, // end data
+
   methods: {
     /**
      * お気に入り一覧を見る.
      */
     favoriteList() {
-      this.$router.push("/mypage");
+      window.location.href = "/mypage";
     },
     /**
      * マイページのメニューを選択する.
      */
     myPageAction(number) {
+      console.log(number);
       if (number === 0) {
-        this.$router.push("/mypage");
+        window.location.href = "/reserveForm";
       } else {
         this.$store.commit("deleteUser");
       }
     },
-  },
+  }, // end methods
+
   computed: {
     /**
      * アイコンの切り替え.
@@ -102,12 +106,14 @@ export default {
     changeFlag() {
       if (this.$store.getters["register/getLoginUser"].id === 0) {
         this.flag = false;
+        this.plugins = this.flag;
       } else {
         this.flag = true;
+        this.plugins = this.flag;
       }
       return this.flag;
     },
-  },
+  }, // end computed
 };
 </script>
 
