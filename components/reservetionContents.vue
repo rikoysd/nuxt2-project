@@ -4,9 +4,8 @@
       <span class="hotel-name">{{ hotelName }}</span>
 
       <div class="plans" style="background-color: white">
-        <span style="font-weight: bold">日付・食事</span>&nbsp;&nbsp;<v-col>{{
-          dateAndMeal
-        }}</v-col
+        <span style="font-weight: bold">日付・食事</span>&nbsp;&nbsp;<v-col
+          >{{ date }}〜{{ staySpan }}泊</v-col
         ><br />
         <span style="font-weight: bold">人数室数</span>&nbsp;&nbsp;<v-col>{{
           peopleAndRooms
@@ -74,12 +73,18 @@ export default {
     return {
       // ホテル名
       hotelName: "The Okura Tokyo",
-      // ホテル詳細
-      dateAndMeal: "2022月5月30日〜 1泊 食事なし",
+      // チェックイン日
+      date: "",
+      // 宿泊日数
+      staySpan: 0,
+      // 朝食
+      breakfast: "",
+      // 夕食
+      dinner: "",
       // 宿泊人数
       peopleAndRooms: "大人2名 1室",
       // 部屋の種類
-      room: "プレステージルーム ツイン 【禁煙】",
+      room: "",
       // リンク？
       plan: "ホテルのリンクを貼る（？）",
       // 宿泊料金合計
@@ -106,6 +111,20 @@ export default {
   }, //end data
 
   computed: {}, // end computed
+
+  /**
+   * 非同期でホテル詳細情報を反映させる.
+   */
+  mounted() {
+    let reserveDetail = {};
+    reserveDetail = this.$store.getters.getPreReserveData;
+    console.log(reserveDetail);
+    this.date = reserveDetail.checkInDate;
+    this.staySpan = reserveDetail.staySpan;
+    this.breakfast = reserveDetail.withBreakfastFlag;
+    this.dinner = reserveDetail.withDinnerFlag;
+    this.room = reserveDetail.roomName;
+  },
 
   methods: {
     /**

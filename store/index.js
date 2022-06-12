@@ -368,6 +368,12 @@ export const getters = {
   getSearchResult(state) {
     return state.searchResult;
   },
+  /**
+   * 予約情報入力フォームに反映させる詳細情報.
+   */
+  getPreReserveData(state) {
+    return state.preReserveData;
+  },
 };
 
 export const modules = {
