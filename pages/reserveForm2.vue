@@ -341,6 +341,9 @@ export default {
     };
   }, //end data
 
+  /**
+   * 非同期処理.
+   */
   mounted() {
     const reserveId = Number(this.$route.params.id);
     console.log(reserveId);
@@ -419,7 +422,6 @@ export default {
       this.creditFlag = creditObject.creditFlag;
     },
   }, // end methods
-  computed: {}, // end computed
 };
 </script>
 

@@ -119,8 +119,6 @@ export default {
     };
   }, //end data
 
-  computed: {}, // end computed
-
   /**
    * 非同期でホテル詳細情報を反映させる.
    */
@@ -312,7 +310,7 @@ export default {
       };
       // storeに送るためのオブジェクト生成(プラン詳細)
       let detailObject = {
-        hotelName: "The Okura Tokyo",
+        hotelName: "",
         formatDate: new Date(),
         staySpan: 0,
         breakfast: "",

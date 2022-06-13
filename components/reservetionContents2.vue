@@ -109,8 +109,6 @@ export default {
     this.totalPrice = this.detailObject.totalPrice;
   },
 
-  computed: {}, // end computed
-
   methods: {
     /**
      *予約内容を変更する.

@@ -334,6 +334,9 @@ export default {
     };
   }, //end data
 
+  /**
+   * 非同期処理.
+   */
   mounted() {
     let reserveDetail = {};
     reserveDetail = this.$store.getters.getPreReserveData;
@@ -414,8 +417,6 @@ export default {
       this.creditFlag = creditObject.creditFlag;
     },
   }, // end methods
-
-  computed: {}, // end computed
 };
 </script>
 
