@@ -5,7 +5,7 @@
       <v-row>
         <v-col
           class="d-flex justify-center"
-          v-for="(hotel, index) of getResultList"
+          v-for="(hotel, index) of getHotelList"
           v-bind:key="index"
         >
           <v-card class="card" max-width="399">
@@ -67,8 +67,6 @@
 export default {
   data() {
     return {
-      //検索結果
-      responseData: [],
       //apiに送るリクエストパラメータ
       vacantData: {
         roomNum: 0, //部屋数
@@ -92,13 +90,6 @@ export default {
   },
   computed: {
     /**
-     * 空室検索の結果を返す.
-     */
-    getResultList() {
-      this.responseData = this.$store.getters.getVacantList.hotels;
-      return this.responseData;
-    },
-    /**
      * 空室検索のエラー情報を取得.
      */
     getSearchError() {
@@ -108,6 +99,12 @@ export default {
         this.errorMessage = "";
       }
       return this.errorMessage;
+    },
+    /**
+     * ホテル一覧を取得.
+     */
+    getHotelList() {
+      return this.$store.getters.getHotelList;
     },
   },
 };
