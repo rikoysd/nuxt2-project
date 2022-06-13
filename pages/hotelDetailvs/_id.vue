@@ -4,7 +4,13 @@
       <div>
         {{ basicInfo.hotelName }}
         <!-- カルーセル -->
-        <detail-carousel :slides="slides"></detail-carousel>
+        <detail-carousel class="detailCarousel" :slides="slides">
+        </detail-carousel>
+        <v-row>
+          <v-col>
+            <p class="carouselPlan">このホテルのプラン</p>
+          </v-col>
+        </v-row>
         <!-- ナビゲーションバー -->
         <v-row>
           <v-toolbar color="#F5F5F5">
@@ -40,26 +46,40 @@
           <v-row>
             <v-col cols="12">
               <v-card elevation="2" class="plansCard" tile>
-                <p class="title font-weight-bold">宿泊プラン</p>
-                <div>
-                  <v-row>
-                    <p>必要情報を入力し空室検索できます</p>
-                  </v-row>
-                  <v-row>
-                    <v-col cols="10" md="4">
-                      <calender @selectDates="addDate"></calender>
-                    </v-col>
-                    <v-col cols="2" md="4">
-                      <v-text-field
-                        v-model="adultNum"
-                        label="params.adultNum"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="1">
-                      <v-btn @click="sendReserveData">検索</v-btn>
-                    </v-col>
-                  </v-row>
-                </div>
+                <span class="title font-weight-bold">宿泊プラン</span>
+
+                <v-row>
+                  <span class="plansExplain"
+                    >利用日付・利用人数を入力し宿泊プランの検索ができます。</span
+                  >
+                </v-row>
+
+                <v-progress-circular
+                  v-show="circularFlag"
+                  class="progressCircular"
+                  indeterminate
+                  color="primary"
+                ></v-progress-circular>
+
+                <v-row>
+                  <v-col cols="9" class="calender">
+                    <calender @selectDates="addDate"></calender>
+                  </v-col>
+                  <v-col>
+                    <v-text-field
+                      class="adultNum"
+                      v-model="adultNum"
+                      label="利用人数"
+                      outlined
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <v-btn @click="sendReserveData">検索</v-btn>
+                  </v-col>
+                </v-row>
+
                 <div v-show="listShow">
                   <detail-plans
                     :plans="plans"
@@ -134,6 +154,7 @@ export default {
       staySpan: 0,
       // 宿泊リスト表示フラグ
       listShow: false,
+      circularFlag: false,
       // 現在の日時
       now: new Date(),
       // 指定した日時
@@ -186,6 +207,7 @@ export default {
      * @param {*} - store.state.stayPlanFlag
      */
     async sendReserveData(data) {
+      this.circularFlag = true;
       this.plans = [];
       // console.log(data);
       this.staySpan = this.getStaySpan;
@@ -201,6 +223,7 @@ export default {
       // console.log("this.listShow", this.listShow.isTrusted);
       this.vacantList = this.$store.getters.getVacantList;
       console.log("空室情報", this.vacantList);
+      this.circularFlag = false;
       if (this.vacantList.hotels !== undefined) {
         this.vacantList = this.$store.getters.getVacantList;
         console.log("空室情報", this.vacantList);
@@ -274,11 +297,12 @@ v-btn {
 } */
 .planCard {
   height: 230px;
+
   padding-bottom: 5px;
   overflow: hidden;
 }
 .plansCard {
-  padding: 10px;
+  padding: 20px;
 }
 .planTitle {
   font-weight: 1000;
@@ -292,5 +316,26 @@ v-btn {
 .whole {
   width: 80%;
   margin: 60px 0;
+}
+
+.carouselPlan {
+  position: absolute;
+  top: 300px;
+  left: 900px;
+}
+.calender {
+  width: 400px;
+}
+.plansExplain {
+  margin-top: 10px;
+}
+.adultNum {
+  position: relative;
+  top: 11px;
+}
+.progressCircular {
+  position: relative;
+  top: 170px;
+  left: 45%;
 }
 </style>

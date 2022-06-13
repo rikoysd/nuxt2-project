@@ -4,7 +4,13 @@
       <div>
         {{ detailInfo.areaName + ">" + basicInfo.hotelName }}
         <!-- カルーセル -->
-        <detail-carousel :slides="slides"></detail-carousel>
+        <detail-carousel class="detailCarousel" :slides="slides">
+        </detail-carousel>
+        <v-row>
+          <v-col>
+            <p class="carouselPlan">このホテルのプラン</p>
+          </v-col>
+        </v-row>
         <!-- ナビゲーションバー -->
         <v-row>
           <v-toolbar color="#F5F5F5">
@@ -237,5 +243,10 @@ address {
 .whole {
   width: 80%;
   margin: 60px 0;
+}
+.carouselPlan {
+  position: absolute;
+  top: 300px;
+  left: 900px;
 }
 </style>
