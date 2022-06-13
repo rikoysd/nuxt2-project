@@ -111,6 +111,36 @@ export default {
 </script>
 
 <style scoped>
+.card {
+  margin-bottom: 60px;
+  transition: all 0.3s ease 0s;
+}
+
+.description {
+  margin-top: 5px;
+  font-size: 12px;
+}
+
+.hotel-name {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.min-charge {
+  margin-top: 15px;
+}
+
+.min-charge span {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.sub-title {
+  margin-bottom: 10px;
+  opacity: 0.7;
+  font-size: 0.7rem;
+}
+
 .whole {
   width: 80%;
   margin: 60px 0;
