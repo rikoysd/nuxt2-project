@@ -13,10 +13,6 @@ Vue.use(Vuex);
 export const state = () => ({
   //総合ランキング情報
   rankings: [],
-  // キーワード検索・ページ情報
-  pageInfo: {},
-  // キーワード検索・ホテル一覧
-  hotelList: [],
   // 空室情報
   // hotels[i].hotel[0]:基本情報
   //          .hotel[1]:詳細情報
@@ -34,6 +30,12 @@ export const state = () => ({
   preReserveData: "",
   //検索条件
   searchResult: [],
+  // ページ情報（空室検索）
+  pageInfo: {},
+  // ホテル一覧（空室検索）
+  hotelList: [],
+  // 空室検索のエラーフラグ
+  searchErrorFlag: false,
 });
 
 export const actions = {
@@ -78,11 +80,17 @@ export const actions = {
    * @param {*} params - 検索条件のオブジェクト
    */
   async searchVacantList(context, vacantData) {
-    const vacantResponce = await axios1.get(
-      `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&largeClassCode=japan&middleClassCode=${vacantData.middleClassCode}&smallClassCode=${vacantData.smallClassCode}&detailClassCode=${vacantData.detailClassCode}&checkinDate=${vacantData.checkinDate}&checkoutDate=${vacantData.checkoutDate}&adultNum=${vacantData.adultNum}&roomNum=${vacantData.roomNum}&responseType=large`
-    );
-    // console.dir("response" + JSON.stringify(vacantResponce.data.hotels));
-    context.commit("setVacantList", vacantResponce.data.hotels);
+    try {
+      const vacantResponce = await axios1.get(
+        `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&largeClassCode=japan&middleClassCode=${vacantData.middleClassCode}&smallClassCode=${vacantData.smallClassCode}&detailClassCode=${vacantData.detailClassCode}&checkinDate=${vacantData.checkinDate}&checkoutDate=${vacantData.checkoutDate}&adultNum=${vacantData.adultNum}&roomNum=${vacantData.roomNum}&responseType=large`
+      );
+      // console.dir("response" + JSON.stringify(vacantResponce.data));
+
+      context.commit("setVacantData", vacantResponce.data);
+    } catch (error) {
+      console.log(error);
+      context.commit("setErrorFlag");
+    }
   },
   /**
    * 一件空室検索.
@@ -115,22 +123,6 @@ export const actions = {
   //   this.dispatch("searchInstitution/searchInstitution", { root: true });
   // },
 
-  /**
-   * キーワード検索結果のホテルを取得する.
-   * @param {*} context - コンテキスト
-   * @param {*} keyword - キーワード
-   */
-  async getHotelList(context, keyword) {
-    try {
-      const response = await this.$axios.$get(
-        `https://app.rakuten.co.jp/services/api/Travel/KeywordHotelSearch/20170426?applicationId=1098541415969458249&format=json&responseType=large&keyword=${keyword}`
-      );
-      // console.dir(JSON.stringify(response));
-      context.commit("showHotelList", response);
-    } catch (error) {
-      console.log(error);
-    }
-  },
   /**
    * 地区コードの取得.
    *  @param {*} context - コンテキスト
@@ -181,15 +173,6 @@ export const mutations = {
     }
   },
   /**
-   * キーワード検索結果のホテルをstateに格納.
-   * @param {*} state
-   * @param {*} payload
-   */
-  showHotelList(state, payload) {
-    state.pageInfo = payload.pagingInfo;
-    state.hotelList = payload.hotels;
-  },
-  /**
    * 空室検索の結果をstateにセット.
    * @param {*} state - ステート
    * @param {*} payload - ペイロード
@@ -197,6 +180,15 @@ export const mutations = {
   setVacantList(state, payload) {
     state.vacantList = { hotels: payload };
     console.log(state.vacantList);
+  },
+  /**
+   * 空室検索の結果をstateにセット.
+   * @param {*} state - ステート
+   * @param {*} payload - ページ情報とホテル一覧
+   */
+  setVacantData(state, payload) {
+    state.pageInfo = payload.pagingInfo;
+    state.hotelList = payload.hotels;
   },
   /**
    * 検索条件をステートに格納.
@@ -292,6 +284,13 @@ export const mutations = {
   deleteUser(state) {
     this.commit("register/deleteLoginUser");
   },
+  /**
+   * 空室検索のエラーをstateに格納.
+   * @param {*} state - ステート
+   */
+  setErrorFlag(state) {
+    state.searchErrorFlag = true;
+  },
 }; //end of mutations
 
 export const getters = {
@@ -367,6 +366,14 @@ export const getters = {
    */
   getSearchResult(state) {
     return state.searchResult;
+  },
+  /**
+   * 空室検索のエラーフラグを取得する.
+   * @param {*} state - ステート
+   * @returns 空室検索のエラーフラグ
+   */
+  getSearchError(state) {
+    return state.searchErrorFlag;
   },
 };
 

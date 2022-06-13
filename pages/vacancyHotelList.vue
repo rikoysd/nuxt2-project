@@ -8,6 +8,7 @@
       <p>{{ hotel.hotel[0].hotelBasicInfo.hotelImageUrl }}</p>
       <p>{{ hotel.hotel[0].hotelBasicInfo.userReview }}</p>
     </v-col> -->
+      <div>{{ getSearchError }}</div>
       <v-row>
         <v-col
           class="d-flex justify-center"
@@ -85,6 +86,8 @@ export default {
         checkoutDate: 0, //チェックアウト日
         adultNum: 0, //大人人数
       },
+      // エラーメッセージ
+      errorMessage: "",
     };
   },
   async mounted() {
@@ -101,6 +104,17 @@ export default {
     getResultList() {
       this.responseData = this.$store.getters.getVacantList.hotels;
       return this.responseData;
+    },
+    /**
+     * 空室検索のエラー情報を取得.
+     */
+    getSearchError() {
+      if (this.$store.getters.getSearchError === true) {
+        this.errorMessage = "検索結果がありません";
+      } else {
+        this.errorMessage = "";
+      }
+      return this.errorMessage;
     },
   },
 };
