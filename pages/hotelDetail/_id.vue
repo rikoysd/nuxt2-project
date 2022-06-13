@@ -8,7 +8,23 @@
         </detail-carousel>
         <v-row>
           <v-col>
-            <p class="carouselPlan">このホテルのプラン</p>
+            <span
+              v-show="vBasicInfo.hotelMinCharge"
+              class="carouselPlan fontSize"
+            >
+              このホテルの最安料金<br /><span class="hotelMinCharge"
+                >(2名)税込</span
+              >
+              <span class="font-weight-bold hotelMinCharge minChargeSize"
+                >{{ vBasicInfo.hotelMinCharge * 2 }}円</span
+              >
+              <v-btn
+                color="#65CC42"
+                class="minChargeBtn white--text font-weight-bold"
+                @click="goTo('cards')"
+                >プランを確認</v-btn
+              >
+            </span>
           </v-col>
         </v-row>
         <!-- ナビゲーションバー -->
@@ -16,7 +32,7 @@
           <v-toolbar color="#F5F5F5">
             <v-col cols="6">
               <v-tabs background-color="#F5F5F5" grow>
-                <v-tab @click="sheet = !sheet"> 宿泊・プラン</v-tab>
+                <v-tab @click="goTo('cards')"> 宿泊・プラン</v-tab>
                 <!-- <v-tab  to="#hotelInfo"> -->
                 <v-tab @click="goTo('hotelInfo')"> 宿の詳細</v-tab>
                 <v-tab @click="goTo('reviews')"> クチコミ</v-tab>
@@ -36,7 +52,7 @@
           <!-- 宿泊プラン -->
           <v-row>
             <v-col cols="12">
-              <v-card elevation="2" class="plansCard" tile>
+              <v-card elevation="2" class="plansCard" id="cards" tile>
                 <p class="title font-weight-bold">宿泊プラン</p>
                 <detail-plans
                   :plans="plans"
@@ -85,12 +101,14 @@ export default {
       hotelImage: "",
       // ホテル基本情報
       basicInfo: [],
+      vBasicInfo: [],
       // 住所
       address: "",
       // 宿泊プラン
       plans: [],
       // ホテル詳細情報
       detailInfo: [],
+      vDetailInfo: [],
       facilitiesInfo: [],
       policyInfo: [],
       otherInfo: [],
@@ -174,7 +192,8 @@ export default {
       this.vacantList.hotels[0].hotel[4].roomInfo,
       this.vacantList.hotels[0].hotel[5].roomInfo,
     ];
-    this.detailInfo = this.vacantList.hotels[0].hotel[1].hotelDetailInfo;
+    this.vDetailInfo = this.vacantList.hotels[0].hotel[1].hotelDetailInfo;
+    this.vBasicInfo = this.vacantList.hotels[0].hotel[0].hotelBasicInfo;
     console.log("plans", this.plans);
   },
   methods: {
@@ -226,7 +245,8 @@ v-btn {
   overflow: hidden;
 }
 .plansCard {
-  padding: 10px;
+  margin-top: 10px;
+  padding: 20px;
 }
 .planTitle {
   font-weight: 1000;
@@ -235,6 +255,7 @@ v-btn {
   object-fit: cover;
   height: auto;
   width: 150px;
+  border-radius: 5px;
 }
 address {
   background-color: antiquewhite;
@@ -247,6 +268,31 @@ address {
 .carouselPlan {
   position: absolute;
   top: 300px;
-  left: 900px;
+  left: 65%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  height: 80px;
+  width: 300px;
+  border-radius: 10px;
+  padding: 5px 7px;
+}
+.plansExplain {
+  margin-top: 10px;
+}
+.fontSize {
+  font-size: 12px;
+}
+.hotelMinCharge {
+  position: relative;
+  top: 15px;
+  left: 5px;
+}
+.minChargeSize {
+  font-size: 25px;
+}
+.minChargeBtn {
+  position: relative;
+  left: 10px;
+  top: 3px;
 }
 </style>

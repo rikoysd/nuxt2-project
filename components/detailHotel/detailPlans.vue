@@ -5,7 +5,7 @@
         <v-card elevation="2" class="planCard" tile>
           <v-row>
             <v-col cols="12">
-              <v-card-title class="subtitle-1 font-weight-bold">
+              <v-card-title class="planName font-weight-bold">
                 {{ plan[0].roomBasicInfo.planName }}
               </v-card-title>
             </v-col>
@@ -15,34 +15,47 @@
               <v-img class="planImg" :src="roomImage"></v-img>
             </v-col>
             <v-col cols="8">
-              <v-card-text class="body-2">
-                <p>{{ plan[0].roomBasicInfo.roomName }}</p>
-                <span v-if="plan[0].roomBasicInfo.withBreakfastFlag === 1">
+              <v-card-text>
+                <span class="planExplain">
+                  {{ plan[0].roomBasicInfo.roomName }} </span
+                ><br />
+                <span
+                  class="planExplain2"
+                  v-if="plan[0].roomBasicInfo.withBreakfastFlag === 1"
+                >
                   朝食あり
                 </span>
-                <span v-else>朝食なし</span>
-                <span v-if="plan[0].roomBasicInfo.withDinnerFlag === 1">
+                <span class="planExplain2" v-else>朝食なし</span>
+                <span
+                  class="planExplain2"
+                  v-if="plan[0].roomBasicInfo.withDinnerFlag === 1"
+                >
                   夕食あり
                 </span>
-                <span v-else>夕食なし</span>
-                <p>
-                  IN{{ detailInfo.checkinTime
-                  }}{{ exist(detailInfo.lastCheckinTime) }} OUT{{
-                    detailInfo.checkoutTime
+                <span class="planExplain2" v-else>夕食なし</span>
+                <span>
+                  IN{{ vDetailInfo.checkinTime
+                  }}{{ exist(vDetailInfo.lastCheckinTime) }} OUT{{
+                    vDetailInfo.checkoutTime
                   }}
-                </p>
+                </span>
                 <v-spacer />
-                <p class="text-right">
+                <span class="text-right planExplain2">
                   税込
                   <span class="text-h6 font-weight-bold">
                     {{ plan[1].dailyCharge.total * staySpan }}
                   </span>
                   円
-                </p>
+                </span>
               </v-card-text>
             </v-col>
             <v-col cols="2">
-              <v-btn color="#65CC42" @click="preReserve">詳細・予約</v-btn>
+              <v-btn
+                color="#65CC42"
+                class="white--text font-weight-bold"
+                @click="preReserve"
+                >詳細・予約</v-btn
+              >
             </v-col>
           </v-row>
         </v-card>
@@ -56,7 +69,8 @@ export default {
   props: {
     plans: { type: Array, default: [] },
     roomImage: { type: String, default: "" },
-    detailInfo: { default: "" },
+    vDetailInfo: { default: "" },
+
     staySpan: { type: Number, default: 0 },
     checkInDate: { type: String, default: "" },
     adultNum: { default: "" },
@@ -98,4 +112,18 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.planName {
+  font-size: 16px;
+}
+.planExplain {
+  font-size: 15px;
+}
+.planExplain2 {
+  font-size: 13px;
+}
+.planCard {
+  padding-left: 13px;
+  max-height: 190px;
+}
+</style>

@@ -143,9 +143,6 @@ export default {
   font-size: 15px;
   margin-bottom: 5px;
 }
-.fontSize {
-  font-size: 12px;
-}
 p {
   left: 0px;
 }
