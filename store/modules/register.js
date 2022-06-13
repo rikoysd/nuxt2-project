@@ -1,3 +1,6 @@
+import { doc, getFirestore, setDoc } from "firebase/firestore";
+import firebase from "../../plugins/firebase";
+
 export default {
   namespaced: true,
 
@@ -18,7 +21,38 @@ export default {
     },
   },
 
-  actions: {},
+  actions: {
+    /**
+     * ユーザー情報をfirebaseに登録する.
+     * @param {*} context - コンテキスト
+     * @param {*} payload - ユーザー情報
+     */
+    async registerUser(context, payload) {
+      const db = getFirestore(firebase);
+      try {
+        const docRef = await setDoc(
+          doc(db, "ユーザー一覧", String(payload.id)),
+          {
+            id: payload.id,
+            fullName1: payload.fullName1,
+            fullName2: payload.fullName2,
+            zipcode: payload.zipcode,
+            prefecture: payload.prefecture,
+            address: payload.address,
+            mailAddress: payload.mailAddress,
+            telephone: payload.telephone,
+            password: payload.password,
+          }
+        );
+        console.log(docRef);
+
+        // vuexにも保存する
+        context.commit("setUser", payload);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  },
 
   mutations: {
     /**
@@ -26,7 +60,7 @@ export default {
      * @param {*} state - ステート
      * @param {*} payload - ユーザー情報のオブジェクト
      */
-    registerUser(state, payload) {
+    setUser(state, payload) {
       state.userList.push(payload);
     },
     /**

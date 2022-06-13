@@ -158,6 +158,13 @@ export const actions = {
   searchHotel2(context, number) {
     context.dispatch("watchedList/searchHotel", number, { root: true });
   },
+  /** register.jsにユーザー情報を渡す.
+   * @param {*} state - ステート
+   * @param {*} object - ユーザー情報のオブジェクト
+   */
+  register(context, object) {
+    context.dispatch("register/registerUser", object, { root: true });
+  },
 }; // end actions
 
 export const mutations = {
@@ -236,14 +243,6 @@ export const mutations = {
     state.instituionInfo = { hotels: payload };
     // console.log(state.instituionInfo);
   },
-  /** register.jsにユーザー情報を渡す.
-   * @param {*} state - ステート
-   * @param {*} object - ユーザー情報のオブジェクト
-   */
-  register(state, object) {
-    this.commit("register/registerUser", object);
-  },
-
   /**
    * reserve.jsに予約情報を渡す.
    * @param {*} state - ステート
