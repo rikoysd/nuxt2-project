@@ -33,6 +33,7 @@ export default {
      */
     this.vacantData = this.$store.getters.getSearchResult;
     await this.$store.dispatch("searchVacantList", this.vacantData);
+    console.log(this.vacantData);
   },
   computed: {
     /**
