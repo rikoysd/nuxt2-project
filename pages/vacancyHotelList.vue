@@ -101,8 +101,8 @@
 export default {
   data() {
     return {
-      //apiに送るリクエストパラメータ
-      vacantData: {
+      // apiに送るリクエストパラメータ
+      vacantObject: {
         roomNum: 0, //部屋数
         middleClassCode: "", //都道府県
         smallClassCode: "", //主要な市町村
@@ -110,6 +110,7 @@ export default {
         checkinDate: 0, //チェックイン日
         checkoutDate: 0, //チェックアウト日
         adultNum: 0, //大人人数
+        page: 1, // 取得したいページ
       },
       // エラーメッセージ
       errorMessage: "",
@@ -129,8 +130,18 @@ export default {
     this.showResult = false;
 
     // リクエストパラメーターをapiにセットする
-    this.vacantData = this.$store.getters.getSearchResult;
-    await this.$store.dispatch("searchVacantList", this.vacantData);
+    let vacantData = this.$store.getters.getSearchResult;
+
+    this.vacantObject.roomNum = vacantData.roomNum;
+    this.vacantObject.middleClassCode = vacantData.middleClassCode;
+    this.vacantObject.smallClassCode = vacantData.smallClassCode;
+    this.vacantObject.detailClassCode = vacantData.detailClassCode;
+    this.vacantObject.checkinDate = vacantData.checkinDate;
+    this.vacantObject.checkoutDate = vacantData.checkoutDate;
+    this.vacantObject.adultNum = vacantData.adultNum;
+    this.vacantObject.page = 1;
+
+    await this.$store.dispatch("searchVacantList", this.vacantObject);
 
     // ローディング非表示
     this.loading = false;
@@ -148,6 +159,15 @@ export default {
     },
   },
   methods: {
+    /**
+     * ページを切り替える.
+     * @param - ページ番号
+     */
+    async getNumber(number) {
+      this.vacantObject.page = number;
+
+      await this.$store.dispatch("searchVacantList", this.vacantObject);
+    },
     /**
      * 詳細ページに遷移
      * @param - ホテル番号

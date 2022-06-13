@@ -192,6 +192,7 @@ export default {
     },
     /**
      * ページを切り替える.
+     * @param - ページ番号
      */
     async getNumber(number) {
       this.object.page = number;
