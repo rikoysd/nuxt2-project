@@ -80,7 +80,7 @@
               style="color: red"
               >&emsp;{{ checkInTimeError }}</span
             ><selectChecin @checkin="reserveCheckIn"></selectChecin>
-            <span style="color: red">*</span>宿泊人数 1室目 (大人{{ people }}名)
+            <span style="color: red">*</span>宿泊人数 1室目 (大人{{ adult }}名)
             <span style="color: red">&ensp;{{ manAndWomanError }}</span>
             <v-row class="gender"
               >男性&nbsp;<v-select
@@ -300,8 +300,10 @@ export default {
       mailAddress: "",
       // チェックイン時間
       checkInTime: "",
-      // 宿泊人数
-      people: 0,
+      // 宿泊人数（大人）
+      adult: 0,
+      // 宿泊人数（子供）
+      child: 0,
       // 男
       man: "",
       // 女
@@ -340,7 +342,7 @@ export default {
   }, //end data
 
   mounted() {
-    const reserveId = Number(this.$route.params.id);
+    // const reserveId = Number(this.$route.params.id);
   },
 
   methods: {

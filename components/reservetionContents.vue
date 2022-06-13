@@ -50,6 +50,7 @@
 
 <script>
 import { format } from "date-fns";
+import { de } from "date-fns/locale";
 
 export default {
   name: "reservetionContents",
@@ -93,7 +94,7 @@ export default {
       child: 0,
       // 部屋の種類
       room: "",
-      // リンク？
+      // プラン名
       plan: "",
       // 宿泊料金合計
       subPrice: 0,
@@ -143,7 +144,7 @@ export default {
       this.dinner = "夕食あり";
     }
     this.adult = reserveDetail.adultNum;
-    // this.child = reserveDetail.childNum;
+    this.child = reserveDetail.childNum;
     this.room = reserveDetail.roomName;
     this.plan = reserveDetail.planName;
   },
@@ -287,6 +288,7 @@ export default {
         reserveId += str;
       }
 
+      // storeに送るためのオブジェクト生成(予約者情報)
       let object = {
         reserveId: "",
         fullName1: "",
@@ -307,6 +309,22 @@ export default {
         card_name: "",
         other: "",
       };
+      // storeに送るためのオブジェクト生成(プラン詳細)
+      let detailObject = {
+        hotelName: "The Okura Tokyo",
+        formatDate: new Date(),
+        staySpan: 0,
+        breakfast: "",
+        dinner: "",
+        adult: 0,
+        child: 0,
+        room: "",
+        plan: "",
+        subPrice: 0,
+        totalPrice: 0,
+      };
+
+      // 作ったオブジェクトに情報を代入する
       object.reserveId = reserveId;
       object.fullName1 = this.fullName1;
       object.fullName2 = this.fullName2;
@@ -326,8 +344,21 @@ export default {
       object.card_name = this.card_name;
       object.other = this.other;
 
+      detailObject.hotelName = this.hotelName;
+      detailObject.formatDate = this.formatDate;
+      detailObject.staySpan = this.staySpan;
+      detailObject.breakfast = this.breakfast;
+      detailObject.dinner = this.dinner;
+      detailObject.adult = this.adult;
+      detailObject.child = this.child;
+      detailObject.room = this.room;
+      detailObject.plan = this.plan;
+      detailObject.subPrice = this.subPrice;
+      detailObject.totalPrice = this.totalPrice;
+
       // storeのmutationにobjectを渡す
       this.$store.commit("reserve", object);
+      this.$store.commit("reserve2", detailObject);
       this.$router.push("/reserveConfirm");
     },
   }, // end methods

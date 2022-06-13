@@ -4,6 +4,8 @@ export default {
   state: {
     // 予約情報
     reserveInfo: {},
+    // ホテル詳細情報
+    detailInfo: {},
   },
 
   actions: {},
@@ -16,13 +18,23 @@ export default {
      */
     reserveInfo(state, payload) {
       state.reserveInfo = payload;
-      console.log(state.reserveInfo);
+    },
+    /**
+     * ホテル詳細情報をstateに格納.
+     * @param {*} state - ステート
+     * @param {*} payload - ホテル詳細情報のオブジェクト
+     */
+    detailInfo(state, payload) {
+      state.detailInfo = payload;
     },
   },
 
   getters: {
     getReserveInfo(state) {
       return state.reserveInfo;
+    },
+    getDetailInfo(state) {
+      return state.detailInfo;
     },
   },
 };
