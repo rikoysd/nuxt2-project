@@ -40,7 +40,6 @@ export default {
   methods: {
     getDates(dates) {
       this.$emit("selectDates", dates);
-      console.log(dates);
     },
     addDates() {
       let array = [];

@@ -165,8 +165,6 @@ export default {
     addDates(date) {
       this.vacantData.checkinDate = date[0];
       this.vacantData.checkoutDate = date[1];
-      console.log(date[0]);
-      console.log(date[1]);
     },
     /**
      * 検索値をパラメーターに渡す.
