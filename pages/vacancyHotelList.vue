@@ -8,7 +8,7 @@
         color="primary"
       ></v-progress-circular>
       <div class="d-flex justify-center">
-        <div class="result">
+        <div v-show="showResult" class="result">
           <div class="record-count">
             対象施設：{{ Number(getPageInfo.recordCount).toLocaleString() }}件
           </div>
@@ -101,12 +101,14 @@ export default {
       pageInfo: {},
       // ホテル一覧
       hotelList: [],
+      // 検索結果の表示・非表示
+      showResult: false,
     };
   },
   async mounted() {
-    /**
-     * リクエストパラメーターをapiにセットする.
-     */
+    this.showResult = false;
+
+    // リクエストパラメーターをapiにセットする
     this.vacantData = this.$store.getters.getSearchResult;
     await this.$store.dispatch("searchVacantList", this.vacantData);
 
@@ -118,9 +120,10 @@ export default {
     hotelList() {
       if (this.hotelList.length === 0) {
         this.loading = true;
-        // this.showResult = true;
+        this.showResult = false;
       } else {
         this.loading = false;
+        this.showResult = true;
       }
     },
   },
