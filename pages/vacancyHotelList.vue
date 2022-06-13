@@ -147,6 +147,15 @@ export default {
       }
     },
   },
+  methods: {
+    /**
+     * 詳細ページに遷移
+     * @param - ホテル番号
+     */
+    showHotelDetail(number) {
+      this.$router.push(`/hotelDetailvs/${number}`);
+    },
+  },
   computed: {
     /**
      * 空室検索のエラー情報を取得.
