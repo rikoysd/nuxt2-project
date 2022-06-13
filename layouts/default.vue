@@ -11,10 +11,7 @@
 </template>
 
 <script>
-import vacantSearch from "../components/vacantSearch.vue";
 export default {
-  components: { vacantSearch },
-  name: "DefaultLayout",
   data() {
     return {};
   },

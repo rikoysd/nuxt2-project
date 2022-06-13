@@ -93,6 +93,7 @@ export default {
         adultNum: this.adultNum,
       });
       console.log(this.$store.state.preReserveData);
+      this.$router.push("/reserveForm");
     },
   },
 };
