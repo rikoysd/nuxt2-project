@@ -323,10 +323,10 @@ export default {
       object.password = this.password;
 
       // 登録情報を送信する
-      this.$store.commit("register", object);
+      // this.$store.commit("register", object);
 
       // ログインページに遷移
-      this.$router.push("/login");
+      // this.$router.push("/login");
     },
   },
   computed: {},
