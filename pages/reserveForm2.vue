@@ -342,7 +342,8 @@ export default {
   }, //end data
 
   mounted() {
-    // const reserveId = Number(this.$route.params.id);
+    const reserveId = Number(this.$route.params.id);
+    console.log(reserveId);
   },
 
   methods: {

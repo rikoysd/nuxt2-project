@@ -54,6 +54,7 @@
 <script>
 export default {
   props: {
+    basicInfo: { default: "" },
     plans: { type: Array, default: [] },
     roomImage: { type: String, default: "" },
     detailInfo: { default: "" },
@@ -82,6 +83,7 @@ export default {
     preReserve() {
       const plan = this.plans[0];
       this.$store.commit("setPreReserveData", {
+        hotelName: this.basicInfo.hotelName,
         checkInDate: this.checkInDate,
         staySpan: this.staySpan,
         withDinnerFlag: plan[0].roomBasicInfo.withDinnerFlag,

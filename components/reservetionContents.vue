@@ -77,7 +77,7 @@ export default {
   data() {
     return {
       // ホテル名
-      hotelName: "The Okura Tokyo",
+      hotelName: "",
       // チェックイン日
       date: "",
       // フォーマット化したチェックイン日
@@ -128,6 +128,7 @@ export default {
     let reserveDetail = {};
     reserveDetail = this.$store.getters.getPreReserveData;
     console.log(reserveDetail);
+    this.hotelName = reserveDetail.hotelName;
     this.date = reserveDetail.checkInDate;
     this.formatDate = format(new Date(this.date), "yyyy年MM月dd日");
     this.staySpan = reserveDetail.staySpan;
