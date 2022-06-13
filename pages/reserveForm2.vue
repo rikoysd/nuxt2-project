@@ -1,3 +1,5 @@
+<!--このファイルはもしかしたらいらないかも？-->
+
 <template>
   <div class="d-flex justify-center">
     <div class="whole">
@@ -260,6 +262,8 @@ export default {
   },
   data() {
     return {
+      // 予約者ID
+      reserveId: 0,
       // フルネーム（氏名）のエラー
       fullName1Error: "",
       // フルネーム（かな）のエラー
@@ -345,8 +349,9 @@ export default {
    * 非同期処理.
    */
   mounted() {
-    const reserveId = Number(this.$route.params.id);
-    console.log(reserveId);
+    console.log("call");
+    this.reserveId = Number(this.$route.params.id);
+    console.log(this.reserveId);
   },
 
   methods: {
