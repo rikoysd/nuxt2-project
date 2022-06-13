@@ -2,6 +2,11 @@
   <div class="d-flex justify-center">
     <div class="whole">
       <div>{{ getSearchError }}</div>
+      <v-progress-circular
+        v-show="loading"
+        :value="60"
+        color="primary"
+      ></v-progress-circular>
       <div class="d-flex justify-center">
         <div class="result">
           <div class="record-count">
@@ -90,6 +95,12 @@ export default {
       },
       // エラーメッセージ
       errorMessage: "",
+      // ローディング
+      loading: false,
+      // ページ情報
+      pageInfo: {},
+      // ホテル一覧
+      hotelList: [],
     };
   },
   async mounted() {
@@ -98,6 +109,20 @@ export default {
      */
     this.vacantData = this.$store.getters.getSearchResult;
     await this.$store.dispatch("searchVacantList", this.vacantData);
+
+    // ローディング非表示
+    this.loading = false;
+  },
+  watch: {
+    // ホテル一覧の変数を監視する
+    hotelList() {
+      if (this.hotelList.length === 0) {
+        this.loading = true;
+        // this.showResult = true;
+      } else {
+        this.loading = false;
+      }
+    },
   },
   computed: {
     /**
@@ -115,14 +140,15 @@ export default {
      * ホテル一覧を取得.
      */
     getHotelList() {
-      return this.$store.getters.getHotelList;
+      this.hotelList = this.$store.getters.getHotelList;
+      return this.hotelList;
     },
     /**
      * ページ情報を取得.
      */
     getPageInfo() {
-      console.log(this.$store.getters.getPageInfo);
-      return this.$store.getters.getPageInfo;
+      this.pageInfo = this.$store.getters.getPageInfo;
+      return this.pageInfo;
     },
   },
 };
