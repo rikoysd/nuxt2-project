@@ -2,7 +2,6 @@ import Vuex from "vuex";
 import Vue from "vue";
 import searchInstitution from "./modules/searchInstitution";
 import axios1 from "axios";
-import axios from "@nuxtjs/axios";
 import register from "./modules/register";
 import keyword from "./modules/keyword";
 import reserve from "./modules/reserve";

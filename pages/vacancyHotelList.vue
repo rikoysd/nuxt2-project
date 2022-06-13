@@ -1,13 +1,6 @@
 <template>
   <div class="d-flex justify-center">
     <div class="whole">
-      <!-- <v-col v-for="hotel of getResultList" :key="hotel.id">
-      <p>{{ hotel.hotel[0].hotelBasicInfo.hotelName }}</p>
-      <p>最低料金{{ hotel.hotel[0].hotelBasicInfo.hotelMinCharge }}円~</p>
-      <p>{{ hotel.hotel[1].hotelDetailInfo.areaName }}</p>
-      <p>{{ hotel.hotel[0].hotelBasicInfo.hotelImageUrl }}</p>
-      <p>{{ hotel.hotel[0].hotelBasicInfo.userReview }}</p>
-    </v-col> -->
       <div>{{ getSearchError }}</div>
       <v-row>
         <v-col
