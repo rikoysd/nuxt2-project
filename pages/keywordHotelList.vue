@@ -24,7 +24,8 @@
           <div class="text-center">
             <v-pagination
               v-model="page"
-              :length="5"
+              :length="getPageInfo.pageCount"
+              :total-visible="7"
               @input="getNumber"
             ></v-pagination>
           </div>
@@ -101,7 +102,8 @@
           <div class="text-center">
             <v-pagination
               v-model="page"
-              :length="5"
+              :length="getPageInfo.pageCount"
+              :total-visible="7"
               @input="getNumber"
             ></v-pagination>
           </div>

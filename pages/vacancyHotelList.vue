@@ -9,6 +9,15 @@
       ></v-progress-circular>
       <div class="d-flex justify-center">
         <div v-show="showResult" class="result">
+          <!-- ページネーション -->
+          <div class="text-center">
+            <v-pagination
+              v-model="page"
+              :length="getPageInfo.pageCount"
+              :total-visible="7"
+              @input="getNumber"
+            ></v-pagination>
+          </div>
           <div class="record-count">
             対象施設：{{ Number(getPageInfo.recordCount).toLocaleString() }}件
           </div>
@@ -74,6 +83,15 @@
               </v-card>
             </v-col>
           </v-row>
+          <!-- ページネーション -->
+          <div class="text-center">
+            <v-pagination
+              v-model="page"
+              :length="getPageInfo.pageCount"
+              :total-visible="7"
+              @input="getNumber"
+            ></v-pagination>
+          </div>
         </div>
       </div>
     </div>
@@ -103,6 +121,8 @@ export default {
       hotelList: [],
       // 検索結果の表示・非表示
       showResult: false,
+      // ページ
+      page: 1,
     };
   },
   async mounted() {
