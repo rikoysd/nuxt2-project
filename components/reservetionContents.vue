@@ -5,11 +5,13 @@
 
       <div class="plans" style="background-color: white">
         <span style="font-weight: bold">日付・食事</span>&nbsp;&nbsp;<v-col
-          >{{ date }}〜{{ staySpan }}泊</v-col
+          >{{ formatDate }}〜{{ staySpan }}泊<br />
+          {{ breakfast }}・{{ dinner }}</v-col
         ><br />
-        <span style="font-weight: bold">人数室数</span>&nbsp;&nbsp;<v-col>{{
-          peopleAndRooms
-        }}</v-col
+        <span style="font-weight: bold">人数室数</span>&nbsp;&nbsp;<v-col
+          >大人{{ adult }}名
+          <span v-if="1 <= child">子供{{ child }}名</span>
+          1室</v-col
         ><br />
         <span style="font-weight: bold">部屋</span>&nbsp;&nbsp;<v-col>{{
           room
@@ -47,6 +49,8 @@
 </template>
 
 <script>
+import { format } from "date-fns";
+
 export default {
   name: "reservetionContents",
   props: {
@@ -75,18 +79,22 @@ export default {
       hotelName: "The Okura Tokyo",
       // チェックイン日
       date: "",
+      // フォーマット化したチェックイン日
+      formatDate: new Date(),
       // 宿泊日数
       staySpan: 0,
       // 朝食
       breakfast: "",
       // 夕食
       dinner: "",
-      // 宿泊人数
-      peopleAndRooms: "大人2名 1室",
+      // 宿泊人数（大人）
+      adult: 0,
+      // 宿泊人数（子供）
+      child: 0,
       // 部屋の種類
       room: "",
       // リンク？
-      plan: "ホテルのリンクを貼る（？）",
+      plan: "",
       // 宿泊料金合計
       subPrice: 0,
       // お支払い金額
@@ -120,10 +128,24 @@ export default {
     reserveDetail = this.$store.getters.getPreReserveData;
     console.log(reserveDetail);
     this.date = reserveDetail.checkInDate;
+    this.formatDate = format(new Date(this.date), "yyyy年MM月dd日");
     this.staySpan = reserveDetail.staySpan;
     this.breakfast = reserveDetail.withBreakfastFlag;
+    if (this.breakfast === 0) {
+      this.breakfast = "朝食なし";
+    } else {
+      this.breakfast = "朝食あり";
+    }
     this.dinner = reserveDetail.withDinnerFlag;
+    if (this.dinner === 0) {
+      this.dinner = "夕食なし";
+    } else {
+      this.dinner = "夕食あり";
+    }
+    this.adult = reserveDetail.adultNum;
+    // this.child = reserveDetail.childNum;
     this.room = reserveDetail.roomName;
+    this.plan = reserveDetail.planName;
   },
 
   methods: {
