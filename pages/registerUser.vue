@@ -68,6 +68,9 @@
         outlined
       ></v-text-field>
       <v-row justify="center">
+        <div class="error-msg">{{ getError }}</div>
+      </v-row>
+      <v-row justify="center">
         <v-btn
           class="register-btn"
           color="primary"
@@ -128,6 +131,8 @@ export default {
       errors: [],
       // ユーザー一覧
       userList: [],
+      // エラーメッセージ
+      errorMessage: "",
     };
   },
   mounted() {
@@ -329,7 +334,19 @@ export default {
       this.$router.push("/login");
     },
   },
-  computed: {},
+  computed: {
+    /**
+     * エラー判定を取得.
+     */
+    getError() {
+      if (this.$store.getters["register/getErrorFlag"] === true) {
+        this.errorMessage = "エラーが発生したため登録できませんでした";
+      } else {
+        this.errorMessage = "";
+      }
+      return this.errorMessage;
+    },
+  },
 };
 </script>
 
@@ -344,8 +361,12 @@ export default {
   margin: 60px 0;
 }
 
-.register-btn {
+.error-msg {
   margin-top: 30px;
+}
+
+.register-btn {
+  margin-top: 10px;
 }
 
 span {

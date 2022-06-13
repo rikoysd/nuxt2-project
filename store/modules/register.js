@@ -25,6 +25,8 @@ export default {
       telephone: "",
       password: "",
     },
+    // エラーフラグ
+    flag: false,
   },
 
   actions: {
@@ -36,7 +38,8 @@ export default {
     async registerUser(context, payload) {
       const db = getFirestore(firebase);
       try {
-        const docRef = await setDoc(
+        // ユーザー一覧を登録する
+        const docRef1 = await setDoc(
           doc(db, "ユーザー一覧", String(payload.id)),
           {
             id: payload.id,
@@ -50,12 +53,31 @@ export default {
             password: payload.password,
           }
         );
-        console.log(docRef);
+        // console.log(docRef1);
+
+        // エラー判定を登録する
+        const docRef2 = await setDoc(
+          doc(db, "エラー判定", "ユーザー登録エラー"),
+          {
+            flag: false,
+          }
+        );
+        // console.log(docRef2);
 
         // vuexにも保存する
         context.commit("setUser", payload);
+        context.commit("changeFlag", false);
       } catch (error) {
         console.error(error);
+
+        // エラー判定を登録する
+        const docRef2 = await setDoc(
+          doc(db, "エラー判定", "ユーザー登録エラー"),
+          {
+            flag: true,
+          }
+        );
+        commit("changeFlag", true);
       }
     },
     /**
@@ -124,6 +146,14 @@ export default {
         password: "",
       };
     },
+    /**
+     * エラー判定を切り替える.
+     * @param {*} state - ステート
+     * @param {*} payload - フラグの真偽
+     */
+    changeFlag(state, payload) {
+      state.flag = payload;
+    },
   },
 
   getters: {
@@ -138,6 +168,14 @@ export default {
 
     getLoginUser(state) {
       return state.loginUser;
+    },
+    /**
+     * エラー判定を取得.
+     * @param {*} state - ステート
+     * @returns エラー判定
+     */
+    getErrorFlag(state) {
+      return state.flag;
     },
   },
 };
