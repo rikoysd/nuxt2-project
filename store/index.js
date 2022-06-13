@@ -159,11 +159,18 @@ export const actions = {
     context.dispatch("watchedList/searchHotel", number, { root: true });
   },
   /** register.jsにユーザー情報を渡す.
-   * @param {*} state - ステート
+   * @param {*} context - コンテキスト
    * @param {*} object - ユーザー情報のオブジェクト
    */
   register(context, object) {
     context.dispatch("register/registerUser", object, { root: true });
+  },
+  /**
+   * ユーザー一覧を取得する.
+   * @param {*} context - コンテキスト
+   */
+  getUserList(context) {
+    context.dispatch("register/getUser");
   },
 }; // end actions
 

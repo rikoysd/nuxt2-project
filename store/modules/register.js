@@ -1,4 +1,10 @@
-import { doc, getFirestore, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  getFirestore,
+  setDoc,
+} from "firebase/firestore";
 import firebase from "../../plugins/firebase";
 
 export default {
@@ -52,16 +58,47 @@ export default {
         console.error(error);
       }
     },
+    /**
+     * firebaseからユーザー一覧を取得する.
+     * @param {*} context - コンテキスト
+     */
+    async getUser(context) {
+      const db = getFirestore(firebase);
+      try {
+        const userList = collection(db, "ユーザー一覧");
+        await getDocs(userList).then((snapShot) => {
+          const data = snapShot.docs.map((doc) => ({ ...doc.data() }));
+          // console.log(data);
+
+          let users = [];
+          for (let user of data) {
+            users.push(user);
+          }
+
+          context.commit("setUser2", users);
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    },
   },
 
   mutations: {
     /**
-     * ユーザー情報をstateに格納.
+     * 登録されたユーザー情報をstateに格納.
      * @param {*} state - ステート
      * @param {*} payload - ユーザー情報のオブジェクト
      */
     setUser(state, payload) {
       state.userList.push(payload);
+    },
+    /**
+     * firebaseから取得したユーザー情報をstateに格納.
+     * @param {*} state - ステート
+     * @param {*} payload - ユーザー情報のオブジェクト
+     */
+    setUser2(state, payload) {
+      state.userList = payload;
     },
     /**
      * ログイン中のユーザー情報をstateに格納.
@@ -98,6 +135,7 @@ export default {
     getUserList(state) {
       return state.userList;
     },
+
     getLoginUser(state) {
       return state.loginUser;
     },

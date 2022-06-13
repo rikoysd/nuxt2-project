@@ -49,7 +49,12 @@ export default {
       submitError: "",
       // 入力時のパスワード非表示
       show3: false,
+      // ユーザー一覧
+      userList: [],
     };
+  },
+  mounted() {
+    this.$store.dispatch("getUserList");
   },
   methods: {
     /**
@@ -116,7 +121,15 @@ export default {
       this.$router.push("/");
     },
   },
-  computed: {},
+  computed: {
+    /**
+     * ユーザー一覧を取得.
+     */
+    getUsers() {
+      this.userList = this.$store.getters["register/getUserList"];
+      return this.userList;
+    },
+  },
 };
 </script>
 

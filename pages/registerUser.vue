@@ -326,7 +326,7 @@ export default {
       this.$store.dispatch("register", object);
 
       // ログインページに遷移
-      // this.$router.push("/login");
+      this.$router.push("/login");
     },
   },
   computed: {},
