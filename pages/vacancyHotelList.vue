@@ -78,6 +78,7 @@
                   >
                   <favorite-button
                     :hotelNum="hotel.hotel[0].hotelBasicInfo.hotelNo"
+                    :loginUser="loginUser2"
                   ></favorite-button>
                 </v-card-actions>
               </v-card>
@@ -99,6 +100,9 @@
 </template>
 <script>
 export default {
+  props: {
+    loginUser2: {},
+  },
   data() {
     return {
       // apiに送るリクエストパラメータ
