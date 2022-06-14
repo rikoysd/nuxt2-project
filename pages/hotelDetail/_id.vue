@@ -2,7 +2,15 @@
   <div class="d-flex justify-center">
     <div>
       <div>
-        {{ detailInfo.areaName + ">" + basicInfo.hotelName }}
+        <v-row>
+          <v-col class="fontSize">
+            <span v-show="detailInfo.areaName">{{
+              detailInfo.areaName + ">"
+            }}</span>
+            {{ basicInfo.hotelName }}
+          </v-col>
+        </v-row>
+
         <!-- カルーセル -->
         <detail-carousel class="detailCarousel" :slides="slides">
         </detail-carousel>
@@ -258,7 +266,6 @@ v-btn {
   border-radius: 5px;
 }
 
-
 .whole {
   width: 80%;
   margin: 60px 0;
@@ -292,5 +299,8 @@ v-btn {
   position: relative;
   left: 10px;
   top: 3px;
+}
+.fontSize {
+  font-size: 15px;
 }
 </style>

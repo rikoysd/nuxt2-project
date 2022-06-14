@@ -15,8 +15,8 @@
             </v-col>
           </v-row>
           <v-row>
-            <v-col cols="2" class="planImg">
-              <v-img class="planImg" :src="roomImage"></v-img>
+            <v-col cols="2">
+              <v-img class="planImg" height="90px" :src="roomImage"></v-img>
             </v-col>
             <v-col cols="8">
               <v-card-text>

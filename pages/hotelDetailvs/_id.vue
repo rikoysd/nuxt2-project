@@ -2,7 +2,11 @@
   <div class="d-flex justify-center">
     <div>
       <div>
-        {{ basicInfo.hotelName }}
+        <v-row>
+          <v-col class="fontSize">
+            {{ basicInfo.hotelName }}
+          </v-col>
+        </v-row>
         <!-- カルーセル -->
         <detail-carousel class="detailCarousel" :slides="slides">
         </detail-carousel>
@@ -413,5 +417,8 @@ v-btn {
 }
 .navigationDrawer {
   width: 50vw;
+}
+.fontSize {
+  font-size: 15px;
 }
 </style>
