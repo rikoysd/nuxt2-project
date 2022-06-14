@@ -69,6 +69,9 @@
 </template>
 
 <script>
+import { doc, deleteDoc, getFirestore } from "firebase/firestore";
+import firebase from "@/plugins/firebase";
+
 export default {
   props: {
     loginUser: {
@@ -100,12 +103,16 @@ export default {
     /**
      * マイページのメニューを選択する.
      */
-    myPageAction(number) {
+    async myPageAction(number) {
       if (number === 0) {
+        // マイページ
         this.$nuxt.$emit("sendUserInfo", this.loginUser);
         this.$router.push("/mypage");
       } else {
-        // this.$store.commit("deleteUser");
+        // ログアウト
+        const db = getFirestore(firebase);
+        await deleteDoc(doc(db, "ログインユーザー", String(this.loginUser.id)));
+        this.$router.push("/");
       }
     },
   },

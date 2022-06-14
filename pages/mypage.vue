@@ -175,9 +175,6 @@ export default {
     };
   },
   mounted() {
-    console.log(this.loginUser2);
-    // this.loginUser = this.$store.getters["register/getLoginUser"];
-
     // // ログインしていなかったらログインページへ誘導
     // if (this.loginUser.id === 0) {
     //   this.$router.push("/login");
