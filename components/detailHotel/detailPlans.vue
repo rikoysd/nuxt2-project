@@ -72,6 +72,7 @@
 import { format } from "date-fns";
 export default {
   props: {
+    basicInfo: { default: "" },
     plans: { type: Array, default: [] },
     roomImage: { type: String, default: "" },
     vDetailInfo: { default: "" },
@@ -99,7 +100,16 @@ export default {
     },
     preReserve() {
       const plan = this.plans[0];
+      // 予約情報IDの生成
+      let reserveId = "";
+      for (let i = 0; i < 7; i++) {
+        let num = Math.floor(Math.random() * 10) + 11;
+        let str = String(num);
+        reserveId += str;
+      }
       this.$store.commit("setPreReserveData", {
+        reserveId: reserveId,
+        hotelName: this.basicInfo.hotelName,
         checkInDate: this.checkInDate,
         staySpan: this.staySpan,
         withDinnerFlag: plan[0].roomBasicInfo.withDinnerFlag,
@@ -109,8 +119,11 @@ export default {
         // 0:現金1:クレジットカード / 現金2:クレジットカード
         payment: plan[0].roomBasicInfo.payment,
         adultNum: this.adultNum,
+        subPrice: plan[1].dailyCharge.total * this.staySpan,
+        totalPrice: plan[1].dailyCharge.total * this.staySpan,
       });
       console.log(this.$store.state.preReserveData);
+      this.$router.push(`/reserveForm/${reserveId}`);
     },
   },
   computed: {

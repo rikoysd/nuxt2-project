@@ -83,7 +83,7 @@
           style="color: red"
           >&emsp;{{ checkInTimeError }}</span
         ><selectChecin @checkin="reserveCheckIn"></selectChecin>
-        <span style="color: red">*</span>宿泊人数 1室目 (大人{{ people }}名)
+        <span style="color: red">*</span>宿泊人数 1室目 (大人{{ adult }}名)
         <span style="color: red">&ensp;{{ manAndWomanError }}</span>
         <v-row class="gender"
           >男性&nbsp;<v-select
@@ -253,6 +253,8 @@ export default {
   },
   data() {
     return {
+      // 予約者ID
+      reserveId: 0,
       // フルネーム（氏名）のエラー
       fullName1Error: "",
       // フルネーム（かな）のエラー
@@ -293,8 +295,10 @@ export default {
       mailAddress: "",
       // チェックイン時間
       checkInTime: "",
-      // 宿泊人数
-      people: 0,
+      // 宿泊人数（大人）
+      adult: 0,
+      // 宿泊人数（子供）
+      child: 0,
       // 男
       man: "",
       // 女
@@ -331,6 +335,18 @@ export default {
       },
     };
   }, //end data
+
+  /**
+   * 非同期処理.
+   */
+  mounted() {
+    // this.reserveId = Number(this.$route.params.id);
+    // console.log(resereveId);
+    let reserveDetail = {};
+    reserveDetail = this.$store.getters.getPreReserveData;
+    this.adult = reserveDetail.adultNum;
+    // this.child = reserveDetail.childNum;
+  },
 
   methods: {
     /**
@@ -405,8 +421,6 @@ export default {
       this.creditFlag = creditObject.creditFlag;
     },
   }, // end methods
-
-  computed: {}, // end computed
 };
 </script>
 

@@ -254,7 +254,6 @@ export const mutations = {
   register(state, object) {
     this.commit("register/registerUser", object);
   },
-
   /**
    * reserve.jsに予約情報を渡す.
    * @param {*} state - ステート
@@ -263,7 +262,14 @@ export const mutations = {
   reserve(state, object) {
     this.commit("reserve/reserveInfo", object);
   },
-
+  /**
+   * reserve.jsにホテル詳細情報を渡す.
+   * @param {*} state - ステート
+   * @param {*} object - ホテル詳細情報のオブジェクト
+   */
+  reserve2(state, detailObject) {
+    this.commit("reserve/detailInfo", detailObject);
+  },
   /**
    * keyword.jsにエラー判定を渡す.
    * @param {*} state - ステート
@@ -369,6 +375,12 @@ export const getters = {
    */
   getSearchResult(state) {
     return state.searchResult;
+  },
+  /**
+   * 予約情報入力フォームに反映させる詳細情報.
+   */
+  getPreReserveData(state) {
+    return state.preReserveData;
   },
 };
 

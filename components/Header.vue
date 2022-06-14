@@ -76,25 +76,29 @@ export default {
       items: [{ title: "マイページ" }, { title: "ログアウト" }],
       closeOnContentClick: true,
     };
-  },
+  }, // end data
+
   methods: {
     /**
      * お気に入り一覧を見る.
      */
     favoriteList() {
-      this.$router.push("/mypage");
+      // 一時的に左辺を書き換えてます。
+      window.location.href = "/mypage";
     },
     /**
      * マイページのメニューを選択する.
      */
     myPageAction(number) {
       if (number === 0) {
-        this.$router.push("/mypage");
+        // 一時的に左辺を書き換えてます。（ログイン状態は保持されない）
+        window.location.href = "/reserveForm";
       } else {
         this.$store.commit("deleteUser");
       }
     },
-  },
+  }, // end methods
+
   computed: {
     /**
      * アイコンの切り替え.
@@ -107,7 +111,7 @@ export default {
       }
       return this.flag;
     },
-  },
+  }, // end computed
 };
 </script>
 

@@ -63,6 +63,7 @@
               <v-card elevation="2" class="plansCard" id="cards" tile>
                 <p class="title font-weight-bold">宿泊プラン</p>
                 <detail-plans
+                  :basicInfo="basicInfo"
                   :plans="plans"
                   :roomImage="roomImage"
                   :vDetailInfo="vDetailInfo"
