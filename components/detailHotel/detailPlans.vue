@@ -1,5 +1,9 @@
 <template>
   <div>
+    <span class="planExplain">
+      検索条件：宿泊日時 {{ getCheckInDate + "~" }} 宿泊日数
+      {{ staySpan + "泊" }} 宿泊人数 {{ adultNum + "人" }}</span
+    >
     <v-row v-for="(plan, i) of plans" :key="i">
       <v-col id="plans" cols="12">
         <v-card elevation="2" class="planCard" tile>
@@ -65,12 +69,12 @@
 </template>
 
 <script>
+import { format } from "date-fns";
 export default {
   props: {
     plans: { type: Array, default: [] },
     roomImage: { type: String, default: "" },
     vDetailInfo: { default: "" },
-
     staySpan: { type: Number, default: 0 },
     checkInDate: { type: String, default: "" },
     adultNum: { default: "" },
@@ -107,6 +111,11 @@ export default {
         adultNum: this.adultNum,
       });
       console.log(this.$store.state.preReserveData);
+    },
+  },
+  computed: {
+    getCheckInDate() {
+      return format(new Date(this.checkInDate), "yyyy年MM月dd日");
     },
   },
 };

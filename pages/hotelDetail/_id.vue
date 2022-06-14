@@ -57,7 +57,7 @@
                 <detail-plans
                   :plans="plans"
                   :roomImage="roomImage"
-                  :detailInfo="detailInfo"
+                  :vDetailInfo="vDetailInfo"
                   :staySpan="staySpan"
                   :checkInDate="checkinDate"
                   :adultNum="adultNum"

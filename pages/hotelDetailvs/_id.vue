@@ -250,6 +250,7 @@ export default {
     async sendReserveData(data) {
       this.circularFlag = true;
       this.plans = [];
+      this.vacantList = [];
       // console.log(data);
       this.staySpan = this.getStaySpan;
       // console.log(this.staySpan);
@@ -265,7 +266,9 @@ export default {
       this.vacantList = this.$store.getters.getVacantList;
       console.log("空室情報", this.vacantList);
       this.circularFlag = false;
-      if (this.vacantList.hotels !== undefined) {
+      if (this.vacantList.hotels !== "" && this.vacantList !== undefined) {
+        console.log("true");
+        console.log(this.vacantList.hotels);
         this.vacantList = this.$store.getters.getVacantList;
         console.log("空室情報", this.vacantList);
         const hotelBasicInfo =
@@ -280,8 +283,8 @@ export default {
         this.vBasicInfo = this.vacantList.hotels[0].hotel[0].hotelBasicInfo;
         // console.log("plans", this.detailInfo);
       } else {
+        this.plans = [];
         this.listShow = false;
-        alert("エラー");
       }
     },
     /**
