@@ -11,7 +11,7 @@
 
       <div class="flex-grow-1"></div>
 
-      <div v-if="changeFlag === true">
+      <div v-if="flag === true">
         <v-menu top :close-on-content-click="closeOnContentClick">
           <template v-slot:activator="{ on, attrs }">
             <v-btn icon color="white" v-bind="attrs" v-on="on">
@@ -91,7 +91,33 @@ export default {
       flag: false,
       items: [{ title: "マイページ" }, { title: "ログアウト" }],
       closeOnContentClick: true,
+      // ログインユーザー
+      loginUser2: {},
     };
+  },
+  // mounted() {
+  //   this.loginUser2 = this.loginUser;
+  //   console.log(this.loginUser2);
+  // },
+  watch: {
+    loginUser() {
+      if (this.loginUser === {}) {
+        console.log("ログインしてない");
+        this.flag = false;
+      } else {
+        console.log("ログイン中");
+        this.flag = true;
+      }
+    },
+    loginUser2() {
+      if (this.loginUser2.mailAddress === "") {
+        console.log("ログインしてない");
+        this.flag = false;
+      } else {
+        console.log("ログイン中");
+        this.flag = true;
+      }
+    },
   },
   methods: {
     /**
@@ -104,14 +130,22 @@ export default {
      * マイページのメニューを選択する.
      */
     async myPageAction(number) {
+      this.loginUser2 = this.loginUser;
+      console.log(this.loginUser2);
       if (number === 0) {
         // マイページ
-        this.$nuxt.$emit("sendUserInfo", this.loginUser);
+        this.$nuxt.$emit("sendUserInfo", this.loginUser2);
         this.$router.push("/mypage");
       } else {
         // ログアウト
         const db = getFirestore(firebase);
-        await deleteDoc(doc(db, "ログインユーザー", String(this.loginUser.id)));
+        await deleteDoc(
+          doc(db, "ログインユーザー", String(this.loginUser2.id))
+        );
+
+        // ログインユーザー初期化
+        this.loginUser2 = {};
+        // トップに戻る
         this.$router.push("/");
       }
     },
@@ -120,14 +154,16 @@ export default {
     /**
      * アイコンの切り替え.
      */
-    changeFlag() {
-      if (this.loginUser.id === 0) {
-        this.flag = false;
-      } else {
-        this.flag = true;
-      }
-      return this.flag;
-    },
+    // changeFlag() {
+    //   if (this.loginUser2 === {}) {
+    //     console.log("ログインしてない");
+    //     this.flag = false;
+    //   } else {
+    //     console.log("ログイン中");
+    //     this.flag = true;
+    //   }
+    //   return this.flag;
+    // },
   },
 };
 </script>
