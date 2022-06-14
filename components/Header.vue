@@ -69,13 +69,40 @@
 </template>
 
 <script>
+import {
+  collection,
+  doc,
+  getDocs,
+  getFirestore,
+  setDoc,
+} from "firebase/firestore";
+import firebase from "@/plugins/firebase";
 export default {
   data() {
     return {
       flag: false,
       items: [{ title: "マイページ" }, { title: "ログアウト" }],
       closeOnContentClick: true,
+      // ログインユーザー
+      loginUser: [],
     };
+  },
+  async mounted() {
+    // ログインユーザーを取得する
+    const db = getFirestore(firebase);
+    try {
+      const listData = collection(db, "ログインユーザー");
+      await getDocs(listData).then((snapShot) => {
+        const data = snapShot.docs.map((doc) => ({ ...doc.data() }));
+        console.log(data);
+
+        for (let user of data) {
+          this.loginUser.push(user);
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
   },
   methods: {
     /**

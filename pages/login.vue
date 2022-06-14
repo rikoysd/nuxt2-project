@@ -189,15 +189,7 @@ export default {
       }
     },
   },
-  computed: {
-    /**
-     * ユーザー一覧を取得.
-     */
-    getUsers() {
-      this.userList = this.$store.getters["register/getUserList"];
-      return this.userList;
-    },
-  },
+  computed: {},
 };
 </script>
 
