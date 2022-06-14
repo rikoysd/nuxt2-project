@@ -68,9 +68,6 @@
         outlined
       ></v-text-field>
       <v-row justify="center">
-        <div class="error-msg">{{ getError }}</div>
-      </v-row>
-      <v-row justify="center">
         <v-btn
           class="register-btn"
           color="primary"
@@ -150,7 +147,7 @@ export default {
       const listData = collection(db, "ユーザー一覧");
       await getDocs(listData).then((snapShot) => {
         const data = snapShot.docs.map((doc) => ({ ...doc.data() }));
-        console.log(data);
+        // console.log(data);
 
         for (let user of data) {
           this.userList.push(user);
@@ -348,19 +345,7 @@ export default {
       this.$router.push("/login");
     },
   },
-  computed: {
-    /**
-     * エラー判定を取得.
-     */
-    getError() {
-      if (this.$store.getters["register/getErrorFlag"] === true) {
-        this.errorMessage = "エラーが発生したため登録できませんでした";
-      } else {
-        this.errorMessage = "";
-      }
-      return this.errorMessage;
-    },
-  },
+  computed: {},
 };
 </script>
 
@@ -375,12 +360,8 @@ export default {
   margin: 60px 0;
 }
 
-.error-msg {
-  margin-top: 30px;
-}
-
 .register-btn {
-  margin-top: 10px;
+  margin-top: 30px;
 }
 
 span {
