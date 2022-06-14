@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-app>
-      <Header />
+      <Header :loginUser="loginUser" />
       <v-main>
         <v-container mt-0 pt-0><Nuxt /></v-container>
       </v-main>
@@ -12,11 +12,29 @@
 
 <script>
 import vacantSearch from "../components/vacantSearch.vue";
+
 export default {
   components: { vacantSearch },
   name: "DefaultLayout",
   data() {
-    return {};
+    return {
+      // ログインユーザー
+      loginUser: {},
+    };
+  },
+  mounted() {
+    this.getLoginUser();
+  },
+  methods: {
+    getLoginUser() {
+      this.$nuxt.$on("getLoginUser", this.setLoginUser);
+    },
+    /**
+     * emitで受け取ったユーザー情報をdataに格納.
+     */
+    setLoginUser(user) {
+      this.loginUser = user;
+    },
   },
 };
 </script>

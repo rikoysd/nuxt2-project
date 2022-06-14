@@ -184,6 +184,9 @@ export default {
       if (this.submitError !== "") {
         return;
       } else {
+        // ログインユーザーの情報を渡す
+        this.$nuxt.$emit("getLoginUser", this.loginUser);
+
         // ログインしたらトップページに遷移
         this.$router.push("/");
       }

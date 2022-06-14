@@ -9,7 +9,7 @@
         ></v-toolbar-title
       >
 
-      <div class="flex-grow-1"></div>
+      <div class="flex-grow-1">{{ loginUser }}</div>
 
       <div v-if="changeFlag === true">
         <v-menu top :close-on-content-click="closeOnContentClick">
@@ -78,31 +78,30 @@ import {
 } from "firebase/firestore";
 import firebase from "@/plugins/firebase";
 export default {
+  props: {
+    loginUser: {
+      id: 0,
+      fullName1: String,
+      fullName2: String,
+      zipcode: String,
+      prefecture: String,
+      address: String,
+      mailAddress: String,
+      telephone: String,
+      password: String,
+    },
+  },
   data() {
     return {
       flag: false,
       items: [{ title: "マイページ" }, { title: "ログアウト" }],
       closeOnContentClick: true,
       // ログインユーザー
-      loginUser: [],
+      loginUser2: {},
     };
   },
-  async mounted() {
-    // ログインユーザーを取得する
-    const db = getFirestore(firebase);
-    try {
-      const listData = collection(db, "ログインユーザー");
-      await getDocs(listData).then((snapShot) => {
-        const data = snapShot.docs.map((doc) => ({ ...doc.data() }));
-        console.log(data);
-
-        for (let user of data) {
-          this.loginUser.push(user);
-        }
-      });
-    } catch (error) {
-      console.error(error);
-    }
+  mounted() {
+    console.log(this.loginUser);
   },
   methods: {
     /**
@@ -127,7 +126,7 @@ export default {
      * アイコンの切り替え.
      */
     changeFlag() {
-      if (this.$store.getters["register/getLoginUser"].id === 0) {
+      if (this.loginUser.id === 0) {
         this.flag = false;
       } else {
         this.flag = true;
