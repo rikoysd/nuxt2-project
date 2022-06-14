@@ -26,6 +26,7 @@ export default {
      */
     detailInfo(state, payload) {
       state.detailInfo = payload;
+      console.log(state.detailInfo);
     },
   },
 

@@ -253,6 +253,8 @@ export default {
   },
   data() {
     return {
+      // 予約者ID
+      reserveId: 0,
       // フルネーム（氏名）のエラー
       fullName1Error: "",
       // フルネーム（かな）のエラー
@@ -334,7 +336,12 @@ export default {
     };
   }, //end data
 
+  /**
+   * 非同期処理.
+   */
   mounted() {
+    // this.reserveId = Number(this.$route.params.id);
+    // console.log(resereveId);
     let reserveDetail = {};
     reserveDetail = this.$store.getters.getPreReserveData;
     this.adult = reserveDetail.adultNum;
@@ -414,8 +421,6 @@ export default {
       this.creditFlag = creditObject.creditFlag;
     },
   }, // end methods
-
-  computed: {}, // end computed
 };
 </script>
 

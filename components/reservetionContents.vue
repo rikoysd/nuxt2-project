@@ -50,7 +50,6 @@
 
 <script>
 import { format } from "date-fns";
-import { de } from "date-fns/locale";
 
 export default {
   name: "reservetionContents",
@@ -76,8 +75,10 @@ export default {
   },
   data() {
     return {
+      // 予約者ID
+      reserveId: 0,
       // ホテル名
-      hotelName: "The Okura Tokyo",
+      hotelName: "",
       // チェックイン日
       date: "",
       // フォーマット化したチェックイン日
@@ -119,15 +120,14 @@ export default {
     };
   }, //end data
 
-  computed: {}, // end computed
-
   /**
    * 非同期でホテル詳細情報を反映させる.
    */
   mounted() {
     let reserveDetail = {};
     reserveDetail = this.$store.getters.getPreReserveData;
-    console.log(reserveDetail);
+    this.reserveId = reserveDetail.reserveId;
+    this.hotelName = reserveDetail.hotelName;
     this.date = reserveDetail.checkInDate;
     this.formatDate = format(new Date(this.date), "yyyy年MM月dd日");
     this.staySpan = reserveDetail.staySpan;
@@ -147,6 +147,8 @@ export default {
     this.child = reserveDetail.childNum;
     this.room = reserveDetail.roomName;
     this.plan = reserveDetail.planName;
+    this.subPrice = reserveDetail.subPrice;
+    this.totalPrice = reserveDetail.totalPrice;
   },
 
   methods: {
@@ -280,17 +282,9 @@ export default {
       if (array.length > 0) {
         return;
       }
-      // 予約情報IDの生成
-      let reserveId = "";
-      for (let i = 0; i < 7; i++) {
-        let num = Math.floor(Math.random() * 10) + 11;
-        let str = String(num);
-        reserveId += str;
-      }
 
       // storeに送るためのオブジェクト生成(予約者情報)
       let object = {
-        reserveId: "",
         fullName1: "",
         fullName2: "",
         zipcode: "",
@@ -311,7 +305,8 @@ export default {
       };
       // storeに送るためのオブジェクト生成(プラン詳細)
       let detailObject = {
-        hotelName: "The Okura Tokyo",
+        reserveId: 0,
+        hotelName: "",
         formatDate: new Date(),
         staySpan: 0,
         breakfast: "",
@@ -325,7 +320,6 @@ export default {
       };
 
       // 作ったオブジェクトに情報を代入する
-      object.reserveId = reserveId;
       object.fullName1 = this.fullName1;
       object.fullName2 = this.fullName2;
       object.zipcode = this.zipcode;
@@ -344,6 +338,7 @@ export default {
       object.card_name = this.card_name;
       object.other = this.other;
 
+      detailObject.reserveId = this.reserveId;
       detailObject.hotelName = this.hotelName;
       detailObject.formatDate = this.formatDate;
       detailObject.staySpan = this.staySpan;

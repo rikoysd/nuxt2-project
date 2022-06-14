@@ -66,6 +66,8 @@ export default {
     return {
       // ホテル詳細オブジェクト
       detailObject: {},
+      // 予約者ID
+      reserveId: 0,
       // ホテル名
       hotelName: "",
       // 宿泊日数
@@ -96,6 +98,7 @@ export default {
    */
   async mounted() {
     this.detailObject = await this.$store.getters["reserve/getDetailInfo"];
+    this.reserveId = this.detailObject.reserveId;
     this.hotelName = this.detailObject.hotelName;
     this.formatDate = this.detailObject.formatDate;
     this.staySpan = this.detailObject.staySpan;
@@ -109,15 +112,14 @@ export default {
     this.totalPrice = this.detailObject.totalPrice;
   },
 
-  computed: {}, // end computed
-
   methods: {
     /**
      *予約内容を変更する.
      */
     changeReservation(reserveId) {
-      reserveId = this.reserveObject.reserveId;
-      this.$router.push(`/reserveForm2/${reserveId}`);
+      reserveId = this.reserveId;
+      console.log(reserveId);
+      this.$router.push(`/reserveForm/${reserveId}`);
     },
     /**
      * 予約を確定する.
