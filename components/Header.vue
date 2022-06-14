@@ -9,7 +9,7 @@
         ></v-toolbar-title
       >
 
-      <div class="flex-grow-1">{{ loginUser }}</div>
+      <div class="flex-grow-1"></div>
 
       <div v-if="changeFlag === true">
         <v-menu top :close-on-content-click="closeOnContentClick">
@@ -69,14 +69,6 @@
 </template>
 
 <script>
-import {
-  collection,
-  doc,
-  getDocs,
-  getFirestore,
-  setDoc,
-} from "firebase/firestore";
-import firebase from "@/plugins/firebase";
 export default {
   props: {
     loginUser: {
@@ -99,9 +91,6 @@ export default {
       // ログインユーザー
       loginUser2: {},
     };
-  },
-  mounted() {
-    console.log(this.loginUser);
   },
   methods: {
     /**
@@ -126,6 +115,7 @@ export default {
      * アイコンの切り替え.
      */
     changeFlag() {
+      console.log(this.loginUser);
       if (this.loginUser.id === 0) {
         this.flag = false;
       } else {
