@@ -257,9 +257,7 @@ v-btn {
   width: 150px;
   border-radius: 5px;
 }
-address {
-  background-color: antiquewhite;
-}
+
 
 .whole {
   width: 80%;
