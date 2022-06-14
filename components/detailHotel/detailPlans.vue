@@ -101,6 +101,8 @@ export default {
         // 0:現金1:クレジットカード / 現金2:クレジットカード
         payment: plan[0].roomBasicInfo.payment,
         adultNum: this.adultNum,
+        subPrice: plan[1].dailyCharge.total * this.staySpan,
+        totalPrice: plan[1].dailyCharge.total * this.staySpan,
       });
       console.log(this.$store.state.preReserveData);
       this.$router.push(`/reserveForm/${reserveId}`);

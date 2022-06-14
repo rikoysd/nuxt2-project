@@ -147,6 +147,8 @@ export default {
     this.child = reserveDetail.childNum;
     this.room = reserveDetail.roomName;
     this.plan = reserveDetail.planName;
+    this.subPrice = reserveDetail.subPrice;
+    this.totalPrice = reserveDetail.totalPrice;
   },
 
   methods: {
