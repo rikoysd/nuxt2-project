@@ -88,8 +88,6 @@ export default {
       flag: false,
       items: [{ title: "マイページ" }, { title: "ログアウト" }],
       closeOnContentClick: true,
-      // ログインユーザー
-      loginUser2: {},
     };
   },
   methods: {
@@ -104,9 +102,10 @@ export default {
      */
     myPageAction(number) {
       if (number === 0) {
+        this.$nuxt.$emit("sendUserInfo", this.loginUser);
         this.$router.push("/mypage");
       } else {
-        this.$store.commit("deleteUser");
+        // this.$store.commit("deleteUser");
       }
     },
   },
@@ -115,7 +114,6 @@ export default {
      * アイコンの切り替え.
      */
     changeFlag() {
-      console.log(this.loginUser);
       if (this.loginUser.id === 0) {
         this.flag = false;
       } else {

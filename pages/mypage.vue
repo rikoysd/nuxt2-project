@@ -146,6 +146,19 @@
 
 <script>
 export default {
+  props: {
+    loginUser2: {
+      id: 0,
+      fullName1: String,
+      fullName2: String,
+      zipcode: String,
+      prefecture: String,
+      address: String,
+      mailAddress: String,
+      telephone: String,
+      password: String,
+    },
+  },
   data() {
     return {
       // お気に入り一覧
@@ -162,15 +175,16 @@ export default {
     };
   },
   mounted() {
-    this.loginUser = this.$store.getters["register/getLoginUser"];
+    console.log(this.loginUser2);
+    // this.loginUser = this.$store.getters["register/getLoginUser"];
 
-    // ログインしていなかったらログインページへ誘導
-    if (this.loginUser.id === 0) {
-      this.$router.push("/login");
-    }
+    // // ログインしていなかったらログインページへ誘導
+    // if (this.loginUser.id === 0) {
+    //   this.$router.push("/login");
+    // }
 
-    this.favoriteList = this.$store.getters["favorite/getFavoriteList"];
-    this.watchedList = this.$store.getters["watchedList/getWatchedList"];
+    // this.favoriteList = this.$store.getters["favorite/getFavoriteList"];
+    // this.watchedList = this.$store.getters["watchedList/getWatchedList"];
   },
   methods: {
     moveToReserve() {
