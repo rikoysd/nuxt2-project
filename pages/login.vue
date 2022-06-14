@@ -30,6 +30,15 @@
 </template>
 
 <script>
+import {
+  collection,
+  doc,
+  getDocs,
+  getFirestore,
+  setDoc,
+} from "firebase/firestore";
+import firebase from "@/plugins/firebase";
+
 export default {
   data() {
     return {
@@ -51,10 +60,26 @@ export default {
       show3: false,
       // ユーザー一覧
       userList: [],
+      // ログインユーザー
+      loginUser: {},
     };
   },
-  mounted() {
-    this.$store.dispatch("getUserList");
+  async mounted() {
+    // ユーザー一覧を取得する
+    const db = getFirestore(firebase);
+    try {
+      const listData = collection(db, "ユーザー一覧");
+      await getDocs(listData).then((snapShot) => {
+        const data = snapShot.docs.map((doc) => ({ ...doc.data() }));
+        // console.log(data);
+
+        for (let user of data) {
+          this.userList.push(user);
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
   },
   methods: {
     /**
@@ -63,6 +88,7 @@ export default {
     login() {
       // エラーリストの初期化
       this.errors = [];
+      this.submitError = "";
 
       // メールアドレスのエラー
       if (this.mailAddress === "") {
@@ -90,6 +116,33 @@ export default {
       }
       this.errors.push(this.errorCheck);
 
+      // メアドとパスワードが一一致するかチェック
+      let errorArray = [];
+      for (let user of this.userList) {
+        if (
+          !(
+            this.mailAddress === user.mailAddress &&
+            this.password === user.password
+          )
+        ) {
+          this.errorCheck = true;
+          errorArray.push(this.errorCheck);
+        } else {
+          this.loginUser = user;
+          this.errorCheck = false;
+          errorArray.push(this.errorCheck);
+        }
+      }
+
+      if (errorArray.indexOf(false) === -1) {
+        this.submitError = "メールアドレスまたはパスワードが間違っています";
+        this.errorCheck = true;
+      } else {
+        this.submitError = "";
+        this.errorCheck = false;
+      }
+      this.errors.push(this.errorCheck);
+
       // エラーの数を数える
       let array = [];
       for (let error of this.errors) {
@@ -100,25 +153,40 @@ export default {
 
       // エラーが一つでもあったら処理を止める
       if (array.length > 0) {
-        return;
-      }
-      // register.jsのユーザー情報を取得
-
-      let object = this.$store.getters["register/getUserList"];
-
-      if (
-        this.mailAddress !== object[0].mailAddress ||
-        this.password !== object[0].password
-      ) {
-        // ログイン失敗
-        this.submitError = "メールアドレスまたはパスワードが間違っています";
+        console.log("不備あり");
         return;
       }
 
-      // ログインしたユーザー情報をstateに入れる
-      this.$store.commit("registerLoginUser");
+      // ログインしたユーザー情報をFirebaseに保存
+      const db = getFirestore(firebase);
+      try {
+        const docRef = setDoc(
+          doc(db, "ログインユーザー", String(this.loginUser.id)),
+          {
+            id: this.loginUser.id,
+            fullName1: this.loginUser.fullName1,
+            fullName2: this.loginUser.fullName2,
+            zipcode: this.loginUser.zipcode,
+            prefecture: this.loginUser.prefecture,
+            address: this.loginUser.address,
+            mailAddress: this.loginUser.mailAddress,
+            telephone: this.loginUser.telephone,
+            password: this.loginUser.password,
+          }
+        );
+        // console.log(docRef);
+        this.submitError = "";
+      } catch (error) {
+        console.error(error);
+        this.submitError = "ログインに失敗しました";
+      }
 
-      this.$router.push("/");
+      if (this.submitError !== "") {
+        return;
+      } else {
+        // ログインしたらトップページに遷移
+        this.$router.push("/");
+      }
     },
   },
   computed: {
