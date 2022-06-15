@@ -128,7 +128,6 @@ export default {
   mounted() {
     this.reserveDetail = this.$store.getters.getPreReserveData;
     this.reserveId = this.reserveDetail.reserveId;
-    // const paramsId = this.$route.params.id;
     this.hotelName = this.reserveDetail.hotelName;
     this.date = this.reserveDetail.checkInDate;
     this.formatDate = format(new Date(this.date), "yyyy年MM月dd日");
@@ -152,13 +151,6 @@ export default {
     this.subPrice = this.reserveDetail.subPrice;
     this.totalPrice = this.reserveDetail.totalPrice;
     console.log(this.reserveDetail); // ok
-
-    // エラーハンドリング
-    const paramId = this.$route.params.id;
-    console.log(paramId);
-    if (paramId === null || undefined) {
-      this.$router.push("/layouts/error");
-    }
   },
 
   methods: {
