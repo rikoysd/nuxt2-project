@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-col cols="12" sm="6">
+    <v-col cols="12">
       <v-text-field
         @focus="dateFocus"
         v-model="dateRangeText"
@@ -60,6 +60,9 @@ export default {
           let formatString = format(item, "yyyy-MM-dd");
           this.dates.push(formatString);
         }
+
+        // 2日選択されたらカレンダーを閉じる
+        // this.closePopup();
       }
     },
     /**

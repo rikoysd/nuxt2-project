@@ -11,11 +11,7 @@
 </template>
 
 <script>
-import vacantSearch from "../components/vacantSearch.vue";
-
 export default {
-  components: { vacantSearch },
-  name: "DefaultLayout",
   data() {
     return {
       // ログインユーザー（ログインページからヘッダーに渡すログイン情報）
@@ -49,4 +45,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.container {
+  padding: 0;
+}
+</style>
+

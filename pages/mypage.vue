@@ -174,20 +174,25 @@ export default {
       loginUser: {},
     };
   },
+
   mounted() {
-    // // ログインしていなかったらログインページへ誘導
-    if (this.loginUser2 === {}) {
+    // ログインしていなかったらログインページへ誘導
+    if (!(this.loginUser2.id)) {
       this.$router.push("/login");
     }
-
     this.favoriteList = this.$store.getters["favorite/getFavoriteList"];
     this.watchedList = this.$store.getters["watchedList/getWatchedList"];
   },
+
   methods: {
+    /**
+     * テスト用
+     */
     moveToReserve() {
       this.$router.push("/reserveForm");
     },
   },
+
   computed: {
     /**
      * お気に入り一覧を取得する.

@@ -110,6 +110,7 @@ export const actions = {
         context.commit("changeErrorStayFlag");
       }
     } catch (error) {
+      context.commit("setVacantList", "");
       alert("該当する宿泊プランが存在しません");
       console.log(error.response.status);
     }
@@ -191,8 +192,9 @@ export const mutations = {
    * @param {*} payload - ペイロード
    */
   setVacantList(state, payload) {
+    state.vacantList = "";
     state.vacantList = { hotels: payload };
-    console.log(state.vacantList);
+    console.log("state.vacantList", state.vacantList);
   },
   /**
    * 空室検索の結果をstateにセット.
@@ -250,6 +252,13 @@ export const mutations = {
     state.instituionInfo = { hotels: payload };
     // console.log(state.instituionInfo);
   },
+  /** register.jsにユーザー情報を渡す.
+   * @param {*} state - ステート
+   * @param {*} object - ユーザー情報のオブジェクト
+   */
+  register(state, object) {
+    this.commit("register/registerUser", object);
+  },
   /**
    * reserve.jsに予約情報を渡す.
    * @param {*} state - ステート
@@ -258,7 +267,14 @@ export const mutations = {
   reserve(state, object) {
     this.commit("reserve/reserveInfo", object);
   },
-
+  /**
+   * reserve.jsにホテル詳細情報を渡す.
+   * @param {*} state - ステート
+   * @param {*} object - ホテル詳細情報のオブジェクト
+   */
+  reserve2(state, detailObject) {
+    this.commit("reserve/detailInfo", detailObject);
+  },
   /**
    * keyword.jsにエラー判定を渡す.
    * @param {*} state - ステート
@@ -379,6 +395,12 @@ export const getters = {
    */
   getSearchError(state) {
     return state.searchErrorFlag;
+  },
+  /**
+   * 予約情報入力フォームに反映させる詳細情報.
+   */
+  getPreReserveData(state) {
+    return state.preReserveData;
   },
 };
 
