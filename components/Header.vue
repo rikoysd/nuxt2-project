@@ -101,21 +101,19 @@ export default {
   // },
   watch: {
     loginUser() {
-      if (this.loginUser === {}) {
-        console.log("ログインしてない");
-        this.flag = false;
-      } else {
+      if (this.loginUser.id) {
         console.log("ログイン中");
         this.flag = true;
+      } else {
+        console.log("ログインしてない");
+        this.flag = false;
       }
     },
     loginUser2() {
-      if (this.loginUser2.mailAddress === "") {
-        console.log("ログインしてない");
-        this.flag = false;
-      } else {
-        console.log("ログイン中");
+      if (this.loginUser2.id) {
         this.flag = true;
+      } else {
+        this.flag = false;
       }
     },
   },
