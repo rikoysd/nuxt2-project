@@ -2,30 +2,47 @@
   <div class="d-flex justify-center">
     <div>
       <div>
+        <v-row>
+          <v-col class="fontSize">
+            {{ basicInfo.hotelName }}
+          </v-col>
+        </v-row>
         <!-- カルーセル -->
-        <detail-carousel :slides="slides"></detail-carousel>
+        <detail-carousel class="detailCarousel" :slides="slides">
+        </detail-carousel>
+        <v-row>
+          <v-col>
+            <span
+              v-show="vBasicInfo.hotelMinCharge"
+              class="carouselPlan fontSize"
+            >
+              このホテルの最安料金<br /><span class="hotelMinCharge"
+                >(2名)税込</span
+              >
+              <span class="font-weight-bold hotelMinCharge minChargeSize"
+                >{{ vBasicInfo.hotelMinCharge * 2 }}円</span
+              >
+              <v-btn
+                color="#65CC42"
+                class="minChargeBtn white--text font-weight-bold"
+                @click="goTo('cards')"
+                >プランを確認</v-btn
+              >
+            </span>
+          </v-col>
+        </v-row>
         <!-- ナビゲーションバー -->
         <v-row>
           <v-toolbar color="#F5F5F5">
             <v-col cols="6">
               <v-tabs background-color="#F5F5F5" grow>
-                <v-tab @click="sheet = !sheet"> 宿泊・プラン</v-tab>
-                <v-tab to="#hotelInfo"> 宿の詳細</v-tab>
-                <v-tab to="#reviews"> クチコミ</v-tab>
-                <v-tab to="#acsess"> アクセス</v-tab>
+                <v-tab @click="goTo('cards')"> 宿泊・プラン</v-tab>
+                <v-tab @click="goTo('hotelInfo')"> 宿の詳細</v-tab>
+                <v-tab @click="goTo('reviews')"> クチコミ</v-tab>
+                <v-tab @click="goTo('acsess')"> アクセス</v-tab>
               </v-tabs>
             </v-col>
           </v-toolbar>
-        </v-row>
-        <!-- ボトムシート -->
-        <v-navigation-drawer v-model="drawer" absolute bottom temporary>
-        </v-navigation-drawer>
-        <v-row>
-          <v-col>
-            <v-btn color="orange" dark @click.stop="drawer = !drawer">
-              Open Inset
-            </v-btn>
-          </v-col>
         </v-row>
       </div>
       <div class="d-flex justify-center">
@@ -35,35 +52,82 @@
             :basicInfo="basicInfo"
             :detailInfo="detailInfo"
           ></detail-overview>
+          <!-- <v-btn
+            color="orange"
+            class="font-weight-bold white--text insertBtn"
+            @click.stop="drawer = !drawer"
+          >
+            設備詳細
+          </v-btn> -->
+          <!-- ボトムシート -->
+          <!-- <v-navigation-drawer
+          v-model="drawer"
+          class="navigationDrawer"
+          absolute
+          bottom
+          temporary
+        >
+          <v-container>
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title class="title">
+                  ホテルの設備
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-divider></v-divider>
+            <p></p>
+            <p
+              v-for="(facilitie, i) of facilitiesInfo.hotelFacilities"
+              :key="`second-${i}`"
+            >
+              {{ facilitie.item }}
+            </p>
+          </v-container>
+        </v-navigation-drawer> -->
           <!-- 宿泊プラン -->
           <v-row>
             <v-col cols="12">
-              <v-card elevation="2" class="plansCard" tile>
-                <p class="title font-weight-bold">宿泊プラン</p>
-                <div>
-                  <v-row>
-                    <p>必要情報を入力し空室検索できます</p>
-                  </v-row>
-                  <v-row>
-                    <v-col cols="10" md="4">
-                      <calender @selectDates="addDate"></calender>
-                    </v-col>
-                    <v-col cols="2" md="4">
-                      <v-text-field
-                        v-model="adultNum"
-                        label="params.adultNum"
-                      ></v-text-field>
-                    </v-col>
-                    <v-col cols="1">
-                      <v-btn @click="sendReserveData">検索</v-btn>
-                    </v-col>
-                  </v-row>
-                </div>
+              <v-card elevation="2" class="plansCard" id="cards" tile>
+                <span class="title font-weight-bold">宿泊プラン</span>
+
+                <v-row>
+                  <span class="plansExplain"
+                    >利用日付・利用人数を入力し宿泊プランの検索ができます。</span
+                  >
+                </v-row>
+
+                <v-progress-circular
+                  v-show="circularFlag"
+                  class="progressCircular"
+                  indeterminate
+                  color="primary"
+                ></v-progress-circular>
+
+                <v-row>
+                  <v-col cols="9" class="calender">
+                    <calender @selectDates="addDate"></calender>
+                  </v-col>
+                  <v-col>
+                    <v-text-field
+                      class="adultNum"
+                      v-model="adultNum"
+                      label="利用人数"
+                      outlined
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col>
+                    <v-btn @click="sendReserveData">検索</v-btn>
+                  </v-col>
+                </v-row>
+
                 <div v-show="listShow">
                   <detail-plans
                     :plans="plans"
                     :roomImage="roomImage"
-                    :detailInfo="detailInfo"
+                    :vDetailInfo="vDetailInfo"
                     :staySpan="staySpan"
                     :checkInDate="checkinDate"
                     :adultNum="adultNum"
@@ -77,6 +141,9 @@
           <detail-info
             :reviewAverage="reviewAverage"
             :hotelImage="hotelImage"
+            :facilitiesInfo="facilitiesInfo"
+            :policyInfo="policyInfo"
+            :otherInfo="otherInfo"
           ></detail-info>
           <!-- アクセス -->
           <detail-acsess
@@ -108,12 +175,17 @@ export default {
       hotelImage: "",
       // ホテル基本情報
       basicInfo: [],
+      vBasicInfo: [],
       // 住所
       address: "",
       // 宿泊プラン
       plans: [],
       // ホテル詳細情報
       detailInfo: [],
+      vDetailInfo: [],
+      facilitiesInfo: [],
+      policyInfo: [],
+      otherInfo: [],
       // レビュー平均リスト
       reviewAverage: [],
       sheet: false,
@@ -127,6 +199,7 @@ export default {
       staySpan: 0,
       // 宿泊リスト表示フラグ
       listShow: false,
+      circularFlag: false,
       // 現在の日時
       now: new Date(),
       // 指定した日時
@@ -162,6 +235,12 @@ export default {
     }
     // 施設詳細
     this.reviewAverage = hotels.hotel[1].hotelRatingInfo;
+    this.facilitiesInfo = hotels.hotel[3].hotelFacilitiesInfo;
+    console.log("this.facilitiesInfo", this.facilitiesInfo);
+    this.policyInfo = hotels.hotel[4].hotelPolicyInfo;
+    console.log("this.policyInfo", this.policyInfo);
+    this.otherInfo = hotels.hotel[5].hotelOtherInfo;
+    console.log("this.otherInfo", this.otherInfo);
     // 施設概要
     console.log("空室情報", this.vacantList);
     // アクセス
@@ -173,6 +252,9 @@ export default {
      * @param {*} - store.state.stayPlanFlag
      */
     async sendReserveData(data) {
+      this.circularFlag = true;
+      this.plans = [];
+      this.vacantList = [];
       // console.log(data);
       this.staySpan = this.getStaySpan;
       // console.log(this.staySpan);
@@ -185,7 +267,12 @@ export default {
       });
       this.listShow = data;
       // console.log("this.listShow", this.listShow.isTrusted);
-      if (this.listShow.isTrusted === true) {
+      this.vacantList = this.$store.getters.getVacantList;
+      console.log("空室情報", this.vacantList);
+      this.circularFlag = false;
+      if (this.vacantList.hotels !== "" && this.vacantList !== undefined) {
+        console.log("true");
+        console.log(this.vacantList.hotels);
         this.vacantList = this.$store.getters.getVacantList;
         console.log("空室情報", this.vacantList);
         const hotelBasicInfo =
@@ -196,8 +283,12 @@ export default {
           this.vacantList.hotels[0].hotel[4].roomInfo,
           this.vacantList.hotels[0].hotel[5].roomInfo,
         ];
-        this.detailInfo = this.vacantList.hotels[0].hotel[1].hotelDetailInfo;
+        this.vDetailInfo = this.vacantList.hotels[0].hotel[1].hotelDetailInfo;
+        this.vBasicInfo = this.vacantList.hotels[0].hotel[0].hotelBasicInfo;
         // console.log("plans", this.detailInfo);
+      } else {
+        this.plans = [];
+        this.listShow = false;
       }
     },
     /**
@@ -221,6 +312,9 @@ export default {
       } else {
         return "";
       }
+    },
+    goTo(id) {
+      this.$vuetify.goTo(`#${id}`);
     },
   },
   computed: {
@@ -252,11 +346,13 @@ v-btn {
 } */
 .planCard {
   height: 230px;
+
   padding-bottom: 5px;
   overflow: hidden;
 }
 .plansCard {
-  padding: 10px;
+  margin-top: 10px;
+  padding: 20px;
 }
 .planTitle {
   font-weight: 1000;
@@ -265,10 +361,64 @@ v-btn {
   object-fit: cover;
   height: auto;
   width: 150px;
+  border-radius: 5px;
 }
 
 .whole {
   width: 80%;
   margin: 60px 0;
+}
+
+.carouselPlan {
+  position: absolute;
+  top: 300px;
+  left: 65%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  height: 80px;
+  width: 300px;
+  border-radius: 10px;
+  padding: 5px 7px;
+}
+.calender {
+  width: 400px;
+}
+.plansExplain {
+  margin-top: 10px;
+}
+.adultNum {
+  position: relative;
+  top: 11px;
+}
+.progressCircular {
+  position: relative;
+  top: 170px;
+  left: 45%;
+}
+.fontSize {
+  font-size: 12px;
+}
+.hotelMinCharge {
+  position: relative;
+  top: 15px;
+  left: 5px;
+}
+.minChargeSize {
+  font-size: 25px;
+}
+.minChargeBtn {
+  position: relative;
+  left: 10px;
+  top: 3px;
+}
+.insertBtn {
+  position: relative;
+  left: 40%;
+}
+.navigationDrawer {
+  width: 50vw;
+}
+.fontSize {
+  font-size: 15px;
 }
 </style>

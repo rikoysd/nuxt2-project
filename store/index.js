@@ -103,6 +103,7 @@ export const actions = {
         context.commit("changeErrorStayFlag");
       }
     } catch (error) {
+      context.commit("setVacantList", "");
       alert("該当する宿泊プランが存在しません");
       console.log(error.response.status);
     }
@@ -195,8 +196,9 @@ export const mutations = {
    * @param {*} payload - ペイロード
    */
   setVacantList(state, payload) {
+    state.vacantList = "";
     state.vacantList = { hotels: payload };
-    console.log(state.vacantList);
+    console.log("state.vacantList", state.vacantList);
   },
   /**
    * 検索条件をステートに格納.
