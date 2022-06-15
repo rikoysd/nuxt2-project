@@ -81,7 +81,7 @@ export default {
     reserve(number) {
       //   this.loading = true;
       //   setTimeout(() => (this.loading = false), 2000);
-      this.$router.push(`/hotelDetail/${number}`);
+      this.$router.push(`/hotelDetailvs/${number}`);
     },
   }, // end methods
 };

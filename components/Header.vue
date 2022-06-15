@@ -11,6 +11,7 @@
 
       <div class="flex-grow-1"></div>
 
+      <search-box class="search-box" @search="searchKeyword"></search-box>
       <div v-if="flag === true">
         <v-menu top :close-on-content-click="closeOnContentClick">
           <template v-slot:activator="{ on, attrs }">
@@ -164,5 +165,10 @@ export default {
 
 .title {
   cursor: pointer;
+}
+.search-box {
+  margin-top: 25px;
+  width: 600px;
+  margin-right: 120px;
 }
 </style>

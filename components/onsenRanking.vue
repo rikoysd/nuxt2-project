@@ -46,7 +46,11 @@
 
               <v-divider class="mx-4"></v-divider>
               <v-card-actions>
-                <v-btn color="deep-purple lighten-2" text @click="reserve">
+                <v-btn
+                  color="deep-purple lighten-2"
+                  text
+                  @click="reserve(onsen.hotel.hotelNo)"
+                >
                   詳細を見る
                 </v-btn>
               </v-card-actions>
@@ -76,7 +80,8 @@ export default {
   }, //mounted
 
   methods: {
-    reserve() {
+    reserve(number) {
+      this.$router.push(`/hotelDetailvs/${number}`);
       //   this.loading = true;
       //   setTimeout(() => (this.loading = false), 2000);
     },
