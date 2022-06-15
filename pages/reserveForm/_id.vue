@@ -255,6 +255,19 @@ export default {
     return /^\d+$/.test(params.id); // 数値でなければならない
   },
 
+  props: {
+    loginUser: {
+      id: 0,
+      fullName1: String,
+      fullName2: String,
+      zipcode: String,
+      prefecture: String,
+      address: String,
+      mailAddress: String,
+      telephone: String,
+      password: String,
+    },
+  },
   components: {
     selectPrefectures,
     selectChecin,
@@ -353,7 +366,7 @@ export default {
     let reserveDetail = {};
     reserveDetail = this.$store.getters.getPreReserveData;
     this.adult = reserveDetail.adultNum;
-    // this.child = reserveDetail.childNum;
+    this.child = reserveDetail.childNum;
   },
 
   methods: {
@@ -361,14 +374,14 @@ export default {
      * ログイン情報の反映.
      */
     loginInfoReflection() {
-      this.loginInfo = this.$store.getters["register/getUserList"];
-      this.fullName1 = this.loginInfo[0].fullName1;
-      this.fullName2 = this.loginInfo[0].fullName2;
-      this.zipcode = this.loginInfo[0].zipcode;
-      this.prefecture = this.loginInfo[0].prefecture;
-      this.address = this.loginInfo[0].address;
-      this.telephone = this.loginInfo[0].telephone;
-      this.mailAddress = this.loginInfo[0].mailAddress;
+      console.log(this.loginUser);
+      // this.fullName1 = this.loginUser.fullName1;
+      // this.fullName2 = this.loginUser.fullName2;
+      // this.zipcode = this.loginUser.zipcode;
+      // this.prefecture = this.loginUser.prefecture;
+      // this.address = this.loginUser.address;
+      // this.telephone = this.loginUser.telephone;
+      // this.mailAddress = this.loginUser.mailAddress;
     },
     /**
      * emitで渡ってきた都道府県を変数に代入.
