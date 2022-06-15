@@ -1,12 +1,7 @@
 <template>
-  <div class="d-flex justify-center">
+  <div class="d-flex topPosition justify-center">
     <div>
       <div>
-        <v-row>
-          <v-col class="fontSize">
-            {{ basicInfo.hotelName }}
-          </v-col>
-        </v-row>
         <!-- カルーセル -->
         <detail-carousel class="detailCarousel" :slides="slides">
         </detail-carousel>
@@ -363,6 +358,9 @@ v-btn {
   width: 150px;
   border-radius: 5px;
 }
+.topPosition {
+  width: 100vw;
+}
 
 .whole {
   width: 80%;
@@ -376,7 +374,7 @@ v-btn {
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
   height: 80px;
-  width: 300px;
+  width: 320px;
   border-radius: 10px;
   padding: 5px 7px;
 }

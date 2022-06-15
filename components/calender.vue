@@ -66,7 +66,7 @@ export default {
         }
 
         // 2日選択されたらカレンダーを閉じる
-        // this.closePopup();
+        this.closePopup();
       }
     },
     /**
