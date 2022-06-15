@@ -52,7 +52,6 @@
 import { format } from "date-fns";
 
 export default {
-  name: "reservetionContents",
   props: {
     fullName1: String,
     fullName2: String,
@@ -75,6 +74,8 @@ export default {
   },
   data() {
     return {
+      // 詳細情報
+      reserveDetail: [],
       // 予約者ID
       reserveId: 0,
       // ホテル名
@@ -117,6 +118,7 @@ export default {
         checkInTimeError: "",
         manAndWomanError: "",
       },
+      result: "",
     };
   }, //end data
 
@@ -124,31 +126,37 @@ export default {
    * 非同期でホテル詳細情報を反映させる.
    */
   mounted() {
-    let reserveDetail = {};
-    reserveDetail = this.$store.getters.getPreReserveData;
-    this.reserveId = reserveDetail.reserveId;
-    this.hotelName = reserveDetail.hotelName;
-    this.date = reserveDetail.checkInDate;
+    this.reserveDetail = this.$store.getters.getPreReserveData;
+    this.reserveId = this.reserveDetail.reserveId;
+    // const paramsId = this.$route.params.id;
+    this.hotelName = this.reserveDetail.hotelName;
+    this.date = this.reserveDetail.checkInDate;
     this.formatDate = format(new Date(this.date), "yyyy年MM月dd日");
-    this.staySpan = reserveDetail.staySpan;
-    this.breakfast = reserveDetail.withBreakfastFlag;
+    this.staySpan = this.reserveDetail.staySpan;
+    this.breakfast = this.reserveDetail.withBreakfastFlag;
     if (this.breakfast === 0) {
       this.breakfast = "朝食なし";
     } else {
       this.breakfast = "朝食あり";
     }
-    this.dinner = reserveDetail.withDinnerFlag;
+    this.dinner = this.reserveDetail.withDinnerFlag;
     if (this.dinner === 0) {
       this.dinner = "夕食なし";
     } else {
       this.dinner = "夕食あり";
     }
-    this.adult = reserveDetail.adultNum;
-    this.child = reserveDetail.childNum;
-    this.room = reserveDetail.roomName;
-    this.plan = reserveDetail.planName;
-    this.subPrice = reserveDetail.subPrice;
-    this.totalPrice = reserveDetail.totalPrice;
+    this.adult = this.reserveDetail.adultNum;
+    this.child = this.reserveDetail.childNum;
+    this.room = this.reserveDetail.roomName;
+    this.plan = this.reserveDetail.planName;
+    this.subPrice = this.reserveDetail.subPrice;
+    this.totalPrice = this.reserveDetail.totalPrice;
+    console.log(this.reserveDetail); // ok
+
+    // エラーハンドリング
+    if ((this.reserveId === null) | undefined) {
+      this.$router.push("/aaa");
+    }
   },
 
   methods: {
