@@ -36,7 +36,7 @@ export default {
       this.loginUser = user;
     },
     getUserInfo() {
-      this.$nuxt.$on("sendUserInfo", this.setUserInfo);
+      this.$nuxt.$on("getUserInfo", this.setUserInfo);
     },
     setUserInfo(user) {
       this.loginUser2 = user;
@@ -48,6 +48,7 @@ export default {
 <style scoped>
 .container {
   padding: 0;
+  margin-left: 0;
+  margin-right: 0;
 }
 </style>
-

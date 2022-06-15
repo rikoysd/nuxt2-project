@@ -30,4 +30,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.hotelImage {
+  width: 100vw;
+}
+</style>

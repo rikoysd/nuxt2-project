@@ -1,16 +1,7 @@
 <template>
-  <div class="d-flex justify-center">
+  <div class="d-flex topPosition justify-center">
     <div>
       <div>
-        <v-row>
-          <v-col class="fontSize">
-            <span v-show="detailInfo.areaName">{{
-              detailInfo.areaName + ">"
-            }}</span>
-            {{ basicInfo.hotelName }}
-          </v-col>
-        </v-row>
-
         <!-- カルーセル -->
         <detail-carousel class="detailCarousel" :slides="slides">
         </detail-carousel>
@@ -190,7 +181,7 @@ export default {
     });
 
     this.vacantList = this.$store.getters.getVacantList;
-    if (this.vacantList.hotels == undefined) {
+    if (this.vacantList.hotels === undefined || this.vacantList.hotels === "") {
       this.$router.push("/keywordHotelList");
     }
     console.log("空室情報", this.vacantList);
@@ -271,6 +262,9 @@ v-btn {
   width: 80%;
   margin: 60px 0;
 }
+.topPosition {
+  width: 100vw;
+}
 .carouselPlan {
   position: absolute;
   top: 300px;
@@ -278,7 +272,7 @@ v-btn {
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
   height: 80px;
-  width: 300px;
+  width: 320px;
   border-radius: 10px;
   padding: 5px 7px;
 }
@@ -294,7 +288,7 @@ v-btn {
   left: 5px;
 }
 .minChargeSize {
-  font-size: 25px;
+  font-size: 23px;
 }
 .minChargeBtn {
   position: relative;
