@@ -152,4 +152,7 @@ span {
   background-attachment: fixed;
   background-repeat: no-repeat;
 }
+.whole[data-v-18804380] {
+  width: 100vw;
+}
 </style>

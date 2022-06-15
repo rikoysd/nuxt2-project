@@ -205,7 +205,7 @@ export default {
       // actionの呼び出し（閲覧履歴）
       this.$store.dispatch("searchHotel2", number);
 
-      this.$router.push(`/hotelDetail/${number}`);
+      this.$router.push(`/hotelDetailvs/${number}`);
     },
   },
   computed: {
