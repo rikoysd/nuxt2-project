@@ -11,7 +11,7 @@
 
       <div class="flex-grow-1"></div>
 
-      <div v-if="changeFlag === true">
+      <div v-if="flag === true">
         <v-menu top :close-on-content-click="closeOnContentClick">
           <template v-slot:activator="{ on, attrs }">
             <v-btn icon color="white" v-bind="attrs" v-on="on">
@@ -69,53 +69,85 @@
 </template>
 
 <script>
+import { doc, deleteDoc, getFirestore } from "firebase/firestore";
+import firebase from "@/plugins/firebase";
+
 export default {
+  props: {
+    loginUser: {
+      id: 0,
+      fullName1: String,
+      fullName2: String,
+      zipcode: String,
+      prefecture: String,
+      address: String,
+      mailAddress: String,
+      telephone: String,
+      password: String,
+    },
+  },
   data() {
     return {
       flag: false,
       items: [{ title: "マイページ" }, { title: "ログアウト" }],
       closeOnContentClick: true,
+      // ログインユーザー
+      loginUser2: {},
     };
-  }, // end data
-
+  },
+  watch: {
+    loginUser() {
+      if (this.loginUser.id) {
+        this.flag = true;
+      } else {
+        this.flag = false;
+      }
+    },
+    loginUser2() {
+      if (this.loginUser2.id) {
+        this.flag = true;
+      } else {
+        this.flag = false;
+      }
+    },
+  },
   methods: {
     /**
      * お気に入り一覧を見る.
      */
     favoriteList() {
       // 一時的に左辺を書き換えてます。
-      window.location.href = "/mypage";
+      this.$router.push("/mypage");
     },
     /**
      * マイページのメニューを選択する.
      */
-    myPageAction(number) {
+    async myPageAction(number) {
+      this.loginUser2 = this.loginUser;
+      console.log(this.loginUser2);
       if (number === 0) {
-        // 一時的に左辺を書き換えてます。（ログイン状態は保持されない）
-        window.location.href = "/reserveForm";
+        // マイページ
+        this.$nuxt.$emit("sendUserInfo", this.loginUser2);
+        this.$router.push("/mypage");
       } else {
-        this.$store.commit("deleteUser");
+        // ログアウト
+        const db = getFirestore(firebase);
+        await deleteDoc(
+          doc(db, "ログインユーザー", String(this.loginUser2.id))
+        );
+
+        // ログインユーザー初期化
+        this.loginUser2 = {};
+        // トップに戻る
+        this.$router.push("/");
       }
     },
   }, // end methods
-
-  computed: {
-    /**
-     * アイコンの切り替え.
-     */
-    changeFlag() {
-      if (this.$store.getters["register/getLoginUser"] === 0) {
-        this.flag = false;
-      } else {
-        this.flag = true;
-      }
-      return this.flag;
-    },
-  }, // end computed
+  computed: {},
 };
 </script>
 
-<style>
+<style scoped>
 .header {
   color: white;
 }

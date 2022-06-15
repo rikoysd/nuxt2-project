@@ -146,6 +146,19 @@
 
 <script>
 export default {
+  props: {
+    loginUser2: {
+      id: 0,
+      fullName1: String,
+      fullName2: String,
+      zipcode: String,
+      prefecture: String,
+      address: String,
+      mailAddress: String,
+      telephone: String,
+      password: String,
+    },
+  },
   data() {
     return {
       // お気に入り一覧
@@ -163,9 +176,8 @@ export default {
   },
 
   mounted() {
-    this.loginUser = this.$store.getters["register/getLoginUser"];
     // ログインしていなかったらログインページへ誘導
-    if (this.loginUser.id === 0) {
+    if (!(this.loginUser2.id)) {
       this.$router.push("/login");
     }
     this.favoriteList = this.$store.getters["favorite/getFavoriteList"];
