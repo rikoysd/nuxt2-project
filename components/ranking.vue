@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-container>
+    <v-container class="mt-auto ranking">
       <p>今人気の宿10選</p>
       <v-sheet>
         <v-slide-group multiple show-arrows>
@@ -85,8 +85,18 @@ export default {
 .v-application .text-subtitle-1 {
   font-size: 13px;
 }
+.v-application {
+  margin-top: auto;
+}
 P {
   font-size: 20px;
   padding-left: 60px;
+}
+.ranking {
+  padding-top: 150px;
+  margin-top: auto;
+  display: flex;
+  flex-flow: column;
+  height: 500px;
 }
 </style>

@@ -7,8 +7,8 @@
       offset-x
     >
       <template v-slot:activator="{ on, attrs }">
-        <v-col class="d-flex" cols="12" sm="2">
-          <v-btn class="d-flex" outlined v-bind="attrs" v-on="on" grey lighten-2
+        <v-col cols="6" sm="6">
+          <v-btn block class="select-btn" v-bind="attrs" v-on="on" color="white"
             ><v-icon dark left>mdi-account</v-icon> 大人{{ adultNum }}名　子供{{
               count +
               lowClassCount +
@@ -454,4 +454,14 @@ export default {
 };
 </script>
 
-<
+<style scoped>
+.select-btn {
+  padding-bottom: 20px;
+}
+.data-v-58217fa0 {
+  padding-bottom: 25px;
+}
+.v-btn:not(.v-btn--round).v-size--default {
+  width: 280px;
+}
+</style>

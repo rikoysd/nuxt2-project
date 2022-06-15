@@ -1,102 +1,119 @@
 <template>
-  <div>
-    <!-- カレンダー -->
-    <calender @selectDates="addDates"></calender>
-    <!-- 都道府県選択 -->
-    <v-container>
+  <v-container class="square">
+    <v-container class="searchBox">
+      <!-- <v-row> -->
+
+      <!-- </v-row> -->
+
       <v-row align="center">
-        <v-col class="d-flex" cols="6" sm="6" height="10">
+        <!-- 都道府県選択 -->
+        <v-col class="d-flex" cols="2" sm="2" height="10">
           <v-select
+            hide-details="true"
             :items="areaNameList"
-            dense
             label="都道府県"
             @change="getInfo('middleClassCode', $event)"
-            outlined
+            solo
+            dense
           ></v-select>
         </v-col>
         <!-- 市町村選択 -->
-        <v-col class="d-flex" cols="6" sm="6">
+        <v-col class="d-flex" cols="2" sm="2">
           <v-select
-            dense
+            hide-details="true"
             v-model="selectedItem"
             :items="cityNameList"
             label="市町村"
             @change="getCityList('smallClassCode', $event)"
-            outlined
+            solo
+            dense
           ></v-select>
         </v-col>
+
+        <!-- カレンダー -->
+        <calender
+          @selectDates="addDates"
+          class="calender d-flex"
+          hide-details="true"
+          solo
+        ></calender>
+        <!-- 人数選択 -->
+        <selectNumber
+          class="numberBtn"
+          @adultNum="getAdultNum"
+          @roomNum="getRoomNum"
+          @upClassNum="getchildNum"
+          @MBNum="getinfantNum"
+        ></selectNumber>
       </v-row>
       <!-- 札幌の地区詳細 -->
-
+      <!-- <v-col class="d-flex" cols="2" sm="2"> -->
       <v-select
+        class="select-detail mb-auto"
         dense
         v-if="selectedItem === '札幌'"
         :items="sapporoList"
         label="地区詳細"
         @change="getDetailList('detailClassCode', $event)"
-        outlined
+        solo
       ></v-select>
 
       <!-- 東京23区の地区詳細 -->
-
+      <!-- <v-col class="d-flex" cols="2" sm="2"> -->
       <v-select
+        class="select-detail mb-auto"
         dense
         v-if="selectedItem === '東京２３区内'"
         :items="tokyoList"
         label="地区詳細"
         @change="getTokyoDetail('detailClassCode', $event)"
-        outlined
+        solo
       ></v-select>
-
+      <!-- </v-col> -->
       <!-- 名古屋の地区詳細 -->
-
       <v-select
+        class="select-detail mb-auto"
         dense
         v-if="selectedItem === '名古屋'"
         :items="nagoyaList"
         label="地区詳細"
         @change="getNagoyaDetail('detailClassCode', $event)"
-        outlined
+        solo
       ></v-select>
 
       <!-- 京都の地区詳細 -->
-
       <v-select
+        class="select-detail mb-auto"
         dense
         v-if="selectedItem === '京都'"
         :items="kyotoList"
         label="地区詳細"
         @change="getKyotoDetail('detailClassCode', $event)"
-        outlined
+        solo
       ></v-select>
 
       <!-- 大阪の地区詳細 -->
-
       <v-select
+        class="select-detail mb-auto"
         dense
         v-if="selectedItem === '大阪'"
         :items="osakaList"
         label="地区詳細"
         @change="getOsakaDetail('detailClassCode', $event)"
-        outlined
+        solo
       ></v-select>
-    </v-container>
-
-    <!-- 人数選択 -->
-    <selectNumber
-      @adultNum="getAdultNum"
-      @roomNum="getRoomNum"
-      @upClassNum="getchildNum"
-      @MBNum="getinfantNum"
-    ></selectNumber>
-
-    <!-- 空室検索 -->
-    <div class="my-2">
-      <v-btn large color="primary" v-on:click="moveToVacantList">
+      <!-- </v-col> -->
+      <!-- 空室検索 -->
+      <v-btn
+        class="white--text searchBtn"
+        large
+        color="#333C5E"
+        v-on:click="moveToVacantList"
+      >
         空室検索する
       </v-btn>
-    </div>
-  </div>
+    </v-container>
+  </v-container>
 </template>
 
 <script>
@@ -481,5 +498,52 @@ export default {
 }
 p {
   font-size: 15px;
+}
+/* グレーの背景 */
+.square {
+  margin-top: 50px;
+  width: auto;
+  height: 160px;
+  border-radius: 20px;
+  background: #d9d9d9;
+  position: relative;
+  z-index: 0;
+}
+/* 検索窓全て */
+.searchBox {
+  position: absolute;
+  z-index: 1;
+}
+.calender {
+  width: 300px;
+  height: 60px;
+  padding-top: -12px;
+}
+.calender[data-v-dc40fa16] {
+  box-shadow: none;
+  width: 300px;
+  height: 60px;
+  padding-top: -12px;
+}
+/* .v-select {
+  background-color: white;
+} */
+/* 空室検索ボタン */
+.searchBtn {
+  /* margin: 0 50%; */
+  margin: 20px 50% 0 50%;
+  text-align: center;
+  position: absolute;
+  top: 107px;
+  left: 0px;
+  z-index: 3;
+}
+/* 地区詳細のセレクトボックス */
+.select-detail {
+  margin-top: 20px;
+  width: 365px;
+}
+.numberBtn {
+  width: 300px;
 }
 </style>
