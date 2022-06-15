@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  props: ["hotelNum"],
+  props: ["hotelNum", "loginUser"],
   data() {
     return {
       // お気に入りボタンの切り替え
@@ -20,6 +20,7 @@ export default {
       favoriteList: [],
     };
   },
+  mounted() {},
   methods: {
     /**
      * お気に入りに登録.
@@ -27,7 +28,7 @@ export default {
      */
     addFavorite(number) {
       // ログインしていなかったらログインページへ誘導
-      if (this.$store.getters["register/getLoginUser"].id === 0) {
+      if (this.loginUser === {}) {
         this.$router.push("/login");
         return;
       }
