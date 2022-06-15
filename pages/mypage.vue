@@ -176,12 +176,12 @@ export default {
   },
   mounted() {
     // // ログインしていなかったらログインページへ誘導
-    // if (this.loginUser.id === 0) {
-    //   this.$router.push("/login");
-    // }
+    if (this.loginUser2 === {}) {
+      this.$router.push("/login");
+    }
 
-    // this.favoriteList = this.$store.getters["favorite/getFavoriteList"];
-    // this.watchedList = this.$store.getters["watchedList/getWatchedList"];
+    this.favoriteList = this.$store.getters["favorite/getFavoriteList"];
+    this.watchedList = this.$store.getters["watchedList/getWatchedList"];
   },
   methods: {
     moveToReserve() {
