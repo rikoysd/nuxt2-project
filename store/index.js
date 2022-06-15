@@ -12,6 +12,12 @@ Vue.use(Vuex);
 export const state = () => ({
   //総合ランキング情報
   rankings: [],
+  //温泉宿ランキング
+  onsenRanking: [],
+  // キーワード検索・ページ情報
+  pageInfo: {},
+  // キーワード検索・ホテル一覧
+  hotelList: [],
   // 空室情報
   // hotels[i].hotel[0]:基本情報
   //          .hotel[1]:詳細情報
@@ -48,9 +54,23 @@ export const actions = {
     const response = await axios1.get(
       "https://app.rakuten.co.jp/services/api/Travel/HotelRanking/20170426?applicationId=1098541415969458249&format=json&carrier=0&genre=all"
     );
-    console.dir("response:" + JSON.stringify(response));
+    // console.dir("response:" + JSON.stringify(response));
     const payload = response.data.Rankings[0].Ranking.hotels;
     context.commit("getHotelList", payload);
+    return payload;
+  },
+  /**
+   * 温泉宿ランキング情報の取得.
+   *  @param {*} context
+   *  @returns
+   */
+  async getOnsenRankingList(context) {
+    const response = await axios1.get(
+      "https://app.rakuten.co.jp/services/api/Travel/HotelRanking/20170426?applicationId=1098541415969458249&format=json&carrier=0&genre=onsen"
+    );
+    // console.dir("response:" + JSON.stringify(response));
+    const payload = response.data.Rankings[0].Ranking.hotels;
+    context.commit("getOnsenHotelList", payload);
     return payload;
   },
   /**
@@ -79,6 +99,11 @@ export const actions = {
    * @param {*} params - 検索条件のオブジェクト
    */
   async searchVacantList(context, vacantData) {
+    const vacantResponce = await axios1.get(
+      `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&largeClassCode=japan&middleClassCode=${vacantData.middleClassCode}&smallClassCode=${vacantData.smallClassCode}&detailClassCode=${vacantData.detailClassCode}&checkinDate=${vacantData.checkinDate}&checkoutDate=${vacantData.checkoutDate}&adultNum=${vacantData.adultNum}&upClassNum=${vacantData.upClassNum}&lowClassNum=${vacantData.lowClassNum}&infantWithMBNum=${vacantData.infantWithMBNum}&infantWithMNum=${vacantData.infantWithMNum}&infantWithBNum=${vacantData.infantWithBNum}&infantWithoutMBNum=${vacantData.infantWithoutMBNum}&roomNum=${vacantData.roomNum}&responseType=large`
+    );
+    // console.dir("response" + JSON.stringify(vacantResponce.data.hotels));
+    context.commit("setVacantList", vacantResponce.data.hotels);
     try {
       const vacantResponce = await axios1.get(
         `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&largeClassCode=japan&middleClassCode=${vacantData.middleClassCode}&smallClassCode=${vacantData.smallClassCode}&detailClassCode=${vacantData.detailClassCode}&checkinDate=${vacantData.checkinDate}&checkoutDate=${vacantData.checkoutDate}&adultNum=${vacantData.adultNum}&roomNum=${vacantData.roomNum}&responseType=large&page=${vacantData.page}`
@@ -185,6 +210,25 @@ export const mutations = {
     for (const hotel of payload) {
       state.rankings.push(hotel);
     }
+  },
+  /**
+   * 温泉ランキング情報をstateに格納.
+   * @param {*} state - ステート
+   * @param {*} payload - ペイロード
+   */
+  getOnsenHotelList(state, payload) {
+    for (const onsenHotel of payload) {
+      state.onsenRanking.push(onsenHotel);
+    }
+  },
+  /**
+   * キーワード検索結果のホテルをstateに格納.
+   * @param {*} state
+   * @param {*} payload
+   */
+  showHotelList(state, payload) {
+    state.pageInfo = payload.pagingInfo;
+    state.hotelList = payload.hotels;
   },
   /**
    * 空室検索の結果をstateにセット.
@@ -354,6 +398,14 @@ export const getters = {
    */
   getHotels(state) {
     return state.rankings;
+  },
+  /**
+   *温泉ランキング情報を取得.
+   * @param {*} state - ステート
+   * @returns - 総合ランキング情報
+   */
+  getOnsenRanking(state) {
+    return state.onsenRanking;
   },
   /**
    * キーワード検索結果のホテルをstateに格納.

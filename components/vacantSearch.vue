@@ -1,115 +1,134 @@
 <template>
-  <div>
-    <!-- カレンダー -->
-    <calender @selectDates="addDates"></calender>
-    <!-- 都道府県選択 -->
+  <v-card class="d-flex align-start mt-20" color="#EEEEEE">
     <v-container>
-      <v-row align="center">
-        <v-col class="d-flex" cols="6" sm="6">
+      <!-- <v-container class="searchBox"> -->
+      <v-row class="mt-2 d-flex justify-center">
+        <!-- 都道府県選択 -->
+        <v-col class="d-flex" cols="2" sm="2" height="10">
           <v-select
+            hide-details="true"
             :items="areaNameList"
             label="都道府県"
             @change="getInfo('middleClassCode', $event)"
-            outlined
+            solo
+            dense
           ></v-select>
         </v-col>
         <!-- 市町村選択 -->
-        <v-col class="d-flex" cols="6" sm="6">
+        <v-col class="d-flex" cols="2" sm="2">
           <v-select
+            hide-details="true"
             v-model="selectedItem"
             :items="cityNameList"
             label="市町村"
             @change="getCityList('smallClassCode', $event)"
-            outlined
+            solo
+            dense
           ></v-select>
         </v-col>
-      </v-row>
-      <!-- 札幌の地区詳細 -->
 
+        <!-- カレンダー -->
+        <calender
+          @selectDates="addDates"
+          class="d-flex align-start"
+          hide-details="true"
+          solo
+        ></calender>
+
+        <!-- 人数選択 -->
+        <selectNumber
+          class="numberBtn d-flex align-start"
+          @adultNum="getAdultNum"
+          @roomNum="getRoomNum"
+          @upClassNum="getchildNum"
+          @MBNum="getinfantNum"
+        ></selectNumber>
+      </v-row>
+      <!-- <v-row> -->
+      <!-- 札幌の地区詳細 -->
+      <!-- <v-col class="d-flex" cols="2" sm="2"> -->
       <v-select
+        class="select-detail mb-auto ml-20"
+        dense
         v-if="selectedItem === '札幌'"
         :items="sapporoList"
         label="地区詳細"
         @change="getDetailList('detailClassCode', $event)"
-        outlined
+        solo
       ></v-select>
 
       <!-- 東京23区の地区詳細 -->
-
+      <!-- <v-col class="d-flex" cols="2" sm="2"> -->
       <v-select
+        class="select-detail mb-auto"
+        dense
         v-if="selectedItem === '東京２３区内'"
         :items="tokyoList"
         label="地区詳細"
         @change="getTokyoDetail('detailClassCode', $event)"
-        outlined
+        solo
       ></v-select>
-
+      <!-- </v-col> -->
       <!-- 名古屋の地区詳細 -->
-
       <v-select
+        class="select-detail mb-auto"
+        dense
         v-if="selectedItem === '名古屋'"
         :items="nagoyaList"
         label="地区詳細"
         @change="getNagoyaDetail('detailClassCode', $event)"
-        outlined
+        solo
       ></v-select>
 
       <!-- 京都の地区詳細 -->
-
       <v-select
+        class="select-detail mb-auto"
+        dense
         v-if="selectedItem === '京都'"
         :items="kyotoList"
         label="地区詳細"
         @change="getKyotoDetail('detailClassCode', $event)"
-        outlined
+        solo
       ></v-select>
 
       <!-- 大阪の地区詳細 -->
-
       <v-select
+        class="select-detail mb-auto"
+        dense
         v-if="selectedItem === '大阪'"
         :items="osakaList"
         label="地区詳細"
         @change="getOsakaDetail('detailClassCode', $event)"
-        outlined
+        solo
       ></v-select>
-    </v-container>
-
-    <v-container fluid>
-      <v-row align="center">
-        <!-- 人数選択 -->
-        <v-col class="d-flex" cols="12" sm="2">
-          <v-select
-            :items="adultNum"
-            label="大人人数"
-            outlined
-            @change="requestdata('adultNum', $event)"
-          ></v-select>
-        </v-col>
-        <!-- 部屋数選択 -->
-        <v-col class="d-flex" cols="12" sm="2">
-          <v-select
-            :items="roomNum"
-            label="部屋数"
-            outlined
-            @change="requestdata('roomNum', $event)"
-          ></v-select>
-        </v-col>
+      <!-- </v-col> -->
+      <!-- </v-row> -->
+      <!-- 空室検索ボタン -->
+      <!-- <v-card-actions>
+        <v-container> -->
+      <v-row class="d-flex justify-center">
+        <v-btn
+          class="white--text d-flex justify-center mb-8"
+          large
+          color="#333C5E"
+          v-on:click="moveToVacantList"
+        >
+          空室検索する
+        </v-btn>
       </v-row>
+      <!-- </v-container>
+      </v-card-actions> -->
+      <!-- </v-container> -->
     </v-container>
-    <!-- 空室検索 -->
-    <div class="my-2">
-      <v-btn small color="primary" v-on:click="moveToVacantList">
-        空室検索する
-      </v-btn>
-    </div>
-  </div>
+  </v-card>
 </template>
 
 <script>
 import calender from "./calender.vue";
+import Top from "./top.vue";
+import selectNumber from "./selectNumber.vue";
 export default {
-  components: { calender },
+  components: { calender, Top, selectNumber },
 
   data() {
     return {
@@ -122,6 +141,12 @@ export default {
         checkinDate: 0, //チェックイン日
         checkoutDate: 0, //チェックアウト日
         adultNum: 0, //大人人数
+        upClassNum: 0, //小学生（高学年）
+        lowClassNum: 0, //小学生（低学年）
+        infantWithMBNum: 0, //幼児（食事・布団付）
+        infantWithMNum: 0, //幼児（食事のみ）
+        infantWithBNum: 0, //幼児（布団のみ）
+        infantWithoutMBNum: 0, //幼児（食事・布団不要）
       },
       //都道府県のリスト
       areaList: [],
@@ -130,9 +155,11 @@ export default {
       //選択した都道府県の市町村が入るリスト
       smallClassList: ["都道府県を選択してください"],
       //大人人数
-      adultNum: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      // adultNum: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      adultNum: 0,
       //部屋数
-      roomNum: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      roomNum: 0,
+      // roomNum: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
       //全地区詳細のリスト
       detailList: [],
       //札幌の地区詳細
@@ -147,6 +174,8 @@ export default {
       osakaAray: [],
       selectedItem: "",
       hotels: [],
+      selectNum: "選択してください",
+      defadultNum: 0,
     };
   },
 
@@ -166,6 +195,43 @@ export default {
       this.vacantData.checkinDate = date[0];
       this.vacantData.checkoutDate = date[1];
     },
+    /*
+     *大人人数を子(selectNumber.vue)から受け取る.
+     */
+    getAdultNum(value) {
+      this.vacantData.adultNum = value;
+      console.log(this.vacantData.adultNum);
+    },
+    /**
+     *小学生人数を子(selectNumber.vue)から受け取る.
+     */
+    getchildNum(value1, value2) {
+      this.vacantData.upClassNum = value1;
+      console.log(this.vacantData.upClassNum);
+      this.vacantData.lowClassNum = value2;
+      console.log(this.vacantData.lowClassNum);
+    },
+    /**
+     * 幼児人数を子(selectNumber.vue)から受け取る.
+     */
+    getinfantNum(value1, value2, value3, value4) {
+      this.vacantData.infantWithMBNum = value1;
+      console.log(value1);
+      this.vacantData.infantWithMNum = value2;
+      console.log(value2);
+      this.vacantData.infantWithBNum = value3;
+      console.log(value3);
+      this.vacantData.infantWithoutMBNum = value4;
+      console.log(value4);
+      console.log(this.vacantData.infantWithoutMBNum);
+    },
+
+    /**部屋数を子(selectNumber.vue)から受け取る. */
+    getRoomNum(value) {
+      this.vacantData.roomNum = value;
+      console.log(this.vacantData.roomNum);
+    },
+
     /**
      * 検索値をパラメーターに渡す.
      */
@@ -415,5 +481,68 @@ export default {
     // }
     // console.log(this.smallClassList);
   }, //end of mounted
+  created() {
+    this.defadultNum = 2;
+  },
 };
 </script>
+<style scoped>
+.v-btn:not(.v-btn--round).v-size--default {
+  height: 40px;
+  margin-bottom: 25px;
+}
+.v-btn:not(.v-btn--round).v-size--default[data-v-2c3a9d92] {
+  color: #757575;
+}
+p {
+  font-size: 15px;
+}
+/* グレーの背景 */
+.square {
+  margin-top: 50px;
+  width: auto;
+  /* height: 160px; */
+  height: auto;
+  border-radius: 20px;
+  background: #d9d9d9;
+  position: relative;
+  z-index: 0;
+  margin-bottom: 20px;
+}
+/* 検索窓全て */
+.searchBox {
+  position: absolute;
+  z-index: 1;
+}
+/* カレンダー */
+.calender {
+  width: 300px;
+  height: 60px;
+  padding-top: -12px;
+  z-index: 2;
+}
+.calender[data-v-dc40fa16] {
+  box-shadow: none;
+  width: 300px;
+  height: 60px;
+  padding-top: -12px;
+  z-index: 2;
+}
+/* 空室検索ボタン */
+.searchBtn {
+  margin: 20px 50% 0 50%;
+  position: absolute;
+  top: 107px;
+  z-index: 1;
+}
+/* 地区詳細のセレクトボックス */
+.select-detail {
+  margin-top: 20px;
+  width: 365px;
+  margin-left: 40px;
+}
+
+.numberBtn {
+  width: 300px;
+}
+</style>
