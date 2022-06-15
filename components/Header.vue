@@ -116,7 +116,6 @@ export default {
      * お気に入り一覧を見る.
      */
     favoriteList() {
-      // 一時的に左辺を書き換えてます。
       this.$router.push("/mypage");
     },
     /**
