@@ -4,11 +4,7 @@
       <drawerMenu></drawerMenu>
       <calender></calender>
       <!-- パンくずリスト -->
-      <v-breadcrumbs :items="items">
-        <template v-slot:divider>
-          <v-icon>mdi-chevron-right</v-icon>
-        </template>
-      </v-breadcrumbs>
+      <menu-list></menu-list>
       <search-box @search="searchKeyword"></search-box>
       <keywords @search="searchKeyword"></keywords>
       <!-- 検索結果ページ（初期表示） -->
@@ -117,22 +113,11 @@
 import keywords from "../components/keywords.vue";
 import Menu from "../components/drawerMenu.vue";
 import SearchBox from "../components/searchBox.vue";
+import MenuList from "../components/menuList.vue";
 export default {
-  components: { keywords, SearchBox, Menu },
+  components: { keywords, SearchBox, Menu, MenuList },
   data() {
     return {
-      // パンくずリスト
-      items: [
-        {
-          text: "トップ",
-          disabled: false,
-          href: "/",
-        },
-        {
-          text: "検索結果",
-          disabled: true,
-        },
-      ],
       // ページ情報
       pageInfo: {},
       // ホテル一覧
