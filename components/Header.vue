@@ -124,10 +124,9 @@ export default {
      */
     async myPageAction(number) {
       this.loginUser2 = this.loginUser;
-      console.log(this.loginUser2);
       if (number === 0) {
         // マイページ
-        this.$nuxt.$emit("sendUserInfo", this.loginUser2);
+        this.$nuxt.$emit("getUserInfo", this.loginUser2);
         this.$router.push("/mypage");
       } else {
         // ログアウト

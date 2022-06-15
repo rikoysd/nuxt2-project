@@ -36,7 +36,8 @@ export default {
       this.loginUser = user;
     },
     getUserInfo() {
-      this.$nuxt.$on("sendUserInfo", this.setUserInfo);
+      this.$nuxt.$on("getUserInfo", this.setUserInfo);
+      console.log("呼べた");
     },
     setUserInfo(user) {
       this.loginUser2 = user;
@@ -50,4 +51,3 @@ export default {
   padding: 0;
 }
 </style>
-
