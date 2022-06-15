@@ -4,13 +4,14 @@
       <span class="hotel-name">{{ hotelName }}</span>
 
       <div class="plans" style="background-color: white">
-        <span style="font-weight: bold">日付・食事</span>&nbsp;&nbsp;<v-col>{{
-          dateAndMeal
-        }}</v-col
+        <span style="font-weight: bold">日付・食事</span>&nbsp;&nbsp;<v-col
+          >{{ formatDate }}〜{{ staySpan }}泊<br />
+          {{ breakfast }}・{{ dinner }}</v-col
         ><br />
-        <span style="font-weight: bold">人数室数</span>&nbsp;&nbsp;<v-col>{{
-          peopleAndRooms
-        }}</v-col
+        <span style="font-weight: bold">人数室数</span>&nbsp;&nbsp;<v-col
+          >大人{{ adult }}名
+          <span v-if="1 <= child">子供{{ child }}名</span>
+          1室</v-col
         ><br />
         <span style="font-weight: bold">部屋</span>&nbsp;&nbsp;<v-col>{{
           room
@@ -48,6 +49,8 @@
 </template>
 
 <script>
+import { format } from "date-fns";
+
 export default {
   name: "reservetionContents",
   props: {
@@ -72,16 +75,28 @@ export default {
   },
   data() {
     return {
+      // 予約者ID
+      reserveId: 0,
       // ホテル名
-      hotelName: "The Okura Tokyo",
-      // ホテル詳細
-      dateAndMeal: "2022月5月30日〜 1泊 食事なし",
-      // 宿泊人数
-      peopleAndRooms: "大人2名 1室",
+      hotelName: "",
+      // チェックイン日
+      date: "",
+      // フォーマット化したチェックイン日
+      formatDate: new Date(),
+      // 宿泊日数
+      staySpan: 0,
+      // 朝食
+      breakfast: "",
+      // 夕食
+      dinner: "",
+      // 宿泊人数（大人）
+      adult: 0,
+      // 宿泊人数（子供）
+      child: 0,
       // 部屋の種類
-      room: "プレステージルーム ツイン 【禁煙】",
-      // リンク？
-      plan: "ホテルのリンクを貼る（？）",
+      room: "",
+      // プラン名
+      plan: "",
       // 宿泊料金合計
       subPrice: 0,
       // お支払い金額
@@ -105,7 +120,36 @@ export default {
     };
   }, //end data
 
-  computed: {}, // end computed
+  /**
+   * 非同期でホテル詳細情報を反映させる.
+   */
+  mounted() {
+    let reserveDetail = {};
+    reserveDetail = this.$store.getters.getPreReserveData;
+    this.reserveId = reserveDetail.reserveId;
+    this.hotelName = reserveDetail.hotelName;
+    this.date = reserveDetail.checkInDate;
+    this.formatDate = format(new Date(this.date), "yyyy年MM月dd日");
+    this.staySpan = reserveDetail.staySpan;
+    this.breakfast = reserveDetail.withBreakfastFlag;
+    if (this.breakfast === 0) {
+      this.breakfast = "朝食なし";
+    } else {
+      this.breakfast = "朝食あり";
+    }
+    this.dinner = reserveDetail.withDinnerFlag;
+    if (this.dinner === 0) {
+      this.dinner = "夕食なし";
+    } else {
+      this.dinner = "夕食あり";
+    }
+    this.adult = reserveDetail.adultNum;
+    this.child = reserveDetail.childNum;
+    this.room = reserveDetail.roomName;
+    this.plan = reserveDetail.planName;
+    this.subPrice = reserveDetail.subPrice;
+    this.totalPrice = reserveDetail.totalPrice;
+  },
 
   methods: {
     /**
@@ -239,6 +283,7 @@ export default {
         return;
       }
 
+      // storeに送るためのオブジェクト生成(予約者情報)
       let object = {
         fullName1: "",
         fullName2: "",
@@ -258,6 +303,23 @@ export default {
         card_name: "",
         other: "",
       };
+      // storeに送るためのオブジェクト生成(プラン詳細)
+      let detailObject = {
+        reserveId: 0,
+        hotelName: "",
+        formatDate: new Date(),
+        staySpan: 0,
+        breakfast: "",
+        dinner: "",
+        adult: 0,
+        child: 0,
+        room: "",
+        plan: "",
+        subPrice: 0,
+        totalPrice: 0,
+      };
+
+      // 作ったオブジェクトに情報を代入する
       object.fullName1 = this.fullName1;
       object.fullName2 = this.fullName2;
       object.zipcode = this.zipcode;
@@ -276,8 +338,22 @@ export default {
       object.card_name = this.card_name;
       object.other = this.other;
 
+      detailObject.reserveId = this.reserveId;
+      detailObject.hotelName = this.hotelName;
+      detailObject.formatDate = this.formatDate;
+      detailObject.staySpan = this.staySpan;
+      detailObject.breakfast = this.breakfast;
+      detailObject.dinner = this.dinner;
+      detailObject.adult = this.adult;
+      detailObject.child = this.child;
+      detailObject.room = this.room;
+      detailObject.plan = this.plan;
+      detailObject.subPrice = this.subPrice;
+      detailObject.totalPrice = this.totalPrice;
+
       // storeのmutationにobjectを渡す
       this.$store.commit("reserve", object);
+      this.$store.commit("reserve2", detailObject);
       this.$router.push("/reserveConfirm");
     },
   }, // end methods

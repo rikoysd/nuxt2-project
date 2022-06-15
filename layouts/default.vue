@@ -3,7 +3,7 @@
     <v-app>
       <Header />
       <v-main>
-        <v-container><Nuxt /></v-container>
+        <v-container mt-0 pt-0><Nuxt /></v-container>
       </v-main>
       <Footer />
     </v-app>
@@ -11,13 +11,11 @@
 </template>
 
 <script>
-import vacantSearch from "../components/vacantSearch.vue";
 export default {
-  components: { vacantSearch },
-  name: "DefaultLayout",
   data() {
     return {};
   },
 };
 </script>
-<style></style>
+
+<style scoped></style>

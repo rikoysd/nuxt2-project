@@ -35,10 +35,19 @@
         <!-- コンポーネント start-->
         <span style="color: red">*</span>住所<span style="color: red"
           >&emsp;{{ prefectureError }}</span
-        ><selectPrefectures
-          @prefecture="reservePrefecture"
-          :prefecture="prefecture"
-        ></selectPrefectures>
+        >
+        <div v-if="prefecture !== ''">
+          <selectPrefectures
+            @prefecture="reservePrefecture"
+            :prefecture="prefecture"
+          ></selectPrefectures>
+        </div>
+        <div v-else>
+          <selectPrefectures
+            @prefecture="reservePrefecture"
+            :prefecture="prefecture"
+          ></selectPrefectures>
+        </div>
         <!-- コンポーネント end-->
         <span style="color: red">&emsp;{{ addressError }}</span>
         <v-text-field
@@ -74,7 +83,7 @@
           style="color: red"
           >&emsp;{{ checkInTimeError }}</span
         ><selectChecin @checkin="reserveCheckIn"></selectChecin>
-        <span style="color: red">*</span>宿泊人数 1室目 (大人{{ people }}名)
+        <span style="color: red">*</span>宿泊人数 1室目 (大人{{ adult }}名)
         <span style="color: red">&ensp;{{ manAndWomanError }}</span>
         <v-row class="gender"
           >男性&nbsp;<v-select
@@ -229,10 +238,10 @@
 </template>
 
 <script>
-import selectPrefectures from "../components/selectPrefectures.vue";
-import selectChecin from "../components/selectCheckin.vue";
-import reservetionContents from "../components/reservetionContents.vue";
-import creditcard from "../components/creditcard.vue";
+import selectPrefectures from "../../components/selectPrefectures.vue";
+import selectChecin from "../../components/selectCheckin.vue";
+import reservetionContents from "../../components/reservetionContents.vue";
+import creditcard from "../../components/creditcard.vue";
 
 export default {
   name: "reserveForm",
@@ -244,6 +253,8 @@ export default {
   },
   data() {
     return {
+      // 予約者ID
+      reserveId: 0,
       // フルネーム（氏名）のエラー
       fullName1Error: "",
       // フルネーム（かな）のエラー
@@ -284,8 +295,10 @@ export default {
       mailAddress: "",
       // チェックイン時間
       checkInTime: "",
-      // 宿泊人数
-      people: 0,
+      // 宿泊人数（大人）
+      adult: 0,
+      // 宿泊人数（子供）
+      child: 0,
       // 男
       man: "",
       // 女
@@ -323,26 +336,37 @@ export default {
     };
   }, //end data
 
+  /**
+   * 非同期処理.
+   */
+  mounted() {
+    // this.reserveId = Number(this.$route.params.id);
+    // console.log(resereveId);
+    let reserveDetail = {};
+    reserveDetail = this.$store.getters.getPreReserveData;
+    this.adult = reserveDetail.adultNum;
+    // this.child = reserveDetail.childNum;
+  },
+
   methods: {
     /**
      * ログイン情報の反映.
      */
     loginInfoReflection() {
       this.loginInfo = this.$store.getters["register/getUserList"];
-      console.log(this.loginInfo);
       this.fullName1 = this.loginInfo[0].fullName1;
       this.fullName2 = this.loginInfo[0].fullName2;
       this.zipcode = this.loginInfo[0].zipcode;
       this.prefecture = this.loginInfo[0].prefecture;
       this.address = this.loginInfo[0].address;
       this.telephone = this.loginInfo[0].telephone;
-      this.mailaddress = this.loginInfo[0].mailAddress;
+      this.mailAddress = this.loginInfo[0].mailAddress;
     },
     /**
      * emitで渡ってきた都道府県を変数に代入.
      */
-    reservePrefecture(prefecture) {
-      this.prefecture = prefecture;
+    reservePrefecture(prefecture2) {
+      this.prefecture = prefecture2;
     },
     /**
      * emitで渡ってきたチェックイン時刻を変数に代入.
@@ -397,7 +421,6 @@ export default {
       this.creditFlag = creditObject.creditFlag;
     },
   }, // end methods
-  computed: {}, // end computed
 };
 </script>
 
