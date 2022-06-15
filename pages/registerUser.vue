@@ -40,7 +40,7 @@
       ><br />
       <span>&emsp;{{ addressError }}</span>
       <v-text-field
-        class="address"
+        class="address address-m"
         label="港区赤坂0-0-0（海外住所の場合は「海外」と入力）"
         v-model="address"
         outlined
@@ -53,6 +53,7 @@
         outlined
       ></v-text-field>
       メールアドレス<span>&emsp;{{ mailAddressError }}</span
+      ><span>&emsp;{{ mailAddressError2 }}</span
       ><v-text-field
         class="mailaddress"
         label="rakuraku@example.jp"
@@ -128,6 +129,8 @@ export default {
       telephoneError: "",
       // メールアドレスのエラー
       mailAddressError: "",
+      // メールアドレスのエラー(メアド重複チェック用)
+      mailAddressError2: "",
       // パスワードのエラー
       passwordError: "",
       // エラーチェック
@@ -244,34 +247,33 @@ export default {
       }
       this.errors.push(this.errorCheck);
 
-      // メールアドレスの重複エラ
-      let loopBreakCount = this.userList.length - 1;
+      // メールアドレスの重複エラー
+      let sameAddress = "";
       for (let i = 0; i < this.userList.length; i++) {
-        if (this.mailAddress === this.userList[i].mailAddress) {
-          this.mailAddressError = "このメールアドレスは既に登録されています";
-          this.errorCheck = true;
-          this.errors.push(this.errorCheck);
-        } else {
-          this.mailAddressError = "";
-          this.errorCheck = false;
-          this.errors.push(this.errorCheck);
+        if (this.userList[i].mailAddress === this.mailAddress) {
+          sameAddress = this.mailAddress;
         }
+      }
 
-        // ループ回数になったらループ終了
-        if (i === loopBreakCount) {
-          break;
-        }
+      if (sameAddress !== "") {
+        this.mailAddressError2 = "このメールアドレスは既に登録されています";
+        this.errorCheck = true;
+        this.errors.push(this.errorCheck);
+      } else {
+        this.mailAddressError2 = "";
+        this.errorCheck = false;
+        this.errors.push(this.errorCheck);
       }
 
       // メールアドレスのエラー
       if (this.mailAddress === "") {
-        this.mailaddressError = "メールアドレスを入力してください";
+        this.mailAddressError = "メールアドレスを入力してください";
         this.errorCheck = true;
       } else if (this.mailAddress.indexOf("@") === -1) {
-        this.mailaddressError = "正しい形式で入力してください";
+        this.mailAddressError = "正しい形式で入力してください";
         this.errorCheck = true;
       } else {
-        this.mailaddressError = "";
+        this.mailAddressError = "";
         this.errorCheck = false;
       }
       this.errors.push(this.errorCheck);
@@ -321,7 +323,6 @@ export default {
       }
 
       // 登録情報を送信する
-
       const db = getFirestore(firebase);
       try {
         const docRef1 = setDoc(doc(db, "ユーザー一覧", String(userId)), {
