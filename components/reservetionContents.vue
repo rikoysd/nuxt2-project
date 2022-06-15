@@ -154,8 +154,10 @@ export default {
     console.log(this.reserveDetail); // ok
 
     // エラーハンドリング
-    if ((this.reserveId === null) | undefined) {
-      this.$router.push("/aaa");
+    const paramId = this.$route.params.id;
+    console.log(paramId);
+    if (paramId === null || undefined) {
+      this.$router.push("/layouts/error");
     }
   },
 

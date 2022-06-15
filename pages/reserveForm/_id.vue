@@ -340,12 +340,17 @@ export default {
    * 非同期処理.
    */
   mounted() {
-    // this.reserveId = Number(this.$route.params.id);
-    // console.log(resereveId);
     let reserveDetail = {};
     reserveDetail = this.$store.getters.getPreReserveData;
     this.adult = reserveDetail.adultNum;
     // this.child = reserveDetail.childNum;
+
+    // エラーハンドリング
+    const paramId = this.$route.params.id;
+    console.log(paramId);
+    if (paramId === null || undefined) {
+      this.$router.push("/layouts/error");
+    }
   },
 
   methods: {
