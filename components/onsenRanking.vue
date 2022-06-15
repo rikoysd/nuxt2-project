@@ -1,10 +1,13 @@
 <template>
   <div>
-    <v-container class="mt-auto mb-20 ranking">
-      <p>今人気の宿10選</p>
+    <v-container class="mt-auto onsenRanking">
+      <p>今人気の温泉宿10選</p>
       <v-sheet>
         <v-slide-group multiple show-arrows>
-          <v-slide-item v-for="hotel of responsedata" v-bind:key="hotel.id">
+          <v-slide-item
+            v-for="onsen of onsenRankingLists"
+            v-bind:key="onsen.id"
+          >
             <v-card :loading="loading" class="mx-2" max-width="270">
               <template slot="progress">
                 <v-progress-linear
@@ -14,9 +17,9 @@
                 ></v-progress-linear>
               </template>
 
-              <v-img height="150" :src="hotel.hotel.hotelImageUrl"></v-img>
+              <v-img height="150" :src="onsen.hotel.hotelImageUrl"></v-img>
 
-              <v-card-title>{{ hotel.hotel.hotelName }}</v-card-title>
+              <v-card-title>{{ onsen.hotel.hotelName }}</v-card-title>
 
               <v-card-text>
                 <v-row align="center" class="mx-0">
@@ -30,24 +33,20 @@
                   ></v-rating>
 
                   <div class="grey--text ms-4">
-                    {{ hotel.hotel.reviewAverage }} ({{
-                      hotel.hotel.reviewCount
+                    {{ onsen.hotel.reviewAverage }} ({{
+                      onsen.hotel.reviewCount
                     }})
                   </div>
                 </v-row>
 
                 <div class="my-4 text-subtitle-1">
-                  {{ hotel.hotel.middleClassName }}
+                  {{ onsen.hotel.middleClassName }}
                 </div>
               </v-card-text>
 
               <v-divider class="mx-4"></v-divider>
               <v-card-actions>
-                <v-btn
-                  color="deep-purple lighten-2"
-                  text
-                  @click="reserve(hotel.hotel.hotelNo)"
-                >
+                <v-btn color="deep-purple lighten-2" text @click="reserve">
                   詳細を見る
                 </v-btn>
               </v-card-actions>
@@ -58,30 +57,28 @@
     </v-container>
   </div>
 </template>
-
 <script>
 export default {
   data() {
     return {
-      responsedata: [],
+      onsenRankingLists: [],
       loading: false,
       selection: 1,
     };
   }, //end data
   /**
-   * 総合ランキング情報を取得、表示する.
+   * 温泉宿ランキング情報を取得、表示する.
    */
   async mounted() {
-    await this.$store.dispatch("getRankingList");
-    this.responsedata = this.$store.getters.getHotels;
-    console.log(this.responsedata);
+    await this.$store.dispatch("getOnsenRankingList");
+    this.onsenRankingLists = this.$store.getters.getOnsenRanking;
+    console.log(this.onsenRankingLists);
   }, //mounted
 
   methods: {
-    reserve(number) {
+    reserve() {
       //   this.loading = true;
       //   setTimeout(() => (this.loading = false), 2000);
-      this.$router.push(`/hotelDetail/${number}`);
     },
   }, // end methods
 };
@@ -101,16 +98,7 @@ P {
   font-size: 20px;
   padding-left: 60px;
 }
-.ranking {
-  padding-top: 50px;
-  margin-top: auto;
-  display: flex;
-  flex-flow: column;
-  height: 500px;
-  padding-bottom: 0px;
-  margin-bottom: 50px;
-}
-.v-slide-group__content {
-  padding-bottom: 5px;
+.onsenRanking {
+  margin-bottom: 70px;
 }
 </style>

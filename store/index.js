@@ -13,6 +13,8 @@ Vue.use(Vuex);
 export const state = () => ({
   //総合ランキング情報
   rankings: [],
+  //温泉宿ランキング
+  onsenRanking: [],
   // キーワード検索・ページ情報
   pageInfo: {},
   // キーワード検索・ホテル一覧
@@ -47,9 +49,23 @@ export const actions = {
     const response = await axios1.get(
       "https://app.rakuten.co.jp/services/api/Travel/HotelRanking/20170426?applicationId=1098541415969458249&format=json&carrier=0&genre=all"
     );
-    console.dir("response:" + JSON.stringify(response));
+    // console.dir("response:" + JSON.stringify(response));
     const payload = response.data.Rankings[0].Ranking.hotels;
     context.commit("getHotelList", payload);
+    return payload;
+  },
+  /**
+   * 温泉宿ランキング情報の取得.
+   *  @param {*} context
+   *  @returns
+   */
+  async getOnsenRankingList(context) {
+    const response = await axios1.get(
+      "https://app.rakuten.co.jp/services/api/Travel/HotelRanking/20170426?applicationId=1098541415969458249&format=json&carrier=0&genre=onsen"
+    );
+    // console.dir("response:" + JSON.stringify(response));
+    const payload = response.data.Rankings[0].Ranking.hotels;
+    context.commit("getOnsenHotelList", payload);
     return payload;
   },
   /**
@@ -178,6 +194,16 @@ export const mutations = {
   getHotelList(state, payload) {
     for (const hotel of payload) {
       state.rankings.push(hotel);
+    }
+  },
+  /**
+   * 温泉ランキング情報をstateに格納.
+   * @param {*} state - ステート
+   * @param {*} payload - ペイロード
+   */
+  getOnsenHotelList(state, payload) {
+    for (const onsenHotel of payload) {
+      state.onsenRanking.push(onsenHotel);
     }
   },
   /**
@@ -340,6 +366,14 @@ export const getters = {
    */
   getHotels(state) {
     return state.rankings;
+  },
+  /**
+   *温泉ランキング情報を取得.
+   * @param {*} state - ステート
+   * @returns - 総合ランキング情報
+   */
+  getOnsenRanking(state) {
+    return state.onsenRanking;
   },
   /**
    * キーワード検索結果のホテルをstateに格納.

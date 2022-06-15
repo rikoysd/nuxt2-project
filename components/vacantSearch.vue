@@ -1,11 +1,8 @@
 <template>
-  <v-container class="square">
-    <v-container class="searchBox">
-      <!-- <v-row> -->
-
-      <!-- </v-row> -->
-
-      <v-row align="center">
+  <v-card class="d-flex align-start mt-20" color="#EEEEEE">
+    <v-container>
+      <!-- <v-container class="searchBox"> -->
+      <v-row class="mt-2 d-flex justify-center">
         <!-- 都道府県選択 -->
         <v-col class="d-flex" cols="2" sm="2" height="10">
           <v-select
@@ -33,23 +30,25 @@
         <!-- カレンダー -->
         <calender
           @selectDates="addDates"
-          class="calender d-flex"
+          class="d-flex align-start"
           hide-details="true"
           solo
         ></calender>
+
         <!-- 人数選択 -->
         <selectNumber
-          class="numberBtn"
+          class="numberBtn d-flex align-start"
           @adultNum="getAdultNum"
           @roomNum="getRoomNum"
           @upClassNum="getchildNum"
           @MBNum="getinfantNum"
         ></selectNumber>
       </v-row>
+      <!-- <v-row> -->
       <!-- 札幌の地区詳細 -->
       <!-- <v-col class="d-flex" cols="2" sm="2"> -->
       <v-select
-        class="select-detail mb-auto"
+        class="select-detail mb-auto ml-20"
         dense
         v-if="selectedItem === '札幌'"
         :items="sapporoList"
@@ -103,17 +102,25 @@
         solo
       ></v-select>
       <!-- </v-col> -->
-      <!-- 空室検索 -->
-      <v-btn
-        class="white--text searchBtn"
-        large
-        color="#333C5E"
-        v-on:click="moveToVacantList"
-      >
-        空室検索する
-      </v-btn>
+      <!-- </v-row> -->
+      <!-- 空室検索ボタン -->
+      <!-- <v-card-actions>
+        <v-container> -->
+      <v-row class="d-flex justify-center">
+        <v-btn
+          class="white--text d-flex justify-center mb-8"
+          large
+          color="#333C5E"
+          v-on:click="moveToVacantList"
+        >
+          空室検索する
+        </v-btn>
+      </v-row>
+      <!-- </v-container>
+      </v-card-actions> -->
+      <!-- </v-container> -->
     </v-container>
-  </v-container>
+  </v-card>
 </template>
 
 <script>
@@ -503,46 +510,47 @@ p {
 .square {
   margin-top: 50px;
   width: auto;
-  height: 160px;
+  /* height: 160px; */
+  height: auto;
   border-radius: 20px;
   background: #d9d9d9;
   position: relative;
   z-index: 0;
+  margin-bottom: 20px;
 }
 /* 検索窓全て */
 .searchBox {
   position: absolute;
   z-index: 1;
 }
+/* カレンダー */
 .calender {
   width: 300px;
   height: 60px;
   padding-top: -12px;
+  z-index: 2;
 }
 .calender[data-v-dc40fa16] {
   box-shadow: none;
   width: 300px;
   height: 60px;
   padding-top: -12px;
+  z-index: 2;
 }
-/* .v-select {
-  background-color: white;
-} */
 /* 空室検索ボタン */
 .searchBtn {
-  /* margin: 0 50%; */
   margin: 20px 50% 0 50%;
-  text-align: center;
   position: absolute;
   top: 107px;
-  left: 0px;
-  z-index: 3;
+  z-index: 1;
 }
 /* 地区詳細のセレクトボックス */
 .select-detail {
   margin-top: 20px;
   width: 365px;
+  margin-left: 40px;
 }
+
 .numberBtn {
   width: 300px;
 }
