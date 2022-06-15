@@ -102,10 +102,8 @@ export default {
   watch: {
     loginUser() {
       if (this.loginUser.id) {
-        console.log("ログイン中");
         this.flag = true;
       } else {
-        console.log("ログインしてない");
         this.flag = false;
       }
     },
