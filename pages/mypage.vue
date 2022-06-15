@@ -4,7 +4,7 @@
       <v-btn @click="moveToReserve">予約画面に移動</v-btn>
       <nuxt-link to="/keywordHotelList">一覧</nuxt-link>
 
-      <div>
+      <div class="item">
         <h4>お気に入りの宿</h4>
         <div>{{ favoriteError }}</div>
         <v-slide-group
@@ -72,7 +72,7 @@
           </v-slide-item>
         </v-slide-group>
       </div>
-      <div>
+      <div class="item">
         <h4>閲覧履歴</h4>
         <div>{{ watchedError }}</div>
         <v-slide-group
@@ -176,14 +176,17 @@ export default {
   },
 
   mounted() {
-    // ログインしていなかったらログインページへ誘導
-    if (!(this.loginUser2.id)) {
-      this.$router.push("/login");
-    }
     this.favoriteList = this.$store.getters["favorite/getFavoriteList"];
     this.watchedList = this.$store.getters["watchedList/getWatchedList"];
   },
-
+  watch: {
+    loginUser2() {
+      // ログインしていなかったらログインページへ誘導
+      if (this.loginUser2.mailAddress === undefined) {
+        this.$router.push("/login");
+      }
+    },
+  },
   methods: {
     /**
      * テスト用
@@ -238,6 +241,10 @@ export default {
 .hotel-name {
   font-size: 15px;
   font-weight: bold;
+}
+
+.item {
+  margin: 60px 0;
 }
 
 .min-charge {

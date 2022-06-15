@@ -36,7 +36,7 @@ export default {
       this.loginUser = user;
     },
     getUserInfo() {
-      this.$nuxt.$on("sendUserInfo", this.setUserInfo);
+      this.$nuxt.$on("getUserInfo", this.setUserInfo);
     },
     setUserInfo(user) {
       this.loginUser2 = user;
@@ -52,4 +52,3 @@ export default {
   margin-right: 0;
 }
 </style>
-
