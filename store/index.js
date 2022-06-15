@@ -2,7 +2,6 @@ import Vuex from "vuex";
 import Vue from "vue";
 import searchInstitution from "./modules/searchInstitution";
 import axios1 from "axios";
-import axios from "@nuxtjs/axios";
 import register from "./modules/register";
 import keyword from "./modules/keyword";
 import reserve from "./modules/reserve";
@@ -36,6 +35,12 @@ export const state = () => ({
   preReserveData: "",
   //検索条件
   searchResult: [],
+  // ページ情報（空室検索）
+  pageInfo: {},
+  // ホテル一覧（空室検索）
+  hotelList: [],
+  // 空室検索のエラーフラグ
+  searchErrorFlag: false,
 });
 
 export const actions = {
@@ -99,6 +104,17 @@ export const actions = {
     );
     // console.dir("response" + JSON.stringify(vacantResponce.data.hotels));
     context.commit("setVacantList", vacantResponce.data.hotels);
+    try {
+      const vacantResponce = await axios1.get(
+        `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&largeClassCode=japan&middleClassCode=${vacantData.middleClassCode}&smallClassCode=${vacantData.smallClassCode}&detailClassCode=${vacantData.detailClassCode}&checkinDate=${vacantData.checkinDate}&checkoutDate=${vacantData.checkoutDate}&adultNum=${vacantData.adultNum}&roomNum=${vacantData.roomNum}&responseType=large&page=${vacantData.page}`
+      );
+      // console.dir("response" + JSON.stringify(vacantResponce.data));
+
+      context.commit("setVacantData", vacantResponce.data);
+    } catch (error) {
+      console.log(error);
+      context.commit("setErrorFlag");
+    }
   },
   /**
    * 一件空室検索.
@@ -119,6 +135,7 @@ export const actions = {
         context.commit("changeErrorStayFlag");
       }
     } catch (error) {
+      context.commit("setVacantList", "");
       alert("該当する宿泊プランが存在しません");
       console.log(error.response.status);
     }
@@ -131,22 +148,6 @@ export const actions = {
   //   this.dispatch("searchInstitution/searchInstitution", { root: true });
   // },
 
-  /**
-   * キーワード検索結果のホテルを取得する.
-   * @param {*} context - コンテキスト
-   * @param {*} keyword - キーワード
-   */
-  async getHotelList(context, keyword) {
-    try {
-      const response = await this.$axios.$get(
-        `https://app.rakuten.co.jp/services/api/Travel/KeywordHotelSearch/20170426?applicationId=1098541415969458249&format=json&responseType=large&keyword=${keyword}`
-      );
-      // console.dir(JSON.stringify(response));
-      context.commit("showHotelList", response);
-    } catch (error) {
-      console.log(error);
-    }
-  },
   /**
    * 地区コードの取得.
    *  @param {*} context - コンテキスト
@@ -182,6 +183,20 @@ export const actions = {
    */
   searchHotel2(context, number) {
     context.dispatch("watchedList/searchHotel", number, { root: true });
+  },
+  /** register.jsにユーザー情報を渡す.
+   * @param {*} context - コンテキスト
+   * @param {*} object - ユーザー情報のオブジェクト
+   */
+  register(context, object) {
+    context.dispatch("register/registerUser", object, { root: true });
+  },
+  /**
+   * ユーザー一覧を取得する.
+   * @param {*} context - コンテキスト
+   */
+  getUserList(context) {
+    context.dispatch("register/getUser");
   },
 }; // end actions
 
@@ -221,8 +236,18 @@ export const mutations = {
    * @param {*} payload - ペイロード
    */
   setVacantList(state, payload) {
+    state.vacantList = "";
     state.vacantList = { hotels: payload };
-    console.log(state.vacantList);
+    console.log("state.vacantList", state.vacantList);
+  },
+  /**
+   * 空室検索の結果をstateにセット.
+   * @param {*} state - ステート
+   * @param {*} payload - ページ情報とホテル一覧
+   */
+  setVacantData(state, payload) {
+    state.pageInfo = payload.pagingInfo;
+    state.hotelList = payload.hotels;
   },
   /**
    * 検索条件をステートに格納.
@@ -324,6 +349,13 @@ export const mutations = {
   deleteUser(state) {
     this.commit("register/deleteLoginUser");
   },
+  /**
+   * 空室検索のエラーをstateに格納.
+   * @param {*} state - ステート
+   */
+  setErrorFlag(state) {
+    state.searchErrorFlag = true;
+  },
 }; //end of mutations
 
 export const getters = {
@@ -407,6 +439,14 @@ export const getters = {
    */
   getSearchResult(state) {
     return state.searchResult;
+  },
+  /**
+   * 空室検索のエラーフラグを取得する.
+   * @param {*} state - ステート
+   * @returns 空室検索のエラーフラグ
+   */
+  getSearchError(state) {
+    return state.searchErrorFlag;
   },
   /**
    * 予約情報入力フォームに反映させる詳細情報.

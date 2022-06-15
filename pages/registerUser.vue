@@ -40,7 +40,7 @@
       ><br />
       <span>&emsp;{{ addressError }}</span>
       <v-text-field
-        class="address"
+        class="address address-m"
         label="港区赤坂0-0-0（海外住所の場合は「海外」と入力）"
         v-model="address"
         outlined
@@ -52,7 +52,8 @@
         v-model="telephone"
         outlined
       ></v-text-field>
-      メールアドレス<span>&emsp;{{ mailaddressError }}</span
+      メールアドレス<span>&emsp;{{ mailAddressError }}</span
+      ><span>&emsp;{{ mailAddressError2 }}</span
       ><v-text-field
         class="mailaddress"
         label="rakuraku@example.jp"
@@ -83,6 +84,14 @@
 
 <script>
 import selectPrefectures2 from "../components/selectPrefectures2.vue";
+import {
+  collection,
+  doc,
+  getDocs,
+  getFirestore,
+  setDoc,
+} from "firebase/firestore";
+import firebase from "@/plugins/firebase";
 
 export default {
   components: {
@@ -119,7 +128,9 @@ export default {
       // 電話番号のエラー
       telephoneError: "",
       // メールアドレスのエラー
-      mailaddressError: "",
+      mailAddressError: "",
+      // メールアドレスのエラー(メアド重複チェック用)
+      mailAddressError2: "",
       // パスワードのエラー
       passwordError: "",
       // エラーチェック
@@ -128,10 +139,26 @@ export default {
       errors: [],
       // ユーザー一覧
       userList: [],
+      // エラーメッセージ
+      errorMessage: "",
     };
   },
-  mounted() {
-    this.userList = this.$store.getters["register/getUserList"];
+  async mounted() {
+    // ユーザー一覧を取得する
+    const db = getFirestore(firebase);
+    try {
+      const listData = collection(db, "ユーザー一覧");
+      await getDocs(listData).then((snapShot) => {
+        const data = snapShot.docs.map((doc) => ({ ...doc.data() }));
+        // console.log(data);
+
+        for (let user of data) {
+          this.userList.push(user);
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
   },
   methods: {
     // テスト用(最後に削除する)
@@ -161,7 +188,6 @@ export default {
       if (this.fullName1 === "") {
         this.fullName1Error = "名前を入力してください";
         this.errorCheck = true;
-        this.errors.push(this.errorCheck);
       } else {
         this.fullName1Error = "";
         this.errorCheck = false;
@@ -193,12 +219,10 @@ export default {
 
       // 都道府県のエラー
       if (this.prefecture === "") {
-        this.prefecture;
-        Error = "都道府県を選択してください";
+        this.prefectureError = "都道府県を選択してください";
         this.errorCheck = true;
       } else {
-        this.prefecture;
-        Error = "";
+        this.prefectureError = "";
         this.errorCheck = false;
       }
       this.errors.push(this.errorCheck);
@@ -224,34 +248,32 @@ export default {
       this.errors.push(this.errorCheck);
 
       // メールアドレスの重複エラー
-      let addressArray = [];
-      for (let user of this.userList) {
-        addressArray.push(user.mailAddress);
-      }
       let sameAddress = "";
-      for (let address of addressArray) {
-        if (address === this.mailAddress) {
+      for (let i = 0; i < this.userList.length; i++) {
+        if (this.userList[i].mailAddress === this.mailAddress) {
           sameAddress = this.mailAddress;
         }
       }
+
       if (sameAddress !== "") {
-        this.mailaddressError = "このメールアドレスは既に登録されています";
+        this.mailAddressError2 = "このメールアドレスは既に登録されています";
         this.errorCheck = true;
+        this.errors.push(this.errorCheck);
       } else {
-        this.mailaddressError = "";
+        this.mailAddressError2 = "";
         this.errorCheck = false;
+        this.errors.push(this.errorCheck);
       }
-      this.errors.push(this.errorCheck);
 
       // メールアドレスのエラー
       if (this.mailAddress === "") {
-        this.mailaddressError = "メールアドレスを入力してください";
+        this.mailAddressError = "メールアドレスを入力してください";
         this.errorCheck = true;
       } else if (this.mailAddress.indexOf("@") === -1) {
-        this.mailaddressError = "正しい形式で入力してください";
+        this.mailAddressError = "正しい形式で入力してください";
         this.errorCheck = true;
       } else {
-        this.mailaddressError = "";
+        this.mailAddressError = "";
         this.errorCheck = false;
       }
       this.errors.push(this.errorCheck);
@@ -300,30 +322,25 @@ export default {
         userId = Math.max(...idList) + 1;
       }
 
-      let object = {
-        id: "",
-        fullName1: "",
-        fullName2: "",
-        zipcode: "",
-        prefecture: "",
-        address: "",
-        telephone: "",
-        mailAddress: "",
-        password: "",
-      };
-
-      object.id = userId;
-      object.fullName1 = this.fullName1;
-      object.fullName2 = this.fullName2;
-      object.zipcode = this.zipcode;
-      object.prefecture = this.prefecture;
-      object.address = this.address;
-      object.telephone = this.telephone;
-      object.mailAddress = this.mailAddress;
-      object.password = this.password;
-
       // 登録情報を送信する
-      this.$store.commit("register", object);
+      const db = getFirestore(firebase);
+      try {
+        const docRef1 = setDoc(doc(db, "ユーザー一覧", String(userId)), {
+          id: userId,
+          fullName1: this.fullName1,
+          fullName2: this.fullName2,
+          zipcode: this.zipcode,
+          prefecture: this.prefecture,
+          address: this.address,
+          mailAddress: this.mailAddress,
+          telephone: this.telephone,
+          password: this.password,
+        });
+        // console.log(docRef1);
+      } catch (error) {
+        console.error(error);
+        this.errorMessage = "エラーが発生したため登録できませんでした";
+      }
 
       // ログインページに遷移
       this.$router.push("/login");

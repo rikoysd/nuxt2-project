@@ -194,8 +194,6 @@ export default {
     addDates(date) {
       this.vacantData.checkinDate = date[0];
       this.vacantData.checkoutDate = date[1];
-      console.log(date[0]);
-      console.log(date[1]);
     },
     /*
      *大人人数を子(selectNumber.vue)から受け取る.
@@ -238,8 +236,6 @@ export default {
      * 検索値をパラメーターに渡す.
      */
     getInfo(data, name) {
-      console.log(data);
-      console.log(name);
       //選択した値と同じ名前のコードを値として渡す
       let obj = this.areaList.find((area) => area.name === name);
       this.vacantData[data] = obj.code;
@@ -263,7 +259,7 @@ export default {
           cityName: cityName,
         });
       }
-      console.log(this.smallClassList); //選択済の市町村のリストが入る
+      //選択済の市町村のリストが入る
       //
 
       //札幌地区の名前・コードを(sapporoArray)に入れる
@@ -326,7 +322,6 @@ export default {
     getCityList(data, name) {
       let cityObj = this.smallClassList.find((city) => city.cityName === name);
       this.vacantData[data] = cityObj.cityCode;
-      console.log(data);
       if (cityObj.cityCode === "sapporo") {
       }
     },
@@ -334,7 +329,6 @@ export default {
      * 札幌の地区詳細コードをパラメーターとして渡す.
      */
     getDetailList(data, name) {
-      console.log(name);
       let sapporoObj = this.sapporoArray.find(
         (detail) => detail.detailName === name
       );
@@ -344,12 +338,10 @@ export default {
      * 東京２３区の地区詳細コードをパラメーターとして渡す.
      */
     getTokyoDetail(data, name) {
-      console.log(name);
       let tokyoObj = this.tokyoArray.find(
         (detail) => detail.detailName === name
       );
       this.vacantData[data] = tokyoObj.detailCode;
-      console.log(tokyoObj);
     },
     /**
      * 名古屋の地区詳細コードをパラメーターとして渡す.
@@ -376,7 +368,6 @@ export default {
       let osakaObj = this.osakaAray.find(
         (detail) => detail.detailName === name
       );
-      console.log(data);
       this.vacantData[data] = osakaObj.detailCode;
     },
   }, //end of methods
