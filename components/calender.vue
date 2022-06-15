@@ -1,12 +1,16 @@
 <template>
   <div>
+    <!-- <v-col cols="12" sm="6"> -->
+    <!-- <v-col cols="12" sm="12"> -->
+
     <v-col cols="12">
       <v-text-field
+        dense
         @focus="dateFocus"
         v-model="dateRangeText"
         label="日付指定"
         readonly
-        outlined
+        solo
       ></v-text-field>
       <v-expand-transition>
         <v-card max-width="400" v-show="showCalender">
@@ -62,7 +66,7 @@ export default {
         }
 
         // 2日選択されたらカレンダーを閉じる
-        // this.closePopup();
+        this.closePopup();
       }
     },
     /**

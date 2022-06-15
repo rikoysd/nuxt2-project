@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-container>
+    <v-container class="mt-auto mb-20 ranking">
       <p>今人気の宿10選</p>
       <v-sheet>
         <v-slide-group multiple show-arrows>
@@ -43,7 +43,11 @@
 
               <v-divider class="mx-4"></v-divider>
               <v-card-actions>
-                <v-btn color="deep-purple lighten-2" text @click="reserve">
+                <v-btn
+                  color="deep-purple lighten-2"
+                  text
+                  @click="reserve(hotel.hotel.hotelNo)"
+                >
                   詳細を見る
                 </v-btn>
               </v-card-actions>
@@ -58,7 +62,11 @@
 <script>
 export default {
   data() {
-    return { responsedata: [], loading: false, selection: 1 };
+    return {
+      responsedata: [],
+      loading: false,
+      selection: 1,
+    };
   }, //end data
   /**
    * 総合ランキング情報を取得、表示する.
@@ -70,9 +78,10 @@ export default {
   }, //mounted
 
   methods: {
-    reserve() {
+    reserve(number) {
       //   this.loading = true;
       //   setTimeout(() => (this.loading = false), 2000);
+      this.$router.push(`/hotelDetail/${number}`);
     },
   }, // end methods
 };
@@ -85,8 +94,23 @@ export default {
 .v-application .text-subtitle-1 {
   font-size: 13px;
 }
+.v-application {
+  margin-top: auto;
+}
 P {
   font-size: 20px;
   padding-left: 60px;
+}
+.ranking {
+  padding-top: 50px;
+  margin-top: auto;
+  display: flex;
+  flex-flow: column;
+  height: 500px;
+  padding-bottom: 0px;
+  margin-bottom: 50px;
+}
+.v-slide-group__content {
+  padding-bottom: 5px;
 }
 </style>
