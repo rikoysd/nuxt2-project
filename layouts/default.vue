@@ -37,7 +37,6 @@ export default {
     },
     getUserInfo() {
       this.$nuxt.$on("getUserInfo", this.setUserInfo);
-      console.log("呼べた");
     },
     setUserInfo(user) {
       this.loginUser2 = user;
