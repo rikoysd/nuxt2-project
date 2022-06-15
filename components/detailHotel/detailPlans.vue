@@ -57,7 +57,7 @@
               <v-btn
                 color="#65CC42"
                 class="white--text font-weight-bold"
-                @click="preReserve"
+                @click="preReserve(i)"
                 >詳細・予約</v-btn
               >
             </v-col>
@@ -98,8 +98,8 @@ export default {
         return "";
       }
     },
-    preReserve() {
-      const plan = this.plans[0];
+    preReserve(i) {
+      const plan = this.plans[i];
       // 予約情報IDの生成
       let reserveId = "";
       for (let i = 0; i < 7; i++) {

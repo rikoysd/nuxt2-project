@@ -4,7 +4,7 @@
       <v-col id="hotelInfo" cols="11">
         <span class="title font-weight-bold">宿の詳細</span>
         <br />
-        <v-parallax class="hotelImage1" :src="hotelImage"></v-parallax>
+        <v-img class="hotelImage1" :src="hotelImage"></v-img>
       </v-col>
     </v-row>
     <v-row>
