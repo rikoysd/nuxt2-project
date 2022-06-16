@@ -11,7 +11,6 @@
             label="都道府県"
             @change="getInfo('middleClassCode', $event)"
             solo
-            dense
           ></v-select>
         </v-col>
         <!-- 市町村選択 -->
@@ -23,7 +22,6 @@
             label="市町村"
             @change="getCityList('smallClassCode', $event)"
             solo
-            dense
           ></v-select>
         </v-col>
 
@@ -488,12 +486,16 @@ export default {
 </script>
 <style scoped>
 .v-btn:not(.v-btn--round).v-size--default {
-  height: 40px;
+  height: 60px;
   margin-bottom: 25px;
 }
 .v-btn:not(.v-btn--round).v-size--default[data-v-2c3a9d92] {
   color: #757575;
 }
+.v-btn {
+  height: 60px;
+}
+
 p {
   font-size: 15px;
 }

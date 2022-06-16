@@ -141,6 +141,10 @@ export default {
         this.$router.push("/");
       }
     },
+    searchKeyword(keyword) {
+      console.log(keyword);
+      this.$emit("search", keyword);
+    },
   }, // end methods
   computed: {},
 };
@@ -166,7 +170,7 @@ export default {
 }
 .search-box {
   margin-top: 25px;
-  width: 600px;
-  margin-right: 120px;
+  width: 450px;
+  margin-right: 320px;
 }
 </style>

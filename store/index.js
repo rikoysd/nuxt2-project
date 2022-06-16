@@ -99,14 +99,15 @@ export const actions = {
    * @param {*} params - 検索条件のオブジェクト
    */
   async searchVacantList(context, vacantData) {
-    const vacantResponce = await axios1.get(
-      `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&largeClassCode=japan&middleClassCode=${vacantData.middleClassCode}&smallClassCode=${vacantData.smallClassCode}&detailClassCode=${vacantData.detailClassCode}&checkinDate=${vacantData.checkinDate}&checkoutDate=${vacantData.checkoutDate}&adultNum=${vacantData.adultNum}&upClassNum=${vacantData.upClassNum}&lowClassNum=${vacantData.lowClassNum}&infantWithMBNum=${vacantData.infantWithMBNum}&infantWithMNum=${vacantData.infantWithMNum}&infantWithBNum=${vacantData.infantWithBNum}&infantWithoutMBNum=${vacantData.infantWithoutMBNum}&roomNum=${vacantData.roomNum}&responseType=large`
-    );
-    // console.dir("response" + JSON.stringify(vacantResponce.data.hotels));
-    context.commit("setVacantList", vacantResponce.data.hotels);
+    // const vacantResponce = await axios1.get(
+    //   `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&largeClassCode=japan&middleClassCode=${vacantData.middleClassCode}&smallClassCode=${vacantData.smallClassCode}&detailClassCode=${vacantData.detailClassCode}&checkinDate=${vacantData.checkinDate}&checkoutDate=${vacantData.checkoutDate}&adultNum=${vacantData.adultNum}&upClassNum=${vacantData.upClassNum}&lowClassNum=${vacantData.lowClassNum}&infantWithMBNum=${vacantData.infantWithMBNum}&infantWithMNum=${vacantData.infantWithMNum}&infantWithBNum=${vacantData.infantWithBNum}&infantWithoutMBNum=${vacantData.infantWithoutMBNum}&roomNum=${vacantData.roomNum}&responseType=large&page=${vacantData.page}`
+    // );
+    // // console.dir("response" + JSON.stringify(vacantResponce.data.hotels));
+    // context.commit("setVacantList", vacantResponce.data.hotels);
     try {
       const vacantResponce = await axios1.get(
-        `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&largeClassCode=japan&middleClassCode=${vacantData.middleClassCode}&smallClassCode=${vacantData.smallClassCode}&detailClassCode=${vacantData.detailClassCode}&checkinDate=${vacantData.checkinDate}&checkoutDate=${vacantData.checkoutDate}&adultNum=${vacantData.adultNum}&roomNum=${vacantData.roomNum}&responseType=large&page=${vacantData.page}`
+        // `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&largeClassCode=japan&middleClassCode=${vacantData.middleClassCode}&smallClassCode=${vacantData.smallClassCode}&detailClassCode=${vacantData.detailClassCode}&checkinDate=${vacantData.checkinDate}&checkoutDate=${vacantData.checkoutDate}&adultNum=${vacantData.adultNum}&roomNum=${vacantData.roomNum}&responseType=large&page=${vacantData.page}`
+        `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&largeClassCode=japan&middleClassCode=${vacantData.middleClassCode}&smallClassCode=${vacantData.smallClassCode}&detailClassCode=${vacantData.detailClassCode}&checkinDate=${vacantData.checkinDate}&checkoutDate=${vacantData.checkoutDate}&adultNum=${vacantData.adultNum}&upClassNum=${vacantData.upClassNum}&lowClassNum=${vacantData.lowClassNum}&infantWithMBNum=${vacantData.infantWithMBNum}&infantWithMNum=${vacantData.infantWithMNum}&infantWithBNum=${vacantData.infantWithBNum}&infantWithoutMBNum=${vacantData.infantWithoutMBNum}&roomNum=${vacantData.roomNum}&responseType=large&page=${vacantData.page}`
       );
       // console.dir("response" + JSON.stringify(vacantResponce.data));
 

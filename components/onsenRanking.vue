@@ -76,14 +76,13 @@ export default {
   async mounted() {
     await this.$store.dispatch("getOnsenRankingList");
     this.onsenRankingLists = this.$store.getters.getOnsenRanking;
-    console.log(this.onsenRankingLists);
   }, //mounted
 
   methods: {
     reserve(number) {
       this.$router.push(`/hotelDetailvs/${number}`);
-      //   this.loading = true;
-      //   setTimeout(() => (this.loading = false), 2000);
+      this.loading = true;
+      setTimeout(() => (this.loading = false), 2000);
     },
   }, // end methods
 };

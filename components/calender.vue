@@ -5,7 +5,6 @@
 
     <v-col cols="12">
       <v-text-field
-        dense
         @focus="dateFocus"
         v-model="dateRangeText"
         label="日付指定"

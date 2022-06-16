@@ -8,7 +8,13 @@
     >
       <template v-slot:activator="{ on, attrs }">
         <v-col cols="6" sm="6">
-          <v-btn block class="select-btn" v-bind="attrs" v-on="on" color="white"
+          <v-btn
+            block
+            class="select-btn"
+            v-bind="attrs"
+            v-on="on"
+            color="white"
+            height="45px"
             ><v-icon dark left>mdi-account</v-icon> 大人{{ adultNum }}名　子供{{
               count +
               lowClassCount +
@@ -262,7 +268,7 @@ export default {
   data() {
     return {
       //大人人数
-      adultNum: 0,
+      adultNum: 2,
       //子供区分
       elementalyClass: ["小学生", "幼児"],
       //小学生（高学年）の数
@@ -282,7 +288,7 @@ export default {
       message: false,
       hints: true,
       //部屋数
-      roomNum: 0,
+      roomNum: 1,
       selectedItem: "",
     };
   }, //end od data

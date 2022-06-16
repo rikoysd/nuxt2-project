@@ -1,15 +1,15 @@
 <template>
   <div class="d-flex justify-center">
     <div class="whole">
-      <drawerMenu></drawerMenu>
-      <calender></calender>
+      <!-- <drawerMenu></drawerMenu>
+      <calender></calender> -->
       <!-- パンくずリスト -->
       <v-breadcrumbs :items="items">
         <template v-slot:divider>
           <v-icon>mdi-chevron-right</v-icon>
         </template>
       </v-breadcrumbs>
-      <search-box @search="searchKeyword"></search-box>
+      <!-- <search-box @search="searchKeyword"></search-box> -->
       <keywords @search="searchKeyword"></keywords>
       <!-- 検索結果ページ（初期表示） -->
       <div class="error-flag">{{ getErrorFlag }}</div>

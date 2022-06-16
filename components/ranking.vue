@@ -74,7 +74,6 @@ export default {
   async mounted() {
     await this.$store.dispatch("getRankingList");
     this.responsedata = this.$store.getters.getHotels;
-    console.log(this.responsedata);
   }, //mounted
 
   methods: {
