@@ -45,6 +45,8 @@ export default {
 
       // actionの呼び出し
       await this.$store.dispatch("getPageList", this.object);
+
+      // 検索結果ページに遷移
       this.$router.push("/keywordHotelList");
     },
   },

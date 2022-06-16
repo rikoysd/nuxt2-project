@@ -4,9 +4,9 @@
       <drawerMenu></drawerMenu>
       <calender></calender>
       <!-- パンくずリスト -->
-      <menu-list></menu-list>
+      <menu-list :menu="menu"></menu-list>
       <search-box @search="searchKeyword"></search-box>
-      <keywords @search="searchKeyword"></keywords>
+      <keywords @search="searchKeyword" @getMenuList="getMenuList"></keywords>
       <!-- 検索結果ページ（初期表示） -->
       <div class="error-flag">{{ getErrorFlag }}</div>
       <v-progress-circular
@@ -138,6 +138,8 @@ export default {
       errorFlag: false,
       // ローディング
       loading: false,
+      // パンくずリスト
+      menu: {},
     };
   },
   mounted() {
@@ -194,6 +196,13 @@ export default {
       this.$store.dispatch("searchHotel2", number);
 
       this.$router.push(`/hotelDetailvs/${number}`);
+    },
+    /**
+     * emitで受け取ったパンくずリストをdataに格納.
+     * @param - パンくずリスト
+     */
+    getMenuList(item) {
+      this.menu = item;
     },
   },
   computed: {

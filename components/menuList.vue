@@ -10,6 +10,13 @@
 
 <script>
 export default {
+  props: {
+    menu: {
+      text: String,
+      disabled: Boolean,
+      href: String,
+    },
+  },
   data() {
     return {
       // パンくずリスト
@@ -19,12 +26,20 @@ export default {
           disabled: false,
           href: "/",
         },
-        {
-          text: "検索結果",
-          disabled: true,
-        },
       ],
+      hotelList: [],
     };
+  },
+  mounted() {
+    this.items.splice(1, 1);
+  },
+  watch: {
+    menu() {
+      this.items.splice(1, 1);
+      if (this.menu !== {}) {
+        this.items.push(this.menu);
+      }
+    },
   },
   methods: {},
   computed: {},
