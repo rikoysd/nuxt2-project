@@ -8,6 +8,7 @@
     ></menu-list>
     <div class="d-flex justify-center">
       <div class="whole">
+        <vacant-search class="vacant-search"></vacant-search>
         <search-box @search="searchKeyword"></search-box>
         <keywords @search="searchKeyword" @getMenuList="getMenuList"></keywords>
         <!-- 検索結果ページ（初期表示） -->
@@ -300,6 +301,11 @@ export default {
 
 .v-progress-circular {
   margin: 1rem;
+}
+
+.vacant-search {
+  z-index: 100;
+  margin-bottom: 30px;
 }
 
 .whole {

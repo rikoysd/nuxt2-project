@@ -499,7 +499,7 @@ p {
 }
 /* グレーの背景 */
 .square {
-  margin-top: 50px;
+  /* margin-top: 50px; */
   width: auto;
   /* height: 160px; */
   height: auto;
