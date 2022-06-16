@@ -3,7 +3,9 @@
     <v-app>
       <Header :loginUser="loginUser" />
       <v-main>
-        <v-container mt-0 pt-0><Nuxt :loginUser2="loginUser2" /></v-container>
+        <v-container mt-0 pt-0
+          ><Nuxt :loginUser2="loginUser2" :loginUser="loginUser"
+        /></v-container>
       </v-main>
       <Footer />
     </v-app>
