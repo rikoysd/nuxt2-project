@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-breadcrumbs :items="items">
+    <v-breadcrumbs :items="items" class="item">
       <template v-slot:divider>
         <v-icon>mdi-chevron-right</v-icon>
       </template>
@@ -16,6 +16,8 @@ export default {
       disabled: Boolean,
       href: String,
     },
+    basicInfo: { default: "" },
+    menuKeyword: String,
   },
   data() {
     return {
@@ -28,6 +30,7 @@ export default {
         },
       ],
       hotelList: [],
+      keyword: "",
     };
   },
   mounted() {
@@ -40,10 +43,33 @@ export default {
         this.items.push(this.menu);
       }
     },
+    basicInfo() {
+      // 検索したキーワードを取得
+      this.keyword = this.$store.getters["keyword/getKeyword"];
+      let items = [
+        {
+          text: this.keyword,
+          disabled: false,
+          href: "/keywordHotelList",
+        },
+        {
+          text: this.basicInfo.hotelName,
+          disabled: true,
+          href: "",
+        },
+      ];
+      for (let item of items) {
+        this.items.push(item);
+      }
+    },
   },
   methods: {},
   computed: {},
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.item {
+  padding: 6px 20px;
+}
+</style>

@@ -356,6 +356,14 @@ export const mutations = {
   setErrorFlag(state) {
     state.searchErrorFlag = true;
   },
+  /**
+   * keyword.jsのsetKeywordを呼び出す.
+   * @param {*} state - ステート
+   * @param {*} payload - キーワード
+   */
+  setKeyword(state, keyword) {
+    this.commit("keyword/setKeyword", keyword);
+  },
 }; //end of mutations
 
 export const getters = {

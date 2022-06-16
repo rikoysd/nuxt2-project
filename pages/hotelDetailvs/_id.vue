@@ -1,6 +1,7 @@
 <template>
   <div class="d-flex topPosition justify-center">
     <div>
+      <menu-list :basicInfo="basicInfo" :menuKeyword="keyword"></menu-list>
       <div>
         <!-- カルーセル -->
         <detail-carousel class="detailCarousel" :slides="slides">
@@ -155,6 +156,9 @@
 import calender from "../../components/calender.vue";
 import DetailOverview from "../../components/detailHotel/detailOverview.vue";
 export default {
+  props: {
+    keyword: String,
+  },
   components: { calender, DetailOverview },
   data() {
     return {

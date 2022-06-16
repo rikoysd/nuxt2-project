@@ -195,6 +195,9 @@ export default {
       // actionの呼び出し（閲覧履歴）
       this.$store.dispatch("searchHotel2", number);
 
+      // 検索したキーワードをstateに格納
+      this.$store.commit("setKeyword", this.object.keyword);
+
       this.$router.push(`/hotelDetailvs/${number}`);
     },
     /**

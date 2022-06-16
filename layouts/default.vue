@@ -38,6 +38,10 @@ export default {
     getUserInfo() {
       this.$nuxt.$on("getUserInfo", this.setUserInfo);
     },
+    /**
+     * emitで受け取ったユーザー情報をdataに格納.
+     * @param - ログイン中のユーザー情報
+     */
     setUserInfo(user) {
       this.loginUser2 = user;
     },
