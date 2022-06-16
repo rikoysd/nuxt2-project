@@ -187,6 +187,9 @@ export default {
         // ログインユーザーの情報を渡す
         this.$nuxt.$emit("getLoginUser", this.loginUser);
 
+        // ログイン情報をstateに格納
+        this.$store.commit("registerLoginUser", this.loginUser);
+
         // ログインしたらトップページに遷移
         this.$router.push("/");
       }

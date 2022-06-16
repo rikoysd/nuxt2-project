@@ -126,8 +126,8 @@ export default {
      * ログイン中のユーザー情報をstateに格納.
      * @param {*} state - ステート
      */
-    registerLoginUser(state) {
-      state.loginUser = state.userList[0];
+    registerLoginUser(state, payload) {
+      state.loginUser = payload;
     },
     /**
      * ログイン中のユーザー情報をstateから削除する（ログアウト）.

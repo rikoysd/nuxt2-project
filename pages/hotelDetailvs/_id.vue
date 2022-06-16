@@ -1,6 +1,11 @@
 <template>
   <div class="d-flex topPosition justify-center">
     <div>
+      <menu-list
+        :basicInfo="basicInfo"
+        :menuKeyword="keyword"
+        :keyword2="keyword2"
+      ></menu-list>
       <div>
         <!-- カルーセル -->
         <detail-carousel class="detailCarousel" :slides="slides">
@@ -155,6 +160,9 @@
 import calender from "../../components/calender.vue";
 import DetailOverview from "../../components/detailHotel/detailOverview.vue";
 export default {
+  props: {
+    keyword: String,
+  },
   components: { calender, DetailOverview },
   data() {
     return {
@@ -201,6 +209,8 @@ export default {
       target: "",
       drawer: false,
       group: null,
+      // propsで渡すキーワード
+      keyword2: "",
     };
   },
   watch: {
@@ -210,6 +220,8 @@ export default {
   },
 
   async mounted() {
+    this.keyword2 = this.$store.getters["keyword/getKeyword"];
+
     // URLからhotelIdを取得
     this.paramsNo = this.$route.params.id;
     // 施設検索
