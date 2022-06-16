@@ -374,14 +374,14 @@ export default {
      * ログイン情報の反映.
      */
     loginInfoReflection() {
-      console.log(this.loginUser);
-      // this.fullName1 = this.loginUser.fullName1;
-      // this.fullName2 = this.loginUser.fullName2;
-      // this.zipcode = this.loginUser.zipcode;
-      // this.prefecture = this.loginUser.prefecture;
-      // this.address = this.loginUser.address;
-      // this.telephone = this.loginUser.telephone;
-      // this.mailAddress = this.loginUser.mailAddress;
+      this.loginInfo = this.$store.getters["register/getLoginUser"];
+      this.fullName1 = this.loginInfo.fullName1;
+      this.fullName2 = this.loginInfo.fullName2;
+      this.zipcode = this.loginInfo.zipcode;
+      this.prefecture = this.loginInfo.prefecture;
+      this.address = this.loginInfo.address;
+      this.telephone = this.loginInfo.telephone;
+      this.mailAddress = this.loginInfo.mailAddress;
     },
     /**
      * emitで渡ってきた都道府県を変数に代入.
