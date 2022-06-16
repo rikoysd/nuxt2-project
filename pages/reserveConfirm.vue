@@ -109,7 +109,7 @@
           <img class="reserve-img" src="@/assets/img/2.png" />
           <!-- コンポーネント start-->
           <reservetionContents2
-            :reserveObject="reserveObject"
+            :reserveArray="reserveArray"
           ></reservetionContents2>
           <!-- コンポーネント end-->
         </div>
@@ -122,18 +122,15 @@
 import reservetionContents2 from "../components/reservetionContents2.vue";
 
 export default {
-  name: "reserveForm",
   components: {
     reservetionContents2,
   },
   data() {
     return {
-      // 予約情報オブジェクト
-      reserveObject: {},
+      // 予約情報の配列
+      reserveArray: [],
       // カードフラッグ
       cardFlag: false,
-      // 予約者ID
-      reserveId: "",
       // フルネーム（氏名）
       fullName1: "",
       // フルネーム（かな）
@@ -177,27 +174,26 @@ export default {
    * 非同期処理(予約情報の反映).
    */
   async mounted() {
-    this.reserveObject = await this.$store.getters["reserve/getReserveInfo"];
-    this.reserveId = this.reserveObject.reserveId;
-    this.fullName1 = this.reserveObject.fullName1;
-    this.fullName2 = this.reserveObject.fullName2;
-    this.zipcode = this.reserveObject.zipcode;
-    this.prefecture = this.reserveObject.prefecture;
-    this.address = this.reserveObject.address;
-    this.telephone = this.reserveObject.telephone;
-    this.mailAddress = this.reserveObject.mailAddress;
-    this.checkInTime = this.reserveObject.checkInTime;
-    this.man = this.reserveObject.man;
-    this.woman = this.reserveObject.woman;
-    this.payments = this.reserveObject.payments;
-    this.card_number = this.reserveObject.card_number;
-    this.card_cvv = this.reserveObject.card_cvv;
-    this.card_exp_month = this.reserveObject.card_exp_month;
-    this.card_exp_year = this.reserveObject.card_exp_year;
-    this.card_name = this.reserveObject.card_name;
-    this.other = this.reserveObject.other;
+    this.reserveArray = await this.$store.getters["reserve/getReserveInfo"];
+    this.fullName1 = this.reserveArray.fullName1;
+    this.fullName2 = this.reserveArray.fullName2;
+    this.zipcode = this.reserveArray.zipcode;
+    this.prefecture = this.reserveArray.prefecture;
+    this.address = this.reserveArray.address;
+    this.telephone = this.reserveArray.telephone;
+    this.mailAddress = this.reserveArray.mailAddress;
+    this.checkInTime = this.reserveArray.checkInTime;
+    this.man = this.reserveArray.man;
+    this.woman = this.reserveArray.woman;
+    this.payments = this.reserveArray.payments;
+    this.card_number = this.reserveArray.card_number;
+    this.card_cvv = this.reserveArray.card_cvv;
+    this.card_exp_month = this.reserveArray.card_exp_month;
+    this.card_exp_year = this.reserveArray.card_exp_year;
+    this.card_name = this.reserveArray.card_name;
+    this.other = this.reserveArray.other;
 
-    console.log(this.reserveObject); //ok
+    console.log(this.reserveArray); //ok
 
     // 決済方法によるカードの表示切り替え
     if (this.payments === "現地決済") {
@@ -206,8 +202,6 @@ export default {
       this.cardFlag = false;
     }
   },
-
-  computed: {}, // end computed
 
   methods: {}, // end methods
 };

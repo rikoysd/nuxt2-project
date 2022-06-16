@@ -48,7 +48,7 @@
         x-large
         class="confirm-button"
         style="background-color: #3cb371"
-        @click="reserveFinished"
+        @click="reserveFinished(payments)"
         >予約を完了する</v-btn
       >
     </v-card>
@@ -65,7 +65,7 @@ export default {
   data() {
     return {
       // ホテル詳細オブジェクト
-      detailObject: {},
+      detailArray: [],
       // 予約者ID
       reserveId: 0,
       // ホテル名
@@ -97,19 +97,20 @@ export default {
    * 非同期処理(ホテル詳細情報の反映).
    */
   async mounted() {
-    this.detailObject = await this.$store.getters["reserve/getDetailInfo"];
-    this.reserveId = this.detailObject.reserveId;
-    this.hotelName = this.detailObject.hotelName;
-    this.formatDate = this.detailObject.formatDate;
-    this.staySpan = this.detailObject.staySpan;
-    this.breakfast = this.detailObject.breakfast;
-    this.dinner = this.detailObject.dinner;
-    this.adult = this.detailObject.adult;
-    this.child = this.detailObject.child;
-    this.room = this.detailObject.room;
-    this.plan = this.detailObject.plan;
-    this.subPrice = this.detailObject.subPrice;
-    this.totalPrice = this.detailObject.totalPrice;
+    this.detailArray = await this.$store.getters["reserve/getDetailInfo"];
+    console.log(this.detailArray);
+    // this.reserveId = this.detailArray.reserveId;
+    this.hotelName = this.detailArray.hotelName;
+    this.formatDate = this.detailArray.formatDate;
+    this.staySpan = this.detailArray.staySpan;
+    this.breakfast = this.detailArray.breakfast;
+    this.dinner = this.detailArray.dinner;
+    this.adult = this.detailArray.adult;
+    this.child = this.detailArray.child;
+    this.room = this.detailArray.room;
+    this.plan = this.detailArray.plan;
+    this.subPrice = this.detailArray.subPrice;
+    this.totalPrice = this.detailArray.totalPrice;
   },
 
   methods: {
@@ -118,36 +119,41 @@ export default {
      */
     changeReservation(reserveId) {
       reserveId = this.reserveId;
-      console.log(reserveId);
       this.$router.push(`/reserveForm/${reserveId}`);
     },
     /**
      * 予約を確定する.
      */
-    async reserveFinished() {
-      // 注文IDの生成
-      let orderNum = "";
-      for (let i = 0; i < 7; i++) {
-        let num = Math.floor(Math.random() * 10) + 11;
-        let str = String(num);
-        orderNum += str;
-      }
-      // クレカ情報を送る
-      const response = await axios.post(
-        "http://153.127.48.168:8080/sample-credit-card-web-api/credit-card/payment",
-        {
-          user_id: 1,
-          order_number: orderNum,
-          amount: this.totalPrice,
-          card_number: this.reserveObject.card_num,
-          card_exp_year: this.reserveObject.card_exp_year,
-          card_exp_month: this.reserveObject.card_exp_month,
-          card_name: this.reserveObject.card_name,
-          card_cvv: this.reserveObject.card_cvv,
+    async reserveFinished(payments) {
+      // オンライン決済の場合
+      if (payments === "現地決済") {
+        // 注文IDの生成
+        let orderNum = "";
+        for (let i = 0; i < 7; i++) {
+          let num = Math.floor(Math.random() * 10) + 11;
+          let str = String(num);
+          orderNum += str;
         }
-      );
-      console.log(response);
-      this.$router.push("/reserveFinished");
+        // クレカ情報を送る
+        const response = await axios.post(
+          "http://153.127.48.168:8080/sample-credit-card-web-api/credit-card/payment",
+          {
+            user_id: 1,
+            order_number: orderNum,
+            amount: this.totalPrice,
+            card_number: this.reserveObject.card_num,
+            card_exp_year: this.reserveObject.card_exp_year,
+            card_exp_month: this.reserveObject.card_exp_month,
+            card_name: this.reserveObject.card_name,
+            card_cvv: this.reserveObject.card_cvv,
+          }
+        );
+        console.log(response);
+        this.$router.push("/reserveFinished");
+      } else {
+        // 現地決済の場合
+        this.$router.push("/reserveFinished");
+      }
     },
   }, // end methods
 };
