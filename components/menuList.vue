@@ -18,6 +18,7 @@ export default {
     },
     basicInfo: { default: "" },
     menuKeyword: String,
+    propsKeyword: String,
   },
   data() {
     return {
@@ -59,6 +60,16 @@ export default {
         },
       ];
       for (let item of items) {
+        this.items.push(item);
+      }
+    },
+    propsKeyword() {
+      if (this.propsKeyword !== "") {
+        let item = {
+          text: this.propsKeyword,
+          disabled: false,
+          href: "",
+        };
         this.items.push(item);
       }
     },

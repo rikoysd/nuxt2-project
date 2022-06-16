@@ -1,7 +1,11 @@
 <template>
   <div>
     <!-- パンくずリスト -->
-    <menu-list :menu="menu" class="menu"></menu-list>
+    <menu-list
+      :menu="menu"
+      class="menu"
+      :propsKeyword="propsKeyword"
+    ></menu-list>
     <div class="d-flex justify-center">
       <div class="whole">
         <search-box @search="searchKeyword"></search-box>
@@ -140,10 +144,12 @@ export default {
       loading: false,
       // パンくずリスト
       menu: {},
+      propsKeyword: "",
     };
   },
   mounted() {
     this.showResult = false;
+    this.propsKeyword = this.$store.getters["keyword/getKeyword"];
   },
   watch: {
     // ホテル一覧の変数を監視する
