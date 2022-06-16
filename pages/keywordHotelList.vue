@@ -144,6 +144,7 @@ export default {
       loading: false,
       // パンくずリスト
       menu: {},
+      // propsで渡すキーワード
       propsKeyword: "",
     };
   },
@@ -202,7 +203,7 @@ export default {
       this.$store.dispatch("searchHotel2", number);
 
       // 検索したキーワードをstateに格納
-      this.$store.commit("setKeyword", this.object.keyword);
+      this.$store.commit("setKeyword", this.propsKeyword);
 
       this.$router.push(`/hotelDetailvs/${number}`);
     },

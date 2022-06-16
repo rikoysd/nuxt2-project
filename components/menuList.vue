@@ -19,6 +19,7 @@ export default {
     basicInfo: { default: "" },
     menuKeyword: String,
     propsKeyword: String,
+    keyword2: String,
   },
   data() {
     return {
@@ -67,12 +68,13 @@ export default {
       if (this.propsKeyword !== "") {
         let item = {
           text: this.propsKeyword,
-          disabled: false,
+          disabled: true,
           href: "",
         };
         this.items.push(item);
       }
     },
+    keyword2() {},
   },
   methods: {},
   computed: {},
