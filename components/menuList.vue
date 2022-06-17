@@ -20,6 +20,7 @@ export default {
     menuKeyword: String,
     propsKeyword: String,
     keyword2: String,
+    originalWord: String,
   },
   data() {
     return {
@@ -75,6 +76,20 @@ export default {
       }
     },
     keyword2() {},
+    originalWord() {
+      if (this.originalWord !== "") {
+        // 検索したキーワードをstateに格納
+        this.$store.commit("setKeyword", this.propsKeyword);
+
+        let item = {
+          text: this.originalWord,
+          disabled: true,
+          href: "",
+        };
+
+        this.items.push(item);
+      }
+    },
   },
   methods: {},
   computed: {},

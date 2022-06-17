@@ -5,11 +5,15 @@
       :menu="menu"
       class="menu"
       :propsKeyword="propsKeyword"
+      :originalWord="originalWord"
     ></menu-list>
     <div class="d-flex justify-center">
       <div class="whole">
         <vacant-search class="vacant-search"></vacant-search>
-        <drawer-menu @search="searchKeyword"></drawer-menu>
+        <drawer-menu
+          @search="searchKeyword"
+          @menuWords="menuWords"
+        ></drawer-menu>
         <search-box @search="searchKeyword"></search-box>
         <keywords @search="searchKeyword" @getMenuList="getMenuList"></keywords>
         <!-- 検索結果ページ（初期表示） -->
@@ -148,6 +152,8 @@ export default {
       menu: {},
       // propsで渡すキーワード
       propsKeyword: "",
+      // こだわり検索のキーワード
+      originalWord: "",
     };
   },
   mounted() {
@@ -215,6 +221,13 @@ export default {
      */
     getMenuList(item) {
       this.menu = item;
+    },
+    /**
+     * emitで受け取ったこだわりのキーワードをdataに格納.
+     * @param - こだわりのキーワード
+     */
+    menuWords(word) {
+      this.originalWord = word;
     },
   },
   computed: {
