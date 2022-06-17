@@ -11,15 +11,12 @@
 <script>
 export default {
   props: {
-    menu: {
-      text: String,
-      disabled: Boolean,
-      href: String,
-    },
+    menu: [],
     basicInfo: { default: "" },
     menuKeyword: String,
     propsKeyword: String,
     keyword2: String,
+    originalWord: String,
   },
   data() {
     return {
@@ -41,8 +38,13 @@ export default {
   watch: {
     menu() {
       this.items.splice(1, 1);
-      if (this.menu !== {}) {
-        this.items.push(this.menu);
+      if (this.menu !== []) {
+        // ルートパターン（検索結果のページから再度検索した場合）をstateに格納
+        // this.$store.commit("setRoute", 1);
+
+        // 検索結果が出た時点で検索キーワードをstateに格納
+        this.$store.commit("setKeyword", this.menu[0].text);
+        this.items.push(this.menu[0]);
       }
     },
     basicInfo() {
@@ -75,6 +77,21 @@ export default {
       }
     },
     keyword2() {},
+    originalWord() {
+      this.items.splice(1, 1);
+      if (this.originalWord !== "") {
+        // 検索したキーワードをstateに格納
+        this.$store.commit("setKeyword", this.propsKeyword);
+
+        let item = {
+          text: this.originalWord,
+          disabled: true,
+          href: "",
+        };
+
+        this.items.push(item);
+      }
+    },
   },
   methods: {},
   computed: {},

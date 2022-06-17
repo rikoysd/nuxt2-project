@@ -106,9 +106,9 @@
       <!-- 空室検索ボタン -->
       <!-- <v-card-actions>
         <v-container> -->
-      <v-row class="d-flex justify-center">
+      <v-row class="d-flex justify-center align-center">
         <v-btn
-          class="white--text d-flex justify-center mb-8"
+          class="white--text mb-8"
           large
           color="#333C5E"
           v-on:click="moveToVacantList"

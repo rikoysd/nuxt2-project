@@ -15,6 +15,7 @@
               v-model="page"
               :length="getPageInfo.pageCount"
               :total-visible="7"
+              color="#333c5e"
               @input="getNumber"
             ></v-pagination>
           </div>
@@ -91,6 +92,7 @@
               :length="getPageInfo.pageCount"
               :total-visible="7"
               @input="getNumber"
+              color="#333c5e"
             ></v-pagination>
           </div>
         </div>

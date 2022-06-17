@@ -5,12 +5,18 @@
       :menu="menu"
       class="menu"
       :propsKeyword="propsKeyword"
+      :originalWord="originalWord"
     ></menu-list>
     <div class="d-flex justify-center">
       <div class="whole">
         <vacant-search class="vacant-search"></vacant-search>
         <search-box @search="searchKeyword"></search-box>
         <keywords @search="searchKeyword" @getMenuList="getMenuList"></keywords>
+        <drawer-menu
+          class="drawer-menu"
+          @search="searchKeyword"
+          @menuWords="menuWords"
+        ></drawer-menu>
         <!-- 検索結果ページ（初期表示） -->
         <div class="error-flag">{{ getErrorFlag }}</div>
         <v-progress-circular
@@ -27,6 +33,7 @@
                 :length="getPageInfo.pageCount"
                 :total-visible="7"
                 @input="getNumber"
+                color="#333c5e"
               ></v-pagination>
             </div>
             <!-- 検索結果カンマ区切り -->
@@ -40,7 +47,7 @@
                 v-for="(hotel, index) of getHotelList"
                 v-bind:key="index"
               >
-                <v-card class="card" max-width="399">
+                <v-card class="card" width="399">
                   <v-img
                     class="white--text align-end"
                     height="160px"
@@ -105,6 +112,7 @@
                 :length="getPageInfo.pageCount"
                 :total-visible="7"
                 @input="getNumber"
+                color="#333c5e"
               ></v-pagination>
             </div>
           </div>
@@ -144,9 +152,11 @@ export default {
       // ローディング
       loading: false,
       // パンくずリスト
-      menu: {},
+      menu: [],
       // propsで渡すキーワード
       propsKeyword: "",
+      // こだわり検索のキーワード
+      originalWord: "",
     };
   },
   mounted() {
@@ -203,9 +213,6 @@ export default {
       // actionの呼び出し（閲覧履歴）
       this.$store.dispatch("searchHotel2", number);
 
-      // 検索したキーワードをstateに格納
-      this.$store.commit("setKeyword", this.propsKeyword);
-
       this.$router.push(`/hotelDetailvs/${number}`);
     },
     /**
@@ -213,7 +220,14 @@ export default {
      * @param - パンくずリスト
      */
     getMenuList(item) {
-      this.menu = item;
+      this.menu = [item, 1];
+    },
+    /**
+     * emitで受け取ったこだわりのキーワードをdataに格納.
+     * @param - こだわりのキーワード
+     */
+    menuWords(word) {
+      this.originalWord = word;
     },
   },
   computed: {
@@ -259,6 +273,11 @@ export default {
 .description {
   margin-top: 5px;
   font-size: 12px;
+}
+
+.drawer-menu {
+  padding: 0;
+  margin: 20px 0;
 }
 
 .error-flag {
