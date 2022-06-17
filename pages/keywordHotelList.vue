@@ -10,12 +10,13 @@
     <div class="d-flex justify-center">
       <div class="whole">
         <vacant-search class="vacant-search"></vacant-search>
+        <search-box @search="searchKeyword"></search-box>
+        <keywords @search="searchKeyword" @getMenuList="getMenuList"></keywords>
         <drawer-menu
+          class="drawer-menu"
           @search="searchKeyword"
           @menuWords="menuWords"
         ></drawer-menu>
-        <search-box @search="searchKeyword"></search-box>
-        <keywords @search="searchKeyword" @getMenuList="getMenuList"></keywords>
         <!-- 検索結果ページ（初期表示） -->
         <div class="error-flag">{{ getErrorFlag }}</div>
         <v-progress-circular
@@ -273,6 +274,11 @@ export default {
 .description {
   margin-top: 5px;
   font-size: 12px;
+}
+
+.drawer-menu {
+  padding: 0;
+  margin: 20px 0;
 }
 
 .error-flag {

@@ -1,7 +1,8 @@
 <template>
   <v-col>
-    <v-btn class="btn-color" color="#333c5e" elevation="2" @click="addItems"
-      >こだわりを追加する</v-btn
+    <v-btn class="btn-color" color="#333c5e" elevation="2" @click="addItems">
+      <v-icon class="icon">mdi-plus-circle-outline</v-icon>
+      こだわりを追加する</v-btn
     >
     <v-expand-transition>
       <v-card class="menu" max-width="400" tile v-show="showMenu">
@@ -170,6 +171,10 @@ export default {
   /* 縦方向にスクロール */
   overflow-y: auto;
   overflow-y: scroll;
+}
+
+.icon {
+  margin-right: 5px;
 }
 
 .item-title {
