@@ -10,8 +10,6 @@ export default {
     flag: false,
     // キーワード
     keyword: "",
-    // ルートパターンid
-    routeId: 0,
   },
 
   actions: {
@@ -60,15 +58,6 @@ export default {
      */
     setKeyword(state, payload) {
       state.keyword = payload;
-    },
-    /**
-     * ルートパターンidをstateに格納.
-     * @param {*} state - ステート
-     * @param {*} payload - id
-     */
-    setRoute(state, payload) {
-      state.routeId = payload;
-      console.log(state.routeId);
     },
   },
 

@@ -213,9 +213,6 @@ export default {
       // actionの呼び出し（閲覧履歴）
       this.$store.dispatch("searchHotel2", number);
 
-      // 検索したキーワードをstateに格納
-      this.$store.commit("setKeyword", this.propsKeyword);
-
       this.$router.push(`/hotelDetailvs/${number}`);
     },
     /**
@@ -224,7 +221,6 @@ export default {
      */
     getMenuList(item) {
       this.menu = [item, 1];
-      console.log(this.menu);
     },
     /**
      * emitで受け取ったこだわりのキーワードをdataに格納.
