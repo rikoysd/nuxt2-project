@@ -73,36 +73,37 @@
 export default {
   data() {
     return {
+      //施設情報
       lists: [],
+      //選択したエリア情報
       area: {
         keyword: "",
       },
-      areaList: [],
       // ローディング
       loading: false,
     };
   },
   async mounted() {
+    //パラメータをapiにセットする.
     this.area.keyword = this.$store.getters.getAreaData;
-    console.log(this.area.keyword);
     await this.$store.dispatch("areaHotelLists", this.area);
   },
+
   methods: {
+    /**
+     * 詳細ページへ遷移.
+     */
     showHotelDetail(number) {
       this.$router.push(`/hotelDetailvs/${number}`);
     },
   },
 
   computed: {
+    /**
+     * 選択したエリアの施設情報を取得する.
+     */
     getArea() {
       this.lists = this.$store.getters.getAreaHotel;
-      console.log(this.$store.getters.getAreaHotel);
-
-      //   for (list of this.lists) {
-      //     this.areaList.push(list);
-      //   }
-      //   console.log(this.areaList);
-      //   return this.areaList;
       return this.lists;
     },
   },

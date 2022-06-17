@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- <v-card> -->
     <p>人気のエリアから探す</p>
     <v-container>
       <v-row dense>
@@ -22,7 +21,6 @@
         </v-col>
       </v-row>
     </v-container>
-    <!-- </v-card> -->
   </div>
 </template>
 
@@ -58,7 +56,7 @@ export default {
   },
   methods: {
     /**
-     * 選択したエリアをパラメーターをして渡す.
+     * 選択したエリアをパラメーターとして渡す.
      */
     getArea(keyword) {
       this.keyword = keyword;

@@ -279,7 +279,6 @@ export const mutations = {
    */
   setareaHotelLists(state, payload) {
     state.areaHotelLists = payload;
-    console.log(state.areaHotelLists);
   },
   /**
    * 特定のエリア情報をstateに格納.
@@ -288,7 +287,6 @@ export const mutations = {
    */
   areaData(state, payload) {
     state.topAreaLists = payload;
-    console.log(state.topAreaLists);
   },
   /**
    * setPreReserveDataにセットする.
@@ -501,7 +499,6 @@ export const getters = {
    * @returns
    */
   getAreaHotel(state) {
-    console.log(state.areaHotelLists);
     return state.areaHotelLists;
   },
 };
