@@ -19,7 +19,9 @@
         outlined
         v-model="password"
       ></v-text-field>
-      <v-btn class="login-info" color="primary" @click="login">ログイン</v-btn>
+      <v-btn class="login-info" large color="#333c5e" @click="login"
+        >ログイン</v-btn
+      >
       <div class="msg">
         アカウントをお持ちではありませんか？<nuxt-link to="/registerUser"
           >会員登録はこちら</nuxt-link
@@ -229,6 +231,10 @@ span {
   z-index: 1;
   position: relative;
   right: 8%;
+}
+
+.login-info {
+  color: white;
 }
 
 .msg {

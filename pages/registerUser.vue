@@ -71,7 +71,7 @@
       <v-row justify="center">
         <v-btn
           class="register-btn"
-          color="primary"
+          color="#333c5e"
           elevation="2"
           large
           @click="register"
@@ -380,6 +380,7 @@ export default {
 
 .register-btn {
   margin-top: 30px;
+  color: white;
 }
 
 span {

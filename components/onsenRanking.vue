@@ -46,7 +46,11 @@
 
               <v-divider class="mx-4"></v-divider>
               <v-card-actions>
-                <v-btn color="deep-purple lighten-2" text @click="reserve">
+                <v-btn
+                  color="deep-purple lighten-2"
+                  text
+                  @click="reserve(onsen.hotel.hotelNo)"
+                >
                   詳細を見る
                 </v-btn>
               </v-card-actions>
@@ -72,13 +76,13 @@ export default {
   async mounted() {
     await this.$store.dispatch("getOnsenRankingList");
     this.onsenRankingLists = this.$store.getters.getOnsenRanking;
-    console.log(this.onsenRankingLists);
   }, //mounted
 
   methods: {
-    reserve() {
-      //   this.loading = true;
-      //   setTimeout(() => (this.loading = false), 2000);
+    reserve(number) {
+      this.$router.push(`/hotelDetailvs/${number}`);
+      this.loading = true;
+      setTimeout(() => (this.loading = false), 2000);
     },
   }, // end methods
 };

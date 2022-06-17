@@ -11,19 +11,16 @@
             label="都道府県"
             @change="getInfo('middleClassCode', $event)"
             solo
-            dense
           ></v-select>
         </v-col>
         <!-- 市町村選択 -->
         <v-col class="d-flex" cols="2" sm="2">
           <v-select
-            hide-details="true"
             v-model="selectedItem"
             :items="cityNameList"
             label="市町村"
             @change="getCityList('smallClassCode', $event)"
             solo
-            dense
           ></v-select>
         </v-col>
 
@@ -106,9 +103,9 @@
       <!-- 空室検索ボタン -->
       <!-- <v-card-actions>
         <v-container> -->
-      <v-row class="d-flex justify-center">
+      <v-row class="d-flex justify-center align-center">
         <v-btn
-          class="white--text d-flex justify-center mb-8"
+          class="white--text mb-8"
           large
           color="#333C5E"
           v-on:click="moveToVacantList"
@@ -488,12 +485,16 @@ export default {
 </script>
 <style scoped>
 .v-btn:not(.v-btn--round).v-size--default {
-  height: 40px;
+  height: 60px;
   margin-bottom: 25px;
 }
 .v-btn:not(.v-btn--round).v-size--default[data-v-2c3a9d92] {
   color: #757575;
 }
+.v-btn {
+  height: 60px;
+}
+
 p {
   font-size: 15px;
 }
@@ -539,7 +540,7 @@ p {
 .select-detail {
   margin-top: 20px;
   width: 365px;
-  margin-left: 40px;
+  margin-left: 50px;
 }
 
 .numberBtn {
