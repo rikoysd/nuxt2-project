@@ -77,6 +77,7 @@ export default {
     },
     keyword2() {},
     originalWord() {
+      this.items.splice(1, 1);
       if (this.originalWord !== "") {
         // 検索したキーワードをstateに格納
         this.$store.commit("setKeyword", this.propsKeyword);
