@@ -244,7 +244,30 @@ import reservetionContents from "../../components/reservetionContents.vue";
 import creditcard from "../../components/creditcard.vue";
 
 export default {
-  name: "reserveForm",
+  // エラーハンドリング
+  validate({ params, store }) {
+    // return store.state.preReserveData.some(
+    //   (category) => category.reserveId === params.id
+    // );
+    // const info = store.getters.getPreReserveData;
+    // console.log(info);
+    // // return info.some((preReserve) => preReserve.reserveId === params.id);
+    return /^\d+$/.test(params.id); // 数値でなければならない
+  },
+
+  props: {
+    loginUser: {
+      id: 0,
+      fullName1: String,
+      fullName2: String,
+      zipcode: String,
+      prefecture: String,
+      address: String,
+      mailAddress: String,
+      telephone: String,
+      password: String,
+    },
+  },
   components: {
     selectPrefectures,
     selectChecin,
@@ -340,12 +363,10 @@ export default {
    * 非同期処理.
    */
   mounted() {
-    // this.reserveId = Number(this.$route.params.id);
-    // console.log(resereveId);
     let reserveDetail = {};
     reserveDetail = this.$store.getters.getPreReserveData;
     this.adult = reserveDetail.adultNum;
-    // this.child = reserveDetail.childNum;
+    this.child = reserveDetail.childNum;
   },
 
   methods: {
@@ -353,14 +374,14 @@ export default {
      * ログイン情報の反映.
      */
     loginInfoReflection() {
-      this.loginInfo = this.$store.getters["register/getUserList"];
-      this.fullName1 = this.loginInfo[0].fullName1;
-      this.fullName2 = this.loginInfo[0].fullName2;
-      this.zipcode = this.loginInfo[0].zipcode;
-      this.prefecture = this.loginInfo[0].prefecture;
-      this.address = this.loginInfo[0].address;
-      this.telephone = this.loginInfo[0].telephone;
-      this.mailAddress = this.loginInfo[0].mailAddress;
+      this.loginInfo = this.$store.getters["register/getLoginUser"];
+      this.fullName1 = this.loginInfo.fullName1;
+      this.fullName2 = this.loginInfo.fullName2;
+      this.zipcode = this.loginInfo.zipcode;
+      this.prefecture = this.loginInfo.prefecture;
+      this.address = this.loginInfo.address;
+      this.telephone = this.loginInfo.telephone;
+      this.mailAddress = this.loginInfo.mailAddress;
     },
     /**
      * emitで渡ってきた都道府県を変数に代入.

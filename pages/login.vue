@@ -19,7 +19,9 @@
         outlined
         v-model="password"
       ></v-text-field>
-      <v-btn class="login-info" color="primary" @click="login">ログイン</v-btn>
+      <v-btn class="login-info" large color="#333c5e" @click="login"
+        >ログイン</v-btn
+      >
       <div class="msg">
         アカウントをお持ちではありませんか？<nuxt-link to="/registerUser"
           >会員登録はこちら</nuxt-link
@@ -187,6 +189,9 @@ export default {
         // ログインユーザーの情報を渡す
         this.$nuxt.$emit("getLoginUser", this.loginUser);
 
+        // ログイン情報をstateに格納
+        this.$store.commit("registerLoginUser", this.loginUser);
+
         // ログインしたらトップページに遷移
         this.$router.push("/");
       }
@@ -208,6 +213,10 @@ span {
   width: 600px;
   box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
     rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+
+.login-info {
+  color: white;
 }
 
 .msg {

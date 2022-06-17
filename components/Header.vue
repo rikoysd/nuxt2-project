@@ -15,8 +15,9 @@
       <div v-if="flag === true">
         <v-menu top :close-on-content-click="closeOnContentClick">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn icon color="white" v-bind="attrs" v-on="on">
-              <v-icon class="header">mdi-account</v-icon>
+            <v-btn color="white" v-bind="attrs" v-on="on">
+              <v-icon>mdi-account</v-icon>
+              <span>{{ loginUser.fullName1 }}さん</span>
             </v-btn>
           </template>
 
@@ -168,9 +169,15 @@ export default {
 .title {
   cursor: pointer;
 }
+
 .search-box {
   margin-top: 25px;
   width: 450px;
   margin-right: 320px;
+}
+
+.user-name {
+  color: white;
+  margin-right: 8px;
 }
 </style>

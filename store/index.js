@@ -369,9 +369,10 @@ export const mutations = {
   /**
    * register.jsのregisterLoginUserを呼び出す.
    * @param {*} state - ステート
+   * @param {*} payload - ユーザー情報
    */
-  registerLoginUser(state) {
-    this.commit("register/registerLoginUser");
+  registerLoginUser(state, payload) {
+    this.commit("register/registerLoginUser", payload);
   },
   /**
    * register.jsのdeleteLoginUserを呼び出す.
@@ -386,6 +387,14 @@ export const mutations = {
    */
   setErrorFlag(state) {
     state.searchErrorFlag = true;
+  },
+  /**
+   * keyword.jsのsetKeywordを呼び出す.
+   * @param {*} state - ステート
+   * @param {*} payload - キーワード
+   */
+  setKeyword(state, keyword) {
+    this.commit("keyword/setKeyword", keyword);
   },
 }; //end of mutations
 
