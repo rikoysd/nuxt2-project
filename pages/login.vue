@@ -224,6 +224,8 @@ span {
   height: 400px;
   margin: auto auto;
   z-index: 1;
+  position: relative;
+  right: 8%;
 }
 
 .msg {
