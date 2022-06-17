@@ -22,7 +22,7 @@
               infantWithMNumCount +
               infantWithBNumCount +
               infantWithoutMBNumCount
-            }}名　{{ 1 }}室
+            }}名　{{ roomNum }}室
           </v-btn>
         </v-col>
       </template>
@@ -289,9 +289,10 @@ export default {
       hints: true,
       //部屋数
       roomNum: 1,
+
       selectedItem: "",
     };
-  }, //end od data
+  }, //end of data
   methods: {
     /**大人人数のカウント（＋）. */
     adlulNumIncrement() {
@@ -456,6 +457,12 @@ export default {
       this.roomNum++;
       this.$emit("roomNum", this.roomNum);
     },
+  }, //end of methods
+  mounted() {
+    //部屋数の初期表示を親(vacantsearch.vue)に渡す
+    this.$emit("roomNum", this.roomNum);
+    //大人人数の初期表示を親(vacantsearch.vue)に渡す
+    this.$emit("adultNum", this.adultNum);
   },
 };
 </script>

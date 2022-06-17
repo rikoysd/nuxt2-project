@@ -16,7 +16,6 @@
         <!-- 市町村選択 -->
         <v-col class="d-flex" cols="2" sm="2">
           <v-select
-            hide-details="true"
             v-model="selectedItem"
             :items="cityNameList"
             label="市町村"
@@ -541,7 +540,7 @@ p {
 .select-detail {
   margin-top: 20px;
   width: 365px;
-  margin-left: 40px;
+  margin-left: 50px;
 }
 
 .numberBtn {
