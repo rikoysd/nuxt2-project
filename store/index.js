@@ -365,6 +365,14 @@ export const mutations = {
   setKeyword(state, keyword) {
     this.commit("keyword/setKeyword", keyword);
   },
+  /**
+   * keyword.jsのsetRouteを呼び出す.
+   * @param {*} state - ステート
+   * @param {*} payload - id
+   */
+  setRoute(state, id) {
+    this.commit("keyword/setRoute", id);
+  },
 }; //end of mutations
 
 export const getters = {

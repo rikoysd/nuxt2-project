@@ -11,11 +11,7 @@
 <script>
 export default {
   props: {
-    menu: {
-      text: String,
-      disabled: Boolean,
-      href: String,
-    },
+    menu: [],
     basicInfo: { default: "" },
     menuKeyword: String,
     propsKeyword: String,
@@ -42,8 +38,10 @@ export default {
   watch: {
     menu() {
       this.items.splice(1, 1);
-      if (this.menu !== {}) {
-        this.items.push(this.menu);
+      if (this.menu !== []) {
+        // ルートパターン（検索結果のページから再度検索した場合）をstateに格納
+        this.$store.commit("setRoute", 1);
+        this.items.push(this.menu[0]);
       }
     },
     basicInfo() {

@@ -152,7 +152,7 @@ export default {
       // ローディング
       loading: false,
       // パンくずリスト
-      menu: {},
+      menu: [],
       // propsで渡すキーワード
       propsKeyword: "",
       // こだわり検索のキーワード
@@ -223,7 +223,8 @@ export default {
      * @param - パンくずリスト
      */
     getMenuList(item) {
-      this.menu = item;
+      this.menu = [item, 1];
+      console.log(this.menu);
     },
     /**
      * emitで受け取ったこだわりのキーワードをdataに格納.
