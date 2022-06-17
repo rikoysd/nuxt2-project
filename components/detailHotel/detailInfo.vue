@@ -238,6 +238,7 @@ export default {
 <style>
 .hotelImage1 {
   height: 400px;
+  width: 80vw;
 }
 .averages {
   display: flex;

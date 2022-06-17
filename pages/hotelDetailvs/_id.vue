@@ -229,7 +229,10 @@ export default {
     this.institutionInfo = [];
     await this.$store.dispatch("searchInstitution", this.paramsNo);
     this.institutionInfo = this.$store.getters.getInstitutitonInfo;
-    if (this.institutionInfo === undefined || this.institutionInfo === "") {
+    if (
+      this.institutionInfo.hotels === undefined ||
+      this.institutionInfo.hotels === ""
+    ) {
       this.$router.push("/keywordHotelList");
     }
     const hotels = this.institutionInfo.hotels.hotels[0];
