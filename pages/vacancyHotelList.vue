@@ -116,6 +116,12 @@ export default {
         checkinDate: 0, //チェックイン日
         checkoutDate: 0, //チェックアウト日
         adultNum: 0, //大人人数
+        upClassNum: 0, //小学生（高学年）
+        lowClassNum: 0, //小学生（低学年）
+        infantWithMBNum: 0, //幼児（食事・布団付）
+        infantWithMNum: 0, //幼児（食事のみ）
+        infantWithBNum: 0, //幼児（布団のみ）
+        infantWithoutMBNum: 0, //幼児（食事・布団不要）
         page: 1, // 取得したいページ
       },
       // エラーメッセージ
@@ -145,7 +151,14 @@ export default {
     this.vacantObject.checkinDate = vacantData.checkinDate;
     this.vacantObject.checkoutDate = vacantData.checkoutDate;
     this.vacantObject.adultNum = vacantData.adultNum;
+    this.vacantObject.upClassNum = vacantData.upClassNum;
+    this.vacantObject.lowClassNum = vacantData.lowClassNum;
+    this.vacantObject.infantWithMBNum = vacantData.infantWithMBNum;
+    this.vacantObject.infantWithMNum = vacantData.infantWithMNum;
+    this.vacantObject.infantWithBNum = vacantData.infantWithBNum;
+    this.vacantObject.infantWithoutMBNum = vacantData.infantWithoutMBNum;
     this.vacantObject.page = 1;
+    console.log(this.vacantObject);
 
     await this.$store.dispatch("searchVacantList", this.vacantObject);
 
@@ -190,8 +203,10 @@ export default {
     getSearchError() {
       if (this.$store.getters.getSearchError === true) {
         this.errorMessage = "検索結果がありません";
+        this.showResult = false;
       } else {
         this.errorMessage = "";
+        this.showResult = true;
       }
       return this.errorMessage;
     },
