@@ -94,7 +94,13 @@
                 </v-chip>
               </div>
             </v-row>
-            <v-btn color="#333c5e" elevation="2" class="btn-color">検索</v-btn>
+            <v-btn
+              color="#333c5e"
+              elevation="2"
+              class="btn-color"
+              @click="searchKeyword"
+              >検索</v-btn
+            >
           </v-list-item-content>
         </v-list-item>
       </v-card>
@@ -136,6 +142,16 @@ export default {
      */
     deleteItem(index) {
       this.checkbox.splice(index, 1);
+    },
+    /**
+     * こだわり検索する.
+     */
+    searchKeyword() {
+      // チェックボックスの中身を文字列に変換する
+      let str1 = this.checkbox.toString();
+      let str2 = str1.split(",").join(" ");
+
+      this.$emit("search", str2);
     },
   },
 };

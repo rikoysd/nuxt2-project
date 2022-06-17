@@ -9,7 +9,7 @@
     <div class="d-flex justify-center">
       <div class="whole">
         <vacant-search class="vacant-search"></vacant-search>
-        <drawer-menu></drawer-menu>
+        <drawer-menu @search="searchKeyword"></drawer-menu>
         <search-box @search="searchKeyword"></search-box>
         <keywords @search="searchKeyword" @getMenuList="getMenuList"></keywords>
         <!-- 検索結果ページ（初期表示） -->
