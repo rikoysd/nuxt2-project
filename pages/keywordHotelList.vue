@@ -33,6 +33,7 @@
                 :length="getPageInfo.pageCount"
                 :total-visible="7"
                 @input="getNumber"
+                color="#333c5e"
               ></v-pagination>
             </div>
             <!-- 検索結果カンマ区切り -->
@@ -111,6 +112,7 @@
                 :length="getPageInfo.pageCount"
                 :total-visible="7"
                 @input="getNumber"
+                color="#333c5e"
               ></v-pagination>
             </div>
           </div>
