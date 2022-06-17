@@ -34,6 +34,14 @@ export default {
     searchKeyword(keyword) {
       // 親に渡す
       this.$emit("search", keyword);
+
+      // パンくずのメニューをemitで渡す
+      let item = {
+        text: keyword,
+        disabled: true,
+        href: "",
+      };
+      this.$emit("getMenuList", item);
     },
   },
   computed: {},

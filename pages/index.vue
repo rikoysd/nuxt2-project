@@ -30,7 +30,6 @@ export default {
      * @param {*} keyword - キーワード
      */
     async searchKeyword(keyword) {
-      console.log(keyword);
       // // エラー判定を初期化
       // this.$store.commit("changeFlag", this.errorFlag);
 
@@ -45,6 +44,11 @@ export default {
 
       // actionの呼び出し
       await this.$store.dispatch("getPageList", this.object);
+
+      // キーワードをstateに格納
+      this.$store.commit("setKeyword", this.object.keyword);
+
+      // 検索結果ページに遷移
       this.$router.push("/keywordHotelList");
     },
   },

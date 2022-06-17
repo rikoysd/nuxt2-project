@@ -3,7 +3,9 @@
     <v-app>
       <Header :loginUser="loginUser" />
       <v-main>
-        <v-container mt-0 pt-0><Nuxt :loginUser2="loginUser2" /></v-container>
+        <v-container mt-0 pt-0
+          ><Nuxt :loginUser2="loginUser2" :loginUser="loginUser"
+        /></v-container>
       </v-main>
       <Footer />
     </v-app>
@@ -38,6 +40,10 @@ export default {
     getUserInfo() {
       this.$nuxt.$on("getUserInfo", this.setUserInfo);
     },
+    /**
+     * emitで受け取ったユーザー情報をdataに格納.
+     * @param - ログイン中のユーザー情報
+     */
     setUserInfo(user) {
       this.loginUser2 = user;
     },

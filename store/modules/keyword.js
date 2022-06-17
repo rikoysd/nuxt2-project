@@ -8,6 +8,8 @@ export default {
     hotelList: [],
     // エラーフラッグ
     flag: false,
+    // キーワード
+    keyword: "",
   },
 
   actions: {
@@ -49,6 +51,14 @@ export default {
     changeErrorFlag(state, payload) {
       state.flag = payload;
     },
+    /**
+     * キーワードをstateに格納.
+     * @param {*} state - ステート
+     * @param {*} payload - キーワード
+     */
+    setKeyword(state, payload) {
+      state.keyword = payload;
+    },
   },
 
   getters: {
@@ -75,6 +85,14 @@ export default {
      */
     getErrorFlag(state) {
       return state.flag;
+    },
+    /**
+     * キーワードを取得する.
+     * @param {*} state - ステート
+     * @returns キーワード
+     */
+    getKeyword(state) {
+      return state.keyword;
     },
   },
 };
