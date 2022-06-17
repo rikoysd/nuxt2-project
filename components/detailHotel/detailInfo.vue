@@ -18,7 +18,8 @@
                 color="#e9bc00"
                 :value="reviewAverage.bathAverage"
                 readonly
-                icon-label="custom icon label text {0} of {1}"
+                size="20"
+                dense
               ></v-rating
             ></span>
             <span class="average"
@@ -27,6 +28,8 @@
                 color="#e9bc00"
                 :value="reviewAverage.locationAverage"
                 readonly
+                size="20"
+                dense
                 icon-label="custom icon label text {0} of {1}"
               ></v-rating
             ></span>
@@ -36,6 +39,8 @@
                 color="#e9bc00"
                 :value="reviewAverage.equipmentAverage"
                 readonly
+                size="20"
+                dense
                 icon-label="custom icon label text {0} of {1}"
               ></v-rating>
             </span>
@@ -45,6 +50,8 @@
                 color="#e9bc00"
                 :value="reviewAverage.mealAverage"
                 readonly
+                size="20"
+                dense
                 icon-label="custom icon label text {0} of {1}"
               ></v-rating>
             </span>
@@ -54,6 +61,8 @@
                 color="#e9bc00"
                 :value="reviewAverage.roomAverage"
                 readonly
+                size="20"
+                dense
                 icon-label="custom icon label text {0} of {1}"
               ></v-rating>
             </span>
@@ -63,6 +72,8 @@
                 color="#e9bc00"
                 :value="reviewAverage.serviceAverage"
                 readonly
+                size="20"
+                dense
                 icon-label="custom icon label text {0} of {1}"
               ></v-rating>
             </span>
@@ -86,7 +97,7 @@
                 </v-tab-item>
               </v-tabs-items>
             </v-card>
-            <v-row>
+            <!-- <v-row>
               <v-col>
                 <v-card elevation="2" tile>
                   周辺施設
@@ -179,7 +190,7 @@
                   <span>{{ otherInfo.privilege }}</span>
                 </v-card>
               </v-col>
-            </v-row>
+            </v-row> -->
           </v-col>
         </v-row>
       </v-col>
@@ -196,19 +207,29 @@ export default {
     policyInfo: { default: "" },
     otherInfo: { default: "" },
   },
+  beforeUpdate() {
+    this.items[0].content = this.facilitiesInfo.aboutLeisure;
+    this.items[1].content = this.facilitiesInfo.handicappedFacilities;
+    this.items[2].content = this.facilitiesInfo.roomFacilities;
+    this.items[3].content = this.facilitiesInfo.linguisticLevel;
+    this.items[4].content = this.facilitiesInfo.hotelFacilities;
+    this.items[5].content = this.policyInfo.availableCreditCard;
+    this.items[6].content = this.policyInfo.cancelPolicy;
+    this.items[7].content = this.policyInfo.note;
+    this.items[8].content = this.otherInfo.privilege;
+  },
   data: () => ({
     tab: null,
     items: [
-      { tab: "One", content: "Tab 1 Content" },
-      { tab: "Two", content: "Tab 2 Content" },
-      { tab: "Three", content: "Tab 3 Content" },
-      { tab: "Four", content: "Tab 4 Content" },
-      { tab: "Five", content: "Tab 5 Content" },
-      { tab: "Six", content: "Tab 6 Content" },
-      { tab: "Seven", content: "Tab 7 Content" },
-      { tab: "Eight", content: "Tab 8 Content" },
-      { tab: "Nine", content: "Tab 9 Content" },
-      { tab: "Ten", content: "Tab 10 Content" },
+      { tab: "周辺施設", content: "Tab 1 Content" },
+      { tab: "身障者設備", content: "Tab 2 Content" },
+      { tab: "部屋設備・備品", content: "Tab 3 Content" },
+      { tab: "スタッフの言語レベル", content: "Tab 4 Content" },
+      { tab: "ホテルの設備", content: "Tab 5 Content" },
+      { tab: "利用可能なクレジットカード", content: "Tab 6 Content" },
+      { tab: "キャンセルポリシー", content: "Tab 7 Content" },
+      { tab: "条件・注意事項・備考", content: "Tab 8 Content" },
+      { tab: "特典", content: "Tab 9 Content" },
     ],
   }),
 };
