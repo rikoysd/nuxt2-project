@@ -9,6 +9,7 @@
     <div class="d-flex justify-center">
       <div class="whole">
         <vacant-search class="vacant-search"></vacant-search>
+        <drawer-menu></drawer-menu>
         <search-box @search="searchKeyword"></search-box>
         <keywords @search="searchKeyword" @getMenuList="getMenuList"></keywords>
         <!-- 検索結果ページ（初期表示） -->
@@ -40,7 +41,7 @@
                 v-for="(hotel, index) of getHotelList"
                 v-bind:key="index"
               >
-                <v-card class="card" max-width="399">
+                <v-card class="card" width="399">
                   <v-img
                     class="white--text align-end"
                     height="160px"
