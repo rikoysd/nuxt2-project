@@ -86,7 +86,7 @@ export default {
       // 詳細情報
       reserveDetail: [],
       // 予約者ID
-      reserveId: 0,
+      reserveId: "0",
       // ホテル名
       hotelName: "",
       // チェックイン日
@@ -138,7 +138,7 @@ export default {
    */
   mounted() {
     this.reserveDetail = this.$store.getters.getPreReserveData;
-    this.reserveId = this.reserveDetail.reserveId;
+    this.reserveId = String(this.reserveDetail.reserveId);
     this.hotelName = this.reserveDetail.hotelName;
     this.date = this.reserveDetail.checkInDate;
     this.formatDate = format(new Date(this.date), "yyyy年MM月dd日");
@@ -327,7 +327,7 @@ export default {
         this.reserveList[this.reserveList.length - 1].detailObject.reserveId ===
         this.reserveId
       ) {
-        id = this.reserveList.length - 1;
+        id = this.reserveList.length;
       } else {
         for (let reservation of this.reserveList) {
           idList.push(reservation.id);
