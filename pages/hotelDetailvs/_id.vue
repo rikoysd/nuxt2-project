@@ -160,6 +160,7 @@
 <script>
 import calender from "../../components/calender.vue";
 import DetailOverview from "../../components/detailHotel/detailOverview.vue";
+import format from "date-fns";
 export default {
   props: {
     keyword: String,
@@ -227,6 +228,14 @@ export default {
     this.paramsNo = this.$route.params.id;
     // 施設検索
     this.institutionInfo = [];
+    this.checkinDate = format(new Date(), "yyyy-MM-dd");
+    const outDate =
+      new Date().getFullYear() +
+      "-" +
+      new Date().getMonth() +
+      "-" +
+      (new Date().getDate() + 1);
+    this.checkoutDate = format(new Date(outDate), "yyyy-MM-dd");
     await this.$store.dispatch("searchInstitution", this.paramsNo);
     this.institutionInfo = this.$store.getters.getInstitutitonInfo;
     if (

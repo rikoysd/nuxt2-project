@@ -6,6 +6,7 @@
         <v-carousel
           cycle
           height="400"
+          width="100vw"
           hide-delimiter-background
           show-arrows-on-hover
         >
