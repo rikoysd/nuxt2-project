@@ -61,7 +61,7 @@
         </v-row>
 
         <br />
-        <v-row class="reviews">
+        <v-row v-if="basicInfo.userReview" class="reviews">
           <v-row>
             <v-col cols="1">
               <svg
@@ -99,10 +99,17 @@
             </v-col>
             <v-col cols="11">
               <span class="fontSize reviews">
-                口コミ:<span v-html="basicInfo.userReview"></span
+                <span v-html="basicInfo.userReview"></span
               ></span>
             </v-col>
           </v-row>
+        </v-row>
+        <v-row v-else class="reviews">
+          <v-col cols="12">
+            <span class="fontSize reviews notReviews">
+              この施設のクチコミはありません</span
+            >
+          </v-col>
         </v-row>
       </v-row>
     </v-col>
@@ -132,7 +139,7 @@ export default {
   font-family: "Avenir", "Helvetica Neue", "Helvetica", "Arial", "Hiragino Sans",
     "ヒラギノ角ゴシック", YuGothic, "Yu Gothic", "メイリオ", Meiryo,
     "ＭＳ Ｐゴシック", "MS PGothic";
-  font-size: 25px;
+  font-size: 22px;
 }
 .mapIcon {
   height: 15px;
@@ -153,6 +160,7 @@ p {
 }
 .reviews {
   margin-top: 5px;
+  width: 100%;
   background-color: #f7f7f7;
 }
 .rating {
@@ -168,5 +176,8 @@ p {
 .review {
   position: relative;
   left: 60%;
+}
+.notReviews {
+  margin: auto;
 }
 </style>

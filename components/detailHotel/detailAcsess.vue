@@ -11,8 +11,8 @@
         <iframe
           :src="
             'https://maps.google.co.jp/maps?output=embed&q=' +
-            address +
-            basicInfo.hotelName
+            this.mapAddress +
+            this.mapBasicInfoHotelName
           "
           width="1000"
           height="450"
@@ -37,6 +37,16 @@ export default {
   props: {
     basicInfo: { default: [] },
     address: { type: String, default: "" },
+  },
+  data() {
+    return {
+      mapAddress: "",
+      mapBasicInfoHotelName: "",
+    };
+  },
+  beforeUpdate() {
+    this.mapAddress = this.address;
+    this.mapBasicInfoHotelName = this.basicInfo.hotelName;
   },
 };
 </script>

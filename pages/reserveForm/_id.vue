@@ -212,6 +212,7 @@
 
     <div class="reservetion-contents">
       <img class="reserve-img" src="@/assets/img/1.png" />
+      <br />
       <!-- コンポーネント start-->
       <reservetionContents
         :id="this.loginInfo.id"
@@ -460,6 +461,7 @@ export default {
 .container {
   display: flex;
   justify-content: center;
+  width: 90%;
 }
 .radio {
   display: flex;
@@ -520,6 +522,8 @@ p {
   margin-left: 100px;
 }
 .reserve-img {
+  position: relative;
+  left: 35px;
   object-fit: cover;
   width: 250px;
   height: 80px;

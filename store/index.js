@@ -94,7 +94,8 @@ export const actions = {
       context.commit("setInstitutionInfo", payload);
       console.log(payload);
     } catch (error) {
-      alert("該当する宿泊施設が存在しません");
+      context.commit("setInstitutionInfo", "");
+      alert("エラーが発生しました。検索ページに遷移します。");
       console.log(error);
     }
   },
@@ -156,7 +157,7 @@ export const actions = {
       }
     } catch (error) {
       context.commit("setVacantList", "");
-      alert("該当する宿泊プランが存在しません");
+      alert("該当する宿泊プランが存在しません。検索条件の変更をお願いします。");
       console.log(error.response.status);
     }
   },
@@ -276,6 +277,7 @@ export const mutations = {
    */
   searchResultList(state, payload) {
     state.searchResult = payload;
+    console.log(state.searchResult);
   },
   /**
    * 特定のエリアの施設情報をstateに格納.

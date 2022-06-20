@@ -109,6 +109,7 @@
           <img class="reserve-img" src="@/assets/img/2.png" />
           <!-- コンポーネント start-->
           <reservetionContents2
+            class="reservetionContents2"
             :reserveArray="reserveArray"
             :reserveId2="reserveId2"
           ></reservetionContents2>
@@ -258,6 +259,8 @@ export default {
 .container {
   display: flex;
   justify-content: center;
+  position: relative;
+  top: 0;
 }
 .reserve-info,
 .lodging-info,
@@ -321,20 +324,28 @@ td {
 }
 .reservetion-contents {
   margin-left: 100px;
+  width: 500px;
+  position: relative;
+  right: 0;
 }
 .reserve-img {
   object-fit: cover;
   width: 250px;
   height: 80px;
   margin-right: 50px;
+  position: relative;
+  left: 160px;
 }
 .reflectionInfo {
   padding: 20px;
   margin: 10px;
 }
+.reservetionContents2 {
+  padding: 0;
+}
 
 .whole {
-  width: 80%;
+  width: 90%;
   margin: 60px 0;
 }
 </style>

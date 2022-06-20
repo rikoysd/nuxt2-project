@@ -12,27 +12,22 @@
         <!-- カルーセル -->
         <detail-carousel class="detailCarousel" :slides="slides">
         </detail-carousel>
-        <v-row>
-          <v-col>
-            <span
-              v-show="vBasicInfo.hotelMinCharge"
-              class="carouselPlan fontSize"
-            >
-              このホテルの最安料金<br /><span class="hotelMinCharge"
-                >(2名)税込</span
-              >
-              <span class="font-weight-bold hotelMinCharge minChargeSize"
-                >{{ vBasicInfo.hotelMinCharge * 2 }}円</span
-              >
-              <v-btn
-                color="#65CC42"
-                class="minChargeBtn white--text font-weight-bold"
-                @click="goTo('cards')"
-                >プランを確認</v-btn
-              >
-            </span>
-          </v-col>
-        </v-row>
+
+        <span v-show="vBasicInfo.hotelMinCharge" class="carouselPlan fontSize">
+          このホテルの最安料金<br /><span class="hotelMinCharge"
+            >(2名)税込</span
+          >
+          <span class="font-weight-bold hotelMinCharge minChargeSize"
+            >{{ vBasicInfo.hotelMinCharge * 2 }}円</span
+          >
+          <v-btn
+            color="#65CC42"
+            class="minChargeBtn white--text font-weight-bold"
+            @click="goTo('cards')"
+            >プランを確認</v-btn
+          >
+        </span>
+
         <!-- ナビゲーションバー -->
         <v-row>
           <v-toolbar color="#F5F5F5">
@@ -162,6 +157,7 @@
 <script>
 import calender from "../../components/calender.vue";
 import DetailOverview from "../../components/detailHotel/detailOverview.vue";
+import { format } from "date-fns";
 export default {
   props: {
     keyword: String,
@@ -229,6 +225,15 @@ export default {
     this.paramsNo = this.$route.params.id;
     // 施設検索
     this.institutionInfo = [];
+    this.checkinDate = format(new Date(), "yyyy-MM-dd");
+    const outDate =
+      new Date().getFullYear() +
+      "-" +
+      (new Date().getMonth() + 1) +
+      "-" +
+      (new Date().getDate() + 1);
+    console.log(outDate);
+    this.checkoutDate = format(new Date(outDate), "yyyy-MM-dd");
     await this.$store.dispatch("searchInstitution", this.paramsNo);
     this.institutionInfo = this.$store.getters.getInstitutitonInfo;
     if (
@@ -292,14 +297,21 @@ export default {
         console.log(this.vacantList.hotels);
         this.vacantList = this.$store.getters.getVacantList;
         console.log("空室情報", this.vacantList);
+
         const hotelBasicInfo =
           this.vacantList.hotels[0].hotel[0].hotelBasicInfo;
+        const j = this.vacantList.hotels[0].hotel.length;
         // 取得した情報をセット
-        this.plans = [
-          this.vacantList.hotels[0].hotel[3].roomInfo,
-          this.vacantList.hotels[0].hotel[4].roomInfo,
-          this.vacantList.hotels[0].hotel[5].roomInfo,
-        ];
+        for (let i = 3; i <= j - 1; i++) {
+          if (
+            this.vacantList.hotels[0].hotel[i].roomInfo == [] ||
+            this.vacantList.hotels[0].hotel[i].roomInfo != undefined
+          ) {
+            this.plans.push(this.vacantList.hotels[0].hotel[i].roomInfo);
+          }
+
+          console.log(this.plans);
+        }
         this.vDetailInfo = this.vacantList.hotels[0].hotel[1].hotelDetailInfo;
         this.vBasicInfo = this.vacantList.hotels[0].hotel[0].hotelBasicInfo;
         // console.log("plans", this.detailInfo);
@@ -349,7 +361,7 @@ export default {
 
 <style>
 .hotelImage {
-  width: 1185px;
+  width: 102vw;
   height: 400px;
   object-fit: cover;
   -ms-filter: blur(3px);

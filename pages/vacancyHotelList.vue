@@ -193,7 +193,7 @@ export default {
      * @param - ホテル番号
      */
     showHotelDetail(number) {
-      this.$router.push(`/hotelDetailvs/${number}`);
+      this.$router.push(`/hotelDetail/${number}`);
     },
   },
   computed: {
