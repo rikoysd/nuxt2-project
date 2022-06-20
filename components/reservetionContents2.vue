@@ -64,6 +64,7 @@ import firebase from "@/plugins/firebase";
 
 export default {
   props: {
+    reserveId2: String,
     reserveObject: Object,
   },
   data() {
@@ -150,7 +151,7 @@ export default {
      *予約内容を変更する.
      */
     changeReservation(reserveId) {
-      reserveId = this.reserveId;
+      reserveId = this.reserveId2;
       this.$router.push(`/reserveForm/${reserveId}`);
     },
     /**

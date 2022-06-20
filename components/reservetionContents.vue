@@ -323,6 +323,11 @@ export default {
       let idList = [];
       if (this.reserveList.length === 0) {
         id = 1;
+      } else if (
+        this.reserveList[this.reserveList.length - 1].detailObject.reserveId ===
+        this.reserveId
+      ) {
+        id = this.reserveList.length - 1;
       } else {
         for (let reservation of this.reserveList) {
           idList.push(reservation.id);

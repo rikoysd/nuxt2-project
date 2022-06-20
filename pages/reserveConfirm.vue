@@ -110,6 +110,7 @@
           <!-- コンポーネント start-->
           <reservetionContents2
             :reserveArray="reserveArray"
+            :reserveId2="reserveId2"
           ></reservetionContents2>
           <!-- コンポーネント end-->
         </div>
@@ -175,6 +176,8 @@ export default {
       reserveList: [],
       // 予約情報
       reserveInfo: {},
+      // 予約ID
+      reserveId2: "0",
     };
   }, //end data
 
@@ -227,6 +230,8 @@ export default {
     this.card_exp_year = targetIndex.card_exp_year;
     this.card_name = targetIndex.card_name;
     this.other = targetIndex.other;
+
+    this.reserveId2 = targetIndex.detailObject.reserveId;
 
     // 決済方法によるカードの表示切り替え
     if (this.payments === "現地決済") {
