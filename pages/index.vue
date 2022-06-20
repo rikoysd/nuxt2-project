@@ -70,7 +70,7 @@ export default {
   z-index: 0;
 }
 .whole {
-  width: 80%;
+  width: 100%;
   margin: 60px 0;
 }
 </style>

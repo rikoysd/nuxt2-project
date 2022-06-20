@@ -6,13 +6,27 @@
         :value="60"
         color="primary"
       ></v-progress-circular>
+      <!-- ページネーション -->
+      <div class="text-center">
+        <v-pagination
+          @input="getNumber"
+          :length="getPageInfo.pageCount"
+          :total-visible="7"
+          color="#333c5e"
+          class="mt-10 pagenation"
+        ></v-pagination>
+      </div>
+      <!-- 検索結果カンマ区切り -->
+      <div class="record-count">
+        対象施設：{{ Number(getPageInfo.recordCount).toLocaleString() }}件
+      </div>
       <v-row>
         <v-col
           class="d-flex justify-center"
           v-for="(hotel, index) of getArea"
           v-bind:key="index"
         >
-          <v-card class="card" max-width="399">
+          <v-card class="card mb-10" max-width="399">
             <v-img
               class="white--text align-end"
               height="160px"
@@ -65,6 +79,16 @@
           </v-card>
         </v-col>
       </v-row>
+      <!-- ページネーション -->
+      <div class="text-center pagenation">
+        <v-pagination
+          @input="getNumber"
+          :length="getPageInfo.pageCount"
+          :total-visible="7"
+          color="#333c5e"
+          class="mt-10"
+        ></v-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -78,9 +102,12 @@ export default {
       //選択したエリア情報
       area: {
         keyword: "",
+        pageNum: 1,
       },
       // ローディング
       loading: false,
+      //ページ情報
+      page: {},
     };
   },
   async mounted() {
@@ -90,6 +117,14 @@ export default {
   },
 
   methods: {
+    /**
+     * ページを切り替える.
+     * @param - ページ番号
+     */
+    async getNumber(number) {
+      this.area.pageNum = number;
+      await this.$store.dispatch("areaHotelLists", this.area);
+    },
     /**
      * 詳細ページへ遷移.
      */
@@ -106,8 +141,27 @@ export default {
       this.lists = this.$store.getters.getAreaHotel;
       return this.lists;
     },
+    /**
+     * 選択したエリアの施設ページ情報を取得する.
+     */
+    getPageInfo() {
+      this.page = this.$store.getters.getAreaPageInfo;
+      return this.page;
+    },
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.record-count {
+  margin-bottom: 10px;
+  margin-left: 90px;
+}
+
+.v-pagination__item {
+  background-color: #333c5e;
+}
+.v-pagination {
+  background-color: #333c5e;
+}
+</style>

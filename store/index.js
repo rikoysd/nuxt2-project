@@ -45,6 +45,8 @@ export const state = () => ({
   areaHotelLists: [],
   //トップページで選択したエリア
   topAreaLists: [],
+  //特定の地区のページ情報
+  areaPageinfo: {},
 });
 
 export const actions = {
@@ -126,12 +128,15 @@ export const actions = {
    */
   async areaHotelLists(context, area) {
     const targetArea = await axios1.get(
-      `https://app.rakuten.co.jp/services/api/Travel/KeywordHotelSearch/20170426?applicationId=1098541415969458249&format=json&responseType=large&keyword=${area.keyword}`
+      `https://app.rakuten.co.jp/services/api/Travel/KeywordHotelSearch/20170426?applicationId=1098541415969458249&format=json&responseType=large&keyword=${area.keyword}&page=${area.pageNum}`
     );
     // console.dir(JSON.stringify(targetArea));
     context.commit("setareaHotelLists", targetArea.data.hotels);
+    context.commit("setareaPageInfo", targetArea.data.pagingInfo);
+
     const payload = targetArea.data.hotels;
   },
+
   /**
    * 一件空室検索.
    * @param {*} context
@@ -280,6 +285,9 @@ export const mutations = {
    */
   setareaHotelLists(state, payload) {
     state.areaHotelLists = payload;
+  },
+  setareaPageInfo(state, payload) {
+    state.areaPageinfo = payload;
   },
   /**
    * 特定のエリア情報をstateに格納.
@@ -511,6 +519,9 @@ export const getters = {
    */
   getAreaHotel(state) {
     return state.areaHotelLists;
+  },
+  getAreaPageInfo(state) {
+    return state.areaPageinfo;
   },
 };
 
