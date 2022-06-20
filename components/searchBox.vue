@@ -44,6 +44,9 @@ export default {
 
       // 親に渡す
       this.$emit("search", keyword);
+
+      // 検索ボックスの初期化
+      this.keyword = "";
     },
   },
   computed: {},
