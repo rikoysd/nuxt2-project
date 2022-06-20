@@ -3,11 +3,11 @@
     <div class="whole">
       <top class="top"></top>
       <vacantSearch class="vacantSearch"></vacantSearch>
-      <search-box @search="searchKeyword"></search-box>
-      <keywords @search="searchKeyword"></keywords>
+      <!-- <search-box @search="searchKeyword"></search-box>
+      <keywords @search="searchKeyword"></keywords> -->
       <ranking class="ranking mt-auto"></ranking>
       <onsenRanking></onsenRanking>
-      <!-- <p>人気のキーワードで検索する</p> -->
+      <selectArea></selectArea>
     </div>
   </div>
 </template>

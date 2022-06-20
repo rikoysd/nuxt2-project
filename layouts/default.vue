@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-app>
-      <Header :loginUser="loginUser" />
+      <Header :loginUser="loginUser" @search="searchKeyword" />
       <v-main>
         <v-container mt-0 pt-0
           ><Nuxt :loginUser2="loginUser2" :loginUser="loginUser"
@@ -20,6 +20,8 @@ export default {
       loginUser: {},
       // ログインユーザー（ヘッダーからマイページに渡すログイン情報）
       loginUser2: {},
+
+      object: {},
     };
   },
   mounted() {
@@ -47,6 +49,14 @@ export default {
     setUserInfo(user) {
       this.loginUser2 = user;
     },
+    async searchKeyword(keyword) {
+      this.object = {
+        keyword: keyword,
+        page: 1,
+      };
+      await this.$store.dispatch("getPageList", this.object);
+      this.$router.push("/keywordHotelList");
+    },
   },
 };
 </script>
@@ -54,7 +64,7 @@ export default {
 <style scoped>
 .container {
   padding: 0;
-  margin-left: 0;
-  margin-right: 0;
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>

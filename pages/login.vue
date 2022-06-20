@@ -1,6 +1,6 @@
 <template>
-  <div class="whole d-flex align-center justify-center">
-    <v-container class="login-area">
+  <div class="whole d-flex mx-auto">
+    <div class="login-area">
       <div class="submit-error">{{ submitError }}</div>
       <span>{{ mailAddressError }}</span
       ><v-text-field
@@ -27,7 +27,8 @@
           >会員登録はこちら</nuxt-link
         >
       </div>
-    </v-container>
+    </div>
+    <div class="mainContent"></div>
   </div>
 </template>
 
@@ -205,7 +206,19 @@ export default {
 span {
   color: red;
 }
-
+.mainContent {
+  width: 100vw;
+  height: 600px;
+  background-image: url(../assets/img/background-img.jpg);
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 0;
+  overflow: auto;
+  z-index: 0;
+}
 .login-area {
   background-color: white;
   border-radius: 5px;
@@ -213,6 +226,11 @@ span {
   width: 600px;
   box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
     rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+  height: 400px;
+  margin: auto auto;
+  z-index: 1;
+  position: relative;
+  right: 8%;
 }
 
 .login-info {
@@ -229,15 +247,14 @@ span {
 }
 
 .whole {
-  width: 100%;
-  height: 100vh;
-  background-image: url(../assets/img/background-img.jpg);
+  width: 100vw;
+  height: 600px;
+  /* background-image: url(../assets/img/background-img.jpg);
   background-size: cover;
   background-position: center center;
   background-attachment: fixed;
   background-repeat: no-repeat;
-}
-.whole[data-v-18804380] {
-  width: 100vw;
+  position: fixed;
+  overflow: auto; */
 }
 </style>
