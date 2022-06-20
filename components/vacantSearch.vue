@@ -197,7 +197,6 @@ export default {
      */
     getAdultNum(value) {
       this.vacantData.adultNum = value;
-      console.log(this.vacantData.adultNum);
     },
     /**
      *小学生人数を子(selectNumber.vue)から受け取る.
@@ -206,27 +205,23 @@ export default {
       this.vacantData.upClassNum = value1;
       console.log(this.vacantData.upClassNum);
       this.vacantData.lowClassNum = value2;
-      console.log(this.vacantData.lowClassNum);
     },
     /**
      * 幼児人数を子(selectNumber.vue)から受け取る.
      */
     getinfantNum(value1, value2, value3, value4) {
       this.vacantData.infantWithMBNum = value1;
-      console.log(value1);
+
       this.vacantData.infantWithMNum = value2;
-      console.log(value2);
+
       this.vacantData.infantWithBNum = value3;
-      console.log(value3);
+
       this.vacantData.infantWithoutMBNum = value4;
-      console.log(value4);
-      console.log(this.vacantData.infantWithoutMBNum);
     },
 
     /**部屋数を子(selectNumber.vue)から受け取る. */
     getRoomNum(value) {
       this.vacantData.roomNum = value;
-      console.log(this.vacantData.roomNum);
     },
 
     /**
