@@ -332,6 +332,7 @@ export const mutations = {
    * @param {*} payload - ペイロード
    */
   setInstitutionInfo(state, payload) {
+    state.instituionInfo = [];
     state.instituionInfo = { hotels: payload };
     // console.log(state.instituionInfo);
   },

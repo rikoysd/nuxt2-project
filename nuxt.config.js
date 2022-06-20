@@ -14,7 +14,13 @@ export default {
       { hid: "description", name: "description", content: "" },
       { name: "format-detection", content: "telephone=no" },
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/raku-favicon.ico" }],
+    link: [
+      { rel: "icon", type: "image/x-icon", href: "/raku-favicon.ico" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Hina+Mincho&family=Kaisei+Opti:wght@700&family=Noto+Sans+JP&display=swap",
+      },
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css

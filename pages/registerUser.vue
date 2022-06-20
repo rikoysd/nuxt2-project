@@ -79,6 +79,7 @@
         >
       </v-row>
     </div>
+    <div class="mainContent"></div>
   </div>
 </template>
 
@@ -351,6 +352,19 @@ export default {
 </script>
 
 <style scoped>
+.mainContent {
+  width: 100vw;
+  height: 1300px;
+  background-image: url(../assets/img/background-img.jpg);
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  position: absolute;
+  left: 0;
+  overflow: auto;
+  z-index: 0;
+}
 .container {
   width: 600px;
   border-radius: 5px;
@@ -359,6 +373,9 @@ export default {
   box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
     rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
   margin: 60px 0;
+  z-index: 1;
+  position: relative;
+  right: 8%;
 }
 
 .register-btn {
@@ -373,11 +390,11 @@ span {
 .whole {
   width: 100%;
   height: 100%;
-  background-image: url(../assets/img/background-img.jpg);
+  /* background-image: url(../assets/img/background-img.jpg);
   background-size: cover;
   background-position: center center;
   background-attachment: fixed;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat; */
 }
 
 .whole[data-v-0ad26307] {

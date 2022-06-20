@@ -1,7 +1,7 @@
 <template>
-  <div class="d-flex topPosition justify-center">
+  <v-row class="d-flex justify-center">
     <div>
-      <div>
+      <div class="topPosition">
         <!-- カルーセル -->
         <detail-carousel class="detailCarousel" :slides="slides">
         </detail-carousel>
@@ -41,7 +41,7 @@
           </v-toolbar>
         </v-row>
       </div>
-      <div class="d-flex justify-center">
+      <div class="">
         <div class="whole">
           <!-- 施設概要 -->
           <detail-overview
@@ -82,7 +82,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </v-row>
 </template>
 
 <script>
@@ -260,7 +260,7 @@ v-btn {
 
 .whole {
   width: 80%;
-  margin: 60px 0;
+  margin: 60px auto;
 }
 .topPosition {
   width: 100vw;
@@ -297,5 +297,9 @@ v-btn {
 }
 .fontSize {
   font-size: 15px;
+}
+.detailCarousel {
+  margin-top: 11.5px;
+  width: 100vw;
 }
 </style>
