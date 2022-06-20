@@ -4,20 +4,28 @@
     <v-container>
       <v-row dense>
         <v-col v-for="card in cards" :key="card.title" :cols="card.flex">
-          <v-card class="flex-row pt-80">
-            <v-img
-              @click="getArea(card.title)"
-              :src="card.src"
-              class="white--text text-center pt-80"
-              height="200px"
-              :value="card.title"
+          <v-hover v-slot="{ hover }" open-delay="200">
+            <v-card
+              class="flex-row pt-80 card mx-auto"
+              :elevation="hover ? 16 : 2"
+              :class="{ 'on-hover': hover }"
+              height="200"
+              max-width="200"
             >
-              <v-card-title
-                v-text="card.title"
-                class="text-h4 text-center text pt-80"
-              ></v-card-title>
-            </v-img>
-          </v-card>
+              <v-img
+                @click="getArea(card.title)"
+                :src="card.src"
+                class="white--text text-center pt-80"
+                height="200px"
+                :value="card.title"
+              >
+                <v-card-title
+                  v-text="card.title"
+                  class="text-h4 text-center text pt-80"
+                ></v-card-title>
+              </v-img>
+            </v-card>
+          </v-hover>
         </v-col>
       </v-row>
     </v-container>
@@ -78,5 +86,18 @@ export default {
 }
 p {
   padding-left: 20px;
+}
+.card {
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.card:hover {
+  transform: scale(1.1, 1.1);
+}
+.v-card.on-hover.theme--dark {
+  background-color: rgba(#fff, 0.8);
+}
+.v-card__text {
+  color: #000;
 }
 </style>
