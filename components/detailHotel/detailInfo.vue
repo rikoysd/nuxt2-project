@@ -101,19 +101,22 @@
               <v-tabs-items v-model="tab">
                 <v-tab-item v-for="item in items" :key="item.tab">
                   <v-card flat>
-                    <!-- <div v-if="!item.content.length == 1">
-                      <v-card-text v-for="(item, i) of item.content" :key="i">
-                        <span v-if="item.card != ''" v-html="item.card"></span>
-                        <span v-if="item.item != ''" v-html="item.item"> </span>
-                      </v-card-text>
-                    </div>
-                    <div v-else>
-                      <v-card-text v-html="item.content"></v-card-text>
-                    </div> -->
-
-                    <!-- <v-card-text v-else>情報はありません。</v-card-text> -->
+                    <v-card-text v-for="(data, i) of item.contents" :key="i">
+                      <span v-if="data.card != ''" v-html="data.card"></span>
+                      <span v-if="data.item != ''" v-html="data.item"> </span>
+                    </v-card-text>
+                    <v-card-text v-html="item.content"></v-card-text>
                   </v-card>
                 </v-tab-item>
+                <!-- <v-tab-item>
+                  <v-card flat>{{ items[0].content }} </v-card>
+                </v-tab-item>
+                <v-tab-item v-for="item in items[1].content" :key="item.tab">
+                  <v-card flat>{{ item.item }} </v-card>
+                </v-tab-item>
+                <v-tab-item v-for="item in items[2].content" :key="item.tab">
+                  <v-card flat>{{ item.item }} </v-card>
+                </v-tab-item> -->
               </v-tabs-items>
             </v-card>
             <!-- <v-row>
@@ -228,11 +231,11 @@ export default {
   },
   beforeUpdate() {
     this.items[0].content = this.facilitiesInfo.aboutLeisure;
-    this.items[1].content = this.facilitiesInfo.handicappedFacilities;
-    this.items[2].content = this.facilitiesInfo.roomFacilities;
+    this.items[1].contents = this.facilitiesInfo.handicappedFacilities;
+    this.items[2].contents = this.facilitiesInfo.roomFacilities;
     this.items[3].content = this.facilitiesInfo.linguisticLevel;
-    this.items[4].content = this.facilitiesInfo.hotelFacilities;
-    this.items[5].content = this.policyInfo.availableCreditCard;
+    this.items[4].contents = this.facilitiesInfo.hotelFacilities;
+    this.items[5].contents = this.policyInfo.availableCreditCard;
     this.items[6].content = this.policyInfo.cancelPolicy;
     this.items[7].content = this.policyInfo.note;
     this.items[8].content = this.otherInfo.privilege;
@@ -240,15 +243,15 @@ export default {
   data: () => ({
     tab: null,
     items: [
-      { tab: "周辺施設", content: "Tab 1 Content" },
-      { tab: "身障者設備", content: "Tab 2 Content" },
-      { tab: "部屋設備・備品", content: "Tab 3 Content" },
-      { tab: "スタッフの言語レベル", content: "Tab 4 Content" },
-      { tab: "ホテルの設備", content: "Tab 5 Content" },
-      { tab: "利用可能なクレジットカード", content: "Tab 6 Content" },
-      { tab: "キャンセルポリシー", content: "Tab 7 Content" },
-      { tab: "条件・注意事項・備考", content: "Tab 8 Content" },
-      { tab: "特典", content: "Tab 9 Content" },
+      { tab: "周辺施設", content: "Tab 0 Content" },
+      { tab: "身障者設備", contents: "Tab 1 Content" },
+      { tab: "部屋設備・備品", contents: "Tab 2 Content" },
+      { tab: "スタッフの言語レベル", content: "Tab 3 Content" },
+      { tab: "ホテルの設備", contents: "Tab 4 Content" },
+      { tab: "利用可能なクレジットカード", contents: "Tab 5 Content" },
+      { tab: "キャンセルポリシー", content: "Tab 6 Content" },
+      { tab: "条件・注意事項・備考", content: "Tab 7 Content" },
+      { tab: "特典", content: "Tab 8 Content" },
     ],
   }),
 };
