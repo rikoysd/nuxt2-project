@@ -50,9 +50,18 @@
 
 <script>
 import { format } from "date-fns";
+import {
+  setDoc,
+  getFirestore,
+  doc,
+  collection,
+  addDoc,
+} from "firebase/firestore";
+import firebase from "@/plugins/firebase";
 
 export default {
   props: {
+    id: Number,
     fullName1: String,
     fullName2: String,
     zipcode: String,
@@ -157,7 +166,7 @@ export default {
     /**
      * 予約確認画面に遷移する.
      */
-    reserveConfirm() {
+    async reserveConfirm() {
       // エラーリストの初期化
       this.errors = [];
 
@@ -354,9 +363,56 @@ export default {
       detailObject.totalPrice = this.totalPrice;
 
       // storeのmutationにobjectを渡す
-      this.$store.commit("reserve", object);
-      this.$store.commit("reserve2", detailObject);
-      this.$router.push("/reserveConfirm");
+      // this.$store.commit("reserve", object);
+      // this.$store.commit("reserve2", detailObject);
+
+      const db = getFirestore(firebase);
+
+      try {
+        const docRef = await addDoc(
+          collection(
+            db,
+            "ユーザー一覧",
+            String(this.id),
+            "予約情報",
+            String(this.id)
+          ),
+          {
+            fullName1: this.fullName1,
+          }
+        );
+
+        // const docRef1 = setDoc(doc(db, docRef, String(userId)), {
+        //   fullName1: this.fullName1,
+        //   fullName2: this.fullName2,
+        // });
+        // const data = {
+        //   fullName1: this.fullName1,
+        //   fullName2: this.fullName2,
+        //   // zipcode: this.zipcode,
+        //   // prefecture: this.prefecture,
+        //   // address: this.address,
+        //   // telephone: this.telephone,
+        //   // mailAddress: this.mailAddress,
+        //   // checkInTime: this.checkInTime,
+        //   // man: this.man,
+        //   // woman: this.woman,
+        //   // payments: this.payments,
+        //   // card_number: this.card_number,
+        //   // card_cvv: this.card_cvv,
+        //   // card_exp_month: this.card_exp_month,
+        //   // card_exp_year: this.card_exp_year,
+        //   // card_name: this.card_name,
+        //   // other: this.other,
+        // };
+
+        // const docRef = await setDoc(ref, data, { merge: true });
+        console.log(docRef);
+      } catch (error) {
+        console.error(error);
+      }
+
+      // this.$router.push("/reserveConfirm");
     },
   }, // end methods
 };
