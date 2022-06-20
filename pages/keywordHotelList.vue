@@ -226,7 +226,7 @@ export default {
      * @param - こだわりのキーワード
      */
     menuWords(word) {
-      this.originalWord = word;
+      this.originalWord = word
     },
   },
   computed: {
