@@ -147,7 +147,7 @@
 export default {
   props: {
     loginUser2: {
-      id: 0,
+      id: Number,
       fullName1: String,
       fullName2: String,
       zipcode: String,

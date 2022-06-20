@@ -23,11 +23,13 @@
 
       <div class="price" style="background-color: white">
         <span style="font-weight: bold">宿泊料金合計</span
-        >&nbsp;&nbsp;&nbsp;&nbsp;<span>{{ subPrice.toLocaleString() }}円</span>
+        >&nbsp;&nbsp;&nbsp;&nbsp;<span
+          >{{ Number(subPrice).toLocaleString() }}円</span
+        >
         <hr />
         <span style="font-weight: bold">お支払い金額</span
         >&nbsp;&nbsp;&nbsp;&nbsp;<span class="total-price"
-          >{{ totalPrice.toLocaleString() }}円</span
+          >{{ Number(totalPrice).toLocaleString() }}円</span
         ><br />
         <span class="content">消費税・サービス料込み</span>
       </div>
@@ -57,6 +59,8 @@
 
 <script>
 import axios from "axios";
+import { getFirestore, collection, getDocs } from "firebase/firestore";
+import firebase from "@/plugins/firebase";
 
 export default {
   props: {
@@ -90,6 +94,10 @@ export default {
       subPrice: 0,
       // お支払い金額
       totalPrice: 0,
+      // ログインユーザー
+      loginUser: {},
+      // 予約一覧
+      reserveList: [],
     };
   }, //end data
 
@@ -97,20 +105,44 @@ export default {
    * 非同期処理(ホテル詳細情報の反映).
    */
   async mounted() {
-    this.detailArray = await this.$store.getters["reserve/getDetailInfo"];
-    console.log(this.detailArray);
-    // this.reserveId = this.detailArray.reserveId;
-    this.hotelName = this.detailArray.hotelName;
-    this.formatDate = this.detailArray.formatDate;
-    this.staySpan = this.detailArray.staySpan;
-    this.breakfast = this.detailArray.breakfast;
-    this.dinner = this.detailArray.dinner;
-    this.adult = this.detailArray.adult;
-    this.child = this.detailArray.child;
-    this.room = this.detailArray.room;
-    this.plan = this.detailArray.plan;
-    this.subPrice = this.detailArray.subPrice;
-    this.totalPrice = this.detailArray.totalPrice;
+    const db = getFirestore(firebase);
+
+    // 現在ログイン中のユーザー情報を取得
+    this.loginUser = this.$store.getters["register/getLoginUser"];
+
+    try {
+      const docRef = collection(
+        db,
+        "ユーザー一覧",
+        String(this.loginUser.id),
+        "予約情報"
+      );
+
+      await getDocs(docRef).then((snapShot) => {
+        const data = snapShot.docs.map((doc) => ({
+          ...doc.data(),
+        }));
+        // console.log(data);
+
+        this.reserveList = data;
+      });
+    } catch (error) {
+      console.error(error);
+    }
+
+    let targetIndex = this.reserveList[this.reserveList.length - 1];
+
+    this.hotelName = targetIndex.detailObject.hotelName;
+    this.formatDate = targetIndex.detailObject.formatDate;
+    this.staySpan = targetIndex.detailObject.staySpan;
+    this.breakfast = targetIndex.detailObject.breakfast;
+    this.dinner = targetIndex.detailObject.dinner;
+    this.adult = targetIndex.detailObject.adult;
+    this.child = targetIndex.detailObject.child;
+    this.room = targetIndex.detailObject.room;
+    this.plan = targetIndex.detailObject.plan;
+    this.subPrice = targetIndex.detailObject.subPrice;
+    this.totalPrice = targetIndex.detailObject.totalPrice;
   },
 
   methods: {

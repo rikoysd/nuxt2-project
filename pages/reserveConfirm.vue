@@ -120,6 +120,8 @@
 
 <script>
 import reservetionContents2 from "../components/reservetionContents2.vue";
+import { getFirestore, collection, getDocs } from "firebase/firestore";
+import firebase from "@/plugins/firebase";
 
 export default {
   components: {
@@ -167,6 +169,12 @@ export default {
       card_name: "",
       // 施設への連絡事項
       other: "",
+      // ログインユーザー
+      loginUser: {},
+      // 予約一覧
+      reserveList: [],
+      // 予約情報
+      reserveInfo: {},
     };
   }, //end data
 
@@ -174,26 +182,51 @@ export default {
    * 非同期処理(予約情報の反映).
    */
   async mounted() {
-    this.reserveArray = await this.$store.getters["reserve/getReserveInfo"];
-    this.fullName1 = this.reserveArray.fullName1;
-    this.fullName2 = this.reserveArray.fullName2;
-    this.zipcode = this.reserveArray.zipcode;
-    this.prefecture = this.reserveArray.prefecture;
-    this.address = this.reserveArray.address;
-    this.telephone = this.reserveArray.telephone;
-    this.mailAddress = this.reserveArray.mailAddress;
-    this.checkInTime = this.reserveArray.checkInTime;
-    this.man = this.reserveArray.man;
-    this.woman = this.reserveArray.woman;
-    this.payments = this.reserveArray.payments;
-    this.card_number = this.reserveArray.card_number;
-    this.card_cvv = this.reserveArray.card_cvv;
-    this.card_exp_month = this.reserveArray.card_exp_month;
-    this.card_exp_year = this.reserveArray.card_exp_year;
-    this.card_name = this.reserveArray.card_name;
-    this.other = this.reserveArray.other;
+    const db = getFirestore(firebase);
 
-    console.log(this.reserveArray); //ok
+    // 現在ログイン中のユーザー情報を取得
+    this.loginUser = this.$store.getters["register/getLoginUser"];
+
+    // 予約情報の中から一番最新の情報を取得
+    try {
+      const docRef = collection(
+        db,
+        "ユーザー一覧",
+        String(this.loginUser.id),
+        "予約情報"
+      );
+
+      await getDocs(docRef).then((snapShot) => {
+        const data = snapShot.docs.map((doc) => ({
+          ...doc.data(),
+        }));
+        // console.log(data);
+
+        this.reserveList = data;
+      });
+    } catch (error) {
+      console.error(error);
+    }
+
+    let targetIndex = this.reserveList[this.reserveList.length - 1];
+
+    this.fullName1 = targetIndex.fullName1;
+    this.fullName2 = targetIndex.fullName2;
+    this.zipcode = targetIndex.zipcode;
+    this.prefecture = targetIndex.prefecture;
+    this.address = targetIndex.address;
+    this.telephone = targetIndex.telephone;
+    this.mailAddress = targetIndex.mailAddress;
+    this.checkInTime = targetIndex.checkInTime;
+    this.man = targetIndex.man;
+    this.woman = targetIndex.woman;
+    this.payments = targetIndex.payments;
+    this.card_number = targetIndex.card_number;
+    this.card_cvv = targetIndex.card_cvv;
+    this.card_exp_month = targetIndex.card_exp_month;
+    this.card_exp_year = targetIndex.card_exp_year;
+    this.card_name = targetIndex.card_name;
+    this.other = targetIndex.other;
 
     // 決済方法によるカードの表示切り替え
     if (this.payments === "現地決済") {

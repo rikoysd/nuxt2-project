@@ -129,7 +129,7 @@ export default {
       },
       result: "",
       // 予約一覧
-      // reserveList = [],
+      reserveList: [],
     };
   }, //end data
 
@@ -138,7 +138,6 @@ export default {
    */
   mounted() {
     this.reserveDetail = this.$store.getters.getPreReserveData;
-    console.log(this.reserveDetail);
     this.reserveId = this.reserveDetail.reserveId;
     this.hotelName = this.reserveDetail.hotelName;
     this.date = this.reserveDetail.checkInDate;
@@ -162,7 +161,6 @@ export default {
     this.plan = this.reserveDetail.planName;
     this.subPrice = this.reserveDetail.subPrice;
     this.totalPrice = this.reserveDetail.totalPrice;
-    console.log(this.reserveDetail); // ok
   },
 
   methods: {
@@ -290,7 +288,6 @@ export default {
 
       // 親にエラーオブジェクトを渡す
       this.$emit("errorObject", this.errorObject);
-      console.log(this.errorObject);
 
       // エラーが一つでもあったら処理を止める
       if (array.length > 0) {
@@ -309,11 +306,12 @@ export default {
           "予約情報"
         );
 
+        // getDocs（複数形）にすることで複数のドキュメント取得
         await getDocs(docRef).then((snapShot) => {
           const data = snapShot.docs.map((doc) => ({
             ...doc.data(),
           }));
-          console.log(data);
+          // console.log(data);
 
           this.reserveList = data;
         });
@@ -331,7 +329,6 @@ export default {
         }
         id = Math.max(...idList) + 1;
       }
-      console.log(id);
 
       try {
         // サブコレクションの追加
