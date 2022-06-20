@@ -293,11 +293,13 @@ export default {
         const hotelBasicInfo =
           this.vacantList.hotels[0].hotel[0].hotelBasicInfo;
         // 取得した情報をセット
-        this.plans = [
-          this.vacantList.hotels[0].hotel[3].roomInfo,
-          this.vacantList.hotels[0].hotel[4].roomInfo,
-          this.vacantList.hotels[0].hotel[5].roomInfo,
-        ];
+        for (let i = 3; i <= 5; i++) {
+          if (
+            this.vacantList.hotels[0].hotel[i].roomInfo !== "" ||
+            this.vacantList.hotels[0].hotel[i].roomInfo !== undefined
+          )
+            this.plans.push(this.vacantList.hotels[0].hotel[i].roomInfo);
+        }
         this.vDetailInfo = this.vacantList.hotels[0].hotel[1].hotelDetailInfo;
         this.vBasicInfo = this.vacantList.hotels[0].hotel[0].hotelBasicInfo;
         // console.log("plans", this.detailInfo);

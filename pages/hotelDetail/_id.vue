@@ -129,6 +129,7 @@ export default {
       now: new Date(),
       // 指定した日時
       target: "",
+      searchRequirement: [],
     };
   },
   methods: {
@@ -139,6 +140,7 @@ export default {
   async created() {
     this.vacantList = [];
     this.plans = [];
+    this.searchRequirement = [];
     // URLからhotelIdを取得
     this.paramsNo = this.$route.params.id;
     // 施設検索
@@ -170,6 +172,9 @@ export default {
     // アクセス
     this.address = this.basicInfo.address1 + this.basicInfo.address2;
 
+    this.searchRequirement = this.$store.getters.getSearchResult;
+    this.checkinDate = this.searchRequirement.checkinDate;
+    this.checkoutDate = this.searchRequirement.checkoutDate;
     // 空室検索
     this.staySpan = this.getStaySpan;
 
@@ -186,12 +191,10 @@ export default {
     }
     console.log("空室情報", this.vacantList);
     const hotelBasicInfo = this.vacantList.hotels[0].hotel[0].hotelBasicInfo;
+    for (let i = 3; i <= 5; i++) {
+      this.plans.push(this.vacantList.hotels[0].hotel[i].roomInfo);
+    }
 
-    this.plans = [
-      this.vacantList.hotels[0].hotel[3].roomInfo,
-      this.vacantList.hotels[0].hotel[4].roomInfo,
-      this.vacantList.hotels[0].hotel[5].roomInfo,
-    ];
     this.vDetailInfo = this.vacantList.hotels[0].hotel[1].hotelDetailInfo;
     this.vBasicInfo = this.vacantList.hotels[0].hotel[0].hotelBasicInfo;
     console.log("plans", this.plans);
