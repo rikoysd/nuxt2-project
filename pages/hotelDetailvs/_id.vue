@@ -160,7 +160,7 @@
 <script>
 import calender from "../../components/calender.vue";
 import DetailOverview from "../../components/detailHotel/detailOverview.vue";
-import format from "date-fns";
+import { format } from "date-fns";
 export default {
   props: {
     keyword: String,
@@ -232,9 +232,10 @@ export default {
     const outDate =
       new Date().getFullYear() +
       "-" +
-      new Date().getMonth() +
+      (new Date().getMonth() + 1) +
       "-" +
       (new Date().getDate() + 1);
+    console.log(outDate);
     this.checkoutDate = format(new Date(outDate), "yyyy-MM-dd");
     await this.$store.dispatch("searchInstitution", this.paramsNo);
     this.institutionInfo = this.$store.getters.getInstitutitonInfo;
