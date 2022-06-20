@@ -6,11 +6,16 @@
         <v-carousel
           cycle
           height="400"
+          width="100vw"
           hide-delimiter-background
           show-arrows-on-hover
         >
           <v-carousel-item v-for="(slide, i) in slides" :key="i">
-            <v-row class="fill-height carousel" align="center" justify="center">
+            <v-row
+              class="fill-height carousel carouselSize"
+              align="center"
+              justify="center"
+            >
               <div class="text-h2">
                 <v-img class="hotelImage" align="center" :src="slide"></v-img>
               </div>
@@ -32,6 +37,9 @@ export default {
 
 <style>
 .hotelImage {
-  width: 100%;
+  width: 102vw;
+}
+.carouselSize {
+  width: 100vw;
 }
 </style>

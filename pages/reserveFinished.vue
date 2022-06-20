@@ -6,7 +6,7 @@
         <img
           class="bg-img"
           height="100px"
-          width="1000px"
+          width="100%"
           src="@/assets/img/bg-img.jpg"
         />
         <h2>ご予約ありがとうございました。</h2>
@@ -15,7 +15,7 @@
         <img
           class="bg-img"
           height="100px"
-          width="1000px"
+          width="100%"
           src="@/assets/img/bg-img.jpg"
         />
       </v-col>
@@ -52,6 +52,7 @@ h2 {
 }
 .bg-img {
   object-fit: cover;
+  margin: 0, auto;
 }
 .button {
   margin-bottom: 25px;
@@ -63,6 +64,8 @@ h2 {
   float: right;
   margin-right: 70px;
   margin-bottom: 10px;
+  position: relative;
+  left: 100px;
 }
 
 .whole {
