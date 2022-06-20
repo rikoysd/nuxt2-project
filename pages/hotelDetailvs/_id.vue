@@ -127,6 +127,7 @@
 
                 <div v-show="listShow">
                   <detail-plans
+                    :basicInfo="basicInfo"
                     :plans="plans"
                     :roomImage="roomImage"
                     :vDetailInfo="vDetailInfo"

@@ -55,8 +55,7 @@ import {
   getFirestore,
   doc,
   collection,
-  addDoc,
-  getDoc,
+  getDocs,
 } from "firebase/firestore";
 import firebase from "@/plugins/firebase";
 
@@ -298,112 +297,41 @@ export default {
         return;
       }
 
-      // storeに送るためのオブジェクト生成(予約者情報)
-      // let object = {
-      //   fullName1: "",
-      //   fullName2: "",
-      //   zipcode: "",
-      //   prefecture: "",
-      //   address: "",
-      //   telephone: "",
-      //   mailAddress: "",
-      //   checkInTime: "",
-      //   man: "",
-      //   woman: "",
-      //   payments: "",
-      //   card_number: "",
-      //   card_cvv: 0,
-      //   card_exp_month: "",
-      //   card_exp_year: "",
-      //   card_name: "",
-      //   other: "",
-      // };
-      // storeに送るためのオブジェクト生成(プラン詳細)
-      // let detailObject = {
-      //   reserveId: 0,
-      //   hotelName: "",
-      //   formatDate: new Date(),
-      //   staySpan: 0,
-      //   breakfast: "",
-      //   dinner: "",
-      //   adult: 0,
-      //   child: 0,
-      //   room: "",
-      //   plan: "",
-      //   subPrice: 0,
-      //   totalPrice: 0,
-      // };
-
-      // 作ったオブジェクトに情報を代入する
-      // object.fullName1 = this.fullName1;
-      // object.fullName2 = this.fullName2;
-      // object.zipcode = this.zipcode;
-      // object.prefecture = this.prefecture;
-      // object.address = this.address;
-      // object.telephone = this.telephone;
-      // object.mailAddress = this.mailAddress;
-      // object.checkInTime = this.checkInTime;
-      // object.man = this.man;
-      // object.woman = this.woman;
-      // object.payments = this.payments;
-      // object.card_number = this.card_number;
-      // object.card_cvv = this.card_cvv;
-      // object.card_exp_month = this.card_exp_month;
-      // object.card_exp_year = this.card_exp_year;
-      // object.card_name = this.card_name;
-      // object.other = this.other;
-
-      // detailObject.reserveId = this.reserveId;
-      // detailObject.hotelName = this.hotelName;
-      // detailObject.formatDate = this.formatDate;
-      // detailObject.staySpan = this.staySpan;
-      // detailObject.breakfast = this.breakfast;
-      // detailObject.dinner = this.dinner;
-      // detailObject.adult = this.adult;
-      // detailObject.child = this.child;
-      // detailObject.room = this.room;
-      // detailObject.plan = this.plan;
-      // detailObject.subPrice = this.subPrice;
-      // detailObject.totalPrice = this.totalPrice;
-
-      // storeのmutationにobjectを渡す
-      // this.$store.commit("reserve", object);
-      // this.$store.commit("reserve2", detailObject);
-
       // 予約登録IDの採番
       const db = getFirestore(firebase);
 
+      // サブコレクションを一括取得
       try {
-        const listData = collection(
+        const docRef = collection(
           db,
           "ユーザー一覧",
           String(this.id),
           "予約情報"
         );
-        await getDoc(listData).then((snapShot) => {
-          const data = snapShot.doc.map((doc) => ({
+
+        await getDocs(docRef).then((snapShot) => {
+          const data = snapShot.docs.map((doc) => ({
             ...doc.data(),
           }));
           console.log(data);
 
-          for (let reserveData of data) {
-            this.reserveList.push(reserveData);
-          }
+          this.reserveList = data;
         });
       } catch (error) {
         console.error(error);
       }
 
-      // let id= 0;
-      // let idList = [];
-      // if(this.reserveList.length===0){
-      //   id=1;
-      // } else{
-      //   for(let reservation of this.reserveList){
-      //     idList.push(reservation.id);
-      //   }
-      //   id = Math.max(...idList ) +1;
-      // }
+      let id = 0;
+      let idList = [];
+      if (this.reserveList.length === 0) {
+        id = 1;
+      } else {
+        for (let reservation of this.reserveList) {
+          idList.push(reservation.id);
+        }
+        id = Math.max(...idList) + 1;
+      }
+      console.log(id);
 
       try {
         // サブコレクションの追加
@@ -412,11 +340,12 @@ export default {
           "ユーザー一覧",
           String(this.id),
           "予約情報",
-          String(this.id)
+          String(id)
         );
 
         // 予約者情報とプラン詳細を一つのオブジェクトにまとめる
         const setData = {
+          id: id,
           fullName1: this.fullName1,
           fullName2: this.fullName2,
           zipcode: this.zipcode,
@@ -436,7 +365,7 @@ export default {
           other: this.other,
           detailObject: {
             reserveId: this.reserveId,
-            // hotelName: this.hotelName,
+            hotelName: this.hotelName,
             formatDate: this.formatDate,
             staySpan: this.staySpan,
             breakfast: this.breakfast,
@@ -455,7 +384,7 @@ export default {
         console.error(error);
       }
 
-      // this.$router.push("/reserveConfirm");
+      this.$router.push("/reserveConfirm");
     },
   }, // end methods
 };
