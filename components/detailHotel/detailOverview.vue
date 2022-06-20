@@ -40,7 +40,7 @@
     <v-col id="reviews" cols="6">
       <v-row>
         <v-row>
-          <v-col>
+          <v-col class="review">
             <span class="font-weight-bold reviewAverage">
               {{ basicInfo.reviewAverage }}
             </span>
@@ -164,5 +164,9 @@ p {
 }
 .reviewCount {
   margin-top: 5px;
+}
+.review {
+  position: relative;
+  left: 60%;
 }
 </style>

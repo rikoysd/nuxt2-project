@@ -1,12 +1,13 @@
 <template>
-  <div class="d-flex topPosition justify-center">
+  <v-row class="d-flex justify-center">
     <div>
       <menu-list
+        class="menuList"
         :basicInfo="basicInfo"
         :menuKeyword="keyword"
         :keyword2="keyword2"
       ></menu-list>
-      <div>
+      <div class="topPosition">
         <!-- カルーセル -->
         <detail-carousel class="detailCarousel" :slides="slides">
         </detail-carousel>
@@ -45,7 +46,7 @@
           </v-toolbar>
         </v-row>
       </div>
-      <div class="d-flex justify-center">
+      <div class="">
         <div class="whole">
           <!-- 施設概要 -->
           <detail-overview
@@ -153,7 +154,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </v-row>
 </template>
 
 <script>
@@ -225,8 +226,15 @@ export default {
     // URLからhotelIdを取得
     this.paramsNo = this.$route.params.id;
     // 施設検索
+    this.institutionInfo = [];
     await this.$store.dispatch("searchInstitution", this.paramsNo);
     this.institutionInfo = this.$store.getters.getInstitutitonInfo;
+    if (
+      this.institutionInfo.hotels === undefined ||
+      this.institutionInfo.hotels === ""
+    ) {
+      this.$router.push("/keywordHotelList");
+    }
     const hotels = this.institutionInfo.hotels.hotels[0];
     this.basicInfo = hotels.hotel[0].hotelBasicInfo;
     console.log("施設情報", hotels);
@@ -376,7 +384,7 @@ v-btn {
 
 .whole {
   width: 80%;
-  margin: 60px 0;
+  margin: 60px auto;
 }
 
 .carouselPlan {
@@ -430,5 +438,11 @@ v-btn {
 }
 .fontSize {
   font-size: 15px;
+}
+.detailCarousel {
+  width: 100vw;
+}
+.menuList {
+  margin-top: 10px;
 }
 </style>

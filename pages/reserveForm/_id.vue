@@ -33,7 +33,7 @@
           outlined
         ></v-text-field>
         <!-- コンポーネント start-->
-        <span style="color: red">*</span>住所<span style="color: red"
+        <span style="color: red">*</span>都道府県<span style="color: red"
           >&emsp;{{ prefectureError }}</span
         >
         <div v-if="prefecture !== ''">
@@ -49,6 +49,7 @@
           ></selectPrefectures>
         </div>
         <!-- コンポーネント end-->
+        <span style="color: red">*</span>住所（都道府県以下）
         <span style="color: red">&emsp;{{ addressError }}</span>
         <v-text-field
           class="address"
@@ -56,6 +57,7 @@
           v-model="address"
           outlined
         ></v-text-field>
+        <v-spacer class="spacer" />
         <span style="color: red">*</span>電話番号（ハイフンなし）<span
           style="color: red"
           >&emsp;{{ telephoneError }}</span
@@ -527,5 +529,8 @@ p {
   margin-top: 10px;
   margin-left: 15px;
   margin-right: 15px;
+}
+.spacer {
+  height: 60px;
 }
 </style>
