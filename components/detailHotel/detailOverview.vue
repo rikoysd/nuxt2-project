@@ -139,7 +139,7 @@ export default {
   font-family: "Avenir", "Helvetica Neue", "Helvetica", "Arial", "Hiragino Sans",
     "ヒラギノ角ゴシック", YuGothic, "Yu Gothic", "メイリオ", Meiryo,
     "ＭＳ Ｐゴシック", "MS PGothic";
-  font-size: 25px;
+  font-size: 22px;
 }
 .mapIcon {
   height: 15px;

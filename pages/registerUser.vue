@@ -354,7 +354,7 @@ export default {
 <style scoped>
 .mainContent {
   width: 100vw;
-  height: 1300px;
+  height: 1500px;
   background-image: url(../assets/img/background-img.jpg);
   background-size: cover;
   background-position: center center;
