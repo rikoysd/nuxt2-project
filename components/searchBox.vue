@@ -8,8 +8,9 @@
         clearable
       ></v-text-field>
       <v-btn
+        dark
         class="btn"
-        color="primary"
+        color="#333c5e"
         elevation="2"
         @click="searchWord(keyword)"
         >検索</v-btn
