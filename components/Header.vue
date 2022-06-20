@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <v-app-bar color="#333c5e"> -->
-    <v-app-bar absolute elevation="0" color="white">
+    <v-app-bar elevation="0" color="white">
       <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
 
       <v-toolbar-title class="header"
