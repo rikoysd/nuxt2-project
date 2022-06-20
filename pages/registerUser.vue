@@ -32,15 +32,14 @@
         outlined
         maxlength="7"
       ></v-text-field>
-      住所<span>&emsp;{{ prefectureError }}</span
+      都道府県名<span>&emsp;{{ prefectureError }}</span
       ><selectPrefectures2
         :prefecture2="prefecture"
         @prefecture="registerPrefecture"
-      ></selectPrefectures2
-      ><br />
-      <span>&emsp;{{ addressError }}</span>
+      ></selectPrefectures2>
+      住所（都道府県以下）<span>&emsp;{{ addressError }}</span>
       <v-text-field
-        class="address address-m"
+        class="address-m"
         label="港区赤坂0-0-0（海外住所の場合は「海外」と入力）"
         v-model="address"
         outlined
