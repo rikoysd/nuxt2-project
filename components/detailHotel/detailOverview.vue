@@ -99,7 +99,7 @@
             </v-col>
             <v-col cols="11">
               <span class="fontSize reviews">
-                口コミ:<span v-html="basicInfo.userReview"></span
+                <span v-html="basicInfo.userReview"></span
               ></span>
             </v-col>
           </v-row>
@@ -107,7 +107,7 @@
         <v-row v-else class="reviews">
           <v-col cols="12">
             <span class="fontSize reviews notReviews">
-              この施設の口コミはありません</span
+              この施設のクチコミはありません</span
             >
           </v-col>
         </v-row>

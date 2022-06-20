@@ -11,27 +11,22 @@
         <!-- カルーセル -->
         <detail-carousel class="detailCarousel" :slides="slides">
         </detail-carousel>
-        <v-row>
-          <v-col>
-            <span
-              v-show="vBasicInfo.hotelMinCharge"
-              class="carouselPlan fontSize"
-            >
-              このホテルの最安料金<br /><span class="hotelMinCharge"
-                >(2名)税込</span
-              >
-              <span class="font-weight-bold hotelMinCharge minChargeSize"
-                >{{ vBasicInfo.hotelMinCharge * 2 }}円</span
-              >
-              <v-btn
-                color="#65CC42"
-                class="minChargeBtn white--text font-weight-bold"
-                @click="goTo('cards')"
-                >プランを確認</v-btn
-              >
-            </span>
-          </v-col>
-        </v-row>
+
+        <span v-show="vBasicInfo.hotelMinCharge" class="carouselPlan fontSize">
+          このホテルの最安料金<br /><span class="hotelMinCharge"
+            >(2名)税込</span
+          >
+          <span class="font-weight-bold hotelMinCharge minChargeSize"
+            >{{ vBasicInfo.hotelMinCharge * 2 }}円</span
+          >
+          <v-btn
+            color="#65CC42"
+            class="minChargeBtn white--text font-weight-bold"
+            @click="goTo('cards')"
+            >プランを確認</v-btn
+          >
+        </span>
+
         <!-- ナビゲーションバー -->
         <v-row>
           <v-toolbar color="#F5F5F5">
@@ -364,7 +359,7 @@ export default {
 
 <style>
 .hotelImage {
-  width: 1185px;
+  width: 102vw;
   height: 400px;
   object-fit: cover;
   -ms-filter: blur(3px);
