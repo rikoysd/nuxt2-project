@@ -390,6 +390,8 @@ span {
 .whole {
   width: 100%;
   height: 100%;
+  margin-left: auto;
+  margin-right: auto;
   /* background-image: url(../assets/img/background-img.jpg);
   background-size: cover;
   background-position: center center;

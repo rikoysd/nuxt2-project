@@ -92,6 +92,7 @@ export const actions = {
       context.commit("setInstitutionInfo", payload);
       console.log(payload);
     } catch (error) {
+      context.commit("setInstitutionInfo", "");
       alert("該当する宿泊施設が存在しません");
       console.log(error);
     }

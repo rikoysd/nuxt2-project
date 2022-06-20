@@ -146,6 +146,6 @@ export default {
 }
 .planCard {
   padding-left: 13px;
-  max-height: 190px;
+  max-height: 210px;
 }
 </style>
