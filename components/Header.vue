@@ -1,10 +1,11 @@
 <template>
   <div>
-    <v-app-bar color="#333c5e">
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+    <!-- <v-app-bar color="#333c5e"> -->
+    <v-app-bar absolute elevation="0" color="white">
+      <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
 
       <v-toolbar-title class="header"
-        ><nuxt-link to="/" tag="div" class="title"
+        ><nuxt-link to="/" tag="div" class="title font-weight-bold"
           >楽々booking.com</nuxt-link
         ></v-toolbar-title
       >
@@ -61,7 +62,7 @@
         >
       </div>
 
-      <v-btn icon color="white">
+      <v-btn icon color="#333c5e">
         <v-icon class="header">mdi-magnify</v-icon>
       </v-btn>
 
@@ -152,8 +153,11 @@ export default {
 </script>
 
 <style scoped>
+.headers {
+  border-bottom: 5px solid #333c5e;
+}
 .header {
-  color: white;
+  color: #333c5e;
 }
 
 .list {
