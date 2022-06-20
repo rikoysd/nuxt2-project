@@ -9,8 +9,8 @@
     </v-row>
     <v-row>
       <v-col cols="12">
-        <span class="subtitle-1 font-weight-bold">設備の評価</span>
-        <v-row>
+        <v-row v-show="reviewAverage.bathAverage > 0">
+          <span class="subtitle-1 font-weight-bold">設備の評価</span>
           <v-col cols="12" class="averages">
             <span class="average">
               {{ "風呂評価" + reviewAverage.bathAverage }}
@@ -79,6 +79,15 @@
             </span>
           </v-col>
         </v-row>
+        <v-row>
+          <v-col
+            cols="12"
+            v-show="reviewAverage.bathAverage == 0"
+            class="notEquipmentReview"
+          >
+            設備評価はありません
+          </v-col>
+        </v-row>
 
         <v-row>
           <v-col cols="12">
@@ -92,7 +101,17 @@
               <v-tabs-items v-model="tab">
                 <v-tab-item v-for="item in items" :key="item.tab">
                   <v-card flat>
-                    <v-card-text>{{ item.content }}</v-card-text>
+                    <!-- <div v-if="!item.content.length == 1">
+                      <v-card-text v-for="(item, i) of item.content" :key="i">
+                        <span v-if="item.card != ''" v-html="item.card"></span>
+                        <span v-if="item.item != ''" v-html="item.item"> </span>
+                      </v-card-text>
+                    </div>
+                    <div v-else>
+                      <v-card-text v-html="item.content"></v-card-text>
+                    </div> -->
+
+                    <!-- <v-card-text v-else>情報はありません。</v-card-text> -->
                   </v-card>
                 </v-tab-item>
               </v-tabs-items>
@@ -243,5 +262,9 @@ export default {
 .averages {
   display: flex;
   justify-content: space-between;
+}
+.notEquipmentReview {
+  background-color: #f7f7f7;
+  width: 100%;
 }
 </style>

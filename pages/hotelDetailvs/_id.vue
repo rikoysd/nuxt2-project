@@ -290,15 +290,20 @@ export default {
         console.log(this.vacantList.hotels);
         this.vacantList = this.$store.getters.getVacantList;
         console.log("空室情報", this.vacantList);
+
         const hotelBasicInfo =
           this.vacantList.hotels[0].hotel[0].hotelBasicInfo;
+        const j = this.vacantList.hotels[0].hotel.length;
         // 取得した情報をセット
-        for (let i = 3; i <= 5; i++) {
+        for (let i = 3; i <= j - 1; i++) {
           if (
-            this.vacantList.hotels[0].hotel[i].roomInfo !== "" ||
-            this.vacantList.hotels[0].hotel[i].roomInfo !== undefined
-          )
+            this.vacantList.hotels[0].hotel[i].roomInfo == [] ||
+            this.vacantList.hotels[0].hotel[i].roomInfo != undefined
+          ) {
             this.plans.push(this.vacantList.hotels[0].hotel[i].roomInfo);
+          }
+
+          console.log(this.plans);
         }
         this.vDetailInfo = this.vacantList.hotels[0].hotel[1].hotelDetailInfo;
         this.vBasicInfo = this.vacantList.hotels[0].hotel[0].hotelBasicInfo;

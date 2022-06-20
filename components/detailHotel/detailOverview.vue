@@ -61,7 +61,7 @@
         </v-row>
 
         <br />
-        <v-row class="reviews">
+        <v-row v-if="basicInfo.userReview" class="reviews">
           <v-row>
             <v-col cols="1">
               <svg
@@ -103,6 +103,13 @@
               ></span>
             </v-col>
           </v-row>
+        </v-row>
+        <v-row v-else class="reviews">
+          <v-col cols="12">
+            <span class="fontSize reviews notReviews">
+              この施設の口コミはありません</span
+            >
+          </v-col>
         </v-row>
       </v-row>
     </v-col>
@@ -153,6 +160,7 @@ p {
 }
 .reviews {
   margin-top: 5px;
+  width: 100%;
   background-color: #f7f7f7;
 }
 .rating {
@@ -168,5 +176,8 @@ p {
 .review {
   position: relative;
   left: 60%;
+}
+.notReviews {
+  margin: auto;
 }
 </style>
