@@ -146,7 +146,10 @@ export default {
       // キーワード
       keyword: "",
       // APIに渡すオブジェクト
-      object: {},
+      object: {
+        keyword: "",
+        page: 1,
+      },
       // 検索エラー
       searchError: "",
       // エラー判定
@@ -205,6 +208,10 @@ export default {
      */
     async getNumber(number) {
       this.object.page = number;
+
+      if (this.originalWord !== "") {
+        this.object.keyword = this.originalWord;
+      }
 
       // actionの呼び出し
       await this.$store.dispatch("getPageList", this.object);
