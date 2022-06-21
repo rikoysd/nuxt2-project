@@ -25,11 +25,11 @@ export default {
       responsedata: "",
       // image_src: [require('@/assets/img/hotel_img1')],
       colors: [
-        { src: require("@/assets/img/hotel_img1.jpg") },
         { src: require("../assets/img/hotel_img2.jpg") },
         { src: require("../assets/img/hotel_img3.jpg") },
         { src: require("../assets/img/hotel_img4.jpg") },
         { src: require("../assets/img/hotel_img5.jpg") },
+        { src: require("@/assets/img/hotel_img1.jpg") },
       ],
       // slides: ["first", "Second", "Third", "Fourth", "Fifth"],
       // slides: ["@/assets/hotel_img1"],

@@ -53,9 +53,10 @@
             >
             </v-rating>
             <v-row class="fontSize">
-              <v-col class="reviewCount">
+              <v-col v-if="basicInfo.reviewCount != null" class="reviewCount">
                 {{ "評価件数:" + basicInfo.reviewCount }}
               </v-col>
+              <v-col v-else class="reviewCount"> 評価件数: 0件 </v-col>
             </v-row>
           </v-col>
         </v-row>
