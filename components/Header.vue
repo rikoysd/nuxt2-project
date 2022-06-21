@@ -143,8 +143,11 @@ export default {
         this.$router.push("/");
       }
     },
+    /**
+     * 検索したいキーワードをemitでdefault.vueに送る.
+     * @param - キーワード
+     */
     searchKeyword(keyword) {
-      console.log(keyword);
       this.$emit("search", keyword);
     },
   }, // end methods
