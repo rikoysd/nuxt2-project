@@ -1,7 +1,6 @@
 <template>
   <v-card class="d-flex align-start mt-20" color="#EEEEEE">
     <v-container>
-      <!-- <v-container class="searchBox"> -->
       <v-row class="mt-2 d-flex justify-center">
         <!-- 都道府県選択 -->
         <v-col class="d-flex" cols="2" sm="2" height="10">
@@ -43,10 +42,9 @@
       </v-row>
       <!-- <v-row> -->
       <!-- 札幌の地区詳細 -->
-      <!-- <v-col class="d-flex" cols="2" sm="2"> -->
+      <!-- <v-col class="d-flex ml-20" cols="2" sm="2"> -->
       <v-select
-        class="select-detail mb-auto ml-20"
-        dense
+        class="select-detail mb-auto ml-130"
         v-if="selectedItem === '札幌'"
         :items="sapporoList"
         label="地区詳細"
@@ -58,7 +56,6 @@
       <!-- <v-col class="d-flex" cols="2" sm="2"> -->
       <v-select
         class="select-detail mb-auto"
-        dense
         v-if="selectedItem === '東京２３区内'"
         :items="tokyoList"
         label="地区詳細"
@@ -69,7 +66,6 @@
       <!-- 名古屋の地区詳細 -->
       <v-select
         class="select-detail mb-auto"
-        dense
         v-if="selectedItem === '名古屋'"
         :items="nagoyaList"
         label="地区詳細"
@@ -80,7 +76,6 @@
       <!-- 京都の地区詳細 -->
       <v-select
         class="select-detail mb-auto"
-        dense
         v-if="selectedItem === '京都'"
         :items="kyotoList"
         label="地区詳細"
@@ -91,7 +86,6 @@
       <!-- 大阪の地区詳細 -->
       <v-select
         class="select-detail mb-auto"
-        dense
         v-if="selectedItem === '大阪'"
         :items="osakaList"
         label="地区詳細"
@@ -495,9 +489,7 @@ p {
 }
 /* グレーの背景 */
 .square {
-  /* margin-top: 50px; */
   width: auto;
-  /* height: 160px; */
   height: auto;
   border-radius: 20px;
   background: #d9d9d9;
@@ -534,8 +526,8 @@ p {
 /* 地区詳細のセレクトボックス */
 .select-detail {
   margin-top: 20px;
-  width: 365px;
-  margin-left: 50px;
+  width: 370px;
+  margin-left: 105px;
 }
 
 .numberBtn {

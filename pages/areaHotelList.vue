@@ -9,6 +9,7 @@
       <!-- ページネーション -->
       <div class="text-center">
         <v-pagination
+          v-model="area.pageNum"
           @input="getNumber"
           :length="getPageInfo.pageCount"
           :total-visible="7"
