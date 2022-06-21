@@ -48,7 +48,9 @@ export default {
     basicInfo() {
       // 検索したキーワードを取得
       this.keyword = this.$store.getters["keyword/getKeyword"];
-      // console.log(this.keyword);
+      if (this.keyword2 !== "") {
+        this.keyword = this.keyword2;
+      }
       let items = [
         {
           text: this.keyword,
