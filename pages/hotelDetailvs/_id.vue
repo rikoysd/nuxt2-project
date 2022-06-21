@@ -216,8 +216,12 @@ export default {
     group() {
       this.drawer = false;
     },
+    basicInfo() {
+      if (this.basicInfo !== undefined) {
+        this.keyword2 = this.$store.getters["keyword/getKeyword"];
+      }
+    },
   },
-
   async mounted() {
     // URLからhotelIdを取得
     this.paramsNo = this.$route.params.id;
@@ -265,13 +269,6 @@ export default {
     console.log("空室情報", this.vacantList);
     // アクセス
     this.address = this.basicInfo.address1 + this.basicInfo.address2;
-  },
-  watch: {
-    basicInfo() {
-      if (this.basicInfo !== undefined) {
-        this.keyword2 = this.$store.getters["keyword/getKeyword"];
-      }
-    },
   },
   methods: {
     /**
