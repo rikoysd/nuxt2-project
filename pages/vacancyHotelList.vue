@@ -166,7 +166,6 @@ export default {
     this.vacantObject.infantWithBNum = vacantData.infantWithBNum;
     this.vacantObject.infantWithoutMBNum = vacantData.infantWithoutMBNum;
     this.vacantObject.page = 1;
-    console.log(this.vacantObject);
 
     await this.$store.dispatch("searchVacantList", this.vacantObject);
 

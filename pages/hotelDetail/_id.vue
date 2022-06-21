@@ -1,6 +1,8 @@
 <template>
   <v-row class="d-flex justify-center">
     <div>
+      <!-- パンくずリスト -->
+      <menu-list class="menuList" :basicInfo="basicInfo"></menu-list>
       <div class="topPosition">
         <!-- カルーセル -->
         <detail-carousel class="detailCarousel" :slides="slides">
@@ -285,6 +287,11 @@ v-btn {
   top: 15px;
   left: 5px;
 }
+
+.menuList {
+  margin-top: 10px;
+}
+
 .minChargeSize {
   font-size: 23px;
 }

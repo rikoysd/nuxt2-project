@@ -48,7 +48,7 @@ export default {
     basicInfo() {
       // 検索したキーワードを取得
       this.keyword = this.$store.getters["keyword/getKeyword"];
-      console.log(this.keyword);
+      // console.log(this.keyword);
       let items = [
         {
           text: this.keyword,
@@ -95,7 +95,7 @@ export default {
       this.items.splice(1, 1);
       if (this.area !== "") {
         // 検索したキーワードをstateに格納
-        this.$store.commit("setKeyword", this.propsKeyword);
+        this.$store.commit("setKeyword", this.area);
       }
 
       let item = {
