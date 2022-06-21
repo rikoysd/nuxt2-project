@@ -17,6 +17,7 @@ export default {
     propsKeyword: String,
     keyword2: String,
     originalWord: String,
+    area: String,
   },
   data() {
     return {
@@ -89,6 +90,21 @@ export default {
 
         this.items.push(item);
       }
+    },
+    area() {
+      this.items.splice(1, 1);
+      if (this.area !== "") {
+        // 検索したキーワードをstateに格納
+        this.$store.commit("setKeyword", this.propsKeyword);
+      }
+
+      let item = {
+        text: this.area,
+        disabled: true,
+        href: "",
+      };
+
+      this.items.push(item);
     },
   },
   methods: {},
