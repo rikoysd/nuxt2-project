@@ -1,9 +1,8 @@
 <template>
   <div class="d-flex justify-center">
     <div class="whole">
-      <v-btn @click="moveToReserve">予約画面に移動</v-btn>
-      <nuxt-link to="/keywordHotelList">一覧</nuxt-link>
-
+      <nuxt-link to="/">宿泊予約</nuxt-link>
+      <nuxt-link to="/reserveHistory">予約履歴</nuxt-link>
       <div class="item">
         <h4>お気に入りの宿</h4>
         <div>{{ favoriteError }}</div>
@@ -148,7 +147,7 @@
 export default {
   props: {
     loginUser2: {
-      id: 0,
+      id: Number,
       fullName1: String,
       fullName2: String,
       zipcode: String,
@@ -187,15 +186,7 @@ export default {
       }
     },
   },
-  methods: {
-    /**
-     * テスト用
-     */
-    moveToReserve() {
-      this.$router.push("/reserveForm");
-    },
-  },
-
+  methods: {},
   computed: {
     /**
      * お気に入り一覧を取得する.

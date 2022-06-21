@@ -156,7 +156,6 @@ export default {
 
       // エラーが一つでもあったら処理を止める
       if (array.length > 0) {
-        console.log("不備あり");
         return;
       }
 

@@ -1,6 +1,7 @@
 <template>
   <v-row class="d-flex justify-center">
     <div>
+      <!-- パンくずリスト -->
       <menu-list
         class="menuList"
         :basicInfo="basicInfo"
@@ -121,6 +122,7 @@
 
                 <div v-show="listShow">
                   <detail-plans
+                    :basicInfo="basicInfo"
                     :plans="plans"
                     :roomImage="roomImage"
                     :vDetailInfo="vDetailInfo"
