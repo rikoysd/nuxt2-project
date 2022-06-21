@@ -212,8 +212,10 @@
 
     <div class="reservetion-contents">
       <img class="reserve-img" src="@/assets/img/1.png" />
+      <br />
       <!-- コンポーネント start-->
       <reservetionContents
+        :id="this.loginInfo.id"
         :fullName1="fullName1"
         :fullName2="fullName2"
         :zipcode="zipcode"
@@ -369,6 +371,7 @@ export default {
     reserveDetail = this.$store.getters.getPreReserveData;
     this.adult = reserveDetail.adultNum;
     this.child = reserveDetail.childNum;
+    this.loginInfo = this.$store.getters["register/getLoginUser"];
   },
 
   methods: {
@@ -376,7 +379,6 @@ export default {
      * ログイン情報の反映.
      */
     loginInfoReflection() {
-      this.loginInfo = this.$store.getters["register/getLoginUser"];
       this.fullName1 = this.loginInfo.fullName1;
       this.fullName2 = this.loginInfo.fullName2;
       this.zipcode = this.loginInfo.zipcode;
@@ -459,6 +461,7 @@ export default {
 .container {
   display: flex;
   justify-content: center;
+  width: 90%;
 }
 .radio {
   display: flex;
@@ -519,6 +522,8 @@ p {
   margin-left: 100px;
 }
 .reserve-img {
+  position: relative;
+  left: 35px;
   object-fit: cover;
   width: 250px;
   height: 80px;

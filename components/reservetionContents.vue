@@ -50,9 +50,18 @@
 
 <script>
 import { format } from "date-fns";
+import {
+  setDoc,
+  getFirestore,
+  doc,
+  collection,
+  getDocs,
+} from "firebase/firestore";
+import firebase from "@/plugins/firebase";
 
 export default {
   props: {
+    id: Number,
     fullName1: String,
     fullName2: String,
     zipcode: String,
@@ -77,7 +86,7 @@ export default {
       // 詳細情報
       reserveDetail: [],
       // 予約者ID
-      reserveId: 0,
+      reserveId: "0",
       // ホテル名
       hotelName: "",
       // チェックイン日
@@ -119,6 +128,8 @@ export default {
         manAndWomanError: "",
       },
       result: "",
+      // 予約一覧
+      reserveList: [],
     };
   }, //end data
 
@@ -127,7 +138,7 @@ export default {
    */
   mounted() {
     this.reserveDetail = this.$store.getters.getPreReserveData;
-    this.reserveId = this.reserveDetail.reserveId;
+    this.reserveId = String(this.reserveDetail.reserveId);
     this.hotelName = this.reserveDetail.hotelName;
     this.date = this.reserveDetail.checkInDate;
     this.formatDate = format(new Date(this.date), "yyyy年MM月dd日");
@@ -150,14 +161,13 @@ export default {
     this.plan = this.reserveDetail.planName;
     this.subPrice = this.reserveDetail.subPrice;
     this.totalPrice = this.reserveDetail.totalPrice;
-    console.log(this.reserveDetail); // ok
   },
 
   methods: {
     /**
      * 予約確認画面に遷移する.
      */
-    reserveConfirm() {
+    async reserveConfirm() {
       // エラーリストの初期化
       this.errors = [];
 
@@ -278,84 +288,104 @@ export default {
 
       // 親にエラーオブジェクトを渡す
       this.$emit("errorObject", this.errorObject);
-      console.log(this.errorObject);
 
       // エラーが一つでもあったら処理を止める
       if (array.length > 0) {
         return;
       }
 
-      // storeに送るためのオブジェクト生成(予約者情報)
-      let object = {
-        fullName1: "",
-        fullName2: "",
-        zipcode: "",
-        prefecture: "",
-        address: "",
-        telephone: "",
-        mailAddress: "",
-        checkInTime: "",
-        man: "",
-        woman: "",
-        payments: "",
-        card_number: "",
-        card_cvv: 0,
-        card_exp_month: "",
-        card_exp_year: "",
-        card_name: "",
-        other: "",
-      };
-      // storeに送るためのオブジェクト生成(プラン詳細)
-      let detailObject = {
-        reserveId: 0,
-        hotelName: "",
-        formatDate: new Date(),
-        staySpan: 0,
-        breakfast: "",
-        dinner: "",
-        adult: 0,
-        child: 0,
-        room: "",
-        plan: "",
-        subPrice: 0,
-        totalPrice: 0,
-      };
+      // 予約登録IDの採番
+      const db = getFirestore(firebase);
 
-      // 作ったオブジェクトに情報を代入する
-      object.fullName1 = this.fullName1;
-      object.fullName2 = this.fullName2;
-      object.zipcode = this.zipcode;
-      object.prefecture = this.prefecture;
-      object.address = this.address;
-      object.telephone = this.telephone;
-      object.mailAddress = this.mailAddress;
-      object.checkInTime = this.checkInTime;
-      object.man = this.man;
-      object.woman = this.woman;
-      object.payments = this.payments;
-      object.card_number = this.card_number;
-      object.card_cvv = this.card_cvv;
-      object.card_exp_month = this.card_exp_month;
-      object.card_exp_year = this.card_exp_year;
-      object.card_name = this.card_name;
-      object.other = this.other;
+      // サブコレクションを一括取得
+      try {
+        const docRef = collection(
+          db,
+          "ユーザー一覧",
+          String(this.id),
+          "予約情報"
+        );
 
-      detailObject.reserveId = this.reserveId;
-      detailObject.hotelName = this.hotelName;
-      detailObject.formatDate = this.formatDate;
-      detailObject.staySpan = this.staySpan;
-      detailObject.breakfast = this.breakfast;
-      detailObject.dinner = this.dinner;
-      detailObject.adult = this.adult;
-      detailObject.child = this.child;
-      detailObject.room = this.room;
-      detailObject.plan = this.plan;
-      detailObject.subPrice = this.subPrice;
-      detailObject.totalPrice = this.totalPrice;
+        // getDocs（複数形）にすることで複数のドキュメント取得
+        await getDocs(docRef).then((snapShot) => {
+          const data = snapShot.docs.map((doc) => ({
+            ...doc.data(),
+          }));
+          // console.log(data);
 
-      // storeのmutationにobjectを渡す
-      this.$store.commit("reserve", object);
-      this.$store.commit("reserve2", detailObject);
+          this.reserveList = data;
+        });
+      } catch (error) {
+        console.error(error);
+      }
+
+      let id = 0;
+      let idList = [];
+      if (this.reserveList.length === 0) {
+        id = 1;
+      } else if (
+        this.reserveList[this.reserveList.length - 1].detailObject.reserveId ===
+        this.reserveId
+      ) {
+        id = this.reserveList.length;
+      } else {
+        for (let reservation of this.reserveList) {
+          idList.push(reservation.id);
+        }
+        id = Math.max(...idList) + 1;
+      }
+
+      try {
+        // サブコレクションの追加
+        const path = doc(
+          db,
+          "ユーザー一覧",
+          String(this.id),
+          "予約情報",
+          String(id)
+        );
+
+        // 予約者情報とプラン詳細を一つのオブジェクトにまとめる
+        const setData = {
+          id: id,
+          fullName1: this.fullName1,
+          fullName2: this.fullName2,
+          zipcode: this.zipcode,
+          prefecture: this.prefecture,
+          address: this.address,
+          telephone: this.telephone,
+          mailAddress: this.mailAddress,
+          checkInTime: this.checkInTime,
+          man: this.man,
+          woman: this.woman,
+          payments: this.payments,
+          card_number: this.card_number,
+          card_cvv: this.card_cvv,
+          card_exp_month: this.card_exp_month,
+          card_exp_year: this.card_exp_year,
+          card_name: this.card_name,
+          other: this.other,
+          detailObject: {
+            reserveId: this.reserveId,
+            hotelName: this.hotelName,
+            formatDate: this.formatDate,
+            staySpan: this.staySpan,
+            breakfast: this.breakfast,
+            dinner: this.dinner,
+            adult: this.adult,
+            // child: this.child,
+            room: this.room,
+            plan: this.plan,
+            subPrice: this.subPrice,
+            totalPrice: this.totalPrice,
+          },
+        };
+
+        await setDoc(path, setData, { merge: true });
+      } catch (error) {
+        console.error(error);
+      }
+
       this.$router.push("/reserveConfirm");
     },
   }, // end methods

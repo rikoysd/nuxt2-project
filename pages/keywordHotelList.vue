@@ -10,7 +10,6 @@
     <div class="d-flex justify-center">
       <div class="whole">
         <vacant-search class="vacant-search"></vacant-search>
-        <search-box @search="searchKeyword"></search-box>
         <keywords @search="searchKeyword" @getMenuList="getMenuList"></keywords>
         <drawer-menu
           class="drawer-menu"
@@ -227,7 +226,7 @@ export default {
      * @param - こだわりのキーワード
      */
     menuWords(word) {
-      this.originalWord = word;
+      this.originalWord = word
     },
   },
   computed: {

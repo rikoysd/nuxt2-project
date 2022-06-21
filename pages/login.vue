@@ -156,7 +156,6 @@ export default {
 
       // エラーが一つでもあったら処理を止める
       if (array.length > 0) {
-        console.log("不備あり");
         return;
       }
 
@@ -208,7 +207,7 @@ span {
 }
 .mainContent {
   width: 100vw;
-  height: 600px;
+  height: 800px;
   background-image: url(../assets/img/background-img.jpg);
   background-size: cover;
   background-position: center center;
@@ -218,6 +217,7 @@ span {
   left: 0;
   overflow: auto;
   z-index: 0;
+  /* margin: 0, auto; */
 }
 .login-area {
   background-color: white;
@@ -249,6 +249,8 @@ span {
 .whole {
   width: 100vw;
   height: 600px;
+  margin-left: auto;
+  margin-right: auto;
   /* background-image: url(../assets/img/background-img.jpg);
   background-size: cover;
   background-position: center center;
