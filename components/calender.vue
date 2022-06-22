@@ -7,6 +7,8 @@
         label="日付指定"
         readonly
         solo
+        :rules="[(v) => !!v || '日付を選択してください']"
+        required
       ></v-text-field>
       <v-expand-transition>
         <v-card max-width="400" v-show="showCalender">

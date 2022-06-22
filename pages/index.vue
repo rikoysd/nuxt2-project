@@ -1,15 +1,18 @@
 <template>
   <v-row class="d-flex justify-center">
+    <!-- カルーセル -->
     <div class="topPosition">
-      <top class="top"></top>
-    </div>
-    <div class="whole">
-      <vacantSearch class="vacantSearch"></vacantSearch>
-      <!-- <search-box @search="searchKeyword"></search-box>
-      <keywords @search="searchKeyword"></keywords> -->
-      <ranking class="ranking mt-auto"></ranking>
-      <onsenRanking></onsenRanking>
-      <selectArea></selectArea>
+      <top class="top mb-10"></top>
+      <div class="whole">
+        <!-- 検索窓 -->
+        <vacantSearch class="vacantSearch"></vacantSearch>
+        <!-- 総合ランキング -->
+        <ranking class="ranking"></ranking>
+        <!-- 温泉宿ランキング -->
+        <onsenRanking></onsenRanking>
+        <!-- 人気のエリア -->
+        <selectArea></selectArea>
+      </div>
     </div>
   </v-row>
 </template>
@@ -24,20 +27,11 @@ export default {
     return {};
   },
   methods: {
-    // moveToResultPage() {
-    //   this.$router.push("/keywordHotelList");
-    // },
     /**
      * キーワードの検索結果を取得する.
      * @param {*} keyword - キーワード
      */
     async searchKeyword(keyword) {
-      // // エラー判定を初期化
-      // this.$store.commit("changeFlag", this.errorFlag);
-
-      // // １ページ目に初期化
-      // this.page = 1;
-
       // 引数として渡したい値をオブジェクトにまとめる
       this.object = {
         keyword: keyword,
@@ -73,6 +67,9 @@ export default {
 .vacantSearch {
   z-index: 100;
   margin-bottom: 30px;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
 }
 .ranking {
   margin-top: 20px;
