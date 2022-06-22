@@ -351,12 +351,12 @@ export default {
 </script>
 
 <style scoped>
-/* 960px〜1279px：小型PC
+/* 960px〜：小型PC, 大型PC
 ------------------------------ */
-@media screen and (min-width: 960px) and (max-width: 1279px) {
+@media screen and (min-width: 960px) {
   .whole {
     width: 100vw;
-    height: 100vh;
+    height: auto;
     background-image: url(../assets/img/background-img.jpg);
     background-size: cover;
     background-position: center center;
