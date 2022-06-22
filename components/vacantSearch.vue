@@ -195,6 +195,7 @@ export default {
         this.vacantData.checkoutDate
       ) {
         this.$store.commit("searchResultList", this.vacantData);
+        this.$emit("getVacantHotel", this.vacantData);
         //最低検索条件がそろっていれば検索結果一覧へ遷移
         this.$router.push("/vacancyHotelList");
         //最低条件が未選択の場合はエラー表示する

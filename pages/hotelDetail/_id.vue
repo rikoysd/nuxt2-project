@@ -1,6 +1,12 @@
 <template>
   <v-row class="d-flex justify-center">
     <div>
+      <!-- パンくずリスト -->
+      <menu-list
+        class="menuList"
+        :basicInfo="basicInfo"
+        :keyword2="keyword2"
+      ></menu-list>
       <div class="topPosition">
         <!-- カルーセル -->
         <detail-carousel class="detailCarousel" :slides="slides">
@@ -125,6 +131,8 @@ export default {
       // 指定した日時
       target: "",
       searchRequirement: [],
+      // propsで渡すキーワード
+      keyword2: "",
     };
   },
   methods: {
@@ -200,6 +208,13 @@ export default {
     this.vDetailInfo = this.vacantList.hotels[0].hotel[1].hotelDetailInfo;
     this.vBasicInfo = this.vacantList.hotels[0].hotel[0].hotelBasicInfo;
     console.log("plans", this.plans);
+  },
+  watch: {
+    basicInfo() {
+      if (this.basicInfo !== undefined) {
+        this.keyword2 = this.$store.getters["keyword/getKeyword"];
+      }
+    },
   },
   methods: {
     /**
@@ -292,6 +307,11 @@ v-btn {
   top: 15px;
   left: 5px;
 }
+
+.menuList {
+  margin-top: 10px;
+}
+
 .minChargeSize {
   font-size: 23px;
 }

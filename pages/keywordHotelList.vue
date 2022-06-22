@@ -127,6 +127,9 @@ import Menu from "../components/drawerMenu.vue";
 import SearchBox from "../components/searchBox.vue";
 import MenuList from "../components/menuList.vue";
 export default {
+  props: {
+    propsKeyword2: String,
+  },
   components: { keywords, SearchBox, Menu, MenuList },
   data() {
     return {
@@ -143,7 +146,10 @@ export default {
       // キーワード
       keyword: "",
       // APIに渡すオブジェクト
-      object: {},
+      object: {
+        keyword: "",
+        page: 1,
+      },
       // 検索エラー
       searchError: "",
       // エラー判定
@@ -158,9 +164,20 @@ export default {
       originalWord: "",
     };
   },
-  mounted() {
+  async mounted() {
     this.showResult = false;
     this.propsKeyword = this.$store.getters["keyword/getKeyword"];
+
+    if (this.propsKeyword !== "") {
+      // 引数として渡したい値をオブジェクトにまとめる
+      this.object = {
+        keyword: this.propsKeyword,
+        page: this.page,
+      };
+
+      // actionの呼び出し
+      await this.$store.dispatch("getPageList", this.object);
+    }
   },
   watch: {
     // ホテル一覧の変数を監視する
@@ -168,6 +185,8 @@ export default {
       if (this.hotelList.length !== 0) {
         this.loading = false;
         this.showResult = true;
+
+        this.originalWord = this.$store.getters["keyword/getKeyword"];
       }
     },
   },
@@ -201,6 +220,10 @@ export default {
     async getNumber(number) {
       this.object.page = number;
 
+      if (this.originalWord !== "") {
+        this.object.keyword = this.originalWord;
+      }
+
       // actionの呼び出し
       await this.$store.dispatch("getPageList", this.object);
     },
@@ -226,7 +249,7 @@ export default {
      * @param - こだわりのキーワード
      */
     menuWords(word) {
-      this.originalWord = word
+      this.originalWord = word;
     },
   },
   computed: {
