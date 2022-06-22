@@ -8,11 +8,16 @@
     ></menu-list>
     <div class="d-flex justify-center">
       <div class="whole">
+        <!-- ローディング -->
         <v-progress-circular
           v-show="loading"
           :value="60"
           color="primary"
         ></v-progress-circular>
+        <!-- 空室検索 -->
+        <vacantSearch></vacantSearch>
+        <!-- キーワード検索タグ -->
+        <keywords class="keywords" @search="searchKeyword"></keywords>
         <div class="d-flex justify-center">
           <div class="result">
             <!-- ページネーション -->
@@ -110,7 +115,9 @@
 </template>
 
 <script>
+import keywords from "../components/keywords.vue";
 export default {
+  components: { keywords },
   data() {
     return {
       //施設情報
@@ -156,6 +163,22 @@ export default {
      */
     showHotelDetail(number) {
       this.$router.push(`/hotelDetailvs/${number}`);
+    },
+    /**
+     * キーワードの検索結果を取得する.
+     * @param {*} keyword - キーワード
+     */
+    async searchKeyword(keyword) {
+      this.loading = true;
+
+      // エラー判定を初期化
+      this.$store.commit("changeFlag", this.errorFlag);
+
+      // 検索結果が出た時点で検索キーワードをstateに格納
+      this.$store.commit("setKeyword", keyword);
+
+      // キーワード検索結果ページに遷移
+      this.$router.push("keywordHotelList");
     },
   },
 
@@ -221,5 +244,8 @@ export default {
 
 .whole {
   width: 80%;
+}
+.keywords {
+  margin-top: 20px;
 }
 </style>
