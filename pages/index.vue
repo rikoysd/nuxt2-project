@@ -1,12 +1,15 @@
 <template>
   <div class="d-flex justify-center">
     <div class="whole">
-      <top class="top"></top>
+      <!-- カルーセル -->
+      <top class="top mb-10"></top>
+      <!-- 検索窓 -->
       <vacantSearch class="vacantSearch"></vacantSearch>
-      <!-- <search-box @search="searchKeyword"></search-box>
-      <keywords @search="searchKeyword"></keywords> -->
-      <ranking class="ranking mt-auto"></ranking>
+      <!-- 総合ランキング -->
+      <ranking class="ranking"></ranking>
+      <!-- 温泉宿ランキング -->
       <onsenRanking></onsenRanking>
+      <!-- 人気のエリア -->
       <selectArea></selectArea>
     </div>
   </div>
@@ -22,20 +25,11 @@ export default {
     return {};
   },
   methods: {
-    // moveToResultPage() {
-    //   this.$router.push("/keywordHotelList");
-    // },
     /**
      * キーワードの検索結果を取得する.
      * @param {*} keyword - キーワード
      */
     async searchKeyword(keyword) {
-      // // エラー判定を初期化
-      // this.$store.commit("changeFlag", this.errorFlag);
-
-      // // １ページ目に初期化
-      // this.page = 1;
-
       // 引数として渡したい値をオブジェクトにまとめる
       this.object = {
         keyword: keyword,
