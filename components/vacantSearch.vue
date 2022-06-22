@@ -1,115 +1,139 @@
 <template>
-  <v-card class="d-flex align-start mt-20" color="#EEEEEE">
+  <v-card class="d-flex align-start mt-20 error-text" color="#EEEEEE">
     <v-container>
-      <v-row class="mt-2 d-flex justify-center">
-        <!-- 都道府県選択 -->
-        <v-col class="d-flex" cols="2" sm="2" height="10">
-          <v-select
+      <v-form ref="form" v-model="valid" lazy-validation>
+        <v-row class="mt-2 d-flex justify-center">
+          <!-- 都道府県選択 -->
+          <v-col class="d-flex error-message" cols="2" sm="2" height="10">
+            <!-- {{ middleClassError }} -->
+            <v-select
+              v-model="select"
+              :rules="[(v) => !!v || '都道府県を選択してください']"
+              required
+              :items="areaNameList"
+              label="都道府県"
+              @change="getInfo('middleClassCode', $event)"
+              solo
+            ></v-select>
+          </v-col>
+          <!-- 市町村選択 -->
+          <v-col class="d-flex" cols="2" sm="2" v-if="moveToVacantList">
+            <v-select
+              :rules="[(v) => !!v || '市町村を選択してください']"
+              required
+              v-model="selectedItem"
+              :items="cityNameList"
+              label="市町村"
+              @change="getCityList('smallClassCode', $event)"
+              solo
+            ></v-select>
+          </v-col>
+
+          <!-- カレンダー -->
+          <calender
+            v-model="select"
+            v-if="moveToVacantList"
+            @selectDates="addDates"
+            class="d-flex align-start"
             hide-details="true"
-            :items="areaNameList"
-            label="都道府県"
-            @change="getInfo('middleClassCode', $event)"
             solo
-          ></v-select>
-        </v-col>
-        <!-- 市町村選択 -->
-        <v-col class="d-flex" cols="2" sm="2">
-          <v-select
-            v-model="selectedItem"
-            :items="cityNameList"
-            label="市町村"
-            @change="getCityList('smallClassCode', $event)"
-            solo
-          ></v-select>
-        </v-col>
+          ></calender>
 
-        <!-- カレンダー -->
-        <calender
-          @selectDates="addDates"
-          class="d-flex align-start"
-          hide-details="true"
+          <!-- 人数選択 -->
+          <selectNumber
+            class="numberBtn d-flex align-start"
+            @adultNum="getAdultNum"
+            @roomNum="getRoomNum"
+            @upClassNum="getchildNum"
+            @MBNum="getinfantNum"
+          ></selectNumber>
+        </v-row>
+        <!-- バリデーションチェック -->
+        <v-row class="error-message ml-30 d-flex">
+          <v-col
+            class="ml-30"
+            cols="3"
+            sm="3"
+            height="10"
+            v-if="moveToVacantList"
+          >
+            <p>{{ middleClassError }}</p>
+            <p>{{ smallClassError }}</p>
+            <p>{{ checkinDateError }}</p>
+            <p>{{ checkoutDateError }}</p>
+          </v-col>
+        </v-row>
+        <!-- <v-row> -->
+        <!-- 札幌の地区詳細 -->
+        <!-- <v-col class="d-flex ml-20" cols="2" sm="2"> -->
+        <v-select
+          class="select-detail mb-auto ml-130"
+          v-if="selectedItem === '札幌'"
+          :items="sapporoList"
+          label="地区詳細"
+          @change="getDetailList('detailClassCode', $event)"
           solo
-        ></calender>
+        ></v-select>
 
-        <!-- 人数選択 -->
-        <selectNumber
-          class="numberBtn d-flex align-start"
-          @adultNum="getAdultNum"
-          @roomNum="getRoomNum"
-          @upClassNum="getchildNum"
-          @MBNum="getinfantNum"
-        ></selectNumber>
-      </v-row>
-      <!-- <v-row> -->
-      <!-- 札幌の地区詳細 -->
-      <!-- <v-col class="d-flex ml-20" cols="2" sm="2"> -->
-      <v-select
-        class="select-detail mb-auto ml-130"
-        v-if="selectedItem === '札幌'"
-        :items="sapporoList"
-        label="地区詳細"
-        @change="getDetailList('detailClassCode', $event)"
-        solo
-      ></v-select>
+        <!-- 東京23区の地区詳細 -->
+        <!-- <v-col class="d-flex" cols="2" sm="2"> -->
+        <v-select
+          class="select-detail mb-auto"
+          v-if="selectedItem === '東京２３区内'"
+          :items="tokyoList"
+          label="地区詳細"
+          @change="getTokyoDetail('detailClassCode', $event)"
+          solo
+        ></v-select>
+        <!-- </v-col> -->
+        <!-- 名古屋の地区詳細 -->
+        <v-select
+          class="select-detail mb-auto"
+          v-if="selectedItem === '名古屋'"
+          :items="nagoyaList"
+          label="地区詳細"
+          @change="getNagoyaDetail('detailClassCode', $event)"
+          solo
+        ></v-select>
 
-      <!-- 東京23区の地区詳細 -->
-      <!-- <v-col class="d-flex" cols="2" sm="2"> -->
-      <v-select
-        class="select-detail mb-auto"
-        v-if="selectedItem === '東京２３区内'"
-        :items="tokyoList"
-        label="地区詳細"
-        @change="getTokyoDetail('detailClassCode', $event)"
-        solo
-      ></v-select>
-      <!-- </v-col> -->
-      <!-- 名古屋の地区詳細 -->
-      <v-select
-        class="select-detail mb-auto"
-        v-if="selectedItem === '名古屋'"
-        :items="nagoyaList"
-        label="地区詳細"
-        @change="getNagoyaDetail('detailClassCode', $event)"
-        solo
-      ></v-select>
+        <!-- 京都の地区詳細 -->
+        <v-select
+          class="select-detail mb-auto"
+          v-if="selectedItem === '京都'"
+          :items="kyotoList"
+          label="地区詳細"
+          @change="getKyotoDetail('detailClassCode', $event)"
+          solo
+        ></v-select>
 
-      <!-- 京都の地区詳細 -->
-      <v-select
-        class="select-detail mb-auto"
-        v-if="selectedItem === '京都'"
-        :items="kyotoList"
-        label="地区詳細"
-        @change="getKyotoDetail('detailClassCode', $event)"
-        solo
-      ></v-select>
-
-      <!-- 大阪の地区詳細 -->
-      <v-select
-        class="select-detail mb-auto"
-        v-if="selectedItem === '大阪'"
-        :items="osakaList"
-        label="地区詳細"
-        @change="getOsakaDetail('detailClassCode', $event)"
-        solo
-      ></v-select>
-      <!-- </v-col> -->
-      <!-- </v-row> -->
-      <!-- 空室検索ボタン -->
-      <!-- <v-card-actions>
+        <!-- 大阪の地区詳細 -->
+        <v-select
+          class="select-detail mb-auto"
+          v-if="selectedItem === '大阪'"
+          :items="osakaList"
+          label="地区詳細"
+          @change="getOsakaDetail('detailClassCode', $event)"
+          solo
+        ></v-select>
+        <!-- </v-col> -->
+        <!-- </v-row> -->
+        <!-- 空室検索ボタン -->
+        <!-- <v-card-actions>
         <v-container> -->
-      <v-row class="d-flex justify-center align-center">
-        <v-btn
-          class="white--text mb-8"
-          large
-          color="#333C5E"
-          v-on:click="moveToVacantList"
-        >
-          空室検索する
-        </v-btn>
-      </v-row>
-      <!-- </v-container>
+        <v-row class="d-flex justify-center align-center">
+          <v-btn
+            class="white--text mb-8"
+            large
+            color="#333C5E"
+            v-on:click="moveToVacantList"
+          >
+            空室検索する
+          </v-btn>
+        </v-row>
+        <!-- </v-container>
       </v-card-actions> -->
-      <!-- </v-container> -->
+        <!-- </v-container> -->
+      </v-form>
     </v-container>
   </v-card>
 </template>
@@ -167,18 +191,60 @@ export default {
       hotels: [],
       selectNum: "選択してください",
       defadultNum: 0,
+      //都道府県エラーメッセージ
+      middleClassError: "",
+      //市町村エラーメッセージ
+      smallClassError: "",
+      checkinDateError: "",
+      checkoutDateError: "",
+      errors: [],
+      select: null,
+      valid: true,
+      name: "",
     };
   },
 
   methods: {
+    // validate() {
+    //   this.$refs.form.validate();
+    // },
+    reset() {
+      this.$refs.form.reset();
+    },
+
     /**
      *検索条件をペイロードに渡す.
      */
     moveToVacantList() {
-      this.$store.commit("searchResultList", this.vacantData);
-      //検索結果一覧へ遷移
-      this.$router.push("/vacancyHotelList");
+      if (
+        this.vacantData.adultNum &&
+        this.vacantData.middleClassCode &&
+        this.vacantData.smallClassCode &&
+        this.vacantData.checkinDate &&
+        this.vacantData.checkoutDate
+      ) {
+        // return true;
+        this.$store.commit("searchResultList", this.vacantData);
+        //検索結果一覧へ遷移
+        this.$router.push("/vacancyHotelList");
+      } else {
+        this.$refs.form.validate();
+      }
+
+      // if (!this.vacantData.middleClassCode) {
+      //   this.middleClassError = "※都道府県を選択してください";
+      // }
+      // if (!this.vacantData.smallClassCode) {
+      //   this.smallClassError = "※市町村を選択してください";
+      // }
+      // if (!this.vacantData.checkinDate) {
+      //   this.checkinDateError = "※チェックイン日を選択してください";
+      // }
+      // if (!this.vacantData.checkoutDate) {
+      //   this.checkoutDateError = "※チェックアウト日を選択してください";
+      // }
     },
+
     /**
      * カレンダーから選択した日付をパラメーターに渡す.
      */
@@ -527,10 +593,15 @@ p {
 .select-detail {
   margin-top: 20px;
   width: 370px;
-  margin-left: 105px;
+  margin-left: 118px;
 }
 
 .numberBtn {
   width: 300px;
+}
+.error-message {
+  font-size: 12px;
+  color: red;
+  margin-left: 30px;
 }
 </style>
