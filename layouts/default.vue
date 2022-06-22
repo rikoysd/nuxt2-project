@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-app>
-      <Header :loginUser="loginUser" @search="searchKeyword" />
+      <Header class="header" :loginUser="loginUser" @search="searchKeyword" />
       <v-main>
         <v-container mt-0 pt-0
           ><Nuxt
@@ -72,5 +72,12 @@ export default {
   padding: 0;
   margin-left: auto;
   margin-right: auto;
+}
+
+.header {
+  width: 100vw;
+  position: fixed;
+  /* 最前面に持ってくる */
+  z-index: 9999;
 }
 </style>
