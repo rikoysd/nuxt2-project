@@ -4,7 +4,9 @@
     <menu-list class="menu" :area="area"></menu-list>
     <div class="d-flex justify-center">
       <div class="whole">
-        <div>{{ getSearchError }}</div>
+        <vacant-search class="vacant-search"></vacant-search>
+        <keywords @search="searchKeyword" @getMenuList="getMenuList"></keywords>
+        <div class="error-flag">{{ getSearchError }}</div>
         <v-progress-circular
           v-show="loading"
           :value="60"
@@ -144,6 +146,15 @@ export default {
       area: "",
       //都道府県のリスト
       areaList: [],
+      // エラー判定
+      errorFlag: false,
+      // APIに渡すオブジェクト
+      object: {
+        keyword: "",
+        page: 1,
+      },
+      // パンくずリスト
+      menu: [],
     };
   },
   async mounted() {
@@ -200,6 +211,22 @@ export default {
   },
   methods: {
     /**
+     * キーワードの検索結果を取得する.
+     * @param {*} keyword - キーワード
+     */
+    async searchKeyword(keyword) {
+      this.loading = true;
+
+      // エラー判定を初期化
+      this.$store.commit("changeFlag", this.errorFlag);
+
+      // 検索結果が出た時点で検索キーワードをstateに格納
+      this.$store.commit("setKeyword", keyword);
+
+      // キーワード検索結果ページに遷移
+      this.$router.push("keywordHotelList");
+    },
+    /**
      * ページを切り替える.
      * @param - ページ番号
      */
@@ -215,6 +242,13 @@ export default {
      */
     showHotelDetail(number) {
       this.$router.push(`/hotelDetail/${number}`);
+    },
+    /**
+     * emitで受け取ったパンくずリストをdataに格納.
+     * @param - パンくずリスト
+     */
+    getMenuList(item) {
+      this.menu = [item, 1];
     },
   },
   computed: {
@@ -260,6 +294,10 @@ export default {
   font-size: 12px;
 }
 
+.error-flag {
+  margin: 10px 0;
+}
+
 .hotel-name {
   font-size: 15px;
   font-weight: bold;
@@ -291,6 +329,11 @@ export default {
   margin-bottom: 10px;
   opacity: 0.7;
   font-size: 0.7rem;
+}
+
+.vacant-search {
+  z-index: 100;
+  margin-bottom: 30px;
 }
 
 .whole {

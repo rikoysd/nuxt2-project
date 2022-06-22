@@ -164,9 +164,20 @@ export default {
       originalWord: "",
     };
   },
-  mounted() {
+  async mounted() {
     this.showResult = false;
     this.propsKeyword = this.$store.getters["keyword/getKeyword"];
+
+    if (this.propsKeyword !== "") {
+      // 引数として渡したい値をオブジェクトにまとめる
+      this.object = {
+        keyword: this.propsKeyword,
+        page: this.page,
+      };
+
+      // actionの呼び出し
+      await this.$store.dispatch("getPageList", this.object);
+    }
   },
   watch: {
     // ホテル一覧の変数を監視する
