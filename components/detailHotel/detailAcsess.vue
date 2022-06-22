@@ -5,7 +5,10 @@
         <span class="title font-weight-bold">アクセス</span>
         <br />
         <span class="fontSize address">
-          住所：{{ address }} 最寄駅：{{ basicInfo.nearestStation + "駅" }}
+          住所：{{ address }}
+          <span v-if="basicInfo.nearestStation != null"
+            >最寄駅：{{ basicInfo.nearestStation + "駅" }}</span
+          >
         </span>
         <br />
         <iframe

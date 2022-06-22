@@ -62,10 +62,6 @@
         >
       </div>
 
-      <v-btn icon color="#333c5e">
-        <v-icon class="header">mdi-magnify</v-icon>
-      </v-btn>
-
       <v-menu left bottom class="header"> </v-menu>
     </v-app-bar>
   </div>
@@ -157,7 +153,7 @@ export default {
 
 <style scoped>
 .headers {
-  border-bottom: 5px solid #333c5e;
+  background-color: rgba(50, 59, 93, 0.8);
 }
 .header {
   color: #333c5e;

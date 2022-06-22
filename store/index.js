@@ -95,7 +95,7 @@ export const actions = {
       console.log(payload);
     } catch (error) {
       context.commit("setInstitutionInfo", "");
-      alert("エラーが発生しました。検索ページに遷移します。");
+      alert("エラーが発生しました。ページ遷移します。");
       console.log(error);
     }
   },
