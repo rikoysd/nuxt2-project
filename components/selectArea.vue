@@ -85,7 +85,7 @@ export default {
   padding-top: 80px;
 }
 p {
-  padding-left: 50px;
+  padding-left: 90px;
 }
 .card {
   cursor: pointer;
