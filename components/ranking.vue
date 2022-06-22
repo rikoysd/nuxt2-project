@@ -46,7 +46,9 @@
                 <v-btn
                   color="deep-purple lighten-2"
                   text
-                  @click="reserve(hotel.hotel.hotelNo)"
+                  @click="
+                    reserve(hotel.hotel.hotelNo, hotel.hotel.middleClassName)
+                  "
                 >
                   詳細を見る
                 </v-btn>
@@ -77,9 +79,12 @@ export default {
   }, //mounted
 
   methods: {
-    reserve(number) {
+    reserve(number, areaName) {
       //   this.loading = true;
       //   setTimeout(() => (this.loading = false), 2000);
+
+      // 検索結果が出た時点で検索キーワードをstateに格納
+      this.$store.commit("setKeyword", areaName);
       this.$router.push(`/hotelDetailvs/${number}`);
     },
   }, // end methods
@@ -101,13 +106,12 @@ P {
   padding-left: 60px;
 }
 .ranking {
-  padding-top: 50px;
-  margin-top: auto;
+  padding-top: 10px;
+  /* margin-top: 40px; */
   display: flex;
   flex-flow: column;
-  height: 500px;
   padding-bottom: 0px;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 .v-slide-group__content {
   padding-bottom: 5px;

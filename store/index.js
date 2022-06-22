@@ -95,7 +95,7 @@ export const actions = {
       console.log(payload);
     } catch (error) {
       context.commit("setInstitutionInfo", "");
-      alert("エラーが発生しました。検索ページに遷移します。");
+      alert("エラーが発生しました。ページ遷移します。");
       console.log(error);
     }
   },
@@ -105,20 +105,16 @@ export const actions = {
    * @param {*} params - 検索条件のオブジェクト
    */
   async searchVacantList(context, vacantData) {
-    // const vacantResponce = await axios1.get(
-    //   `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&largeClassCode=japan&middleClassCode=${vacantData.middleClassCode}&smallClassCode=${vacantData.smallClassCode}&detailClassCode=${vacantData.detailClassCode}&checkinDate=${vacantData.checkinDate}&checkoutDate=${vacantData.checkoutDate}&adultNum=${vacantData.adultNum}&upClassNum=${vacantData.upClassNum}&lowClassNum=${vacantData.lowClassNum}&infantWithMBNum=${vacantData.infantWithMBNum}&infantWithMNum=${vacantData.infantWithMNum}&infantWithBNum=${vacantData.infantWithBNum}&infantWithoutMBNum=${vacantData.infantWithoutMBNum}&roomNum=${vacantData.roomNum}&responseType=large&page=${vacantData.page}`
-    // );
-    // // console.dir("response" + JSON.stringify(vacantResponce.data.hotels));
-    // context.commit("setVacantList", vacantResponce.data.hotels);
     try {
       const vacantResponce = await axios1.get(
         `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&largeClassCode=japan&middleClassCode=${vacantData.middleClassCode}&smallClassCode=${vacantData.smallClassCode}&detailClassCode=${vacantData.detailClassCode}&checkinDate=${vacantData.checkinDate}&checkoutDate=${vacantData.checkoutDate}&adultNum=${vacantData.adultNum}&upClassNum=${vacantData.upClassNum}&lowClassNum=${vacantData.lowClassNum}&infantWithMBNum=${vacantData.infantWithMBNum}&infantWithMNum=${vacantData.infantWithMNum}&infantWithBNum=${vacantData.infantWithBNum}&infantWithoutMBNum=${vacantData.infantWithoutMBNum}&roomNum=${vacantData.roomNum}&responseType=large&page=${vacantData.page}`
       );
       // console.dir("response" + JSON.stringify(vacantResponce.data));
       context.commit("setVacantData", vacantResponce.data);
+      context.commit("setErrorFlag");
     } catch (error) {
       console.log(error);
-      context.commit("setErrorFlag");
+      context.commit("setErrorFlag2");
     }
   },
   /**
@@ -277,7 +273,6 @@ export const mutations = {
    */
   searchResultList(state, payload) {
     state.searchResult = payload;
-    console.log(state.searchResult);
   },
   /**
    * 特定のエリアの施設情報をstateに格納.
@@ -393,10 +388,17 @@ export const mutations = {
     this.commit("register/deleteLoginUser");
   },
   /**
-   * 空室検索のエラーをstateに格納.
+   * 空室検索のエラーをstateに格納(エラーをoffにする).
    * @param {*} state - ステート
    */
   setErrorFlag(state) {
+    state.searchErrorFlag = false;
+  },
+  /**
+   * 空室検索のエラーをstateに格納(エラーをonにする).
+   * @param {*} state - ステート
+   */
+  setErrorFlag2(state) {
     state.searchErrorFlag = true;
   },
   /**

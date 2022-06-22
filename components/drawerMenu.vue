@@ -150,7 +150,7 @@ export default {
     searchKeyword() {
       // チェックボックスの中身を文字列に変換する
       let str1 = this.checkbox.toString();
-      let str2 = str1.split(",").join(" ");
+      let str2 = str1.split(",").join(", ");
 
       // パンくずリストで使用する文字列をemitで送る
       this.$emit("menuWords", str2);

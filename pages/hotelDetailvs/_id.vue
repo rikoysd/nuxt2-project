@@ -1,6 +1,7 @@
 <template>
   <v-row class="d-flex justify-center">
     <div>
+      <!-- パンくずリスト -->
       <menu-list
         class="menuList"
         :basicInfo="basicInfo"
@@ -121,6 +122,7 @@
 
                 <div v-show="listShow">
                   <detail-plans
+                    :basicInfo="basicInfo"
                     :plans="plans"
                     :roomImage="roomImage"
                     :vDetailInfo="vDetailInfo"
@@ -214,11 +216,13 @@ export default {
     group() {
       this.drawer = false;
     },
+    basicInfo() {
+      if (this.basicInfo !== undefined) {
+        this.keyword2 = this.$store.getters["keyword/getKeyword"];
+      }
+    },
   },
-
   async mounted() {
-    this.keyword2 = this.$store.getters["keyword/getKeyword"];
-
     // URLからhotelIdを取得
     this.paramsNo = this.$route.params.id;
     // 施設検索

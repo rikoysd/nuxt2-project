@@ -17,6 +17,7 @@ export default {
     propsKeyword: String,
     keyword2: String,
     originalWord: String,
+    area: String,
   },
   data() {
     return {
@@ -39,9 +40,6 @@ export default {
     menu() {
       this.items.splice(1, 1);
       if (this.menu !== []) {
-        // ルートパターン（検索結果のページから再度検索した場合）をstateに格納
-        // this.$store.commit("setRoute", 1);
-
         // 検索結果が出た時点で検索キーワードをstateに格納
         this.$store.commit("setKeyword", this.menu[0].text);
         this.items.push(this.menu[0]);
@@ -50,6 +48,9 @@ export default {
     basicInfo() {
       // 検索したキーワードを取得
       this.keyword = this.$store.getters["keyword/getKeyword"];
+      if (this.keyword2 !== "") {
+        this.keyword = this.keyword2;
+      }
       let items = [
         {
           text: this.keyword,
@@ -91,6 +92,21 @@ export default {
 
         this.items.push(item);
       }
+    },
+    area() {
+      this.items.splice(1, 1);
+      if (this.area !== "") {
+        // 検索したキーワードをstateに格納
+        this.$store.commit("setKeyword", this.area);
+      }
+
+      let item = {
+        text: this.area,
+        disabled: true,
+        href: "",
+      };
+
+      this.items.push(item);
     },
   },
   methods: {},

@@ -139,8 +139,11 @@ export default {
         this.$router.push("/");
       }
     },
+    /**
+     * 検索したいキーワードをemitでdefault.vueに送る.
+     * @param - キーワード
+     */
     searchKeyword(keyword) {
-      console.log(keyword);
       this.$emit("search", keyword);
     },
   }, // end methods
@@ -166,7 +169,7 @@ export default {
 }
 
 .headers {
-  border-bottom: 5px solid #333c5e;
+  background-color: rgba(50, 59, 93, 0.8);
 }
 .header {
   color: #333c5e;

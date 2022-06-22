@@ -1,99 +1,117 @@
 <template>
-  <div class="d-flex justify-center">
-    <div class="whole">
-      <div>{{ getSearchError }}</div>
-      <v-progress-circular
-        v-show="loading"
-        :value="60"
-        color="primary"
-      ></v-progress-circular>
-      <div class="d-flex justify-center">
-        <div v-show="showResult" class="result">
-          <!-- ページネーション -->
-          <div class="text-center">
-            <v-pagination
-              v-model="page"
-              :length="getPageInfo.pageCount"
-              :total-visible="7"
-              color="#333c5e"
-              @input="getNumber"
-            ></v-pagination>
-          </div>
-          <div class="record-count">
-            対象施設：{{ Number(getPageInfo.recordCount).toLocaleString() }}件
-          </div>
-          <v-row>
-            <v-col
-              class="d-flex justify-center"
-              v-for="(hotel, index) of getHotelList"
-              v-bind:key="index"
-            >
-              <v-card class="card" max-width="399">
-                <v-img
-                  class="white--text align-end"
-                  height="160px"
-                  v-bind:src="hotel.hotel[0].hotelBasicInfo.hotelImageUrl"
-                >
-                </v-img>
-                <v-card-text class="text--primary">
-                  <div class="hotel-name">
-                    {{ hotel.hotel[0].hotelBasicInfo.hotelName }}
-                  </div>
-                  <div class="pb-0 sub-title">
-                    {{ hotel.hotel[1].hotelDetailInfo.areaName }}
-                    <star-rating
-                      v-bind:increment="0.01"
-                      v-bind:max-rating="5"
-                      v-bind:rating="
-                        hotel.hotel[0].hotelBasicInfo.reviewAverage
-                      "
-                      inactive-color="#000"
-                      active-color="#fa8000"
-                      v-bind:star-size="15"
-                      v-bind:read-only="true"
-                    >
-                    </star-rating>
-                  </div>
-                  <div class="description">
-                    {{ hotel.hotel[0].hotelBasicInfo.hotelSpecial }}
-                  </div>
-                  <div class="min-charge">
-                    最安値<span
-                      >&nbsp;{{
-                        Number(
-                          hotel.hotel[0].hotelBasicInfo.hotelMinCharge
-                        ).toLocaleString()
-                      }}&nbsp;</span
-                    >
-                    円(税込)
-                  </div>
-                </v-card-text>
-                <v-card-actions>
-                  <v-btn
-                    color="orange"
-                    text
-                    @click="
-                      showHotelDetail(hotel.hotel[0].hotelBasicInfo.hotelNo)
-                    "
-                    >詳細を見る</v-btn
+  <div>
+    <!-- パンくずリスト -->
+    <menu-list
+      class="menu"
+      :area="area"
+      :originalWord="originalWord"
+    ></menu-list>
+    <div class="d-flex justify-center">
+      <div class="whole">
+        <vacant-search
+          class="vacant-search"
+          @getVacantHotel="getVacantHotel"
+        ></vacant-search>
+        <keywords @search="searchKeyword" @getMenuList="getMenuList"></keywords>
+        <drawer-menu
+          class="drawer-menu"
+          @search="searchKeyword"
+          @menuWords="menuWords"
+        ></drawer-menu>
+        <div class="error-flag">{{ getSearchError }}</div>
+        <v-progress-circular
+          v-show="loading"
+          :value="60"
+          color="primary"
+        ></v-progress-circular>
+        <div class="d-flex justify-center">
+          <div v-show="showResult" class="result">
+            <!-- ページネーション -->
+            <div class="text-center">
+              <v-pagination
+                v-model="page"
+                :length="getPageInfo.pageCount"
+                :total-visible="7"
+                color="#333c5e"
+                @input="getNumber"
+              ></v-pagination>
+            </div>
+            <div class="record-count">
+              対象施設：{{ Number(getPageInfo.recordCount).toLocaleString() }}件
+            </div>
+            <v-row>
+              <v-col
+                class="d-flex justify-center"
+                v-for="(hotel, index) of getHotelList"
+                v-bind:key="index"
+              >
+                <v-card class="card" max-width="399">
+                  <v-img
+                    class="white--text align-end"
+                    height="160px"
+                    v-bind:src="hotel.hotel[0].hotelBasicInfo.hotelImageUrl"
                   >
-                  <favorite-button
-                    :hotelNum="hotel.hotel[0].hotelBasicInfo.hotelNo"
-                    :loginUser="loginUser2"
-                  ></favorite-button>
-                </v-card-actions>
-              </v-card>
-            </v-col>
-          </v-row>
-          <!-- ページネーション -->
-          <div class="text-center">
-            <v-pagination
-              v-model="page"
-              :length="getPageInfo.pageCount"
-              :total-visible="7"
-              @input="getNumber"
-              color="#333c5e"
-            ></v-pagination>
+                  </v-img>
+                  <v-card-text class="text--primary">
+                    <div class="hotel-name">
+                      {{ hotel.hotel[0].hotelBasicInfo.hotelName }}
+                    </div>
+                    <div class="pb-0 sub-title">
+                      {{ hotel.hotel[1].hotelDetailInfo.areaName }}
+                      <star-rating
+                        v-bind:increment="0.01"
+                        v-bind:max-rating="5"
+                        v-bind:rating="
+                          hotel.hotel[0].hotelBasicInfo.reviewAverage
+                        "
+                        inactive-color="#000"
+                        active-color="#fa8000"
+                        v-bind:star-size="15"
+                        v-bind:read-only="true"
+                      >
+                      </star-rating>
+                    </div>
+                    <div class="description">
+                      {{ hotel.hotel[0].hotelBasicInfo.hotelSpecial }}
+                    </div>
+                    <div class="min-charge">
+                      最安値<span
+                        >&nbsp;{{
+                          Number(
+                            hotel.hotel[0].hotelBasicInfo.hotelMinCharge
+                          ).toLocaleString()
+                        }}&nbsp;</span
+                      >
+                      円(税込)
+                    </div>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-btn
+                      color="orange"
+                      text
+                      @click="
+                        showHotelDetail(hotel.hotel[0].hotelBasicInfo.hotelNo)
+                      "
+                      >詳細を見る</v-btn
+                    >
+                    <favorite-button
+                      :hotelNum="hotel.hotel[0].hotelBasicInfo.hotelNo"
+                      :loginUser="loginUser2"
+                    ></favorite-button>
+                  </v-card-actions>
+                </v-card>
+              </v-col>
+            </v-row>
+            <!-- ページネーション -->
+            <div class="text-center">
+              <v-pagination
+                v-model="page"
+                :length="getPageInfo.pageCount"
+                :total-visible="7"
+                @input="getNumber"
+                color="#333c5e"
+              ></v-pagination>
+            </div>
           </div>
         </div>
       </div>
@@ -136,6 +154,21 @@ export default {
       showResult: false,
       // ページ
       page: 1,
+      // エリア
+      area: "",
+      //都道府県のリスト
+      areaList: [],
+      // エラー判定
+      errorFlag: false,
+      // APIに渡すオブジェクト
+      object: {
+        keyword: "",
+        page: 1,
+      },
+      // パンくずリスト
+      menu: [],
+      // こだわり検索のキーワード
+      originalWord: "",
     };
   },
   async mounted() {
@@ -158,7 +191,6 @@ export default {
     this.vacantObject.infantWithBNum = vacantData.infantWithBNum;
     this.vacantObject.infantWithoutMBNum = vacantData.infantWithoutMBNum;
     this.vacantObject.page = 1;
-    console.log(this.vacantObject);
 
     await this.$store.dispatch("searchVacantList", this.vacantObject);
 
@@ -168,16 +200,43 @@ export default {
   watch: {
     // ホテル一覧の変数を監視する
     hotelList() {
-      if (this.hotelList.length === 0) {
-        this.loading = true;
-        this.showResult = false;
-      } else {
+      if (this.hotelList.length !== 0) {
         this.loading = false;
         this.showResult = true;
+
+        // 都道府県を取得
+        const areaLists = this.$store.getters.getAreaList.middleClasses;
+        for (let area of areaLists) {
+          const code = area.middleClass[0].middleClassCode;
+          const name = area.middleClass[0].middleClassName;
+          this.areaList.push({ code: code, name: name });
+        }
+
+        for (let area of this.areaList) {
+          if (area.code === this.vacantObject.smallClassCode) {
+            this.area = area.name;
+          }
+        }
       }
     },
   },
   methods: {
+    /**
+     * キーワードの検索結果を取得する.
+     * @param {*} keyword - キーワード
+     */
+    async searchKeyword(keyword) {
+      this.loading = true;
+
+      // エラー判定を初期化
+      this.$store.commit("changeFlag", this.errorFlag);
+
+      // 検索結果が出た時点で検索キーワードをstateに格納
+      this.$store.commit("setKeyword", keyword);
+
+      // キーワード検索結果ページに遷移
+      this.$router.push("keywordHotelList");
+    },
     /**
      * ページを切り替える.
      * @param - ページ番号
@@ -194,6 +253,42 @@ export default {
      */
     showHotelDetail(number) {
       this.$router.push(`/hotelDetail/${number}`);
+    },
+    /**
+     * emitで受け取ったパンくずリストをdataに格納.
+     * @param - パンくずリスト
+     */
+    getMenuList(item) {
+      this.menu = [item, 1];
+    },
+    /**
+     * emitで受け取ったこだわりのキーワードをdataに格納.
+     * @param - こだわりのキーワード
+     */
+    menuWords(word) {
+      this.originalWord = word;
+    },
+    /**
+     * emitで受け取った空室検索の条件をdataに格納.
+     * @param - 空室検索の条件
+     */
+    async getVacantHotel(vacantData) {
+      this.vacantObject.roomNum = vacantData.roomNum;
+      this.vacantObject.middleClassCode = vacantData.middleClassCode;
+      this.vacantObject.smallClassCode = vacantData.smallClassCode;
+      this.vacantObject.detailClassCode = vacantData.detailClassCode;
+      this.vacantObject.checkinDate = vacantData.checkinDate;
+      this.vacantObject.checkoutDate = vacantData.checkoutDate;
+      this.vacantObject.adultNum = vacantData.adultNum;
+      this.vacantObject.upClassNum = vacantData.upClassNum;
+      this.vacantObject.lowClassNum = vacantData.lowClassNum;
+      this.vacantObject.infantWithMBNum = vacantData.infantWithMBNum;
+      this.vacantObject.infantWithMNum = vacantData.infantWithMNum;
+      this.vacantObject.infantWithBNum = vacantData.infantWithBNum;
+      this.vacantObject.infantWithoutMBNum = vacantData.infantWithoutMBNum;
+      this.vacantObject.page = 1;
+
+      await this.$store.dispatch("searchVacantList", this.vacantObject);
     },
   },
   computed: {
@@ -239,9 +334,23 @@ export default {
   font-size: 12px;
 }
 
+.drawer-menu {
+  padding: 0;
+  margin: 20px 0;
+}
+
+.error-flag {
+  margin: 10px 0;
+}
+
 .hotel-name {
   font-size: 15px;
   font-weight: bold;
+}
+
+.menu {
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 .min-charge {
@@ -265,6 +374,11 @@ export default {
   margin-bottom: 10px;
   opacity: 0.7;
   font-size: 0.7rem;
+}
+
+.vacant-search {
+  z-index: 100;
+  margin-bottom: 30px;
 }
 
 .whole {

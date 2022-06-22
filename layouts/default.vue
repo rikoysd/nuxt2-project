@@ -4,7 +4,10 @@
       <Header :loginUser="loginUser" @search="searchKeyword" />
       <v-main>
         <v-container mt-0 pt-0
-          ><Nuxt :loginUser2="loginUser2" :loginUser="loginUser"
+          ><Nuxt
+            :loginUser2="loginUser2"
+            :loginUser="loginUser"
+            :propsKeyword2="object.keyword"
         /></v-container>
       </v-main>
       <Footer />
@@ -55,6 +58,9 @@ export default {
         page: 1,
       };
       await this.$store.dispatch("getPageList", this.object);
+
+      // 検索結果が出た時点で検索キーワードをstateに格納
+      this.$store.commit("setKeyword", this.object.keyword);
       this.$router.push("/keywordHotelList");
     },
   },
