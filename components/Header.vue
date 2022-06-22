@@ -62,10 +62,6 @@
         >
       </div>
 
-      <v-btn icon color="#333c5e">
-        <v-icon class="header">mdi-magnify</v-icon>
-      </v-btn>
-
       <v-menu left bottom class="header"> </v-menu>
     </v-app-bar>
   </div>
