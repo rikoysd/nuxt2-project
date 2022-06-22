@@ -182,6 +182,8 @@ export default {
      */
     moveToVacantList() {
       this.$store.commit("searchResultList", this.vacantData);
+
+      this.$emit("getVacantHotel", this.vacantData);
       //検索結果一覧へ遷移
       this.$router.push("/vacancyHotelList");
     },

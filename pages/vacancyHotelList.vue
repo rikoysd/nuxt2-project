@@ -1,11 +1,23 @@
 <template>
   <div>
     <!-- パンくずリスト -->
-    <menu-list class="menu" :area="area"></menu-list>
+    <menu-list
+      class="menu"
+      :area="area"
+      :originalWord="originalWord"
+    ></menu-list>
     <div class="d-flex justify-center">
       <div class="whole">
-        <vacant-search class="vacant-search"></vacant-search>
+        <vacant-search
+          class="vacant-search"
+          @getVacantHotel="getVacantHotel"
+        ></vacant-search>
         <keywords @search="searchKeyword" @getMenuList="getMenuList"></keywords>
+        <drawer-menu
+          class="drawer-menu"
+          @search="searchKeyword"
+          @menuWords="menuWords"
+        ></drawer-menu>
         <div class="error-flag">{{ getSearchError }}</div>
         <v-progress-circular
           v-show="loading"
@@ -155,6 +167,8 @@ export default {
       },
       // パンくずリスト
       menu: [],
+      // こだわり検索のキーワード
+      originalWord: "",
     };
   },
   async mounted() {
@@ -186,10 +200,7 @@ export default {
   watch: {
     // ホテル一覧の変数を監視する
     hotelList() {
-      if (this.hotelList.length === 0) {
-        this.loading = true;
-        this.showResult = false;
-      } else {
+      if (this.hotelList.length !== 0) {
         this.loading = false;
         this.showResult = true;
 
@@ -250,6 +261,35 @@ export default {
     getMenuList(item) {
       this.menu = [item, 1];
     },
+    /**
+     * emitで受け取ったこだわりのキーワードをdataに格納.
+     * @param - こだわりのキーワード
+     */
+    menuWords(word) {
+      this.originalWord = word;
+    },
+    /**
+     * emitで受け取った空室検索の条件をdataに格納.
+     * @param - 空室検索の条件
+     */
+    async getVacantHotel(vacantData) {
+      this.vacantObject.roomNum = vacantData.roomNum;
+      this.vacantObject.middleClassCode = vacantData.middleClassCode;
+      this.vacantObject.smallClassCode = vacantData.smallClassCode;
+      this.vacantObject.detailClassCode = vacantData.detailClassCode;
+      this.vacantObject.checkinDate = vacantData.checkinDate;
+      this.vacantObject.checkoutDate = vacantData.checkoutDate;
+      this.vacantObject.adultNum = vacantData.adultNum;
+      this.vacantObject.upClassNum = vacantData.upClassNum;
+      this.vacantObject.lowClassNum = vacantData.lowClassNum;
+      this.vacantObject.infantWithMBNum = vacantData.infantWithMBNum;
+      this.vacantObject.infantWithMNum = vacantData.infantWithMNum;
+      this.vacantObject.infantWithBNum = vacantData.infantWithBNum;
+      this.vacantObject.infantWithoutMBNum = vacantData.infantWithoutMBNum;
+      this.vacantObject.page = 1;
+
+      await this.$store.dispatch("searchVacantList", this.vacantObject);
+    },
   },
   computed: {
     /**
@@ -292,6 +332,11 @@ export default {
 .description {
   margin-top: 5px;
   font-size: 12px;
+}
+
+.drawer-menu {
+  padding: 0;
+  margin: 20px 0;
 }
 
 .error-flag {
