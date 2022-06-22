@@ -51,57 +51,57 @@
 
         <!-- <v-row> -->
         <!-- 札幌の地区詳細 -->
-        <!-- <v-col class="d-flex ml-20" cols="2" sm="2"> -->
-        <v-select
-          class="select-detail mb-auto ml-130"
-          v-if="selectedItem === '札幌'"
-          :items="sapporoList"
-          label="地区詳細"
-          @change="getDetailList('detailClassCode', $event)"
-          solo
-        ></v-select>
+        <v-col class="d-flex ml-20" cols="4" sm="4">
+          <v-select
+            class="select-detail mb-auto ml-130"
+            v-if="selectedItem === '札幌'"
+            :items="sapporoList"
+            label="地区詳細"
+            @change="getDetailList('detailClassCode', $event)"
+            solo
+          ></v-select>
 
-        <!-- 東京23区の地区詳細 -->
-        <!-- <v-col class="d-flex" cols="2" sm="2"> -->
-        <v-select
-          class="select-detail mb-auto"
-          v-if="selectedItem === '東京２３区内'"
-          :items="tokyoList"
-          label="地区詳細"
-          @change="getTokyoDetail('detailClassCode', $event)"
-          solo
-        ></v-select>
-        <!-- </v-col> -->
-        <!-- 名古屋の地区詳細 -->
-        <v-select
-          class="select-detail mb-auto"
-          v-if="selectedItem === '名古屋'"
-          :items="nagoyaList"
-          label="地区詳細"
-          @change="getNagoyaDetail('detailClassCode', $event)"
-          solo
-        ></v-select>
+          <!-- 東京23区の地区詳細 -->
+          <!-- <v-col class="d-flex" cols="2" sm="2"> -->
+          <v-select
+            class="select-detail mb-auto"
+            v-if="selectedItem === '東京２３区内'"
+            :items="tokyoList"
+            label="地区詳細"
+            @change="getTokyoDetail('detailClassCode', $event)"
+            solo
+          ></v-select>
+          <!-- </v-col> -->
+          <!-- 名古屋の地区詳細 -->
+          <v-select
+            class="select-detail mb-auto"
+            v-if="selectedItem === '名古屋'"
+            :items="nagoyaList"
+            label="地区詳細"
+            @change="getNagoyaDetail('detailClassCode', $event)"
+            solo
+          ></v-select>
 
-        <!-- 京都の地区詳細 -->
-        <v-select
-          class="select-detail mb-auto"
-          v-if="selectedItem === '京都'"
-          :items="kyotoList"
-          label="地区詳細"
-          @change="getKyotoDetail('detailClassCode', $event)"
-          solo
-        ></v-select>
+          <!-- 京都の地区詳細 -->
+          <v-select
+            class="select-detail mb-auto"
+            v-if="selectedItem === '京都'"
+            :items="kyotoList"
+            label="地区詳細"
+            @change="getKyotoDetail('detailClassCode', $event)"
+            solo
+          ></v-select>
 
-        <!-- 大阪の地区詳細 -->
-        <v-select
-          class="select-detail mb-auto"
-          v-if="selectedItem === '大阪'"
-          :items="osakaList"
-          label="地区詳細"
-          @change="getOsakaDetail('detailClassCode', $event)"
-          solo
-        ></v-select>
-        <!-- </v-col> -->
+          <!-- 大阪の地区詳細 -->
+          <v-select
+            class="select-detail mb-auto"
+            v-if="selectedItem === '大阪'"
+            :items="osakaList"
+            label="地区詳細"
+            @change="getOsakaDetail('detailClassCode', $event)"
+            solo
+          ></v-select>
+        </v-col>
         <!-- </v-row> -->
         <!-- 空室検索ボタン -->
         <!-- <v-card-actions>
@@ -552,7 +552,7 @@ p {
 .select-detail {
   margin-top: 20px;
   width: 370px;
-  margin-left: 118px;
+  margin-left: 53px;
 }
 
 .numberBtn {
