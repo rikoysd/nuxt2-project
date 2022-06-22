@@ -1,21 +1,33 @@
 <template>
-  <div>
-    <v-carousel
-      cycle
-      height="400"
-      hide-delimiter-background
-      show-arrows-on-hover
-    >
-      <v-carousel-item v-for="(color, i) in colors" :key="i">
-        <!-- <v-sheet :color="colors[i]" height="100%"> -->
-        <v-row class="fill-height" align="center" justify="center">
-          <!-- <div class="text-h2">{{ color }} Slide</div> -->
-          <img :src="color.src" alt="" height="100%" width="100%" />
-        </v-row>
-        <!-- </v-sheet> -->
-      </v-carousel-item>
-    </v-carousel>
-  </div>
+  <v-row>
+    <v-col cols="12">
+      <v-carousel
+        cycle
+        height="500"
+        width="100vw"
+        hide-delimiter-background
+        show-arrows-on-hover
+      >
+        <v-carousel-item v-for="(color, i) in colors" :key="i">
+          <!-- <v-sheet :color="colors[i]" height="100%"> -->
+          <v-row
+            class="fill-height carouselSize"
+            align="center"
+            justify="center"
+          >
+            <!-- {{ color }} Slide -->
+            <v-img
+              :src="color.src"
+              class="hotelImage"
+              align="center"
+              height="100%"
+            />
+          </v-row>
+          <!-- </v-sheet> -->
+        </v-carousel-item>
+      </v-carousel>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -38,4 +50,11 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.carouselSize {
+  width: 100vw;
+}
+.hotelImage {
+  width: 102vw;
+}
+</style>

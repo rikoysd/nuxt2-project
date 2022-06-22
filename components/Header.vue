@@ -154,7 +154,7 @@ export default {
 
 <style scoped>
 .headers {
-  border-bottom: 5px solid #333c5e;
+  background-color: rgba(50, 59, 93, 0.8);
 }
 .header {
   color: #333c5e;

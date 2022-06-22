@@ -1,7 +1,9 @@
 <template>
-  <div class="d-flex justify-center">
-    <div class="whole">
+  <v-row class="d-flex justify-center">
+    <div class="topPosition">
       <top class="top"></top>
+    </div>
+    <div class="whole">
       <vacantSearch class="vacantSearch"></vacantSearch>
       <!-- <search-box @search="searchKeyword"></search-box>
       <keywords @search="searchKeyword"></keywords> -->
@@ -9,7 +11,7 @@
       <onsenRanking></onsenRanking>
       <selectArea></selectArea>
     </div>
-  </div>
+  </v-row>
 </template>
 
 <script>
@@ -56,21 +58,30 @@ export default {
 </script>
 
 <style scoped>
+@media (min-width: 1264px) {
+  .container {
+    width: 100vw;
+  }
+}
+.topPosition {
+  width: 100vw;
+}
 .top {
   margin-top: 10px;
+  width: 100vw;
 }
 .vacantSearch {
   z-index: 100;
   margin-bottom: 30px;
 }
 .ranking {
-  margin-top: auto;
+  margin-top: 20px;
   display: flex;
   flex-flow: column;
   z-index: 0;
 }
 .whole {
   width: 100%;
-  margin: 60px 0;
+  margin-bottom: 60px;
 }
 </style>

@@ -101,13 +101,12 @@ P {
   padding-left: 60px;
 }
 .ranking {
-  padding-top: 50px;
-  margin-top: auto;
+  padding-top: 10px;
+  /* margin-top: 40px; */
   display: flex;
   flex-flow: column;
-  height: 500px;
   padding-bottom: 0px;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 .v-slide-group__content {
   padding-bottom: 5px;
