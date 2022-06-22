@@ -4,15 +4,15 @@
     <v-app-bar elevation="0" color="white">
       <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
 
-      <v-toolbar-title class="header"
+      <v-toolbar-title class="header d-flex align-center"
         ><nuxt-link to="/" tag="div" class="title font-weight-bold"
           >楽々booking.com</nuxt-link
-        ></v-toolbar-title
-      >
+        >
+      </v-toolbar-title>
+      <search-box class="search-box" @search="searchKeyword"></search-box>
 
       <div class="flex-grow-1"></div>
 
-      <search-box class="search-box" @search="searchKeyword"></search-box>
       <div v-if="flag === true">
         <v-menu top :close-on-content-click="closeOnContentClick">
           <template v-slot:activator="{ on, attrs }">
@@ -61,10 +61,6 @@
           >会員登録</nuxt-link
         >
       </div>
-
-      <v-btn icon color="#333c5e">
-        <v-icon class="header">mdi-magnify</v-icon>
-      </v-btn>
 
       <v-menu left bottom class="header"> </v-menu>
     </v-app-bar>
@@ -153,6 +149,22 @@ export default {
 </script>
 
 <style scoped>
+/* 960px〜：小型PC, 大型PC
+------------------------------ */
+@media screen and (min-width: 960px) {
+  .search-box {
+    margin-top: 25px;
+    width: 450px;
+    margin-left: 20px;
+  }
+
+  .menu {
+    font-size: 80%;
+    margin-right: 9px;
+    cursor: pointer;
+  }
+}
+
 .headers {
   border-bottom: 5px solid #333c5e;
 }
@@ -164,20 +176,8 @@ export default {
   cursor: pointer;
 }
 
-.menu {
-  font-size: 80%;
-  margin-right: 7px;
-  cursor: pointer;
-}
-
 .title {
   cursor: pointer;
-}
-
-.search-box {
-  margin-top: 25px;
-  width: 450px;
-  margin-right: 320px;
 }
 
 .user-name {

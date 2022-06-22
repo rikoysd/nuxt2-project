@@ -1,5 +1,5 @@
 <template>
-  <div class="whole d-flex mx-auto">
+  <div class="whole d-flex justify-center align-center">
     <div class="login-area">
       <div class="submit-error">{{ submitError }}</div>
       <span>{{ mailAddressError }}</span
@@ -203,10 +203,58 @@ export default {
 </script>
 
 <style scoped>
+/* 960px〜1279px：小型PC
+------------------------------ */
+@media screen and (min-width: 960px) and (max-width: 1279px) {
+  .whole {
+    width: 100vw;
+    height: 100vh;
+    background-image: url(../assets/img/background-img.jpg);
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
+
+  .login-area {
+    background-color: white;
+    border-radius: 5px;
+    padding: 45px 40px;
+    width: 600px;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+      rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+    height: auto;
+  }
+}
+
+/* 1279px〜：大型PC
+------------------------------ */
+@media screen and (min-width: 1279px) {
+  .whole {
+    width: 100vw;
+    height: 100vh;
+    background-image: url(../assets/img/background-img.jpg);
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
+
+  .login-area {
+    background-color: white;
+    border-radius: 5px;
+    padding: 45px 40px;
+    width: 600px;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+      rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+    height: auto;
+  }
+}
+
 span {
   color: red;
 }
-.mainContent {
+/* .mainContent {
   width: 100vw;
   height: 800px;
   background-image: url(../assets/img/background-img.jpg);
@@ -218,21 +266,8 @@ span {
   left: 0;
   overflow: auto;
   z-index: 0;
-  /* margin: 0, auto; */
-}
-.login-area {
-  background-color: white;
-  border-radius: 5px;
-  padding: 45px 40px;
-  width: 600px;
-  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
-    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
-  height: 400px;
-  margin: auto auto;
-  z-index: 1;
-  position: relative;
-  right: 8%;
-}
+  margin: 0, auto;
+} */
 
 .login-info {
   color: white;
@@ -247,17 +282,23 @@ span {
   color: red;
 }
 
-.whole {
+/* .whole {
   width: 100vw;
-  height: 600px;
-  margin-left: auto;
-  margin-right: auto;
-  /* background-image: url(../assets/img/background-img.jpg);
+  height: 100vh;
+  background-image: url(../assets/img/background-img.jpg);
   background-size: cover;
   background-position: center center;
   background-attachment: fixed;
   background-repeat: no-repeat;
-  position: fixed;
-  overflow: auto; */
 }
+
+.login-area {
+  background-color: white;
+  border-radius: 5px;
+  padding: 45px 40px;
+  width: 600px;
+  box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+    rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+  height: auto;
+} */
 </style>
