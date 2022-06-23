@@ -213,7 +213,7 @@ span {
   background-position: center center;
   background-attachment: fixed;
   background-repeat: no-repeat;
-  position: absolute;
+  position: fixed;
   left: 0;
   overflow: auto;
   z-index: 0;
