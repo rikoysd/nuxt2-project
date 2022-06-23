@@ -135,10 +135,10 @@ export default {
         payment: plan[0].roomBasicInfo.payment,
         adultNum: this.searchCondition.adultNum,
         upClassNum: this.searchCondition.upClassNum,
-        lowClassNum: this.searchCondition,
+        lowClassNum: this.searchCondition.lowClassNum,
         infantWithMBNum: this.searchCondition.infantWithMBNum,
         infantWithMNum: this.searchCondition.infantWithMNum,
-        infantWithBNum: this.searchCondition,
+        infantWithBNum: this.searchCondition.infantWithBNum,
         infantWithoutMBNum: this.searchCondition.infantWithoutMBNum,
         roomNum: this.searchCondition.roomNum,
         subPrice:

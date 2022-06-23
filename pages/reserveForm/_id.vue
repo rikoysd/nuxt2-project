@@ -86,7 +86,7 @@
           >&emsp;{{ checkInTimeError }}</span
         ><selectChecin @checkin="reserveCheckIn"></selectChecin>
         <span style="color: red">*</span>宿泊人数 1室目 (大人{{ adult }}名<span
-          v-if="child > 1"
+          v-if="child > 0"
           >・子供{{ child }}名</span
         >)
         <span style="color: red">&ensp;{{ manAndWomanError }}</span>
@@ -336,7 +336,7 @@ export default {
       // 女
       woman: "",
       // 男女の人数
-      items: ["0名", "1名", "2名", "3名", "4名"],
+      items: [],
       // 決済方法
       payments: "オンライン決済",
       // 施設への連絡事項
@@ -374,7 +374,7 @@ export default {
   mounted() {
     let reserveDetail = {};
     reserveDetail = this.$store.getters.getPreReserveData;
-    this.adult = reserveDetail.adultNum;
+    this.adult = Number(reserveDetail.adultNum);
     this.child =
       Number(reserveDetail.upClassNum) +
       Number(reserveDetail.lowClassNum) +
@@ -383,6 +383,11 @@ export default {
       Number(reserveDetail.infantWithBNum) +
       Number(reserveDetail.infantWithoutMBNum);
     console.log("child", this.child);
+    const count = this.adult + this.child;
+    for (let i = 0; i <= count; i++) {
+      this.items.push(`${i}名`);
+    }
+    this.items;
     this.room = reserveDetail.roomNum;
     this.loginInfo = this.$store.getters["register/getLoginUser"];
   },
