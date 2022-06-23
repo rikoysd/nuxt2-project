@@ -46,9 +46,9 @@
               }}</span>
             </v-col>
             <v-col class="select-gender">
-              宿泊人数&nbsp;&nbsp;&nbsp;1室目 (大人{{
-                people
-              }}名)&nbsp;&nbsp;男性&nbsp;<span>{{ man }}</span>
+              宿泊人数&nbsp;&nbsp;&nbsp;{{ roomNum }}室 (大人{{ adult }}名
+              <span v-if="1 <= child">子供{{ child }}名</span
+              >)&nbsp;&nbsp;男性&nbsp;<span>{{ man }}</span>
               &nbsp;女性&nbsp;<span>{{ woman }}</span>
             </v-col>
             <hr />
@@ -153,6 +153,13 @@ export default {
       checkInTime: "",
       // 宿泊人数
       people: 2,
+      // 宿泊人数（大人）
+      adult: 0,
+      // 宿泊人数（子供）
+      child: 0,
+      roomNum: 0,
+      // 部屋数
+      room: 0,
       // 男性
       man: "",
       // 女性
@@ -222,6 +229,9 @@ export default {
     this.telephone = targetIndex.telephone;
     this.mailAddress = targetIndex.mailAddress;
     this.checkInTime = targetIndex.checkInTime;
+    this.adult = targetIndex.detailObject.adult;
+    this.child = targetIndex.detailObject.child;
+    this.roomNum = targetIndex.detailObject.roomNum;
     this.man = targetIndex.man;
     this.woman = targetIndex.woman;
     this.payments = targetIndex.payments;

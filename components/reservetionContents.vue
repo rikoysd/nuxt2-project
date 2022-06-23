@@ -11,7 +11,7 @@
         <span style="font-weight: bold">人数室数</span>&nbsp;&nbsp;<v-col
           >大人{{ adult }}名
           <span v-if="1 <= child">子供{{ child }}名</span>
-          1室</v-col
+          {{ roomNum }}室</v-col
         ><br />
         <span style="font-weight: bold">部屋</span>&nbsp;&nbsp;<v-col>{{
           room
@@ -103,6 +103,8 @@ export default {
       adult: 0,
       // 宿泊人数（子供）
       child: 0,
+      // 部屋数
+      roomNum: 0,
       // 部屋の種類
       room: "",
       // プラン名
@@ -156,8 +158,15 @@ export default {
       this.dinner = "夕食あり";
     }
     this.adult = this.reserveDetail.adultNum;
-    this.child = this.reserveDetail.childNum;
+    this.child =
+      this.reserveDetail.upClassNum +
+      this.reserveDetail.lowClassNum +
+      this.reserveDetail.infantWithMBNum +
+      this.reserveDetail.infantWithMNum +
+      this.reserveDetail.infantWithBNum +
+      this.reserveDetail.infantWithoutMBNum;
     this.room = this.reserveDetail.roomName;
+    this.roomNum = this.reserveDetail.roomNum;
     this.plan = this.reserveDetail.planName;
     this.subPrice = this.reserveDetail.subPrice;
     this.totalPrice = this.reserveDetail.totalPrice;
@@ -373,7 +382,8 @@ export default {
             breakfast: this.breakfast,
             dinner: this.dinner,
             adult: this.adult,
-            // child: this.child,
+            child: this.child,
+            roomNum: this.roomNum,
             room: this.room,
             plan: this.plan,
             subPrice: this.subPrice,

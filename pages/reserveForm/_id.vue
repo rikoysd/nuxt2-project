@@ -85,7 +85,10 @@
           style="color: red"
           >&emsp;{{ checkInTimeError }}</span
         ><selectChecin @checkin="reserveCheckIn"></selectChecin>
-        <span style="color: red">*</span>宿泊人数 1室目 (大人{{ adult }}名)
+        <span style="color: red">*</span>宿泊人数 1室目 (大人{{ adult }}名<span
+          v-if="child > 0"
+          >・子供{{ child }}名</span
+        >)
         <span style="color: red">&ensp;{{ manAndWomanError }}</span>
         <v-row class="gender"
           >男性&nbsp;<v-select
@@ -326,12 +329,14 @@ export default {
       adult: 0,
       // 宿泊人数（子供）
       child: 0,
+      // 部屋数
+      room: 0,
       // 男
       man: "",
       // 女
       woman: "",
       // 男女の人数
-      items: ["0名", "1名", "2名"],
+      items: [],
       // 決済方法
       payments: "オンライン決済",
       // 施設への連絡事項
@@ -369,8 +374,21 @@ export default {
   mounted() {
     let reserveDetail = {};
     reserveDetail = this.$store.getters.getPreReserveData;
-    this.adult = reserveDetail.adultNum;
-    this.child = reserveDetail.childNum;
+    this.adult = Number(reserveDetail.adultNum);
+    this.child =
+      Number(reserveDetail.upClassNum) +
+      Number(reserveDetail.lowClassNum) +
+      Number(reserveDetail.infantWithMBNum) +
+      Number(reserveDetail.infantWithMNum) +
+      Number(reserveDetail.infantWithBNum) +
+      Number(reserveDetail.infantWithoutMBNum);
+    console.log("child", this.child);
+    const count = this.adult + this.child;
+    for (let i = 0; i <= count; i++) {
+      this.items.push(`${i}名`);
+    }
+    this.items;
+    this.room = reserveDetail.roomNum;
     this.loginInfo = this.$store.getters["register/getLoginUser"];
   },
 

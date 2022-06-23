@@ -102,16 +102,24 @@
                 ></v-progress-circular>
 
                 <v-row>
-                  <v-col cols="9" class="calender">
+                  <v-col cols="8" class="calender">
                     <calender @selectDates="addDate"></calender>
                   </v-col>
-                  <v-col>
+                  <!-- <v-col>
                     <v-text-field
                       class="adultNum"
                       v-model="adultNum"
                       label="利用人数"
                       outlined
                     ></v-text-field>
+                  </v-col> -->
+                  <v-col>
+                    <selectNumber
+                      @adultNum="selectAdults"
+                      @roomNum="selectRoomNum"
+                      @upClassNum="selectChildren"
+                      @MBNum="selectInfant"
+                    ></selectNumber>
                   </v-col>
                 </v-row>
                 <v-row>
@@ -128,7 +136,7 @@
                     :vDetailInfo="vDetailInfo"
                     :staySpan="staySpan"
                     :checkInDate="checkinDate"
-                    :adultNum="adultNum"
+                    :searchCondition="searchCondition"
                     @sendReserveData="sendReserveData"
                   ></detail-plans>
                 </div>
@@ -158,11 +166,12 @@
 import calender from "../../components/calender.vue";
 import DetailOverview from "../../components/detailHotel/detailOverview.vue";
 import { format } from "date-fns";
+import SelectNumber from "../../components/selectNumber.vue";
 export default {
   props: {
     keyword: String,
   },
-  components: { calender, DetailOverview },
+  components: { calender, DetailOverview, SelectNumber },
   data() {
     return {
       // Params番号
@@ -195,8 +204,24 @@ export default {
       checkinDate: "2022-12-01",
       // チェックアウト日時
       checkoutDate: "2022-12-02",
-      // 人数
-      adultNum: 2,
+      searchCondition: {
+        // 大人人数
+        adultNum: 2,
+        // 子供高学年人数
+        upClassNum: 0,
+        // 子供低学年人数
+        lowClassNum: 0,
+        // 幼児食事布団付き人数
+        infantWithMBNum: 0,
+        // 幼児食事付き人数
+        infantWithMNum: 0,
+        // 幼児布団付き人数
+        infantWithBNum: 0,
+        // 幼児食事布団なし人数
+        infantWithoutMBNum: 0,
+        // 部屋数
+        roomNum: 0,
+      },
       // 宿泊日数
       staySpan: 0,
       // 宿泊リスト表示フラグ
@@ -287,7 +312,21 @@ export default {
         hotelNo: this.basicInfo.hotelNo,
         checkinDate: this.checkinDate,
         checkoutDate: this.checkoutDate,
-        adultNum: this.adultNum,
+        searchCondition: this.searchCondition,
+        // adultNum: this.searchCondition.adultNum,
+        // upClassNum: this.searchCondition.upClassNum,
+        // lowClassNum: this.searchCondition.lowClassNum,
+        // infantWithMBNum: this.searchCondition.infantWithMBNum,
+        // infantWithMNum: this.searchCondition.infantWithMNum,
+        // infantWithBNum: this.searchCondition.infantWithBNum,
+        // infantWithoutMBNum: this.searchCondition.infantWithoutMBNum,
+        // roomNum: this.searchCondition.roomNum,
+      });
+      console.log("searchVacant", {
+        hotelNo: this.basicInfo.hotelNo,
+        checkinDate: this.checkinDate,
+        checkoutDate: this.checkoutDate,
+        searchCondition: this.searchCondition,
       });
       this.listShow = data;
       // console.log("this.listShow", this.listShow.isTrusted);
@@ -347,6 +386,22 @@ export default {
     goTo(id) {
       this.$vuetify.goTo(`#${id}`);
     },
+    selectAdults(num) {
+      this.searchCondition.adultNum = num;
+    },
+    selectChildren(num1, num2) {
+      this.searchCondition.upClassNum = num1;
+      this.searchCondition.lowClassNum = num2;
+    },
+    selectInfant(num1, num2, num3, num4) {
+      this.searchCondition.infantWithMBNum = num1;
+      this.searchCondition.infantWithMNum = num2;
+      this.searchCondition.infantWithBNum = num3;
+      this.searchCondition.infantWithoutMBNum = num4;
+    },
+    selectRoomNum(num) {
+      this.searchCondition.roomNum = num;
+    },
   },
   computed: {
     /**
@@ -366,8 +421,8 @@ export default {
   width: 102vw;
   height: 400px;
   object-fit: cover;
-  -ms-filter: blur(3px);
-  filter: blur(3px);
+  /* -ms-filter: blur(3px);
+  filter: blur(3px); */
 }
 v-btn {
   height: 100%;

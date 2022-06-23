@@ -61,7 +61,7 @@
                   :vDetailInfo="vDetailInfo"
                   :staySpan="staySpan"
                   :checkInDate="checkinDate"
-                  :adultNum="adultNum"
+                  :searchCondition="searchCondition"
                 ></detail-plans>
               </v-card>
             </v-col>
@@ -74,7 +74,6 @@
             :policyInfo="policyInfo"
             :otherInfo="otherInfo"
           ></detail-info>
-
           <!-- アクセス -->
           <detail-acsess
             :basicInfo="basicInfo"
@@ -121,8 +120,24 @@ export default {
       checkinDate: "2022-12-01",
       // チェックアウト日時
       checkoutDate: "2022-12-02",
-      // 人数
-      adultNum: 2,
+      searchCondition: {
+        // 大人人数
+        adultNum: 2,
+        // 子供高学年人数
+        upClassNum: 0,
+        // 子供低学年人数
+        lowClassNum: 0,
+        // 幼児食事布団付き人数
+        infantWithMBNum: 0,
+        // 幼児食事付き人数
+        infantWithMNum: 0,
+        // 幼児布団付き人数
+        infantWithBNum: 0,
+        // 幼児食事布団なし人数
+        infantWithoutMBNum: 0,
+        // 部屋数
+        roomNum: 0,
+      },
       // 宿泊日数
       staySpan: 0,
 
@@ -152,7 +167,7 @@ export default {
     const hotels = this.institutionInfo.hotels.hotels[0];
     // 施設概要
     this.basicInfo = hotels.hotel[0].hotelBasicInfo;
-    console.log("施設情報", hotels);
+    // console.log("施設情報", hotels);
 
     // カルーセル
     this.roomImage = this.basicInfo.roomImageUrl;
@@ -166,11 +181,11 @@ export default {
     // 施設詳細
     this.reviewAverage = hotels.hotel[1].hotelRatingInfo;
     this.facilitiesInfo = hotels.hotel[3].hotelFacilitiesInfo;
-    console.log("this.facilitiesInfo", this.facilitiesInfo);
+    // console.log("this.facilitiesInfo", this.facilitiesInfo);
     this.policyInfo = hotels.hotel[4].hotelPolicyInfo;
-    console.log("this.policyInfo", this.policyInfo);
+    // console.log("this.policyInfo", this.policyInfo);
     this.otherInfo = hotels.hotel[5].hotelOtherInfo;
-    console.log("this.otherInfo", this.otherInfo);
+    // console.log("this.otherInfo", this.otherInfo);
 
     // アクセス
     this.address = this.basicInfo.address1 + this.basicInfo.address2;
@@ -178,6 +193,22 @@ export default {
     this.searchRequirement = this.$store.getters.getSearchResult;
     this.checkinDate = this.searchRequirement.checkinDate;
     this.checkoutDate = this.searchRequirement.checkoutDate;
+    this.searchCondition.adultNum = this.searchRequirement.adultNum;
+    this.searchCondition.detailClassCode =
+      this.searchRequirement.detailClassCode;
+    this.searchCondition.infantWithBNum = this.searchRequirement.infantWithBNum;
+    this.searchCondition.infantWithMBNum =
+      this.searchRequirement.infantWithMBNum;
+    this.searchCondition.infantWithMNum = this.searchRequirement.infantWithMNum;
+    this.searchCondition.infantWithoutMBNum =
+      this.searchRequirement.infantWithoutMBNum;
+    this.searchCondition.lowClassNum = this.searchRequirement.lowClassNum;
+    this.searchCondition.middleClassCode =
+      this.searchRequirement.middleClassCode;
+    this.searchCondition.roomNum = this.searchRequirement.roomNum;
+    this.searchCondition.smallClassCode = this.searchRequirement.smallClassCode;
+    this.searchCondition.upClassNum = this.searchRequirement.upClassNum;
+    // console.log(" this.searchRequirement", this.searchRequirement);
     // 空室検索
     this.staySpan = this.getStaySpan;
 
@@ -185,14 +216,14 @@ export default {
       hotelNo: this.basicInfo.hotelNo,
       checkinDate: this.checkinDate,
       checkoutDate: this.checkoutDate,
-      adultNum: this.adultNum,
+      searchCondition: this.searchCondition,
     });
 
     this.vacantList = this.$store.getters.getVacantList;
     if (this.vacantList.hotels === undefined || this.vacantList.hotels === "") {
       this.$router.push("/keywordHotelList");
     }
-    console.log("空室情報", this.vacantList);
+    // console.log("空室情報", this.vacantList);
     const hotelBasicInfo = this.vacantList.hotels[0].hotel[0].hotelBasicInfo;
     const j = this.vacantList.hotels[0].hotel.length;
     // 取得した情報をセット
@@ -207,7 +238,8 @@ export default {
 
     this.vDetailInfo = this.vacantList.hotels[0].hotel[1].hotelDetailInfo;
     this.vBasicInfo = this.vacantList.hotels[0].hotel[0].hotelBasicInfo;
-    console.log("plans", this.plans);
+
+    // console.log("plans", this.plans);
   },
   watch: {
     basicInfo() {
