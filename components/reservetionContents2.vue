@@ -10,8 +10,8 @@
         ><br />
         <span style="font-weight: bold">人数室数</span>&nbsp;&nbsp;<v-col
           >大人{{ adult }}名
-          <span v-if="1 <= child">子供{{ child }}名</span>
-          1室</v-col
+          <span v-if="1 <= child">・子供{{ child }}名</span>
+          {{ roomNum }}室</v-col
         ><br />
         <span style="font-weight: bold">部屋</span>&nbsp;&nbsp;<v-col>{{
           room
@@ -89,6 +89,7 @@ export default {
       child: 0,
       // 部屋の種類
       room: "",
+      roomNum: 0,
       // プラン名
       plan: "",
       // 宿泊料金合計
@@ -141,6 +142,7 @@ export default {
     this.adult = targetIndex.detailObject.adult;
     this.child = targetIndex.detailObject.child;
     this.room = targetIndex.detailObject.room;
+    this.roomNum = targetIndex.detailObject.roomNum;
     this.plan = targetIndex.detailObject.plan;
     this.subPrice = targetIndex.detailObject.subPrice;
     this.totalPrice = targetIndex.detailObject.totalPrice;

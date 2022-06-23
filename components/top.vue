@@ -54,7 +54,7 @@ export default {
 .carouselSize {
   width: 100vw;
 }
-.hotelImage {
+.hotelImages {
   width: 102vw;
 }
 </style>

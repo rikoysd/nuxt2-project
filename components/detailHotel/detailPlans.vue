@@ -2,7 +2,18 @@
   <div>
     <span class="planExplain">
       検索条件：宿泊日時 {{ getCheckInDate + "~" }} 宿泊日数
-      {{ staySpan + "泊" }} 宿泊人数 {{ adultNum + "人" }}</span
+      {{ staySpan + "泊" }} 合計宿泊人数
+      {{
+        searchCondition.adultNum +
+        searchCondition.upClassNum +
+        searchCondition.lowClassNum +
+        searchCondition.infantWithMBNum +
+        searchCondition.infantWithMNum +
+        searchCondition.infantWithBNum +
+        searchCondition.infantWithoutMBNum +
+        "人"
+      }}
+      部屋数{{ searchCondition.roomNum + "室" }}</span
     >
     <v-row v-for="(plan, i) of plans" :key="i">
       <v-col id="plans" cols="12">
@@ -47,7 +58,11 @@
                 <span class="text-right planExplain2">
                   税込
                   <span class="text-h6 font-weight-bold">
-                    {{ plan[1].dailyCharge.total * staySpan }}
+                    {{
+                      plan[1].dailyCharge.total *
+                      searchCondition.roomNum *
+                      staySpan
+                    }}
                   </span>
                   円
                 </span>
@@ -78,7 +93,7 @@ export default {
     vDetailInfo: { default: "" },
     staySpan: { type: Number, default: 0 },
     checkInDate: { type: String, default: "" },
-    adultNum: { default: "" },
+    searchCondition: { default: [] },
   },
   methods: {
     sendReserveData() {
@@ -86,7 +101,7 @@ export default {
         hotelNo: this.paramsNo,
         checkinDate: this.checkinDate,
         checkoutDate: this.checkoutDate,
-        adultNum: this.adultNum,
+        adultNum: this.searchCondition.adultNum,
       });
       const showList = this.$store.getters.getStayFlag;
       this.$emit("sendReserveData", showList);
@@ -118,9 +133,22 @@ export default {
         roomName: plan[0].roomBasicInfo.roomName,
         // 0:現金1:クレジットカード / 現金2:クレジットカード
         payment: plan[0].roomBasicInfo.payment,
-        adultNum: this.adultNum,
-        subPrice: plan[1].dailyCharge.total * this.staySpan,
-        totalPrice: plan[1].dailyCharge.total * this.staySpan,
+        adultNum: this.searchCondition.adultNum,
+        upClassNum: this.searchCondition.upClassNum,
+        lowClassNum: this.searchCondition.lowClassNum,
+        infantWithMBNum: this.searchCondition.infantWithMBNum,
+        infantWithMNum: this.searchCondition.infantWithMNum,
+        infantWithBNum: this.searchCondition.infantWithBNum,
+        infantWithoutMBNum: this.searchCondition.infantWithoutMBNum,
+        roomNum: this.searchCondition.roomNum,
+        subPrice:
+          plan[1].dailyCharge.total *
+          this.staySpan *
+          this.searchCondition.roomNum,
+        totalPrice:
+          plan[1].dailyCharge.total *
+          this.staySpan *
+          this.searchCondition.roomNum,
       });
       console.log(this.$store.state.preReserveData);
       this.$router.push(`/reserveForm/${reserveId}`);

@@ -142,7 +142,7 @@ export const actions = {
     try {
       console.log(params);
       const vacantResponce = await axios1.get(
-        `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&checkinDate=${params.checkinDate}&checkoutDate=${params.checkoutDate}&adultNum=${params.adultNum}&hotelNo=${params.hotelNo}&responseType=large`
+        `https://app.rakuten.co.jp/services/api/Travel/VacantHotelSearch/20170426?applicationId=1098541415969458249&format=json&checkinDate=${params.checkinDate}&checkoutDate=${params.checkoutDate}&adultNum=${params.searchCondition.adultNum}&hotelNo=${params.hotelNo}&upClassNum=${params.searchCondition.upClassNum}&lowClassNum=${params.searchCondition.lowClassNum}&infantWithMBNum=${params.searchCondition.infantWithMBNum}&infantWithMNum=${params.searchCondition.infantWithMNum}&infantWithBNum=${params.searchCondition.infantWithBNum}&infantWithoutMBNum=${params.searchCondition.infantWithoutMBNum}&roomNum=${params.searchCondition.roomNum}&responseType=large`
       );
       if (vacantResponce !== null) {
         // console.dir("response" + JSON.stringify(vacantResponce));
