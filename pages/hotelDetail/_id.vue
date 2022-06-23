@@ -167,7 +167,7 @@ export default {
     const hotels = this.institutionInfo.hotels.hotels[0];
     // 施設概要
     this.basicInfo = hotels.hotel[0].hotelBasicInfo;
-    console.log("施設情報", hotels);
+    // console.log("施設情報", hotels);
 
     // カルーセル
     this.roomImage = this.basicInfo.roomImageUrl;
@@ -181,11 +181,11 @@ export default {
     // 施設詳細
     this.reviewAverage = hotels.hotel[1].hotelRatingInfo;
     this.facilitiesInfo = hotels.hotel[3].hotelFacilitiesInfo;
-    console.log("this.facilitiesInfo", this.facilitiesInfo);
+    // console.log("this.facilitiesInfo", this.facilitiesInfo);
     this.policyInfo = hotels.hotel[4].hotelPolicyInfo;
-    console.log("this.policyInfo", this.policyInfo);
+    // console.log("this.policyInfo", this.policyInfo);
     this.otherInfo = hotels.hotel[5].hotelOtherInfo;
-    console.log("this.otherInfo", this.otherInfo);
+    // console.log("this.otherInfo", this.otherInfo);
 
     // アクセス
     this.address = this.basicInfo.address1 + this.basicInfo.address2;
@@ -208,7 +208,7 @@ export default {
     this.searchCondition.roomNum = this.searchRequirement.roomNum;
     this.searchCondition.smallClassCode = this.searchRequirement.smallClassCode;
     this.searchCondition.upClassNum = this.searchRequirement.upClassNum;
-    console.log(" this.searchRequirement", this.searchRequirement);
+    // console.log(" this.searchRequirement", this.searchRequirement);
     // 空室検索
     this.staySpan = this.getStaySpan;
 
@@ -223,7 +223,7 @@ export default {
     if (this.vacantList.hotels === undefined || this.vacantList.hotels === "") {
       this.$router.push("/keywordHotelList");
     }
-    console.log("空室情報", this.vacantList);
+    // console.log("空室情報", this.vacantList);
     const hotelBasicInfo = this.vacantList.hotels[0].hotel[0].hotelBasicInfo;
     const j = this.vacantList.hotels[0].hotel.length;
     // 取得した情報をセット
@@ -238,7 +238,8 @@ export default {
 
     this.vDetailInfo = this.vacantList.hotels[0].hotel[1].hotelDetailInfo;
     this.vBasicInfo = this.vacantList.hotels[0].hotel[0].hotelBasicInfo;
-    console.log("plans", this.plans);
+
+    // console.log("plans", this.plans);
   },
   watch: {
     basicInfo() {

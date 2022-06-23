@@ -421,8 +421,8 @@ export default {
   width: 102vw;
   height: 400px;
   object-fit: cover;
-  -ms-filter: blur(3px);
-  filter: blur(3px);
+  /* -ms-filter: blur(3px);
+  filter: blur(3px); */
 }
 v-btn {
   height: 100%;

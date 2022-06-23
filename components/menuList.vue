@@ -13,11 +13,11 @@ export default {
   props: {
     menu: [],
     basicInfo: { default: "" },
-    menuKeyword: String,
-    propsKeyword: String,
-    keyword2: String,
-    originalWord: String,
-    area: String,
+    menuKeyword: { default: "" },
+    propsKeyword: { default: "" },
+    keyword2: { default: "" },
+    originalWord: { default: "" },
+    area: { default: "" },
   },
   data() {
     return {
@@ -48,9 +48,9 @@ export default {
     basicInfo() {
       // 検索したキーワードを取得
       this.keyword = this.$store.getters["keyword/getKeyword"];
-      if (this.keyword2 !== "") {
-        this.keyword = this.keyword2;
-      }
+      // if (this.keyword2 !== "") {
+      //   this.keyword = this.keyword2;
+      // }
       let items = [
         {
           text: this.keyword,
