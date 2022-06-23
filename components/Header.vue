@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <v-app-bar color="#333c5e"> -->
-    <v-app-bar elevation="0" color="white" height="80px">
+    <v-app-bar elevation="0" color="white" height="90px">
       <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
 
       <v-toolbar-title class="header d-flex align-center"
@@ -34,12 +34,12 @@
             </v-list-item>
           </v-list>
         </v-menu>
-        <v-tooltip bottom>
+        <!-- <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-btn color="white" icon @click="favoriteList">
               <v-icon
                 class="header"
-                color="white"
+                color=""
                 dark
                 v-bind="attrs"
                 v-on="on"
@@ -49,7 +49,7 @@
             </v-btn>
           </template>
           <span>行きたい宿</span>
-        </v-tooltip>
+        </v-tooltip> -->
       </div>
 
       <div class="d-flex align-center" v-else>
