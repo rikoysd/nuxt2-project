@@ -5,7 +5,6 @@
         v-model="keyword"
         solo
         label="エリア・キーワード・駅名など"
-        clearable
       ></v-text-field>
       <v-btn
         dark
@@ -37,10 +36,8 @@ export default {
      */
     searchWord(keyword) {
       if (keyword === "") {
-        this.errorMessage = "キーワードを入力してください";
         return;
       }
-      this.errorMessage = "";
 
       // 親に渡す
       this.$emit("search", keyword);
@@ -61,5 +58,6 @@ export default {
 
 .msg {
   color: red;
+  font-size: 5px;
 }
 </style>

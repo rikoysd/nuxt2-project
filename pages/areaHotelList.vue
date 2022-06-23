@@ -90,9 +90,9 @@
                       "
                       >詳細を見る</v-btn
                     >
-                    <favorite-button
+                    <!-- <favorite-button
                       :hotelNum="hotel.hotel[0].hotelBasicInfo.hotelNo"
-                    ></favorite-button>
+                    ></favorite-button> -->
                   </v-card-actions>
                 </v-card>
               </v-col>

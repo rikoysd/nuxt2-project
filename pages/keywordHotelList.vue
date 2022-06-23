@@ -97,9 +97,9 @@
                       "
                       >詳細を見る</v-btn
                     >
-                    <favorite-button
+                    <!-- <favorite-button
                       :hotelNum="hotel.hotel[0].hotelBasicInfo.hotelNo"
-                    ></favorite-button>
+                    ></favorite-button> -->
                   </v-card-actions>
                 </v-card>
               </v-col>
@@ -187,6 +187,12 @@ export default {
         this.showResult = true;
 
         this.originalWord = this.$store.getters["keyword/getKeyword"];
+      }
+    },
+    showResult() {
+      if (this.showResult === true) {
+        this.originalWord = this.$store.getters["keyword/getKeyword"];
+        console.log(this.originalWord);
       }
     },
   },
