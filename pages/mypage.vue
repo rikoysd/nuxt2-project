@@ -2,7 +2,7 @@
   <div class="d-flex justify-center">
     <div class="whole">
       <nuxt-link to="/">宿泊予約</nuxt-link>
-      <nuxt-link to="/reserveHistory">予約履歴</nuxt-link>
+      <!-- <nuxt-link to="/reserveHistory">予約履歴</nuxt-link> -->
       <!-- <div class="item">
         <h4>お気に入りの宿</h4>
         <div>{{ favoriteError }}</div>
