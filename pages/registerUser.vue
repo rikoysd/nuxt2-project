@@ -1,14 +1,6 @@
 <template>
   <div class="whole mx-auto d-flex justify-center">
     <div class="container">
-      <v-btn
-        class="register-btn"
-        color="primary"
-        elevation="2"
-        @click="registerDummy"
-        >ダミーを登録する</v-btn
-      >
-      <div>※パスワードはフォームの例と同じ</div>
       <h3 class="d-flex justify-center mb-6">会員登録</h3>
       氏名<span>&emsp;{{ fullName1Error }}</span>
       <v-text-field
@@ -161,16 +153,6 @@ export default {
     }
   },
   methods: {
-    // テスト用(最後に削除する)
-    registerDummy() {
-      this.fullName1 = "山田太郎";
-      this.fullName2 = "やまだたろう";
-      this.zipcode = "1600022";
-      this.address = "新宿区";
-      this.telephone = "09012345678";
-      this.mailAddress = "aa@aa";
-      this.password = "Rakus12345?";
-    },
     /**
      * emitで渡ってきた都道府県を変数に代入.
      */
@@ -351,34 +333,9 @@ export default {
 </script>
 
 <style scoped>
-/* 960px〜：小型PC, 大型PC
------------------------------- */
-@media screen and (min-width: 960px) {
-  .whole {
-    width: 100vw;
-    height: auto;
-    background-image: url(../assets/img/background-img.jpg);
-    background-size: cover;
-    background-position: center center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
-  }
-
-  .container {
-    width: 600px;
-    height: auto;
-    border-radius: 5px;
-    padding: 45px 40px;
-    background-color: white;
-    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
-      rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
-    margin: 60px 0;
-  }
-}
-
-/* .mainContent {
+.mainContent {
   width: 100vw;
-  height: 1500px;
+  height: 1300px;
   background-image: url(../assets/img/background-img.jpg);
   background-size: cover;
   background-position: center center;
@@ -388,8 +345,8 @@ export default {
   left: 0;
   overflow: auto;
   z-index: 0;
-} */
-/* .container {
+}
+.container {
   width: 600px;
   border-radius: 5px;
   padding: 45px 40px;
@@ -400,7 +357,7 @@ export default {
   z-index: 1;
   position: relative;
   right: 8%;
-} */
+}
 
 .register-btn {
   margin-top: 30px;
@@ -411,7 +368,19 @@ span {
   color: red;
 }
 
-/* .whole[data-v-0ad26307] {
+.whole {
+  width: 100%;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  /* background-image: url(../assets/img/background-img.jpg);
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  background-repeat: no-repeat; */
+}
+
+.whole[data-v-0ad26307] {
   width: 100vw;
-} */
+}
 </style>

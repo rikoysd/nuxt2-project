@@ -192,7 +192,6 @@ export default {
     showResult() {
       if (this.showResult === true) {
         this.originalWord = this.$store.getters["keyword/getKeyword"];
-        console.log(this.originalWord);
       }
     },
   },
