@@ -1,14 +1,6 @@
 <template>
   <div class="whole mx-auto d-flex justify-center">
     <div class="container">
-      <v-btn
-        class="register-btn"
-        color="primary"
-        elevation="2"
-        @click="registerDummy"
-        >ダミーを登録する</v-btn
-      >
-      <div>※パスワードはフォームの例と同じ</div>
       <h3 class="d-flex justify-center mb-6">会員登録</h3>
       氏名<span>&emsp;{{ fullName1Error }}</span>
       <v-text-field
@@ -161,16 +153,6 @@ export default {
     }
   },
   methods: {
-    // テスト用(最後に削除する)
-    registerDummy() {
-      this.fullName1 = "山田太郎";
-      this.fullName2 = "やまだたろう";
-      this.zipcode = "1600022";
-      this.address = "新宿区";
-      this.telephone = "09012345678";
-      this.mailAddress = "aa@aa";
-      this.password = "Rakus12345?";
-    },
     /**
      * emitで渡ってきた都道府県を変数に代入.
      */
@@ -353,7 +335,7 @@ export default {
 <style scoped>
 .mainContent {
   width: 100vw;
-  height: 1500px;
+  height: 1300px;
   background-image: url(../assets/img/background-img.jpg);
   background-size: cover;
   background-position: center center;
