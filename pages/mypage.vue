@@ -3,7 +3,7 @@
     <div class="whole">
       <nuxt-link to="/">宿泊予約</nuxt-link>
       <nuxt-link to="/reserveHistory">予約履歴</nuxt-link>
-      <div class="item">
+      <!-- <div class="item">
         <h4>お気に入りの宿</h4>
         <div>{{ favoriteError }}</div>
         <v-slide-group
@@ -70,7 +70,7 @@
             </v-card>
           </v-slide-item>
         </v-slide-group>
-      </div>
+      </div> -->
       <div class="item">
         <h4>閲覧履歴</h4>
         <div>{{ watchedError }}</div>
@@ -161,7 +161,7 @@ export default {
   data() {
     return {
       // お気に入り一覧
-      favoriteList: [],
+      // favoriteList: [],
       // 閲覧履歴
       watchedList: [],
       // お気に入り一覧のエラー
@@ -175,7 +175,7 @@ export default {
   },
 
   mounted() {
-    this.favoriteList = this.$store.getters["favorite/getFavoriteList"];
+    // this.favoriteList = this.$store.getters["favorite/getFavoriteList"];
     this.watchedList = this.$store.getters["watchedList/getWatchedList"];
   },
   watch: {
@@ -191,14 +191,14 @@ export default {
     /**
      * お気に入り一覧を取得する.
      */
-    getFavoriteList() {
-      if (this.favoriteList.length === 0) {
-        this.favoriteError = "お気に入りした宿がありません";
-      } else {
-        this.favoriteError = "";
-      }
-      return this.favoriteList;
-    },
+    // getFavoriteList() {
+    //   if (this.favoriteList.length === 0) {
+    //     this.favoriteError = "お気に入りした宿がありません";
+    //   } else {
+    //     this.favoriteError = "";
+    //   }
+    //   return this.favoriteList;
+    // },
     /**
      * 閲覧履歴を取得する.
      */

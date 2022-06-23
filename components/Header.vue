@@ -1,18 +1,18 @@
 <template>
   <div>
     <!-- <v-app-bar color="#333c5e"> -->
-    <v-app-bar elevation="0" color="white">
+    <v-app-bar elevation="0" color="white" height="90px">
       <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
 
-      <v-toolbar-title class="header"
+      <v-toolbar-title class="header d-flex align-center"
         ><nuxt-link to="/" tag="div" class="title font-weight-bold"
           >楽々booking.com</nuxt-link
-        ></v-toolbar-title
-      >
+        >
+      </v-toolbar-title>
+      <search-box class="search-box" @search="searchKeyword"></search-box>
 
       <div class="flex-grow-1"></div>
 
-      <search-box class="search-box" @search="searchKeyword"></search-box>
       <div v-if="flag === true">
         <v-menu top :close-on-content-click="closeOnContentClick">
           <template v-slot:activator="{ on, attrs }">
@@ -34,12 +34,12 @@
             </v-list-item>
           </v-list>
         </v-menu>
-        <v-tooltip bottom>
+        <!-- <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-btn color="white" icon @click="favoriteList">
               <v-icon
                 class="header"
-                color="white"
+                color=""
                 dark
                 v-bind="attrs"
                 v-on="on"
@@ -49,7 +49,7 @@
             </v-btn>
           </template>
           <span>行きたい宿</span>
-        </v-tooltip>
+        </v-tooltip> -->
       </div>
 
       <div class="d-flex align-center" v-else>
@@ -152,6 +152,22 @@ export default {
 </script>
 
 <style scoped>
+/* 960px〜：小型PC, 大型PC
+------------------------------ */
+@media screen and (min-width: 960px) {
+  .search-box {
+    margin-top: 25px;
+    width: 450px;
+    margin-left: 20px;
+  }
+
+  .menu {
+    font-size: 80%;
+    margin-right: 9px;
+    cursor: pointer;
+  }
+}
+
 .headers {
   background-color: rgba(50, 59, 93, 0.8);
 }
@@ -163,20 +179,8 @@ export default {
   cursor: pointer;
 }
 
-.menu {
-  font-size: 80%;
-  margin-right: 7px;
-  cursor: pointer;
-}
-
 .title {
   cursor: pointer;
-}
-
-.search-box {
-  margin-top: 25px;
-  width: 450px;
-  margin-right: 320px;
 }
 
 .user-name {

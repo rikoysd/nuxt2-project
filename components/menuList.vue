@@ -16,8 +16,8 @@ export default {
     menuKeyword: String,
     propsKeyword: String,
     keyword2: String,
-    originalWord: String,
-    area: String,
+    originalWord: { default: "" },
+    area: { default: "" },
   },
   data() {
     return {

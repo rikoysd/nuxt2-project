@@ -351,7 +351,32 @@ export default {
 </script>
 
 <style scoped>
-.mainContent {
+/* 960px〜：小型PC, 大型PC
+------------------------------ */
+@media screen and (min-width: 960px) {
+  .whole {
+    width: 100vw;
+    height: auto;
+    background-image: url(../assets/img/background-img.jpg);
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+  }
+
+  .container {
+    width: 600px;
+    height: auto;
+    border-radius: 5px;
+    padding: 45px 40px;
+    background-color: white;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+      rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+    margin: 60px 0;
+  }
+}
+
+/* .mainContent {
   width: 100vw;
   height: 1500px;
   background-image: url(../assets/img/background-img.jpg);
@@ -363,8 +388,8 @@ export default {
   left: 0;
   overflow: auto;
   z-index: 0;
-}
-.container {
+} */
+/* .container {
   width: 600px;
   border-radius: 5px;
   padding: 45px 40px;
@@ -375,7 +400,7 @@ export default {
   z-index: 1;
   position: relative;
   right: 8%;
-}
+} */
 
 .register-btn {
   margin-top: 30px;
@@ -386,19 +411,7 @@ span {
   color: red;
 }
 
-.whole {
-  width: 100%;
-  height: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  /* background-image: url(../assets/img/background-img.jpg);
-  background-size: cover;
-  background-position: center center;
-  background-attachment: fixed;
-  background-repeat: no-repeat; */
-}
-
-.whole[data-v-0ad26307] {
+/* .whole[data-v-0ad26307] {
   width: 100vw;
-}
+} */
 </style>
