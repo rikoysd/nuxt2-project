@@ -61,7 +61,7 @@
                   :vDetailInfo="vDetailInfo"
                   :staySpan="staySpan"
                   :checkInDate="checkinDate"
-                  :adultNum="adultNum"
+                  :searchCondition="searchCondition"
                 ></detail-plans>
               </v-card>
             </v-col>
@@ -74,7 +74,6 @@
             :policyInfo="policyInfo"
             :otherInfo="otherInfo"
           ></detail-info>
-
           <!-- アクセス -->
           <detail-acsess
             :basicInfo="basicInfo"
@@ -121,8 +120,24 @@ export default {
       checkinDate: "2022-12-01",
       // チェックアウト日時
       checkoutDate: "2022-12-02",
-      // 人数
-      adultNum: 2,
+      searchCondition: {
+        // 大人人数
+        adultNum: 2,
+        // 子供高学年人数
+        upClassNum: 0,
+        // 子供低学年人数
+        lowClassNum: 0,
+        // 幼児食事布団付き人数
+        infantWithMBNum: 0,
+        // 幼児食事付き人数
+        infantWithMNum: 0,
+        // 幼児布団付き人数
+        infantWithBNum: 0,
+        // 幼児食事布団なし人数
+        infantWithoutMBNum: 0,
+        // 部屋数
+        roomNum: 0,
+      },
       // 宿泊日数
       staySpan: 0,
 
@@ -178,6 +193,22 @@ export default {
     this.searchRequirement = this.$store.getters.getSearchResult;
     this.checkinDate = this.searchRequirement.checkinDate;
     this.checkoutDate = this.searchRequirement.checkoutDate;
+    this.searchCondition.adultNum = this.searchRequirement.adultNum;
+    this.searchCondition.detailClassCode =
+      this.searchRequirement.detailClassCode;
+    this.searchCondition.infantWithBNum = this.searchRequirement.infantWithBNum;
+    this.searchCondition.infantWithMBNum =
+      this.searchRequirement.infantWithMBNum;
+    this.searchCondition.infantWithMNum = this.searchRequirement.infantWithMNum;
+    this.searchCondition.infantWithoutMBNum =
+      this.searchRequirement.infantWithoutMBNum;
+    this.searchCondition.lowClassNum = this.searchRequirement.lowClassNum;
+    this.searchCondition.middleClassCode =
+      this.searchRequirement.middleClassCode;
+    this.searchCondition.roomNum = this.searchRequirement.roomNum;
+    this.searchCondition.smallClassCode = this.searchRequirement.smallClassCode;
+    this.searchCondition.upClassNum = this.searchRequirement.upClassNum;
+    console.log(" this.searchRequirement", this.searchRequirement);
     // 空室検索
     this.staySpan = this.getStaySpan;
 
@@ -185,7 +216,7 @@ export default {
       hotelNo: this.basicInfo.hotelNo,
       checkinDate: this.checkinDate,
       checkoutDate: this.checkoutDate,
-      adultNum: this.adultNum,
+      searchCondition: this.searchCondition,
     });
 
     this.vacantList = this.$store.getters.getVacantList;
